@@ -125,9 +125,10 @@ nemají vlastní tematickou větev.
    `rendered-slides` zkontrolujte vykreslené slidy a screenshoty.
 4. Doplňte informace pro ruční ověření dema a záložní variantu. Do repozitáře
    nevkládejte přihlašovací údaje ani neveřejná zákaznická data bez souhlasu.
-5. Schválení zajišťuje koordinátor `@Th0masis` přes GitHub review. Zaškrtnutí
-   položky v šabloně review nenahrazuje. Autor PR nemůže schválit vlastní změnu;
-   příspěvek autora musí schválit další oprávněný koordinátor.
+5. PR ostatních autorů vyžaduje aktuální GitHub approval od koordinátora
+   `@Th0masis`. Kontrola `PR policy` ověří, že approval patří k aktuálnímu
+   commitu PR. U PR vytvořeného `@Th0masis` se vyžadování tohoto review
+   přeskočí; kontroly rozsahu, CI a ochrana větve platí dál.
 
 Po schválení a úspěšných kontrolách lze PR sloučit do `main`. GitHub Actions
 pak automaticky publikuje prezentaci. Dokud správce nezapne ochranu `main`,

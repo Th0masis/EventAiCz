@@ -27,5 +27,6 @@ Záložní varianta při selhání živého dema:
 
 ## Koordinátor
 
-Schválení zajišťuje `@Th0masis` přes GitHub review, nikoli zaškrtnutím checklistu.
-Autor nemůže schválit vlastní PR; jeho příspěvek vyžaduje druhého oprávněného koordinátora.
+PR ostatních autorů vyžaduje aktuální GitHub approval od `@Th0masis`; kontrola
+se znovu spustí po review i po změně PR. PR vytvořený `@Th0masis` tuto podmínku
+review nemá, ostatní kontroly a pravidla pro sloučení ale platí dál.

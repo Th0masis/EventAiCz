@@ -4,6 +4,8 @@ on:
   pull_request_target:
     branches: [main]
     types: [opened, synchronize, reopened, edited, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
 
 permissions:
   contents: read
@@ -16,6 +18,7 @@ concurrency:
 
 jobs:
   policy:
+    if: github.event.pull_request.base.ref == 'main'
     name: Check PR scope
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -35,6 +38,18 @@ jobs:
             await github.rest.repos.createCommitStatus({ ...status, state: 'pending', description: 'Checking PR scope' })
             try {
               if (pull.base.ref !== 'main') throw new Error('PR must target main')
+              if (pull.user.login.toLowerCase() !== 'th0masis') {
+                const reviews = await github.paginate(github.rest.pulls.listReviews, {
+                  ...repo, pull_number: pull.number, per_page: 100,
+                })
+                const coordinatorReviews = reviews
+                  .filter(review => review.user?.login.toLowerCase() === 'th0masis')
+                  .sort((left, right) => new Date(left.submitted_at) - new Date(right.submitted_at))
+                const latestReview = coordinatorReviews.at(-1)
+                if (latestReview?.state !== 'APPROVED' || latestReview.commit_id !== pull.head.sha) {
+                  throw new Error('A current-head approval from @Th0masis is required')
+                }
+              }
               const files = await github.paginate(github.rest.pulls.listFiles, {
                 ...repo, pull_number: pull.number, per_page: 100,
               })
