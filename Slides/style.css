@@ -1,11 +1,12 @@
 :root {
-  --br-orange: #ff7a00;
-  --br-orange-hot: #ff8a1f;
-  --ink: #151719;
-  --steel: #353a3f;
-  --muted: #687078;
-  --line: #d8dde1;
-  --paper: #f5f6f4;
+  --br-font: 'ABBvoice', 'ABBvoice Office', Arial, sans-serif;
+  --br-orange: #ff8800;
+  --br-orange-hot: #ffa947;
+  --ink: #262626;
+  --steel: #6e6e6e;
+  --muted: #6e6e6e;
+  --line: #d2d2d2;
+  --paper: #ffffff;
   --white: #ffffff;
   --success: #45a96b;
   --danger: #d64032;
@@ -27,7 +28,7 @@
   padding: 34px 70px 48px;
   color: var(--ink);
   background: var(--paper);
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: var(--br-font);
 }
 
 .slidev-layout::before {
@@ -36,9 +37,7 @@
   z-index: 0;
   pointer-events: none;
   content: '';
-  background:
-    linear-gradient(90deg, transparent 69px, rgba(21, 23, 25, 0.1) 70px, transparent 71px),
-    linear-gradient(0deg, transparent 47px, rgba(21, 23, 25, 0.1) 48px, transparent 49px);
+  background: url('/br-template-logo.svg') right 35px bottom 22px / 39px 20px no-repeat;
 }
 
 .slidev-layout > * {
@@ -48,8 +47,8 @@
 
 .ot-slide h1 {
   max-width: 1050px;
-  font-size: 62px;
-  line-height: 0.98;
+  font-size: 45px;
+  line-height: 1.1;
 }
 
 .ot-cover h1 {
@@ -2224,7 +2223,7 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: var(--br-font);
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -2233,7 +2232,7 @@ h1 {
   max-width: 920px;
   font-size: 72px;
   line-height: 0.92;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 p,
@@ -2302,17 +2301,11 @@ ul {
   color: var(--white);
   --steel: #d9e0e3;
   --muted: #c7cdd1;
-  background:
-    linear-gradient(120deg, rgba(255, 122, 0, 0.08), transparent 35%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 58px),
-    var(--ink);
-  background-position: 0 0, 12px 0;
+  background: var(--ink);
 }
 
 .dark-slide::before {
-  background:
-    linear-gradient(90deg, transparent 69px, rgba(255, 255, 255, 0.12) 70px, transparent 71px),
-    linear-gradient(0deg, transparent 47px, rgba(255, 255, 255, 0.12) 48px, transparent 49px);
+  background: url('/br-template-logo.svg') right 35px bottom 22px / 39px 20px no-repeat;
 }
 
 .slidev-vclick-target {
@@ -2326,15 +2319,13 @@ ul {
 
 .slidev-layout.cover {
   isolation: isolate;
-  padding-top: 96px;
+  padding: 490px 35px 65px;
   background: var(--paper);
 }
 
 .slidev-layout.cover::before {
   z-index: 1;
-  background:
-    linear-gradient(90deg, rgba(245, 246, 244, 0.86) 0 30%, rgba(245, 246, 244, 0.68) 44%, rgba(245, 246, 244, 0.2) 64%, rgba(245, 246, 244, 0.02) 100%),
-    linear-gradient(0deg, rgba(245, 246, 244, 0.72) 0, transparent 38%);
+  background: url('/br-template-wave.png') top center / 100% 485px no-repeat;
 }
 
 .slidev-layout.cover > .my-auto.w-full {
@@ -2359,15 +2350,15 @@ ul {
 }
 
 .slidev-layout.cover h1 {
-  width: 620px;
-  margin-top: 18px;
-  font-size: 88px;
-  line-height: 0.86;
+  width: 1140px;
+  margin: 0;
+  font-size: 45px;
+  line-height: 1.1;
 }
 
 .cover-sub {
-  width: 500px;
-  margin-top: 20px;
+  width: 1100px;
+  margin-top: 12px;
   color: var(--steel);
   font-size: 20px;
   line-height: 1.35;
@@ -2375,14 +2366,17 @@ ul {
 
 .cover-logo {
   position: absolute !important;
-  right: 66px;
-  bottom: 25px;
+  right: 35px;
+  bottom: 39px;
   z-index: 3 !important;
-  width: 150px;
+  width: 68px;
   height: auto;
 }
 
 .cover-event {
+  position: absolute !important;
+  left: 35px;
+  bottom: 22px;
   display: flex;
   gap: 0;
   margin-top: 12px;
@@ -2394,6 +2388,15 @@ ul {
   margin-left: 12px;
   padding-left: 12px;
   border-left: 2px solid var(--br-orange);
+}
+
+.slidev-layout.cover .eyebrow,
+.slidev-layout.cover .ot-cover-rule {
+  display: none;
+}
+
+.slidev-layout :is(h1, h2, h3, strong, b) {
+  font-family: var(--br-font);
 }
 
 .bridge-visual {
@@ -11208,7 +11211,7 @@ ul {
 }
 
 .slide-id {
-  right: 70px;
+  right: 120px;
 }
 
 @media (max-width: 900px) {

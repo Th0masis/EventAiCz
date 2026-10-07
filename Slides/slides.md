@@ -13,15 +13,16 @@ drawings:
   enabled: true
   persist: false
 fonts:
-  sans: IBM Plex Sans
-  serif: Barlow Condensed
+  sans: ABBvoice
+  serif: ABBvoice
   mono: IBM Plex Mono
   provider: google
+  local: ABBvoice
 defaults:
   layout: default
 layout: cover
 ---
-<img class="cover-logo" src="/br-logo.svg" alt="B&amp;R Industrial Automation">
+<img class="cover-logo" src="/br-template-logo.svg" alt="B&amp;R Industrial Automation">
 <div class="eyebrow">B&amp;R INDUSTRIAL AUTOMATION · SALES BRIEFING</div>
 <div class="cover-event"><span>OT · CONTAINERS</span><span>PRVNÍ VERZE</span></div>
 
