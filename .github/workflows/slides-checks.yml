@@ -2,17 +2,25 @@ name: Slides checks
 
 on:
   push:
-    paths:
-      - '**'
-      - '.github/workflows/slides-checks.yml'
+    branches: [main]
   pull_request:
-    paths:
-      - '**'
-      - '.github/workflows/slides-checks.yml'
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: slides-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
+    name: Slides validation
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: Slides
 
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +29,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: Slides/package-lock.json
 
       - run: npm ci
       - run: npm run test:content
@@ -29,3 +37,13 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run preview > preview.log 2>&1 &
       - run: SLIDES_URL=http://127.0.0.1:4173 npm run test:smoke
+
+      - name: Upload rendered slides and preview log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-slides
+          path: |
+            Slides/artifacts/slides/
+            Slides/preview.log
+          if-no-files-found: warn

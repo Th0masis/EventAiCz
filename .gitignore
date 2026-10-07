@@ -3,3 +3,5 @@ dist/
 .slidev/
 *.pdf
 *.pptx
+Slides/artifacts/
+Slides/preview.log
