@@ -4,10 +4,21 @@ Repozitář obsahuje společnou prezentaci a podklady pro jednotlivá vystoupen�
 Akce se koná 4. 11. 2026. Prezentace se skládá ze zdrojů v `Slides/` a po
 sloučení změn do `main` se automaticky publikuje přes GitHub Pages.
 
-> **Stav GitHubu:** PR zakládejte proti `main`. Vzdálená výchozí větev je
-> zatím `master` a `main` zatím nemá zapnutou ochranu větve. Dokud správce
-> nepřepne výchozí větev a nenastaví ochranu `main`, GitHub pravidla schválení
-> koordinátorem a povinných kontrol technicky nevynucuje.
+> **Stav GitHubu:** Výchozí větev repozitáře je `main`; PR zakládejte proti ní.
+> GitHub Pages používá GitHub Actions a prostředí `github-pages` povoluje
+> nasazení z `main`.
+
+## Publikace prezentace
+
+Prezentace se publikuje na [th0masis.github.io/EventAiCz](https://th0masis.github.io/EventAiCz/)
+pomocí workflow [Deploy Slidev to GitHub Pages](.github/workflows/deploy-pages.yml).
+Workflow při pushi do `main` sestaví obsah z `Slides/` a nasadí výstup `Slides/dist/`;
+lze ho spustit také ručně v GitHub Actions.
+
+V nastavení repozitáře **Settings → Pages** musí být jako zdroj zvoleno
+**GitHub Actions**. Prostředí `github-pages` musí povolovat nasazení z větve
+`main`; jinak sestavení projde, ale nasazení bude zablokováno. Publikování přímo
+z větve místo tohoto workflow může zobrazit README repozitáře namísto prezentace.
 
 ## Kde pracovat
 
