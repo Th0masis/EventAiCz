@@ -317,6 +317,28 @@ bottom-right footer, using the white variant with orange bar rather than the
 dark logo from the light template. Check labels, borders, and inactive controls
 against this background.
 
+## Topic Ownership
+
+- Keep deck-wide fonts, colors, spacing tokens, canvas defaults, and shared
+   slide patterns in `Slides/style.css`. Topic work must not redefine shared
+   `--br-*`, `--type-*`, or `--space-*` tokens or edit the shared stylesheet.
+- A topic may own `Slides/topics/<topic-id>/styles.css` and files under its
+   `components/` and `scripts/` folders. Keep topic markup in the matching
+   `Slides/topics/<topic-id>.md` file and assets in
+   `Slides/public/topics/<topic-id>/`.
+- Add the `topic-<topic-id>` class to every slide root that uses topic styles.
+   Every selector in a topic stylesheet must start with that namespace; do not
+   style `:root`, `html`, `body`, or shared slide roots from a topic stylesheet.
+- Slidev compiles each Markdown slide separately. Import a topic stylesheet in
+   the `<script setup>` block of every slide that uses it; importing it once in
+   the first slide does not guarantee the stylesheet is loaded on later slides.
+- Import topic-owned Vue components from that topic's `components/` folder.
+   Keep a component in `Slides/components/` only when it is intentionally shared
+   by multiple topics. Keep component-only behavior in its Vue file; place
+   reusable topic logic in that topic's `scripts/` folder.
+- Shared changes require a coordination PR. Topic PRs may change only the
+   matching topic Markdown, topic-owned source, and topic asset directory.
+
 ## Agent Editing Rules
 
 1. Read these notes, the relevant slide markup, and nearby CSS/component rules.
@@ -327,7 +349,8 @@ against this background.
 4. Avoid unrelated redesigns, font changes, new palettes, and decorative effects.
 5. Account for CSS cascade order: later rules, specificity, and media queries
    can override earlier declarations. Avoid accumulating redundant overrides.
-6. Update these notes when an intentional shared design decision changes.
+6. Follow Topic Ownership above. When a deliberate shared design change is
+   needed, update the executable design contract and these notes.
 
 ## Validation
 
