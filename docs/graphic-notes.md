@@ -103,8 +103,9 @@ a parallel custom Vue layout.
 The shared pseudo-element places the original
 [logo](../Slides/public/br-template-logo.svg) at right 35px, bottom 22px,
 rendered at 39 x 20px on light backgrounds. On black or other dark backgrounds,
-use the light B&R logo variant with an orange bar. Preserve the selected logo's
-aspect ratio; do not redraw, recolor, distort, or replace it with text.
+use the [white B&R logo with orange bar](../Slides/public/B%26R_Logo_Screen_RGB_White_with_orange_bar_33px_B%26R_Logo_Screen_RGB_White_with_orange_bar_33px.svg)
+instead. Preserve the selected logo asset's aspect ratio; do not redraw, recolor,
+distort, or replace it with text.
 Slide numbers use `.slide-id`: right 120px, bottom 25px, 10px IBM Plex Mono.
 
 ### Cover
@@ -124,7 +125,7 @@ Reuse the artwork unchanged; do not recreate the wave as a gradient or SVG.
 Use `class: dark-slide ot-slide` only when technical content benefits from dark
 contrast. Background is `--ink`; main text is white. The variant overrides
 `--steel` to `#D9E0E3` and `--muted` to `#C7CDD1`. Keep the B&R logo in the
-bottom-right footer, using the light variant with orange bar rather than the
+bottom-right footer, using the white variant with orange bar rather than the
 dark logo from the light template. Check labels, borders, and inactive controls
 against this background.
 

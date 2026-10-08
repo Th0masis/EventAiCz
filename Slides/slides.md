@@ -22,7 +22,7 @@ defaults:
 layout: cover
 ---
 
-<img class="cover-logo" src="/br-template-logo.svg" alt="B&amp;R Industrial Automation">
+<img class="cover-logo" src="/Website_header 02.png" alt="B&amp;R Industrial Automation">
 
 # AI & Agentic Engineering Day
 
