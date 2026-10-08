@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useSlideContext } from '@slidev/client'
 
 type LogMessage = {
@@ -221,6 +221,7 @@ const helpLines = helpOutput.split('\n').map(text => ({
 const { $clicks } = useSlideContext()
 const currentStep = computed(() => Math.min(Math.max($clicks.value - 1, -1), commands.length - 1))
 const readyThrough = ref(-1)
+const terminalBody = ref<HTMLElement>()
 let resultTimer: ReturnType<typeof setTimeout> | undefined
 
 watch(currentStep, (step) => {
@@ -239,6 +240,12 @@ watch(currentStep, (step) => {
   }, 900)
 }, { immediate: true })
 
+watch([currentStep, readyThrough], async () => {
+  await nextTick()
+  if (terminalBody.value)
+    terminalBody.value.scrollTop = terminalBody.value.scrollHeight
+})
+
 onBeforeUnmount(() => {
   if (resultTimer)
     clearTimeout(resultTimer)
@@ -253,7 +260,7 @@ const visibleCommands = computed(() => commands
 <template>
   <div class="evidence-terminal">
     <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>COMMAND PROMPT</small></div>
-    <div class="terminal-body">
+    <div ref="terminalBody" class="terminal-body">
       <div v-if="currentStep < 0" class="terminal-idle">
         <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
         <div>[as-cli] Waiting for daemon to initialize (this may take up to 2 minutes)...</div>
@@ -305,6 +312,7 @@ const visibleCommands = computed(() => commands
 
 .terminal-body {
   min-height: 0;
+  min-width: 0;
   overflow-y: auto;
 }
 
@@ -318,7 +326,7 @@ const visibleCommands = computed(() => commands
 .terminal-idle,
 .terminal-command {
   display: grid;
-  grid-template-columns: 70px 100px 1fr 80px;
+  grid-template-columns: 64px 40px minmax(0, 1fr) 64px;
   column-gap: 6px;
   align-items: center;
   min-height: 24px;
@@ -337,6 +345,13 @@ const visibleCommands = computed(() => commands
 
 .terminal-command {
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.terminal-command b,
+.terminal-output > b,
+.logbook-output {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .terminal-command em.pending {
@@ -381,6 +396,7 @@ const visibleCommands = computed(() => commands
 
 .logbook-output table {
   width: 100%;
+  table-layout: fixed;
   margin-top: 7px;
   border-collapse: collapse;
   color: #aeb6bb;
@@ -393,6 +409,9 @@ const visibleCommands = computed(() => commands
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
+
+.logbook-output th:first-child { width: 76px; }
+.logbook-output th:nth-child(2) { width: 56px; }
 
 .logbook-output th {
   color: #596267;
