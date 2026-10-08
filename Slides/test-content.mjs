@@ -35,9 +35,14 @@ for (const filename of topicFiles) {
   await access(resolve(root, 'public', 'topics', basename(filename, '.md')))
 }
 
+const programSlides = deck.entry.slides.slice(1, 3)
+assert.equal(programSlides.length, 2, 'Expected two program slides')
+assert.ok(programSlides[0].content.includes('14:30–15:00'), 'Missing first program segment')
+assert.ok(programSlides[1].content.includes('18:30'), 'Missing second program segment')
+
 const coordinatorTitles = deck.entry.slides
   .filter(slide => !slide.frontmatter.src)
-  .slice(1)
+  .slice(3)
   .map(slide => slide.title)
 assert.deepEqual(coordinatorTitles, ['Oběd', 'Přestávka', 'ARVK – případová studie zákazníka'])
 

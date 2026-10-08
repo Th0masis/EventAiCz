@@ -2785,6 +2785,53 @@ ul {
   font: 500 10px/1.2 'IBM Plex Mono', monospace;
 }
 
+.agenda-slide .agenda-layout {
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 28px;
+  margin-top: 10px;
+}
+
+.agenda-slide .agenda-intro h1 {
+  font-size: 54px;
+}
+
+.agenda-slide .agenda-lead {
+  width: auto;
+  margin-top: 14px;
+  color: var(--steel);
+}
+
+.agenda-slide .agenda-event-mark {
+  margin-top: 30px;
+}
+
+.agenda-slide .agenda-timeline::before {
+  left: 99px;
+}
+
+.agenda-slide .agenda-row {
+  grid-template-columns: 86px 24px minmax(0, 1fr);
+  min-height: 55px;
+  padding: 4px 4px 4px 0;
+}
+
+.agenda-slide .agenda-row time {
+  font-size: 10px;
+}
+
+.agenda-slide .agenda-row > i {
+  margin-left: 6px;
+}
+
+.agenda-slide .agenda-row b {
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.agenda-slide .agenda-row.is-session > i {
+  border-color: var(--ink);
+}
+
 .split-verdicts,
 .strategy-grid,
 .takeaway-layout,
@@ -8962,6 +9009,39 @@ ul {
   .agentic-bridge-visual { margin-top: 24px; transform: none !important; }
   .architecture { opacity: 1 !important; }
   .devops-spine { position: relative !important; right: auto; bottom: auto; left: auto; margin-top: 30px; }
+}
+
+@media (max-width: 900px) {
+  .agenda-slide .agenda-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .agenda-slide .agenda-intro h1 {
+    font-size: 42px;
+  }
+
+  .agenda-slide .agenda-event-mark {
+    display: none;
+  }
+
+  .agenda-slide .agenda-lead {
+    margin-top: 4px;
+    font-size: 14px;
+  }
+
+  .agenda-slide .agenda-row {
+    grid-template-columns: 78px 20px minmax(0, 1fr);
+    min-height: 49px;
+  }
+
+  .agenda-slide .agenda-timeline::before {
+    left: 89px;
+  }
+
+  .agenda-slide .agenda-row b {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 900px) {
