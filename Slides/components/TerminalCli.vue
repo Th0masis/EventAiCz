@@ -213,7 +213,7 @@ const commands: TerminalCommand[] = [
 ]
 
 // Section headings in the help text (PROJECT, BUILD & RUN, ...) are highlighted.
-const helpLines = helpOutput.split('\n').map(text => ({
+const helpLines = helpOutput.split('\n').slice(0, 19).map(text => ({
   text,
   category: /^ {2}[A-Z][A-Z &()]*$/.test(text),
 }))
@@ -246,8 +246,7 @@ onBeforeUnmount(() => {
 
 const visibleCommands = computed(() => commands
   .slice(0, currentStep.value + 1)
-  .map((entry, index) => ({ entry, index }))
-  .filter(({ index }) => currentStep.value < 1 || index > 0))
+  .map((entry, index) => ({ entry, index })))
 </script>
 
 <template>
@@ -265,7 +264,7 @@ const visibleCommands = computed(() => commands
           <b>{{ item.entry.command }}</b>
           <em :class="item.index <= readyThrough ? 'ok' : 'pending'">{{ item.index <= readyThrough ? 'DONE' : '...' }}</em>
         </div>
-        <div v-if="item.index <= readyThrough" class="terminal-output">
+        <div v-if="item.index === currentStep && item.index <= readyThrough" class="terminal-output">
           <span class="output-label">OUT</span>
           <div v-if="item.entry.logMessages" class="logbook-output">
             <strong>{{ item.entry.result }}</strong>
@@ -278,12 +277,15 @@ const visibleCommands = computed(() => commands
               </tbody>
             </table>
           </div>
-          <pre v-else-if="item.entry.multiline" class="help-output"><span
+          <div v-else-if="item.entry.multiline" class="terminal-help">
+            <div class="help-excerpt-label">as --help (excerpt)</div>
+            <pre class="help-output"><span
             v-for="(line, lineIndex) in helpLines"
             :key="lineIndex"
             :class="{ 'help-category': line.category }"
           >{{ line.text }}
 </span></pre>
+          </div>
           <b v-else>{{ item.entry.result }}</b>
         </div>
       </div>
@@ -305,7 +307,8 @@ const visibleCommands = computed(() => commands
 
 .terminal-body {
   min-height: 0;
-  overflow-y: auto;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .terminal-body > .terminal-idle,
@@ -318,7 +321,7 @@ const visibleCommands = computed(() => commands
 .terminal-idle,
 .terminal-command {
   display: grid;
-  grid-template-columns: 70px 100px 1fr 80px;
+  grid-template-columns: 64px 40px minmax(0, 1fr) 64px;
   column-gap: 6px;
   align-items: center;
   min-height: 24px;
@@ -337,6 +340,13 @@ const visibleCommands = computed(() => commands
 
 .terminal-command {
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.terminal-command b,
+.terminal-output > b,
+.logbook-output {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .terminal-command em.pending {
@@ -374,6 +384,11 @@ const visibleCommands = computed(() => commands
   font: 500 6px/1.2 'IBM Plex Mono', monospace;
 }
 
+.help-excerpt-label {
+  margin-bottom: var(--space-sm);
+  color: var(--br-orange);
+}
+
 .help-category {
   color: #ff7a00;
   font-weight: 700;
@@ -381,6 +396,7 @@ const visibleCommands = computed(() => commands
 
 .logbook-output table {
   width: 100%;
+  table-layout: fixed;
   margin-top: 7px;
   border-collapse: collapse;
   color: #aeb6bb;
@@ -393,6 +409,9 @@ const visibleCommands = computed(() => commands
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
+
+.logbook-output th:first-child { width: 76px; }
+.logbook-output th:nth-child(2) { width: 56px; }
 
 .logbook-output th {
   color: #596267;

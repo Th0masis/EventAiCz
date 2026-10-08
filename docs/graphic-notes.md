@@ -26,6 +26,89 @@ extensions, not a claim about the template's official brand rules.
 - Long text must wrap without clipping. Shorten copy or restructure the layout
   before shrinking every label or changing the shared font.
 
+### Spacing And Composition
+
+- Use the shared `--space-*` scale: xs 4px, sm 8px, md 12px, lg 16px,
+   xl 24px, 2xl 32px and 3xl 48px. Brand-derived outer margins and SVG logo
+   compensation are deliberately outside this component spacing scale.
+- Keep related labels and descriptions 8-12px apart; separate independent
+   content groups by 24-32px. Relationships matter more than filling the canvas.
+- Ordinary cards use 16-24px internal padding. Compact consumer cards and
+   genuinely framed technical tools may use 12px. Command rows may use 4px
+   vertically/8px horizontally; workflow rows are repeated diagram items,
+   not ordinary cards. These are explicit density exceptions.
+- Use 16-24px between repeated cards. Align comparison-card top and bottom
+   edges, headings and command baselines. Let text determine row height.
+- Never use fixed-height text rows with hidden overflow or ellipses for
+   essential information. Wrapped commands must grow vertically.
+- Whitespace must support hierarchy and grouping. Do not fill every empty
+   region, but do not compress essential text while leaving unrelated empty
+   space below it. A simple comparison may intentionally remain spacious.
+- The spacing rules are a project design contract, not a claim of WCAG
+   certification. Readability on a projector must be checked in the actual room.
+
+References: [Carbon spacing](https://carbondesignsystem.com/elements/spacing/overview/),
+[NN/g proximity](https://www.nngroup.com/articles/gestalt-proximity/),
+[Microsoft accessible presentations](https://support.microsoft.com/en-us/office/make-your-powerpoint-presentations-accessible-to-people-with-disabilities-6f7772b2-2f33-4bd2-8ca7-dae3b2b3ef25).
+
+### Wrapping And Card Text
+
+- Prose wraps at word boundaries: `white-space: normal`, `word-break: normal`
+   and `overflow-wrap: normal`. Do not use `break-all` or split ordinary words
+   just to fit a narrow card. Widen or restructure the card instead.
+- Commands wrap at spaces first, with `overflow-wrap: anywhere` only as an
+   emergency for a long identifier or path. Keep `word-break: normal` and
+   `hyphens: none`; never insert a visible hyphen that changes command syntax.
+   Preformatted help excerpts use `white-space: pre-wrap` to preserve indentation.
+- Essential headings, descriptions and commands must not use ellipsis or line
+   clamping. Wrapped text must remain inside its parent's content region.
+- In repeated capability cards, titles reserve two lines; descriptions start
+   at the same height, and the last command rows align at the bottom. A minimum
+   height is allowed to align rows; a fixed height that clips content is not.
+- Text inside cards is left-aligned. Centered text is reserved for the shared
+   CLI anchor and narrow diagram connectors, not multi-line descriptions.
+- Use the same inset for heading, description and commands. If space is still
+   insufficient, simplify the composition, not its font size.
+
+References: [MDN wrapping text](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Wrapping_breaking_text),
+[MDN overflow-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap),
+[MDN word-break](https://developer.mozilla.org/en-US/docs/Web/CSS/word-break).
+
+### Avoid Generic Decorative UI
+
+"AI slop" is an informal critique, not a certification or web standard. Here
+it means generic visual decoration that does not explain the engineering topic.
+
+- Do not nest a repeated card inside another repeated card. Whole slide
+   sections and comparison columns remain unframed, with grouping expressed
+   through alignment, proximity and typography.
+- A terminal, GUI window or code example is a semantic tool/content view,
+   not automatically another card. It may be framed inside a relevant content
+   item, but it must have a clear purpose and cannot contain decorative cards.
+- No decorative gradients, orbs, floating shadows or stock-like dashboards
+   merely to fill empty space. Preserve the actual B&R identity and relevant
+   diagrams; do not add generic claims or marketing copy.
+- Do not infer a violation solely from nested DOM nodes. Tests use the explicit
+   card and unframed-section selectors in the contract; human review remains
+   necessary for semantic quality and composition.
+
+References: [NN/g cards](https://www.nngroup.com/articles/cards-component/),
+[NN/g common region](https://www.nngroup.com/articles/common-region/),
+[Material cards](https://m3.material.io/components/cards/overview).
+
+### Terminal Demonstration Without Scrolling
+
+- Keep every already-revealed command visible; the final state contains all
+   nine commands, including `as --help`. Only the current command's result is
+   expanded. This is a demonstration transcript, not a full scrolling console.
+- No scrollbar, wheel scrolling, automatic scrolling or translated history
+   is needed. The body must satisfy `scrollHeight <= clientHeight` and
+   `scrollWidth <= clientWidth`; hiding an overflowing region is not a fix.
+- The long help output is an explicitly labelled excerpt of the original
+   transcript. Never present an excerpt as complete output or shrink hundreds
+   of help lines until they appear to fit. Preserve command strings and reveal
+   timing; collapse previous results rather than dropping command history.
+
 ## Palette
 
 Use the existing CSS variables rather than introducing near-duplicate colors.
@@ -54,13 +137,108 @@ accent. Do not communicate status by color alone.
 - Use IBM Plex Mono for code, small technical labels, and slide numbers.
 - Headings and strong/bold text use the shared brand font; heading weight is 700.
 - Letter spacing is 0; do not introduce negative tracking.
-- Standard `.ot-slide h1`: 45px, line-height 1.1, max-width 1050px.
-- Cover heading: 45px, line-height 1.1, width 1140px.
-- Cover subtitle: 20px, line-height 1.35, width 1100px.
+- Use one role-based scale across light, dark, cover and chapter slides.
+   Sizes are canvas pixels, never viewport-dependent. Use CSS `--type-*` tokens;
+   inherited `--text-role`, `--text-size`, `--text-leading` and `--text-font`
+   select the role for an element and its inline descendants.
+- `title`: every slide's h1. `section`: h2 and major diagram anchors.
+   `block`: h3, card titles and workflow names. `body`: prose, subtitles and
+   takeaways. `caption`: diagram labels, purpose labels and agenda times.
+   `note`: secondary explanations. `code`: commands, terminal output and tables.
+   `minor`: metadata, status badges, timestamps, footer text and slide numbers.
+   `compact`: labels in dense numbered workflows, not ordinary card titles.
+   `technical`: dense log tables and full command-help output. These two roles
+   are explicit density variants, not permission to shrink arbitrary prose.
+   `command`: essential demonstration commands and test-script paths, 14px mono;
+   longer command results remain the code role and wrap.
+- Do not shrink text to fit. Reflow or increase the available content region;
+   terminal output must keep the same code size and fit without scrolling.
+- Main h1 is at most two lines and 1050px wide (1140px on the cover).
+   Cover heading starts at left 35px/top 490px; chapter heading at left 35px/top
+   535px; content heading at left 70px/top 34px. Agenda grid adds 10px on top.
+   Main heading margins are zero, not optical per-slide offsets.
+- Numbering is checked where present; existing unnumbered slides remain
+   unnumbered. Sequential numbering values are outside this visual contract.
 
-These are layout-specific values, not a universal font scale. The stylesheet
-also contains generic headings and component-specific overrides. Check the
-effective selector and browser computed style before changing a rule.
+### Executable Design Contract
+
+The smoke test reads this JSON directly. `brand` means the ABBvoice stack;
+`mono` means IBM Plex Mono. Role values are size, line-height multiplier and font.
+The slide number is the minor role with a special line-height of 1.
+
+```json
+{
+   "canvas": [1280, 720],
+   "typography": {
+      "title": [45, 1.1, "brand"],
+      "section": [28, 1.15, "brand"],
+      "block": [22, 1.2, "brand"],
+      "body": [18, 1.35, "brand"],
+      "caption": [14, 1.3, "brand"],
+      "note": [12, 1.35, "brand"],
+      "code": [12, 1.35, "mono"],
+      "minor": [10, 1.2, "mono"],
+      "compact": [14, 1.3, "brand"],
+      "technical": [10, 1.35, "mono"],
+      "command": [14, 1.35, "mono"]
+   },
+   "headings": {
+      "content": [70, 34, 1050],
+      "agenda": [70, 44, 1050],
+      "chapter": [35, 535, 1050],
+      "cover": [35, 490, 1140]
+   },
+   "footer": {
+      "logoWidth": 39,
+      "logoRight": 35,
+      "logoBottom": 22,
+      "coverLogoWidth": 68,
+      "coverLogoBottom": 39,
+      "numberRight": 120,
+      "numberBottom": 25,
+      "keepout": 48
+   },
+   "contentMargins": [70, 34, 70, 48],
+   "wrapping": [
+      { "selector": ".as-cli-consumer-copy b, .as-cli-capability-name, .as-cli-capability-purpose, .as-cli-capability-sublabel, .as-cli-devops-gate p", "whiteSpace": "normal", "wordBreak": "normal", "overflowWrap": "normal" },
+      { "selector": ".as-cli-command > span:last-child, .as-cli-devops-gate code", "whiteSpace": "normal", "wordBreak": "normal", "overflowWrap": "anywhere" },
+      { "selector": ".help-output", "whiteSpace": "pre-wrap", "wordBreak": "normal", "overflowWrap": "anywhere" }
+   ],
+   "structure": {
+      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card",
+      "unframed": ".tooling-workflow-panel, .tooling-automated-steps > div"
+   },
+   "terminal": {
+      "commands": [
+         "as --help", "as project status", "as sim enable", "as build sim",
+         "as plc connect --ip 127.0.0.1", "as var read gProductionCount --task Cyclic",
+         "as var write gCmdClear --task Cyclic --value 1",
+         "as logbook read --count 20 --level error", "as build pip"
+      ],
+      "maxOutputs": 1
+   },
+   "spacing": {
+      "scale": [4, 8, 12, 16, 24, 32, 48],
+      "components": [
+         { "selector": ".tooling-workflow-panel, .as-cli-capability-card, .as-cli-core", "padding": [16, 16, 16, 16] },
+         { "selector": ".tooling-gui-window, .tooling-runner-shell, .tooling-cli-boundary, .as-cli-consumer-card", "padding": [12, 12, 12, 12] },
+         { "selector": ".as-cli-devops-gate", "padding": [24, 24, 24, 24] },
+         { "selector": ".as-cli-command", "padding": [4, 8, 4, 8] }
+      ],
+      "groups": [
+         { "selector": ".as-cli-capability-grid, .tooling-access-grid", "gap": 16 },
+         { "selector": ".as-cli-consumer-row, .as-cli-devops-flow", "gap": 24 }
+      ],
+      "comparisons": [
+         { "selector": ".as-cli-devops-flow", "items": ".as-cli-devops-gate", "heading": ".as-cli-devops-gate-name", "command": "code" }
+      ],
+      "cardText": [
+         { "selector": ".as-cli-capability-grid", "items": ".as-cli-capability-card", "heading": ".as-cli-capability-name", "description": ".as-cli-capability-purpose", "action": ".as-cli-command:last-child" }
+      ]
+   },
+   "tolerance": 0.1
+}
+```
 
 ABBvoice is locally installed and is **not bundled**. Install it on preview and
 export machines under the organization's font license. Do not distribute font
@@ -106,6 +284,10 @@ rendered at 39 x 20px on light backgrounds. On black or other dark backgrounds,
 use the [white B&R logo with orange bar](../Slides/public/B%26R_Logo_Screen_RGB_White_with_orange_bar_33px_B%26R_Logo_Screen_RGB_White_with_orange_bar_33px.svg)
 instead. Preserve the selected logo asset's aspect ratio; do not redraw, recolor,
 distort, or replace it with text.
+The white SVG has transparent margins. Its CSS image box is 60.1px wide at
+right 24.49px/bottom 11.64px, with automatic height. The visible artwork is
+approximately 39 x 20.71px at right 35px/bottom 22px. Its small height difference
+from the light logo is intentional: preserve each original's proportions.
 Slide numbers use `.slide-id`: right 120px, bottom 25px, 10px IBM Plex Mono.
 
 ### Cover And Chapter Openers
@@ -160,7 +342,18 @@ npm run build
 ```
 
 The smoke test defaults to `http://127.0.0.1:3030`; set `SLIDES_URL` if using
-another port. Automated checks are not proof of visual fidelity. Inspect the
+another port. It reads the executable design contract above and checks all
+text roles, heading geometry, logo artwork bounds and slide-number placement
+on desktop and mobile. It also checks text clipping and footer clearance
+at every reveal step, after transitions and terminal responses complete.
+The terminal must display all revealed commands without scrolling or clipping;
+only the active result is expanded. Tests verify transcript contents, wrapping,
+card-text alignment, and no nested decorative cards or framed sections.
+Content objects as
+well as text must respect the 70px side margins and 48px bottom keepout. Fixed
+canvas layouts use container queries rather than viewport-triggered reflow.
+Automated checks are not proof of
+visual fidelity. Inspect the
 cover, a light slide, a dark slide, and every changed slide in the browser.
 Check a 1280 x 720 viewport and a smaller viewport for text clipping, overlapping
 elements, logo/footer clearance, asset loading, and every reveal/interaction
