@@ -108,12 +108,18 @@ instead. Preserve the selected logo asset's aspect ratio; do not redraw, recolor
 distort, or replace it with text.
 Slide numbers use `.slide-id`: right 120px, bottom 25px, 10px IBM Plex Mono.
 
-### Cover
+### Cover And Chapter Openers
 
-Use `layout: cover`. The original
-[wave artwork](../Slides/public/br-template-wave.png) occupies the upper area:
-top-centered, scaled to 100% width and 485px height. The title and subtitle sit
-in the white lower area, using padding `490px 35px 65px`.
+Use `layout: cover`. The
+[Website_header 02 banner](../Slides/public/Website_header%2002.png) occupies
+the upper area: top-centered, scaled to 100% width and 485px height. An orange
+bar marks its lower edge. The title and subtitle sit in the white lower area,
+using padding `490px 35px 65px`.
+
+Topic opening slides use the `chapter-slide` class and a `.chapter-image` asset
+from `Slides/public/topics/<topic>/chapter.jpg`. Keep the image 485px high,
+with the heading in the white area below it and the same orange bar at the edge.
+Later content slides in a topic do not use this class.
 
 The cover has an explicit `.cover-logo`: width 68px, right 35px, bottom 39px.
 `.cover-event` sits at left 35px, bottom 22px; its second item has an orange
