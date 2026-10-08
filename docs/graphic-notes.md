@@ -51,6 +51,64 @@ References: [Carbon spacing](https://carbondesignsystem.com/elements/spacing/ove
 [NN/g proximity](https://www.nngroup.com/articles/gestalt-proximity/),
 [Microsoft accessible presentations](https://support.microsoft.com/en-us/office/make-your-powerpoint-presentations-accessible-to-people-with-disabilities-6f7772b2-2f33-4bd2-8ca7-dae3b2b3ef25).
 
+### Wrapping And Card Text
+
+- Prose wraps at word boundaries: `white-space: normal`, `word-break: normal`
+   and `overflow-wrap: normal`. Do not use `break-all` or split ordinary words
+   just to fit a narrow card. Widen or restructure the card instead.
+- Commands wrap at spaces first, with `overflow-wrap: anywhere` only as an
+   emergency for a long identifier or path. Keep `word-break: normal` and
+   `hyphens: none`; never insert a visible hyphen that changes command syntax.
+   Preformatted help excerpts use `white-space: pre-wrap` to preserve indentation.
+- Essential headings, descriptions and commands must not use ellipsis or line
+   clamping. Wrapped text must remain inside its parent's content region.
+- In repeated capability cards, titles reserve two lines; descriptions start
+   at the same height, and the last command rows align at the bottom. A minimum
+   height is allowed to align rows; a fixed height that clips content is not.
+- Text inside cards is left-aligned. Centered text is reserved for the shared
+   CLI anchor and narrow diagram connectors, not multi-line descriptions.
+- Use the same inset for heading, description and commands. If space is still
+   insufficient, simplify the composition, not its font size.
+
+References: [MDN wrapping text](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Wrapping_breaking_text),
+[MDN overflow-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap),
+[MDN word-break](https://developer.mozilla.org/en-US/docs/Web/CSS/word-break).
+
+### Avoid Generic Decorative UI
+
+"AI slop" is an informal critique, not a certification or web standard. Here
+it means generic visual decoration that does not explain the engineering topic.
+
+- Do not nest a repeated card inside another repeated card. Whole slide
+   sections and comparison columns remain unframed, with grouping expressed
+   through alignment, proximity and typography.
+- A terminal, GUI window or code example is a semantic tool/content view,
+   not automatically another card. It may be framed inside a relevant content
+   item, but it must have a clear purpose and cannot contain decorative cards.
+- No decorative gradients, orbs, floating shadows or stock-like dashboards
+   merely to fill empty space. Preserve the actual B&R identity and relevant
+   diagrams; do not add generic claims or marketing copy.
+- Do not infer a violation solely from nested DOM nodes. Tests use the explicit
+   card and unframed-section selectors in the contract; human review remains
+   necessary for semantic quality and composition.
+
+References: [NN/g cards](https://www.nngroup.com/articles/cards-component/),
+[NN/g common region](https://www.nngroup.com/articles/common-region/),
+[Material cards](https://m3.material.io/components/cards/overview).
+
+### Terminal Demonstration Without Scrolling
+
+- Keep every already-revealed command visible; the final state contains all
+   nine commands, including `as --help`. Only the current command's result is
+   expanded. This is a demonstration transcript, not a full scrolling console.
+- No scrollbar, wheel scrolling, automatic scrolling or translated history
+   is needed. The body must satisfy `scrollHeight <= clientHeight` and
+   `scrollWidth <= clientWidth`; hiding an overflowing region is not a fix.
+- The long help output is an explicitly labelled excerpt of the original
+   transcript. Never present an excerpt as complete output or shrink hundreds
+   of help lines until they appear to fit. Preserve command strings and reveal
+   timing; collapse previous results rather than dropping command history.
+
 ## Palette
 
 Use the existing CSS variables rather than introducing near-duplicate colors.
@@ -92,9 +150,9 @@ accent. Do not communicate status by color alone.
    `technical`: dense log tables and full command-help output. These two roles
    are explicit density variants, not permission to shrink arbitrary prose.
    `command`: essential demonstration commands and test-script paths, 14px mono;
-   longer command results remain the code role and may scroll.
+   longer command results remain the code role and wrap.
 - Do not shrink text to fit. Reflow or increase the available content region;
-   scrollable terminal output may scroll, but must keep the same code size.
+   terminal output must keep the same code size and fit without scrolling.
 - Main h1 is at most two lines and 1050px wide (1140px on the cover).
    Cover heading starts at left 35px/top 490px; chapter heading at left 35px/top
    535px; content heading at left 70px/top 34px. Agenda grid adds 10px on top.
@@ -141,6 +199,24 @@ The slide number is the minor role with a special line-height of 1.
       "keepout": 48
    },
    "contentMargins": [70, 34, 70, 48],
+   "wrapping": [
+      { "selector": ".as-cli-consumer-copy b, .as-cli-capability-name, .as-cli-capability-purpose, .as-cli-capability-sublabel, .as-cli-devops-gate p", "whiteSpace": "normal", "wordBreak": "normal", "overflowWrap": "normal" },
+      { "selector": ".as-cli-command > span:last-child, .as-cli-devops-gate code", "whiteSpace": "normal", "wordBreak": "normal", "overflowWrap": "anywhere" },
+      { "selector": ".help-output", "whiteSpace": "pre-wrap", "wordBreak": "normal", "overflowWrap": "anywhere" }
+   ],
+   "structure": {
+      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card",
+      "unframed": ".tooling-workflow-panel, .tooling-automated-steps > div"
+   },
+   "terminal": {
+      "commands": [
+         "as --help", "as project status", "as sim enable", "as build sim",
+         "as plc connect --ip 127.0.0.1", "as var read gProductionCount --task Cyclic",
+         "as var write gCmdClear --task Cyclic --value 1",
+         "as logbook read --count 20 --level error", "as build pip"
+      ],
+      "maxOutputs": 1
+   },
    "spacing": {
       "scale": [4, 8, 12, 16, 24, 32, 48],
       "components": [
@@ -155,6 +231,9 @@ The slide number is the minor role with a special line-height of 1.
       ],
       "comparisons": [
          { "selector": ".as-cli-devops-flow", "items": ".as-cli-devops-gate", "heading": ".as-cli-devops-gate-name", "command": "code" }
+      ],
+      "cardText": [
+         { "selector": ".as-cli-capability-grid", "items": ".as-cli-capability-card", "heading": ".as-cli-capability-name", "description": ".as-cli-capability-purpose", "action": ".as-cli-command:last-child" }
       ]
    },
    "tolerance": 0.1
@@ -267,10 +346,10 @@ another port. It reads the executable design contract above and checks all
 text roles, heading geometry, logo artwork bounds and slide-number placement
 on desktop and mobile. It also checks text clipping and footer clearance
 at every reveal step, after transitions and terminal responses complete.
-Scrollable terminal contents are allowed
-to extend inside their own scroll area only when the scroll viewport and its
-outer frame stay inside the content margins. New terminal output automatically
-scrolls into view; horizontal text overflow is not allowed. Content objects as
+The terminal must display all revealed commands without scrolling or clipping;
+only the active result is expanded. Tests verify transcript contents, wrapping,
+card-text alignment, and no nested decorative cards or framed sections.
+Content objects as
 well as text must respect the 70px side margins and 48px bottom keepout. Fixed
 canvas layouts use container queries rather than viewport-triggered reflow.
 Automated checks are not proof of

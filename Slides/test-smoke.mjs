@@ -100,6 +100,40 @@ async function checkDesign(layout, label) {
       }
     }
     const heading = element.querySelector('h1')
+    for (const rule of rules.wrapping) {
+      for (const text of element.querySelectorAll(rule.selector)) {
+        const style = getComputedStyle(text)
+        check(style.whiteSpace === rule.whiteSpace && style.wordBreak === rule.wordBreak && style.overflowWrap === rule.overflowWrap, `Wrong text wrapping: ${text.className || text.localName}`)
+        check(style.textOverflow !== 'ellipsis' && ['none', ''].includes(style.webkitLineClamp), `Essential text is truncated: ${text.className || text.localName}`)
+        if (['command', 'code', 'technical'].includes(style.getPropertyValue('--text-role').trim())) {
+          check(style.hyphens === 'none', 'Technical text must not insert hyphens')
+        }
+      }
+    }
+    for (const card of element.querySelectorAll(rules.structure.cards)) {
+      check(!card.parentElement.closest(rules.structure.cards), `Nested decorative card: ${card.className}`)
+    }
+    for (const section of element.querySelectorAll(rules.structure.unframed)) {
+      const style = getComputedStyle(section)
+      check([style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth].every(width => parseFloat(width) === 0)
+        && style.boxShadow === 'none' && style.backgroundImage === 'none'
+        && ['transparent', 'rgba(0, 0, 0, 0)'].includes(style.backgroundColor), `Decorative frame on section: ${section.className}`)
+    }
+    const terminal = element.querySelector('.terminal-body')
+    if (terminal) {
+      const style = getComputedStyle(terminal)
+      check(!['auto', 'scroll'].includes(style.overflowX) && !['auto', 'scroll'].includes(style.overflowY), 'Terminal must not use a scrollbar')
+      check(terminal.scrollHeight <= terminal.clientHeight + 1 && terminal.scrollWidth <= terminal.clientWidth + 1 && terminal.scrollTop === 0, 'Terminal transcript overflows or scrolls')
+      const revealed = element.querySelectorAll('.demo-steps > div:not(.slidev-vclick-hidden)').length
+      const commands = [...terminal.querySelectorAll('.terminal-command b')].map(node => node.textContent.trim())
+      check(JSON.stringify(commands) === JSON.stringify(rules.terminal.commands.slice(0, revealed)), 'Revealed command history is missing or out of order')
+      check(terminal.querySelectorAll('.terminal-output').length <= rules.terminal.maxOutputs, 'Old terminal results must collapse')
+      if (terminal.querySelector('.help-output')) check(terminal.querySelector('.help-excerpt-label')?.textContent.includes('excerpt'), 'Partial help output must be labelled as an excerpt')
+      const frame = terminal.closest('.evidence-terminal')
+      const windowRect = bounds(terminal)
+      const footerRect = bounds(frame.querySelector('.terminal-footer'))
+      check(windowRect.top + windowRect.height <= footerRect.top + 1, 'Terminal body overlaps its footer')
+    }
     for (const rule of rules.spacing.components) {
       for (const component of element.querySelectorAll(rule.selector)) {
         const style = getComputedStyle(component)
@@ -127,6 +161,27 @@ async function checkDesign(layout, label) {
           return near(rect.top, reference.top) && near(rect.top + rect.height, reference.top + reference.height)
             && near(headingRect.top, referenceHeading.top) && near(commandRect.top, referenceCommand.top)
         }), 'Comparison cards, headings or commands are not aligned')
+      }
+    }
+    for (const rule of rules.spacing.cardText) {
+      for (const group of element.querySelectorAll(rule.selector)) {
+        const items = [...group.querySelectorAll(rule.items)]
+        if (items.length < 2) continue
+        const referenceHeading = bounds(items[0].querySelector(rule.heading))
+        const referenceDescription = bounds(items[0].querySelector(rule.description))
+        const referenceAction = bounds(items[0].querySelector(rule.action))
+        check(items.every(item => {
+          const title = item.querySelector(rule.heading)
+          const description = item.querySelector(rule.description)
+          const action = item.querySelector(rule.action)
+          const titleRect = bounds(title)
+          const descriptionRect = bounds(description)
+          const actionRect = bounds(action)
+          return near(titleRect.top, referenceHeading.top) && near(descriptionRect.top, referenceDescription.top)
+            && near(actionRect.top + actionRect.height, referenceAction.top + referenceAction.height)
+            && near(titleRect.left, descriptionRect.left) && actionRect.left >= titleRect.left - 1
+            && [title, description].every(text => ['start', 'left'].includes(getComputedStyle(text).textAlign))
+        }), 'Card headings, descriptions or final command rows are not aligned')
       }
     }
     check(Boolean(heading), 'Missing h1')

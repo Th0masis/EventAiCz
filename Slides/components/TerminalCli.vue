@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useSlideContext } from '@slidev/client'
 
 type LogMessage = {
@@ -213,7 +213,7 @@ const commands: TerminalCommand[] = [
 ]
 
 // Section headings in the help text (PROJECT, BUILD & RUN, ...) are highlighted.
-const helpLines = helpOutput.split('\n').map(text => ({
+const helpLines = helpOutput.split('\n').slice(0, 19).map(text => ({
   text,
   category: /^ {2}[A-Z][A-Z &()]*$/.test(text),
 }))
@@ -221,7 +221,6 @@ const helpLines = helpOutput.split('\n').map(text => ({
 const { $clicks } = useSlideContext()
 const currentStep = computed(() => Math.min(Math.max($clicks.value - 1, -1), commands.length - 1))
 const readyThrough = ref(-1)
-const terminalBody = ref<HTMLElement>()
 let resultTimer: ReturnType<typeof setTimeout> | undefined
 
 watch(currentStep, (step) => {
@@ -240,12 +239,6 @@ watch(currentStep, (step) => {
   }, 900)
 }, { immediate: true })
 
-watch([currentStep, readyThrough], async () => {
-  await nextTick()
-  if (terminalBody.value)
-    terminalBody.value.scrollTop = terminalBody.value.scrollHeight
-})
-
 onBeforeUnmount(() => {
   if (resultTimer)
     clearTimeout(resultTimer)
@@ -253,14 +246,13 @@ onBeforeUnmount(() => {
 
 const visibleCommands = computed(() => commands
   .slice(0, currentStep.value + 1)
-  .map((entry, index) => ({ entry, index }))
-  .filter(({ index }) => currentStep.value < 1 || index > 0))
+  .map((entry, index) => ({ entry, index })))
 </script>
 
 <template>
   <div class="evidence-terminal">
     <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>COMMAND PROMPT</small></div>
-    <div ref="terminalBody" class="terminal-body">
+    <div class="terminal-body">
       <div v-if="currentStep < 0" class="terminal-idle">
         <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
         <div>[as-cli] Waiting for daemon to initialize (this may take up to 2 minutes)...</div>
@@ -272,7 +264,7 @@ const visibleCommands = computed(() => commands
           <b>{{ item.entry.command }}</b>
           <em :class="item.index <= readyThrough ? 'ok' : 'pending'">{{ item.index <= readyThrough ? 'DONE' : '...' }}</em>
         </div>
-        <div v-if="item.index <= readyThrough" class="terminal-output">
+        <div v-if="item.index === currentStep && item.index <= readyThrough" class="terminal-output">
           <span class="output-label">OUT</span>
           <div v-if="item.entry.logMessages" class="logbook-output">
             <strong>{{ item.entry.result }}</strong>
@@ -285,12 +277,15 @@ const visibleCommands = computed(() => commands
               </tbody>
             </table>
           </div>
-          <pre v-else-if="item.entry.multiline" class="help-output"><span
+          <div v-else-if="item.entry.multiline" class="terminal-help">
+            <div class="help-excerpt-label">as --help (excerpt)</div>
+            <pre class="help-output"><span
             v-for="(line, lineIndex) in helpLines"
             :key="lineIndex"
             :class="{ 'help-category': line.category }"
           >{{ line.text }}
 </span></pre>
+          </div>
           <b v-else>{{ item.entry.result }}</b>
         </div>
       </div>
@@ -313,7 +308,7 @@ const visibleCommands = computed(() => commands
 .terminal-body {
   min-height: 0;
   min-width: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .terminal-body > .terminal-idle,
@@ -387,6 +382,11 @@ const visibleCommands = computed(() => commands
   white-space: pre-wrap;
   color: #aeb6bb;
   font: 500 6px/1.2 'IBM Plex Mono', monospace;
+}
+
+.help-excerpt-label {
+  margin-bottom: var(--space-sm);
+  color: var(--br-orange);
 }
 
 .help-category {
