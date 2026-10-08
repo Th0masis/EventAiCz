@@ -2791,6 +2791,34 @@ ul {
   margin-top: 10px;
 }
 
+.agenda-slide .agenda-event-mark {
+  color: var(--ink);
+}
+
+.agenda-slide .agenda-event-mark small {
+  color: var(--steel);
+}
+
+.agenda-slide .agenda-timeline::before {
+  background: rgba(38, 38, 38, 0.2);
+}
+
+.agenda-slide .agenda-row,
+.agenda-slide .agenda-row:first-child {
+  border-color: rgba(38, 38, 38, 0.16);
+}
+
+.agenda-slide .agenda-row time,
+.agenda-slide .agenda-row b {
+  color: var(--ink);
+}
+
+.agenda-slide .agenda-row > i {
+  border-color: var(--line);
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(38, 38, 38, 0.2);
+}
+
 .agenda-slide .agenda-intro h1 {
   font-size: 54px;
 }
@@ -2806,7 +2834,7 @@ ul {
 }
 
 .agenda-slide .agenda-timeline::before {
-  left: 99px;
+  left: 97px;
 }
 
 .agenda-slide .agenda-row {
@@ -2816,7 +2844,7 @@ ul {
 }
 
 .agenda-slide .agenda-row time {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .agenda-slide .agenda-row > i {
@@ -2824,12 +2852,13 @@ ul {
 }
 
 .agenda-slide .agenda-row b {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.15;
 }
 
 .agenda-slide .agenda-row.is-session > i {
-  border-color: var(--ink);
+  background: var(--br-orange);
+  border-color: var(--paper);
 }
 
 .split-verdicts,
@@ -9040,7 +9069,7 @@ ul {
   }
 
   .agenda-slide .agenda-row b {
-    font-size: 11px;
+    font-size: 13px;
   }
 }
 

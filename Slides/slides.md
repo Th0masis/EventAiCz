@@ -31,7 +31,7 @@ layout: cover
 
 ---
 layout: default
-class: agenda-slide dark-slide
+class: agenda-slide
 ---
 
 <div class="kicker">PROGRAM · 4. 11. 2026</div>
@@ -82,7 +82,7 @@ class: agenda-slide dark-slide
 
 ---
 layout: default
-class: agenda-slide dark-slide
+class: agenda-slide
 ---
 
 <div class="agenda-layout">
