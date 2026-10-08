@@ -1,8 +1,24 @@
 # AI & Agentic Engineering Day
 
 Repozitář obsahuje společnou prezentaci a podklady pro jednotlivá vystoupení.
-Prezentace se skládá ze zdrojů v `Slides/` a po sloučení změn do `main` se
-automaticky publikuje přes GitHub Pages.
+Akce se koná 4. 11. 2026. Prezentace se skládá ze zdrojů v `Slides/` a po
+sloučení změn do `main` se automaticky publikuje přes GitHub Pages.
+
+> **Stav GitHubu:** Výchozí větev repozitáře je `main`; PR zakládejte proti ní.
+> GitHub Pages používá GitHub Actions a prostředí `github-pages` povoluje
+> nasazení z `main`.
+
+## Publikace prezentace
+
+Prezentace se publikuje na [th0masis.github.io/EventAiCz](https://th0masis.github.io/EventAiCz/)
+pomocí workflow [Deploy Slidev to GitHub Pages](.github/workflows/deploy-pages.yml).
+Workflow při pushi do `main` sestaví obsah z `Slides/` a nasadí výstup `Slides/dist/`;
+lze ho spustit také ručně v GitHub Actions.
+
+V nastavení repozitáře **Settings → Pages** musí být jako zdroj zvoleno
+**GitHub Actions**. Prostředí `github-pages` musí povolovat nasazení z větve
+`main`; jinak sestavení projde, ale nasazení bude zablokováno. Publikování přímo
+z větve místo tohoto workflow může zobrazit README repozitáře namísto prezentace.
 
 ## Kde pracovat
 
@@ -48,30 +64,66 @@ obsahu, interakce, poznámky prezentujícího, obrázky a délku vystoupení.
 
 ## Větev a změny tématu
 
-1. Aktualizujte `main` a založte větev pojmenovanou přesně podle ID tématu:
+Každé téma má připravenou vzdálenou větev `topic/<id>`. ID odpovídá názvu
+souboru v `Slides/topics/` bez přípony:
+
+| ID | Téma |
+| --- | --- |
+| `privitani` | Přivítání |
+| `proc-ai` | Proč je AI důležitá v průmyslové automatizaci |
+| `agentic-engineering` | Co je Agentic Engineering? |
+| `agentic-demo` | Ukázka Agentic Engineeringu |
+| `br-community` | B&R Community: Od AI funkcí ke znalostní bázi pro AI |
+| `as-agentic-bridge` | Automation Studio Agentic Bridge |
+| `as-cli` | AS CLI - nový koncept kontroly Automation Studia pomocí AI |
+| `as-repository` | AS repository: dejte AI schopnosti automation experta |
+| `support-agent` | Příklad z B&R: Support Agent |
+| `prakticky-prinos` | Příklady z praxe: praktický přínos AI |
+| `br-services` | B&R Services - nabídka AI služeb |
+| `ai-management` | AI pro management - externí speaker |
+| `orchestrace-dansko` | Kompletní orchestrace? Příklad z Dánska |
+| `zaver` | Závěr |
+
+Oběd, přestávka a ARVK jsou jednotlivé slidy koordinátora v `Slides/slides.md`;
+nemají vlastní tematickou větev.
+
+1. Načtěte vzdálené větve a přepněte se na připravenou větev svého tématu:
 
    ```powershell
-   git switch main
-   git pull --ff-only
-   git switch -c topic/privitani
+   git fetch origin
+   git switch --track origin/topic/privitani
    ```
 
-   Nahraďte `privitani` ID vašeho souboru v `Slides/topics/`.
+   Nahraďte `privitani` ID svého tématu. Pokud už lokální větev máte, přepněte
+   se na ni a načtěte případné nové změny:
+
+   ```powershell
+   git switch topic/privitani
+   git pull --ff-only
+   ```
+
 2. Upravujte pouze `Slides/topics/<id>.md` a soubory v
    `Slides/public/topics/<id>/`. Obsahový PR nesmí zahrnovat jiné soubory.
 3. Pokud na tématu pracuje více lidí, všichni používejte stejnou větev a jeden
    otevřený PR. Nevytvářejte pro stejné téma další PR.
-4. Změny programu nebo společné prezentace připravte na větvi
-   `coord/<stručné-id-změny>`. Koordinační PR nesmí měnit obsah ani podklady
-   témat.
+4. Po úpravách odešlete změny do stejné vzdálené větve:
 
-Příklad odeslání změny tématu:
+   ```powershell
+   git add Slides/topics/privitani.md Slides/public/topics/privitani/
+   git commit -m "Update privitani topic"
+   git push
+   ```
 
-```powershell
-git add Slides/topics/privitani.md Slides/public/topics/privitani/
-git commit -m "Update privitani topic"
-git push -u origin topic/privitani
-```
+   Při prvním pushi z lokální větve, která nemá nastavenou vzdálenou větev,
+   použijte `git push -u origin topic/privitani`.
+5. Změny programu, `Slides/slides.md`, sdílených stylů nebo jiné společné
+   soubory připravte na samostatné větvi `coord/<stručné-id-změny>` z aktuálního
+   `origin/main`. Koordinační PR nesmí měnit soubory témat ani jejich podklady.
+
+   ```powershell
+   git fetch origin
+   git switch -c coord/program-order origin/main
+   ```
 
 ## Vytvoření PR
 
@@ -84,9 +136,12 @@ git push -u origin topic/privitani
    `rendered-slides` zkontrolujte vykreslené slidy a screenshoty.
 4. Doplňte informace pro ruční ověření dema a záložní variantu. Do repozitáře
    nevkládejte přihlašovací údaje ani neveřejná zákaznická data bez souhlasu.
-5. Schválení zajišťuje koordinátor `@Th0masis` přes GitHub review. Zaškrtnutí
-   položky v šabloně review nenahrazuje. Autor PR nemůže schválit vlastní změnu;
-   příspěvek autora musí schválit další oprávněný koordinátor.
+5. PR ostatních autorů vyžaduje aktuální GitHub approval od koordinátora
+   `@Th0masis`. Kontrola `PR policy` ověří, že approval patří k aktuálnímu
+   commitu PR. U PR vytvořeného `@Th0masis` se vyžadování tohoto review
+   přeskočí; kontroly rozsahu, CI a ochrana větve platí dál.
 
 Po schválení a úspěšných kontrolách lze PR sloučit do `main`. GitHub Actions
-pak automaticky publikuje prezentaci.
+pak automaticky publikuje prezentaci. Dokud správce nezapne ochranu `main`,
+jsou schválení koordinátorem a úspěšné kontroly popsaným procesem, nikoli
+vynucenou podmínkou GitHubu.
