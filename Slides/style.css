@@ -9335,12 +9335,16 @@ ul {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 112px minmax(0, 1fr);
   gap: 14px;
+  row-gap: 0;
   align-items: stretch;
   margin-top: 18px;
 }
 
 .tooling-workflow-panel {
-  display: flex;
+  display: grid;
+  grid-row: 1 / 6;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   min-width: 0;
   min-height: 342px;
   padding: var(--space-lg);
@@ -9349,7 +9353,12 @@ ul {
   background: transparent;
 }
 
+.gui-workflow-panel {
+  grid-column: 1;
+}
+
 .pipeline-workflow-panel {
+  grid-column: 3;
   background: transparent;
 }
 
@@ -9405,6 +9414,7 @@ ul {
 
 .tooling-gui-window {
   display: flex;
+  grid-row: 3 / 5;
   min-height: 216px;
   padding: var(--space-md);
   flex-direction: column;
@@ -9574,9 +9584,12 @@ ul {
 
 .tooling-interface-bridge {
   display: flex;
+  grid-column: 2;
+  grid-row: 3 / 5;
+  margin-top: var(--space-lg);
   min-width: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 8px;
   flex-direction: column;
   color: var(--br-orange);
@@ -10989,6 +11002,9 @@ ul {
   }
 
   .tooling-workflow-panel {
+    display: flex;
+    grid-column: auto;
+    grid-row: auto;
     min-height: 0;
     padding: 10px;
   }
@@ -11046,7 +11062,10 @@ ul {
 
   .tooling-interface-bridge {
     display: grid;
+    grid-column: auto;
+    grid-row: auto;
     grid-template-columns: 1fr 22px 1.15fr 22px 1fr;
+    margin-top: 0;
     gap: 5px;
     flex-direction: row;
   }
@@ -11617,7 +11636,7 @@ ul {
 .as-cli-devops-gate > br { display: none; }
 .as-cli-devops-arrow { justify-content: center; }
 .as-cli-devops-result { max-width: 1140px; margin-top: var(--space-xl); padding: var(--space-lg); }
-.tooling-access-grid { margin-top: var(--space-xl); gap: var(--space-lg); }
+.tooling-access-grid { margin-top: var(--space-xl); column-gap: var(--space-lg); }
 
 .as-cli-consumer-copy b,
 .as-cli-capability-name,
