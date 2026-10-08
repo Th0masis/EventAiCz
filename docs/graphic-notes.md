@@ -338,6 +338,16 @@ against this background.
    reusable topic logic in that topic's `scripts/` folder.
 - Shared changes require a coordination PR. Topic PRs may change only the
    matching topic Markdown, topic-owned source, and topic asset directory.
+- `Slides validation` runs `test:topic-styles` to reject unscoped topic rules,
+   shared-token redefinitions, and topic styles left in the global stylesheet.
+   It runs `test:duplicates` with jscpd (minimum 50 tokens and 8 lines, with
+   0.85 JavaScript/TypeScript function similarity) and reports detected clones
+   as PR file annotations. These checks catch substantial textual/structural
+   duplication; review is still needed for different implementations of the
+   same behavior.
+- Configure the `main` branch ruleset to require `Slides validation` and
+   `PR policy`. A failing workflow status does not block merges unless GitHub
+   branch protection requires it.
 
 ## Agent Editing Rules
 

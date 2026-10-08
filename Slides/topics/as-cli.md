@@ -3,6 +3,10 @@ layout: default
 class: ot-slide chapter-slide topic-as-cli
 ---
 
+<script setup>
+import './as-cli/styles.css'
+</script>
+
 <img class="chapter-image" src="/topics/as-cli/chapter.jpg" alt="">
 
 # AS CLI - nový koncept kontroly Automation Studia pomocí AI

@@ -140,18 +140,19 @@ jobs:
                   }
                 }
               } else if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
-                if (paths.some(path => path.startsWith('Slides/topics/') || path.startsWith('Slides/public/topics/'))) {
-                  throw new Error('Topic content must use its topic branch, not a coordination PR')
+                if (paths.some(path => /^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) || path.startsWith('Slides/public/topics/'))) {
+                  throw new Error('Topic content and assets must use their topic branch, not a coordination PR')
                 }
               } else {
                 const match = /^topic\/([a-z0-9][a-z0-9-]*)$/.exec(branch)
                 if (!match) throw new Error('Use topic/<topic-id> or coord/<change-id>')
                 const topic = match[1]
                 const topicFile = `Slides/topics/${topic}.md`
+                const topicSource = `Slides/topics/${topic}/`
                 await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.base.sha })
                 const assetRoot = `Slides/public/topics/${topic}/`
-                if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(assetRoot))) {
-                  throw new Error(`Only ${topicFile} and ${assetRoot} may change in this PR`)
+                if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(topicSource) && !path.startsWith(assetRoot))) {
+                  throw new Error(`Only ${topicFile}, ${topicSource}, and ${assetRoot} may change in this PR`)
                 }
                 if (files.some(file => file.filename === topicFile && file.status === 'removed')) {
                   throw new Error('A topic PR cannot delete its topic file')
