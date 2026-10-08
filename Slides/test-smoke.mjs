@@ -41,7 +41,8 @@ try {
         element.textContent.trim() || element.querySelector('img, svg, canvas, video, iframe'),
       ), `Blank slide: ${slideNumber}`)
       if (slide.title) {
-        assert.ok((await layout.textContent()).includes(slide.title), `Wrong slide: ${slideNumber}`)
+        const expectedTitle = slide.title.replace(/<[^>]*>/g, '')
+        assert.ok((await layout.textContent()).includes(expectedTitle), `Wrong slide: ${slideNumber}`)
       }
       await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 15000 })
       await layout.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
