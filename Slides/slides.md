@@ -22,11 +22,11 @@ defaults:
 layout: cover
 ---
 
-<img class="cover-logo" src="/Website_header 02.png" alt="B&amp;R Industrial Automation">
+<img class="cover-logo" src="/br-template-logo.svg" alt="B&amp;R Industrial Automation">
 
 # AI & Agentic Engineering Day
 
-<p class="cover-sub">4. 11. 2026</p>
+<p class="cover-sub">Telč</p>
 <div class="cover-event"><span>B&amp;R Industrial Automation</span><span>4. 11. 2026</span></div>
 
 ---
