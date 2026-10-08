@@ -55,7 +55,91 @@ jobs:
               })
               const paths = files.flatMap(file => [file.filename, file.previous_filename].filter(Boolean))
               const branch = pull.head.ref
-              if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
+              if (branch === 'coord/chapter-openers') {
+                const sharedPaths = new Set([
+                  'Slides/style.css',
+                  'Slides/slides.md',
+                  'docs/graphic-notes.md',
+                ])
+                const topicPath = /^Slides\/topics\/([a-z0-9][a-z0-9-]*)\.md$/
+                const assetPath = /^Slides\/public\/topics\/([a-z0-9][a-z0-9-]*)\/chapter\.jpg$/
+                const topicIds = new Set()
+                const assetIds = new Set()
+
+                for (const path of paths) {
+                  if (sharedPaths.has(path)) continue
+                  const topicMatch = topicPath.exec(path)
+                  if (topicMatch) {
+                    topicIds.add(topicMatch[1])
+                    continue
+                  }
+                  const assetMatch = assetPath.exec(path)
+                  if (assetMatch) {
+                    assetIds.add(assetMatch[1])
+                    continue
+                  }
+                  throw new Error(`Unexpected path in chapter opener rollout: ${path}`)
+                }
+
+                if (!topicIds.size || topicIds.size !== assetIds.size || [...topicIds].some(topic => !assetIds.has(topic))) {
+                  throw new Error('Each changed topic must include its matching chapter.jpg asset')
+                }
+                if (files.some(file => file.status === 'removed')) {
+                  throw new Error('A chapter opener rollout cannot delete files')
+                }
+
+                const readText = async (path, ref) => {
+                  const { data } = await github.rest.repos.getContent({ ...repo, path, ref })
+                  if (Array.isArray(data) || !data.content) throw new Error(`Expected a file at ${path}`)
+                  return Buffer.from(data.content, 'base64').toString('utf8').replace(/\r\n/g, '\n')
+                }
+
+                for (const topic of topicIds) {
+                  const path = `Slides/topics/${topic}.md`
+                  await github.rest.repos.getContent({ ...repo, path, ref: pull.base.sha })
+                  const [baseText, headText] = await Promise.all([
+                    readText(path, pull.base.sha),
+                    readText(path, pull.head.sha),
+                  ])
+                  const imageLine = `<img class="chapter-image" src="/topics/${topic}/chapter.jpg" alt="">`
+                  const imageBlock = new RegExp(
+                    `<img class="chapter-image" src="/topics/${topic}/chapter\\.jpg" alt="">\\r?\\n\\r?\\n`,
+                    'm',
+                  )
+                  if ((headText.match(/^class: ot-slide chapter-slide\r?$/gm) ?? []).length !== 1 ||
+                      headText.split(imageLine).length !== 2 || !imageBlock.test(headText)) {
+                    throw new Error(`Topic ${topic} must add only its chapter-slide class and matching image`)
+                  }
+                  const normalizedHead = headText
+                    .replace(/^class: ot-slide chapter-slide\r?$/m, 'class: ot-slide')
+                    .replace(imageBlock, '')
+                  if (normalizedHead !== baseText) {
+                    throw new Error(`Topic ${topic} contains changes beyond its opening-slide image`)
+                  }
+                }
+
+                if (paths.includes('Slides/slides.md')) {
+                  const baseText = await readText('Slides/slides.md', pull.base.sha)
+                  const headText = await readText('Slides/slides.md', pull.head.sha)
+                  const coverChanges = [
+                    [
+                      '<img class="cover-logo" src="/br-template-logo.svg" alt="B&amp;R Industrial Automation">',
+                      '<img class="cover-logo" src="/Website_header 02.png" alt="B&amp;R Industrial Automation">',
+                    ],
+                    ['<p class="cover-sub">Telč</p>', '<p class="cover-sub">4. 11. 2026</p>'],
+                  ]
+                  let normalizedHead = headText
+                  for (const [updated, original] of coverChanges) {
+                    if (normalizedHead.split(updated).length !== 2 || !baseText.includes(original)) {
+                      throw new Error('Slides/slides.md may only apply the approved cover logo and subtitle changes')
+                    }
+                    normalizedHead = normalizedHead.replace(updated, original)
+                  }
+                  if (normalizedHead !== baseText) {
+                    throw new Error('Slides/slides.md contains changes beyond the approved cover adjustments')
+                  }
+                }
+              } else if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
                 if (paths.some(path => path.startsWith('Slides/topics/') || path.startsWith('Slides/public/topics/'))) {
                   throw new Error('Topic content must use its topic branch, not a coordination PR')
                 }
