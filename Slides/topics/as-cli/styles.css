@@ -1656,31 +1656,31 @@
   }
 }
 
-.topic-as-cli .slidev-layout :where(h2,.agenda-event-mark>span,.as-cli-terminal-line) {
+.slidev-layout.topic-as-cli :where(h2,.agenda-event-mark>span,.as-cli-terminal-line) {
   --text-role: section;
   --text-size: var(--type-section);
   --text-leading: 1.15;
 }
 
-.topic-as-cli .slidev-layout :where(h3,.demo-steps b,.tooling-panel-title,.tooling-bridge-box strong,.as-cli-consumer-copy b,.as-cli-capability-name,.as-cli-devops-gate-name) {
+.slidev-layout.topic-as-cli :where(h3,.demo-steps b,.tooling-panel-title,.tooling-bridge-box strong,.as-cli-consumer-copy b,.as-cli-capability-name,.as-cli-devops-gate-name) {
   --text-role: block;
   --text-size: var(--type-block);
   --text-leading: 1.2;
 }
 
-.topic-as-cli .slidev-layout :where(.agenda-row time,.agenda-event-mark b,.tooling-panel-label,.tooling-step b,.tooling-cli-label b,.tooling-automated-steps b,.tooling-bridge-caption,.tooling-runner-question b,.as-cli-consumer-copy>span,.as-cli-core-name,.as-cli-capability-purpose,.as-cli-devops-gate-head,.terminal-title,.tooling-manual-cue) {
+.slidev-layout.topic-as-cli :where(.agenda-row time,.agenda-event-mark b,.tooling-panel-label,.tooling-step b,.tooling-cli-label b,.tooling-automated-steps b,.tooling-bridge-caption,.tooling-runner-question b,.as-cli-consumer-copy>span,.as-cli-core-name,.as-cli-capability-purpose,.as-cli-devops-gate-head,.terminal-title,.tooling-manual-cue) {
   --text-role: caption;
   --text-size: var(--type-caption);
   --text-leading: 1.3;
 }
 
-.topic-as-cli .slidev-layout :where(small,.tooling-panel-note,.tooling-window-bar,.tooling-runner-bar,.tooling-cli-label small,.as-cli-core-topline,.as-cli-devops-arrow,.as-cli-devops-result>span,.terminal-footer) {
+.slidev-layout.topic-as-cli :where(small,.tooling-panel-note,.tooling-window-bar,.tooling-runner-bar,.tooling-cli-label small,.as-cli-core-topline,.as-cli-devops-arrow,.as-cli-devops-result>span,.terminal-footer) {
   --text-role: note;
   --text-size: var(--type-note);
   --text-leading: 1.35;
 }
 
-.topic-as-cli .slidev-layout :where(code,pre,.as-cli-command,.terminal-body) {
+.slidev-layout.topic-as-cli :where(code,pre,.as-cli-command,.terminal-body) {
   --text-role: code;
   --text-size: var(--type-note);
   --text-leading: 1.35;
@@ -1689,7 +1689,7 @@
   hyphens: none;
 }
 
-.topic-as-cli .slidev-layout :where(.status-badge,.kicker,.slide-id,.template-foot,.cover-event,.agenda-event-mark small,.terminal-title small,.tooling-step>span,.tooling-cli-label>span,.as-cli-capability-head>span,.terminal-command .time,.terminal-command .op,.terminal-command em,.output-label) {
+.slidev-layout.topic-as-cli :where(.status-badge,.kicker,.slide-id,.template-foot,.cover-event,.agenda-event-mark small,.terminal-title small,.tooling-step>span,.tooling-cli-label>span,.as-cli-capability-head>span,.terminal-command .time,.terminal-command .op,.terminal-command em,.output-label) {
   --text-role: minor;
   --text-size: var(--type-minor);
   --text-leading: 1.2;
@@ -1700,20 +1700,20 @@
 .topic-as-cli .demo-steps>div { min-height: 0; padding: 5px 0; }
 .topic-as-cli .demo-steps small { margin-top: 2px; }
 
-.topic-as-cli .slidev-layout :where(.demo-steps b) {
+.slidev-layout.topic-as-cli :where(.demo-steps b) {
   --text-role: compact;
   --text-size: var(--type-compact);
   --text-leading: 1.3;
 }
 
-.topic-as-cli .slidev-layout :where(.demo-steps>div>span) {
+.slidev-layout.topic-as-cli :where(.demo-steps>div>span) {
   --text-role: minor;
   --text-size: var(--type-minor);
   --text-leading: 1.2;
   --text-font: 'IBM Plex Mono', monospace;
 }
 
-.topic-as-cli .slidev-layout :where(.as-cli-command,.as-cli-devops-gate code,.terminal-command b) {
+.slidev-layout.topic-as-cli :where(.as-cli-command,.as-cli-devops-gate code,.terminal-command b) {
   --text-role: command;
   --text-size: var(--type-caption);
   --text-leading: 1.35;

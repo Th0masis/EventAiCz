@@ -41,10 +41,10 @@ for (const filename of topicFiles) {
     if (isKeyframeRule(rule)) return
 
     for (const selector of selectorParser().astSync(rule.selector).nodes) {
-      const first = selector.nodes.find(node => node.type !== 'comment')
-      assert.equal(
-        first?.type === 'class' ? first.value : undefined,
-        topicClass,
+      const firstCombinator = selector.nodes.findIndex(node => node.type === 'combinator')
+      const firstCompound = selector.nodes.slice(0, firstCombinator < 0 ? selector.nodes.length : firstCombinator)
+      assert.ok(
+        firstCompound.some(node => node.type === 'class' && node.value === topicClass),
         `${topic}: selector must begin with .${topicClass}: ${selector}`,
       )
     }
