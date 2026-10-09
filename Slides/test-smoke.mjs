@@ -144,7 +144,9 @@ async function checkDesign(layout, label) {
     for (const rule of rules.spacing.groups) {
       for (const group of element.querySelectorAll(rule.selector)) {
         const style = getComputedStyle(group)
-        check(near(parseFloat(style.rowGap), rule.gap) && near(parseFloat(style.columnGap), rule.gap), `Wrong group gap: ${group.className}`)
+        const rowGap = rule.rowGap ?? rule.gap
+        const columnGap = rule.columnGap ?? rule.gap
+        check(near(parseFloat(style.rowGap), rowGap) && near(parseFloat(style.columnGap), columnGap), `Wrong group gap: ${group.className}`)
       }
     }
     for (const rule of rules.spacing.comparisons) {
@@ -268,6 +270,11 @@ try {
       }
       const layout = page.locator(`[data-slidev-no="${slideNumber}"] .slidev-layout`).first()
       await layout.waitFor({ state: 'visible', timeout: 15000 })
+      await page.waitForFunction(number => {
+        const element = document.querySelector(`[data-slidev-no="${number}"] .slidev-layout`)
+        return element && element.getAnimations({ subtree: true }).every(animation =>
+          animation.effect.getComputedTiming().iterations === Infinity || animation.playState === 'finished')
+      }, slideNumber, { timeout: 15000 })
       assert.ok(await layout.evaluate(element =>
         element.textContent.trim() || element.querySelector('img, svg, canvas, video, iframe'),
       ), `Blank slide: ${slideNumber}`)
@@ -296,7 +303,10 @@ try {
         images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src),
       )
       assert.deepEqual(brokenImages, [], `Broken images on slide ${slideNumber}`)
-      await layout.screenshot({ path: fileURLToPath(new URL(`${String(slideNumber).padStart(3, '0')}.png`, output)), timeout: 15000 })
+      const screenshotPath = fileURLToPath(new URL(`${String(slideNumber).padStart(3, '0')}.png`, output))
+      const screenshotBounds = await layout.boundingBox()
+      assert.ok(screenshotBounds, `Slide ${slideNumber} has no visible screenshot bounds`)
+      await page.screenshot({ path: screenshotPath, clip: screenshotBounds, animations: 'disabled', timeout: 15000 })
     }
     await page.close()
   }

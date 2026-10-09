@@ -1,7 +1,11 @@
 ---
 layout: default
-class: ot-slide chapter-slide
+class: ot-slide chapter-slide topic-as-cli
 ---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
 
 <img class="chapter-image" src="/topics/as-cli/chapter.jpg" alt="">
 
@@ -9,8 +13,13 @@ class: ot-slide chapter-slide
 
 ---
 layout: default
-class: demo-slide dark-slide as-cli-slide
+class: demo-slide dark-slide as-cli-slide topic-as-cli
 ---
+
+<script setup>
+import './as-cli/styles.css'
+import TerminalCli from './as-cli/components/TerminalCli.vue'
+</script>
 
 <div class="status-badge demonstrator">DEMONSTRATOR</div>
 <div class="kicker">EXECUTION · 04 MIN</div>
@@ -85,8 +94,12 @@ přechod: Teď máme veškeré nástroje na místě, takže nám chybí jen inst
 
 ---
 layout: default
-class: tooling-matters-slide dark-slide
+class: tooling-matters-slide dark-slide topic-as-cli
 ---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
 
 <div class="status-badge general">GENERAL PRINCIPLE</div>
 <div class="kicker">WORKSHOP 02 · TOOLING</div>
@@ -207,8 +220,12 @@ Podívejme se tedy, jak se to snažíme udělat v Automation Studio.
 
 ---
 layout: default
-class: as-cli-intro-slide dark-slide
+class: as-cli-intro-slide dark-slide topic-as-cli
 ---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
 
 <div class="status-badge general">B&amp;R TOOLING</div>
 <div class="kicker">WORKSHOP 02 · AS · DEMO ROADMAP</div>
@@ -343,8 +360,12 @@ A přesně těchto 5 věcí použijeme i v následujících demech.
 
 ---
 layout: default
-class: as-cli-demo-slide dark-slide
+class: as-cli-demo-slide dark-slide topic-as-cli
 ---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
 
 <div class="status-badge demonstradtor">DEMO 1 / 3</div>
 <div class="kicker">AS-CLI DEVELOPMENT · DEVOPS IN PRACTICE</div>
