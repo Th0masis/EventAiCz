@@ -1696,6 +1696,10 @@
   --text-font: 'IBM Plex Mono', monospace;
 }
 
+.slidev-layout.topic-as-cli .slide-id {
+  --text-leading: 1;
+}
+
 .topic-as-cli .demo-steps { top: 145px; }
 .topic-as-cli .demo-steps>div { min-height: 0; padding: 5px 0; }
 .topic-as-cli .demo-steps small { margin-top: 2px; }
