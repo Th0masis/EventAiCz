@@ -8,7 +8,7 @@ B&R PowerPoint-derived identity and the existing Slidev interactions.
 - Design reference: [B&R Template.potx](../OneDrive_1_10-7-2026/B%26R%20Template.potx).
 - Implemented design tokens and layouts: [Slides/style.css](../Slides/style.css).
 - Deck configuration and slide markup: [Slides/slides.md](../Slides/slides.md).
-- Existing interactive visuals: [Slides/components](../Slides/components).
+- Topic-owned interactive visuals: [Slides/topics](../Slides/topics).
 
 The specifications below describe the current Slidev implementation. Pixel
 values are Slidev canvas coordinates, not original PowerPoint measurements.
@@ -322,7 +322,8 @@ against this background.
 
 - Keep deck-wide fonts, colors, spacing tokens, canvas defaults, and shared
    slide patterns in `Slides/style.css`. Topic work must not redefine shared
-   `--br-*`, `--type-*`, or `--space-*` tokens or edit the shared stylesheet.
+   tokens declared in `:root` (including palette tokens such as `--ink`), any
+   `--br-*`, `--type-*`, or `--space-*` tokens, or edit the shared stylesheet.
 - A topic may own `Slides/topics/<topic-id>/styles.css` and files under its
    `components/` and `scripts/` folders. Keep topic markup in the matching
    `Slides/topics/<topic-id>.md` file and assets in
@@ -348,6 +349,9 @@ against this background.
    `@import` paths all follow the same topic boundary. Imported style
    preprocessors are unsupported; shared stylesheet files are not an allowed
    import even when placed under shared component or script directories.
+   Every standalone topic CSS file, including auxiliary and unimported files,
+   must use the topic selector namespace. Embedded scoped component styles
+   may target the component's own classes without a slide-root namespace.
 - Shared changes require a coordination PR. Topic PRs may change only the
    matching topic Markdown, topic-owned source, and topic asset directory.
 - `Slides validation` runs `test:topic-styles` to reject unscoped topic rules,
@@ -366,6 +370,37 @@ against this background.
 - Configure the `main` branch ruleset to require `Slides validation` and
    `PR policy`. A failing workflow status does not block merges unless GitHub
    branch protection requires it.
+
+### Current Ownership And Migration
+
+| Topic | Owned Vue Components | Styles And Behavior |
+| --- | --- | --- |
+| `agentic-demo` | `BottleConveyor.vue` | Scoped component CSS and component state |
+| `agentic-engineering` | `AgentWorkflow.vue` | Scoped component CSS and component state |
+| `as-agentic-bridge` | `AutomationStudioAgent.vue` | Scoped component CSS and component state |
+| `as-cli` | `TerminalCli.vue`, `CycleTradeoff.vue` | `styles.css`, scoped component CSS and component state |
+| `as-repository` | `SkillsEmbed.vue` | Scoped component CSS and component state |
+
+The other nine topics currently use only the shared chapter opener. They do
+not need empty CSS files or script modules. Import an owned component explicitly
+when adding it to topic Markdown; moving it out of `Slides/components/` removes
+deck-wide auto-registration. Only `TerminalCli` is currently rendered by the
+deck. Retained components are not deleted merely because they are unused today.
+
+The shared stylesheet retains cover/chapter/agenda layouts, typography, footer,
+tokens, utilities and reusable presentation primitives. Legacy selector cleanup
+checked all 15 deck/topic Markdown files, six retained Vue components and six
+configuration files. Only dedicated selector branches absent from these sources
+were removed; surviving declarations, order and media contexts were preserved.
+Reusable `ot-*` patterns and uncertain strategy/context/control/maturity,
+loop/harness, architecture and kanban/TDD patterns remain shared. Static source
+checks cannot prove the absence of arbitrary external or runtime-generated
+content; review such callers before deleting retained patterns or components.
+
+Moves from the shared component directory and shared CSS removals use a
+coordination branch because a topic PR cannot delete shared source files.
+Subsequent topic-only changes use `topic/<id>`. Land the coordination PR first,
+then update the topic branch to that base before opening its PR.
 
 ## Agent Editing Rules
 
@@ -388,6 +423,9 @@ blocks `npm.ps1`.
 ```sh
 npm run start -- --port 3030
 npm run test:content
+npm run test:topic-styles
+npm run test:topic-code
+npm run test:duplicates
 npm run test:smoke
 npm run build
 ```

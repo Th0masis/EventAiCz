@@ -24,6 +24,9 @@ z větve místo tohoto workflow může zobrazit README repozitáře namísto pre
 
 - `Slides/topics/<id>.md` je obsah konkrétního tématu. ID je název souboru bez
   přípony, například `privitani`.
+- `Slides/topics/<id>/` obsahuje CSS, Vue komponenty a případné skripty tématu.
+   Sdílené tokeny a layouty zůstávají v `Slides/style.css`; pravidla vlastnictví
+   a namespace popisuje [grafický kontrakt](docs/graphic-notes.md).
 - `Slides/public/topics/<id>/` obsahuje obrázky a další podklady daného tématu.
 - `Slides/slides.md` skládá témata a společné části do pořadí prezentace.
 - `docs/graphic-notes.md` popisuje pravidla pro grafiku, barvy, písmo a layout.
@@ -41,6 +44,9 @@ použijte příkaz `npm.cmd`:
 cd Slides
 npm.cmd ci
 npm.cmd run test:content
+npm.cmd run test:topic-styles
+npm.cmd run test:topic-code
+npm.cmd run test:duplicates
 npm.cmd run build
 ```
 
@@ -102,8 +108,9 @@ nemají vlastní tematickou větev.
    git pull --ff-only
    ```
 
-2. Upravujte pouze `Slides/topics/<id>.md` a soubory v
-   `Slides/public/topics/<id>/`. Obsahový PR nesmí zahrnovat jiné soubory.
+2. Upravujte pouze `Slides/topics/<id>.md`, vlastní zdroje v
+   `Slides/topics/<id>/` a soubory v `Slides/public/topics/<id>/`.
+   Topicový PR nesmí zahrnovat sdílené soubory ani jiné téma.
 3. Pokud na tématu pracuje více lidí, všichni používejte stejnou větev a jeden
    otevřený PR. Nevytvářejte pro stejné téma další PR.
 4. Po úpravách odešlete změny do stejné vzdálené větve:
@@ -116,9 +123,12 @@ nemají vlastní tematickou větev.
 
    Při prvním pushi z lokální větve, která nemá nastavenou vzdálenou větev,
    použijte `git push -u origin topic/privitani`.
+   Pokud jste vytvořili nebo upravili vlastní CSS, komponenty nebo skripty,
+   přidejte do commitu také změněné soubory v `Slides/topics/privitani/`.
 5. Změny programu, `Slides/slides.md`, sdílených stylů nebo jiné společné
    soubory připravte na samostatné větvi `coord/<stručné-id-změny>` z aktuálního
-   `origin/main`. Koordinační PR nesmí měnit soubory témat ani jejich podklady.
+   `origin/main`. Koordinační PR nesmí měnit Markdown témat ani jejich podklady;
+   může přesouvat topicové zdroje ze sdílených složek a upravovat společné testy.
 
    ```powershell
    git fetch origin
