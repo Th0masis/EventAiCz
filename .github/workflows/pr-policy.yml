@@ -139,19 +139,50 @@ jobs:
                     throw new Error('Slides/slides.md contains changes beyond the approved cover adjustments')
                   }
                 }
+              } else if (branch === 'coord/topic-isolation-and-validation') {
+                const topicFile = 'Slides/topics/as-cli.md'
+                if (paths.some(path => path.startsWith('Slides/public/topics/') ||
+                    (/^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) && path !== topicFile))) {
+                  throw new Error('The isolation rollout may only migrate AS CLI imports and root classes')
+                }
+                if (paths.includes(topicFile)) {
+                  const readText = async ref => {
+                    const { data } = await github.rest.repos.getContent({ ...repo, path: topicFile, ref })
+                    if (Array.isArray(data) || !data.content) throw new Error(`Expected a file at ${topicFile}`)
+                    return Buffer.from(data.content, 'base64').toString('utf8').replace(/\r\n/g, '\n')
+                  }
+                  const baseText = await readText(pull.base.sha)
+                  const headText = await readText(pull.head.sha)
+                  const styleImport = "<script setup>\nimport './as-cli/styles.css'\n</script>\n\n"
+                  const componentImport = "<script setup>\nimport './as-cli/styles.css'\nimport TerminalCli from './as-cli/components/TerminalCli.vue'\n</script>\n\n"
+                  const rootClass = /^(class: [^\n]*) topic-as-cli$/gm
+                  if (headText.split(styleImport).length !== 5 ||
+                      headText.split(componentImport).length !== 2 ||
+                      (headText.match(rootClass) ?? []).length !== 5) {
+                    throw new Error('AS CLI must add exactly five namespaced roots and their approved imports')
+                  }
+                  const normalizedHead = headText
+                    .replaceAll(styleImport, '')
+                    .replace(componentImport, '')
+                    .replace(rootClass, '$1')
+                  if (normalizedHead !== baseText) {
+                    throw new Error('AS CLI contains changes beyond the approved source migration')
+                  }
+                }
               } else if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
-                if (paths.some(path => path.startsWith('Slides/topics/') || path.startsWith('Slides/public/topics/'))) {
-                  throw new Error('Topic content must use its topic branch, not a coordination PR')
+                if (paths.some(path => /^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) || path.startsWith('Slides/public/topics/'))) {
+                  throw new Error('Topic content and assets must use their topic branch, not a coordination PR')
                 }
               } else {
                 const match = /^topic\/([a-z0-9][a-z0-9-]*)$/.exec(branch)
                 if (!match) throw new Error('Use topic/<topic-id> or coord/<change-id>')
                 const topic = match[1]
                 const topicFile = `Slides/topics/${topic}.md`
+                const topicSource = `Slides/topics/${topic}/`
                 await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.base.sha })
                 const assetRoot = `Slides/public/topics/${topic}/`
-                if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(assetRoot))) {
-                  throw new Error(`Only ${topicFile} and ${assetRoot} may change in this PR`)
+                if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(topicSource) && !path.startsWith(assetRoot))) {
+                  throw new Error(`Only ${topicFile}, ${topicSource}, and ${assetRoot} may change in this PR`)
                 }
                 if (files.some(file => file.filename === topicFile && file.status === 'removed')) {
                   throw new Error('A topic PR cannot delete its topic file')
