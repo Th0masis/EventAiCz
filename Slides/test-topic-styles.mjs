@@ -50,7 +50,7 @@ for (const filename of topicFiles) {
     for (const selector of selectorParser().astSync(rule.selector).nodes) {
       selector.walk(node => {
         assert.ok(
-          !(node.type === 'tag' && ['html', 'body'].includes(node.value)) &&
+          !(node.type === 'tag' && ['html', 'body'].includes(node.value.toLowerCase())) &&
           !(node.type === 'pseudo' && node.value === ':root'),
           `${topic}: global selector is forbidden: ${selector}`,
         )
@@ -75,7 +75,7 @@ for (const filename of topicFiles) {
 sharedStyles.walkRules(rule => {
   selectorParser().astSync(rule.selector).walkClasses(className => {
     assert.ok(
-      !/^(?:as-cli-|tooling-|demo-steps$)/.test(className.value),
+      !/^(?:topic-|as-cli-|tooling-|demo-steps$|cycle-|track-(?:after|before|nodevops)$|skills-embed-|skills-slide$|agentic-bridge-visual$)/.test(className.value),
       `Topic-specific selector remains in Slides/style.css: ${className.value}`,
     )
   })

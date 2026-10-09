@@ -100,14 +100,23 @@ function scriptImports(code, file, language = '') {
   return imports
 }
 
-function styleImports(code, file) {
+function styleImports(code, file, topic) {
   const stylesheet = postcss.parse(code, { from: file })
   stylesheet.walkDecls(declaration => {
     assert.ok(!sharedTokens.has(declaration.prop) && !/^--(?:br-|type-|space-)/.test(declaration.prop),
       `${file}: cannot redefine shared token ${declaration.prop}`)
   })
   stylesheet.walkRules(rule => {
-    selectorParser().astSync(rule.selector).walk(node => {
+    const selectors = selectorParser().astSync(rule.selector)
+    if (topic && !isKeyframeRule(rule)) {
+      for (const selector of selectors.nodes) {
+        const boundary = selector.nodes.findIndex(node => node.type === 'combinator')
+        const compound = selector.nodes.slice(0, boundary < 0 ? selector.nodes.length : boundary)
+        assert.ok(compound.some(node => node.type === 'class' && node.value === `topic-${topic}`),
+          `${file}: stylesheet selector must begin with topic namespace: ${selector}`)
+      }
+    }
+    selectors.walk(node => {
       assert.ok(!(node.type === 'tag' && ['html', 'body'].includes(node.value.toLowerCase())) &&
         !(node.type === 'pseudo' && [':root', ':global', '::v-global'].includes(node.value)),
       `${file}: global selector is forbidden: ${rule.selector}`)
@@ -139,6 +148,13 @@ function styleImports(code, file) {
       ? source : `./${source}`)
   })
   return imports
+}
+
+function isKeyframeRule(rule) {
+  for (let node = rule.parent; node; node = node.parent) {
+    if (node.type === 'atrule' && /keyframes$/i.test(node.name)) return true
+  }
+  return false
 }
 
 function sfcImports(code, file) {
@@ -200,6 +216,10 @@ function selfCheck() {
   reject(() => sfcImports('<template><div /></template><style>.local { color: red }</style>', file), /scoped/)
   reject(() => sfcImports('<template><div /></template><style scoped>:global(.slidev-layout) { color: red }</style>', file), /global selector/)
   reject(() => sfcImports('<template><div /></template><style scoped>.local { --br-orange: red }</style>', file), /shared token/)
+  reject(() => styleImports('.slidev-layout { color: red }', file, 'as-cli'), /namespace/)
+  reject(() => styleImports('.topic-agentic-demo .local { color: red }', file, 'as-cli'), /namespace/)
+  reject(() => styleImports('.topic-as-cli { --ink: red }', file, 'as-cli'), /shared token/)
+  styleImports('.slidev-layout.topic-as-cli .local { color: var(--ink) }', file, 'as-cli')
   reject(() => {
     for (const source of sfcImports('<template><div /></template><style scoped>@import "../../../style.css";</style>', file)) {
       importTarget(source, file, 'as-cli')
@@ -260,7 +280,7 @@ async function checkFile(file, topic) {
       return imports
     })
   } else if (extension === '.vue') imports = sfcImports(code, file)
-  else if (extension === '.css') imports = styleImports(code, file)
+  else if (extension === '.css') imports = styleImports(code, file, topic)
   else imports = scriptImports(code, file)
   for (const source of imports) {
     const target = importTarget(source, file, topic)
@@ -274,7 +294,7 @@ async function checkDirectory(directory, topic) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const file = resolve(directory, entry.name)
     if (entry.isDirectory()) await checkDirectory(file, topic)
-    else if (sourceExtensions.includes(extname(file))) await checkFile(file, topic)
+    else if (sourceExtensions.includes(extname(file)) || extname(file) === '.css') await checkFile(file, topic)
   }
 }
 
