@@ -101,3 +101,94 @@ function nudgeInvestment(event: KeyboardEvent) {
     </div>
   </div>
 </template>
+
+<style scoped>
+:where(:deep()).cycle-block { margin-top: 62px; }
+
+:where(:deep()).cycle-head {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+:where(:deep()).cycle-head b { color: var(--white); }
+
+:where(:deep()).cycle-track { display: grid; gap: 8px; }
+:where(:deep()).track-after { grid-template-columns: 13fr 13fr 2fr 6fr 8fr 7fr var(--govern-time, 9fr) var(--reclaimed-time, 53fr); }
+
+:where(:deep()).cycle-track span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 54px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+:where(:deep()).cycle-track span.hot {
+  border-color: var(--br-orange);
+  background: var(--br-orange);
+  font-weight: 500;
+}
+
+:where(:deep()).cycle-track span.bad {
+  padding-right: 22px;
+  border: none;
+  background: linear-gradient(90deg, var(--danger) 45%, rgba(214, 64, 50, 0.45));
+  font-weight: 500;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+}
+
+:where(:deep()).cycle-track span.own {
+  position: relative;
+  border-color: var(--br-orange);
+  background: rgba(255, 122, 0, 0.14);
+  cursor: ew-resize;
+  font-weight: 500;
+  touch-action: none;
+}
+
+:where(:deep()).cycle-track span.own.is-dragging {
+  background: rgba(255, 122, 0, 0.3);
+}
+
+:where(:deep()).cycle-track span.own:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+  z-index: 2;
+}
+
+:where(:deep()).cycle-divider {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 14px;
+  height: 54px;
+  border-left: 2px solid var(--br-orange);
+  background: repeating-linear-gradient(0deg, transparent 0 7px, rgba(255, 122, 0, 0.55) 7px 8px);
+  pointer-events: none;
+}
+
+:where(:deep()).cycle-track em {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  color: #8b9399;
+  font: 500 12px/1 'IBM Plex Mono', monospace;
+  font-style: normal;
+  letter-spacing: 0.04em;
+}
+
+:where(:deep()).cycle-legend { margin-top: 12px; }
+
+:where(:deep()).cycle-legend small {
+  color: #7d858b;
+  text-align: center;
+  font: 500 11px/1 'IBM Plex Mono', monospace;
+}
+</style>

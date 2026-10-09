@@ -9,14 +9,23 @@
     "build": "slidev build",
     "export": "slidev export --output agentic-engineering.pdf",
     "test:content": "node test-content.mjs",
+    "test:topic-styles": "node test-topic-styles.mjs",
+    "test:topic-code": "node test-topic-code.mjs",
+    "test:duplicates": "node test-duplicates.mjs",
     "test:smoke": "node test-smoke.mjs"
   },
   "devDependencies": {
+    "@babel/parser": "^7.29.8",
     "@iconify-json/mdi": "latest",
     "@iconify-json/simple-icons": "^1.2.93",
     "@slidev/cli": "latest",
     "@slidev/theme-default": "latest",
+    "@vue/compiler-sfc": "^3.5.41",
+    "jscpd": "^5.4.0",
+    "markdown-it": "^14.1.0",
     "playwright-chromium": "latest",
+    "postcss": "^8.5.29",
+    "postcss-selector-parser": "^7.1.6",
     "vue": "latest"
   }
 }

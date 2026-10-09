@@ -33,6 +33,9 @@ jobs:
 
       - run: npm ci
       - run: npm run test:content
+      - run: npm run test:topic-styles
+      - run: npm run test:topic-code
+      - run: npm run test:duplicates
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run preview > preview.log 2>&1 &

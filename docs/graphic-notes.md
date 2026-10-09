@@ -8,7 +8,7 @@ B&R PowerPoint-derived identity and the existing Slidev interactions.
 - Design reference: [B&R Template.potx](../OneDrive_1_10-7-2026/B%26R%20Template.potx).
 - Implemented design tokens and layouts: [Slides/style.css](../Slides/style.css).
 - Deck configuration and slide markup: [Slides/slides.md](../Slides/slides.md).
-- Existing interactive visuals: [Slides/components](../Slides/components).
+- Topic-owned interactive visuals: [Slides/topics](../Slides/topics).
 
 The specifications below describe the current Slidev implementation. Pixel
 values are Slidev canvas coordinates, not original PowerPoint measurements.
@@ -226,7 +226,8 @@ The slide number is the minor role with a special line-height of 1.
          { "selector": ".as-cli-command", "padding": [4, 8, 4, 8] }
       ],
       "groups": [
-         { "selector": ".as-cli-capability-grid, .tooling-access-grid", "gap": 16 },
+         { "selector": ".as-cli-capability-grid", "rowGap": 16, "columnGap": 16 },
+         { "selector": ".tooling-access-grid", "rowGap": 0, "columnGap": 16 },
          { "selector": ".as-cli-consumer-row, .as-cli-devops-flow", "gap": 24 }
       ],
       "comparisons": [
@@ -292,13 +293,14 @@ Slide numbers use `.slide-id`: right 120px, bottom 25px, 10px IBM Plex Mono.
 
 ### Cover And Chapter Openers
 
-Use `layout: cover`. The
+For the deck cover, use `layout: cover`. The
 [Website_header 02 banner](../Slides/public/Website_header%2002.png) occupies
 the upper area: top-centered, scaled to 100% width and 485px height. An orange
 bar marks its lower edge. The title and subtitle sit in the white lower area,
 using padding `490px 35px 65px`.
 
-Topic opening slides use the `chapter-slide` class and a `.chapter-image` asset
+Topic opening slides use `layout: default`, `class: ot-slide chapter-slide`
+and a `.chapter-image` asset
 from `Slides/public/topics/<topic>/chapter.jpg`. Keep the image 485px high,
 with the heading in the white area below it and the same orange bar at the edge.
 Later content slides in a topic do not use this class.
@@ -317,6 +319,99 @@ bottom-right footer, using the white variant with orange bar rather than the
 dark logo from the light template. Check labels, borders, and inactive controls
 against this background.
 
+## Topic Ownership
+
+- Keep deck-wide fonts, colors, spacing tokens, canvas defaults, and shared
+   slide patterns in `Slides/style.css`. Topic work must not redefine shared
+   tokens declared in `:root` (including palette tokens such as `--ink`), any
+   `--br-*`, `--type-*`, or `--space-*` tokens, or edit the shared stylesheet.
+- A topic may own `Slides/topics/<topic-id>/styles.css` and files under its
+   `components/` and `scripts/` folders. Keep topic markup in the matching
+   `Slides/topics/<topic-id>.md` file and assets in
+   `Slides/public/topics/<topic-id>/`.
+- When a topic has `styles.css`, add `topic-<topic-id>` to every slide root in
+   that topic, including its chapter opener. Every selector in standalone topic
+   CSS must include that namespace in its first compound selector. Both
+   `.topic-as-cli .diagram` and `.slidev-layout.topic-as-cli .diagram` are valid;
+   unqualified `.slidev-layout`, `:root`, `html`, and `body` are forbidden.
+- Slidev compiles each Markdown slide separately. Import a topic stylesheet in
+   the `<script setup>` block of every slide in a topic that has `styles.css`;
+   importing it once in the first slide does not guarantee the stylesheet is
+   loaded on later slides. The guard requires the literal relative import
+   `import './<topic-id>/styles.css'` in each slide.
+- Import topic-owned Vue components from that topic's `components/` folder.
+   Keep a component in `Slides/components/` only when it is intentionally shared
+   by multiple topics. Keep component-only behavior in its Vue file; place
+   reusable topic logic in that topic's `scripts/` folder.
+- Topic code may import its own topic source/assets, explicitly shared
+   `Slides/components/` and `Slides/scripts/`, or external packages. Imports
+   and re-exports must not cross into another topic or import shared styles.
+   Literal dynamic imports and `require` calls follow the same boundary;
+   computed targets, unresolved aliases and import globs cannot be verified
+   by this guard and must be replaced with explicit imports.
+- Topic Vue styles must be scoped CSS, without global selectors or shared
+   token redefinitions. Script imports, style `src` attributes and literal CSS
+   `@import` paths all follow the same topic boundary. Imported style
+   preprocessors are unsupported; shared stylesheet files are not an allowed
+   import even when placed under shared component or script directories.
+   Every standalone CSS file under `Slides/topics/<topic-id>/`, including
+   auxiliary and unimported files, must use the topic selector namespace.
+   Embedded scoped component styles
+   may target the component's own classes without a slide-root namespace.
+- Shared changes require a coordination PR. Topic PRs may change only the
+   matching topic Markdown, topic-owned source, and topic asset directory.
+- `Slides validation` runs `test:topic-styles` to reject unscoped topic rules,
+   shared-token redefinitions, and topic styles left in the global stylesheet.
+   It runs `test:topic-code` with Babel, Vue SFC and Markdown parsers to check
+   topic JS/TS, Vue and per-slide Markdown scripts and `src` includes, including
+   imports through shared source files and duplicate bindings/imports. Fenced
+   examples are not executed or checked as code; legal shadowing and `var` redeclarations remain
+   allowed. Embedded negative self-checks run with the guard. This is a static
+   import/style boundary, not a sandbox for runtime DOM or CSS mutations.
+   It runs `test:duplicates` with jscpd (minimum 50 tokens and 8 lines, with
+   0.85 JavaScript/TypeScript function similarity) and reports detected clones
+   as PR file annotations. The scan covers all JS/MJS/TS, Vue and CSS source
+   under `Slides/`, including shared source and test scripts, while excluding
+   dependencies, generated builds and artifacts. Reports use an OS temporary
+   directory that is removed after the check; old reports in `artifacts/duplicates/`
+   are not current results. These checks catch substantial textual/structural
+   duplication; review is still needed for different implementations of the
+   same behavior.
+- Configure the `main` branch ruleset to require `Slides validation` and
+   `PR policy`. A failing workflow status does not block merges unless GitHub
+   branch protection requires it.
+
+### Current Ownership And Migration
+
+| Topic | Owned Vue Components | Styles And Behavior |
+| --- | --- | --- |
+| `agentic-demo` | `BottleConveyor.vue` | Scoped component CSS and component state |
+| `agentic-engineering` | `AgentWorkflow.vue` | Scoped component CSS and component state |
+| `as-agentic-bridge` | `AutomationStudioAgent.vue` | Scoped component CSS and component state |
+| `as-cli` | `TerminalCli.vue`, `CycleTradeoff.vue` | `styles.css`, scoped component CSS and component state |
+| `as-repository` | `SkillsEmbed.vue` | Scoped component CSS and component state |
+
+The other nine topics currently use only the shared chapter opener. They do
+not need empty CSS files or script modules. Import an owned component explicitly
+when adding it to topic Markdown; moving it out of `Slides/components/` removes
+deck-wide auto-registration. Only `TerminalCli` is currently rendered by the
+deck. Retained components are not deleted merely because they are unused today.
+
+The shared stylesheet retains cover/chapter/agenda layouts, typography, footer,
+tokens, utilities and reusable presentation primitives. Legacy selector cleanup
+checked all 15 deck/topic Markdown files, six retained Vue components and six
+configuration files. Only dedicated selector branches absent from these sources
+were removed; surviving declarations, order and media contexts were preserved.
+Reusable `ot-*` patterns and uncertain strategy/context/control/maturity,
+loop/harness, architecture and kanban/TDD patterns remain shared. Static source
+checks cannot prove the absence of arbitrary external or runtime-generated
+content; review such callers before deleting retained patterns or components.
+
+Moves from the shared component directory and shared CSS removals use a
+coordination branch because a topic PR cannot delete shared source files.
+Subsequent topic-only changes use `topic/<id>`. Land the coordination PR first,
+then update the topic branch to that base before opening its PR.
+
 ## Agent Editing Rules
 
 1. Read these notes, the relevant slide markup, and nearby CSS/component rules.
@@ -327,22 +422,37 @@ against this background.
 4. Avoid unrelated redesigns, font changes, new palettes, and decorative effects.
 5. Account for CSS cascade order: later rules, specificity, and media queries
    can override earlier declarations. Avoid accumulating redundant overrides.
-6. Update these notes when an intentional shared design decision changes.
+6. Follow Topic Ownership above. When a deliberate shared design change is
+   needed, update the executable design contract and these notes.
 
 ## Validation
 
-Run commands from [Slides](../Slides). On Windows, use `npm.cmd` if PowerShell
-blocks `npm.ps1`.
+Run commands from [Slides](../Slides), using Node.js 22 as in CI. Install
+dependencies and Playwright Chromium first; see the setup and production-preview
+commands in the [root README](../README.md#lokální-náhled-a-kontrola).
+On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`.
+
+Keep the development server running in one terminal:
 
 ```sh
 npm run start -- --port 3030
+```
+
+Run checks in a second terminal:
+
+```sh
 npm run test:content
-npm run test:smoke
+npm run test:topic-styles
+npm run test:topic-code
+npm run test:duplicates
 npm run build
+npm run test:smoke
 ```
 
 The smoke test defaults to `http://127.0.0.1:3030`; set `SLIDES_URL` if using
-another port. It reads the executable design contract above and checks all
+another port. A smoke test against the dev server does not test the built output.
+CI builds the deck, runs `npm run preview` on port 4173 and points the smoke test
+at that production preview. It reads the executable design contract above and checks all
 text roles, heading geometry, logo artwork bounds and slide-number placement
 on desktop and mobile. It also checks text clipping and footer clearance
 at every reveal step, after transitions and terminal responses complete.
