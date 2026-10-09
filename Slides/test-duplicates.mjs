@@ -2,10 +2,16 @@ import assert from 'node:assert/strict'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
-import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = dirname(fileURLToPath(import.meta.url))
+for (const suffix of ['', ':css', ':javascript', ':typescript', ':html', ':scss']) {
+  assert.equal(displayPath(`topics/fixture.vue${suffix}`), 'Slides/topics/fixture.vue')
+  assert.equal(displayPath(join(root, `topics/fixture.vue${suffix}`)), 'Slides/topics/fixture.vue')
+}
+assert.equal(displayPath('fixture.css'), 'Slides/topics/fixture.css')
+
 const reportDirectory = await mkdtemp(join(tmpdir(), 'slides-jscpd-'))
 const executable = resolve(root, 'node_modules/jscpd/run-jscpd.js')
 const result = spawnSync(process.execPath, [
@@ -47,7 +53,8 @@ try {
 }
 
 function displayPath(file) {
-  const relativePath = isAbsolute(file) ? relative(root, file) : file
+  const sourcePath = file.replace(/(\.vue):[^/\\:]+$/i, '$1')
+  const relativePath = isAbsolute(sourcePath) ? relative(root, sourcePath) : sourcePath
   const normalizedPath = relativePath.split(sep).join('/')
   const topicPath = normalizedPath.startsWith('topics/') ? normalizedPath : `topics/${normalizedPath}`
   return `Slides/${topicPath}`

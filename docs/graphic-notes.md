@@ -226,7 +226,8 @@ The slide number is the minor role with a special line-height of 1.
          { "selector": ".as-cli-command", "padding": [4, 8, 4, 8] }
       ],
       "groups": [
-         { "selector": ".as-cli-capability-grid, .tooling-access-grid", "gap": 16 },
+         { "selector": ".as-cli-capability-grid", "rowGap": 16, "columnGap": 16 },
+         { "selector": ".tooling-access-grid", "rowGap": 0, "columnGap": 16 },
          { "selector": ".as-cli-consumer-row, .as-cli-devops-flow", "gap": 24 }
       ],
       "comparisons": [
@@ -336,10 +337,27 @@ against this background.
    Keep a component in `Slides/components/` only when it is intentionally shared
    by multiple topics. Keep component-only behavior in its Vue file; place
    reusable topic logic in that topic's `scripts/` folder.
+- Topic code may import its own topic source/assets, explicitly shared
+   `Slides/components/` and `Slides/scripts/`, or external packages. Imports
+   and re-exports must not cross into another topic or import shared styles.
+   Literal dynamic imports and `require` calls follow the same boundary;
+   computed targets, unresolved aliases and import globs cannot be verified
+   by this guard and must be replaced with explicit imports.
+- Topic Vue styles must be scoped CSS, without global selectors or shared
+   token redefinitions. Script imports, style `src` attributes and literal CSS
+   `@import` paths all follow the same topic boundary. Imported style
+   preprocessors are unsupported; shared stylesheet files are not an allowed
+   import even when placed under shared component or script directories.
 - Shared changes require a coordination PR. Topic PRs may change only the
    matching topic Markdown, topic-owned source, and topic asset directory.
 - `Slides validation` runs `test:topic-styles` to reject unscoped topic rules,
    shared-token redefinitions, and topic styles left in the global stylesheet.
+   It runs `test:topic-code` with Babel, Vue SFC and Markdown parsers to check
+   topic JS/TS, Vue and per-slide Markdown scripts and `src` includes, including
+   imports through shared source files and duplicate bindings/imports. Fenced examples are not
+   executed or checked as code; legal shadowing and `var` redeclarations remain
+   allowed. Embedded negative self-checks run with the guard. This is a static
+   import/style boundary, not a sandbox for runtime DOM or CSS mutations.
    It runs `test:duplicates` with jscpd (minimum 50 tokens and 8 lines, with
    0.85 JavaScript/TypeScript function similarity) and reports detected clones
    as PR file annotations. These checks catch substantial textual/structural

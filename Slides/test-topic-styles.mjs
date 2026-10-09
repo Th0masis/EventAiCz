@@ -9,6 +9,13 @@ import { deck } from './test-content.mjs'
 const root = dirname(fileURLToPath(import.meta.url))
 const topicRoot = resolve(root, 'topics')
 const topicFiles = (await readdir(topicRoot)).filter(filename => filename.endsWith('.md'))
+const sharedStyles = postcss.parse(await readFile(resolve(root, 'style.css'), 'utf8'))
+const sharedTokens = new Set()
+sharedStyles.walkDecls(declaration => {
+  if (declaration.prop.startsWith('--') && declaration.parent.selector === ':root') {
+    sharedTokens.add(declaration.prop)
+  }
+})
 let stylesheets = 0
 
 for (const filename of topicFiles) {
@@ -41,6 +48,13 @@ for (const filename of topicFiles) {
     if (isKeyframeRule(rule)) return
 
     for (const selector of selectorParser().astSync(rule.selector).nodes) {
+      selector.walk(node => {
+        assert.ok(
+          !(node.type === 'tag' && ['html', 'body'].includes(node.value)) &&
+          !(node.type === 'pseudo' && node.value === ':root'),
+          `${topic}: global selector is forbidden: ${selector}`,
+        )
+      })
       const firstCombinator = selector.nodes.findIndex(node => node.type === 'combinator')
       const firstCompound = selector.nodes.slice(0, firstCombinator < 0 ? selector.nodes.length : firstCombinator)
       assert.ok(
@@ -52,13 +66,12 @@ for (const filename of topicFiles) {
 
   stylesheet.walkDecls(declaration => {
     assert.ok(
-      !/^--(?:br-|type-|space-)/.test(declaration.prop),
+      !sharedTokens.has(declaration.prop) && !/^--(?:br-|type-|space-)/.test(declaration.prop),
       `${topic}: topic CSS cannot redefine shared token ${declaration.prop}`,
     )
   })
 }
 
-const sharedStyles = postcss.parse(await readFile(resolve(root, 'style.css'), 'utf8'))
 sharedStyles.walkRules(rule => {
   selectorParser().astSync(rule.selector).walkClasses(className => {
     assert.ok(
