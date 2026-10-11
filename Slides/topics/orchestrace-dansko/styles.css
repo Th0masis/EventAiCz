@@ -1,0 +1,934 @@
+.topic-orchestrace-dansko h1 {
+  margin: 0;
+}
+
+.topic-orchestrace-dansko .kicker,
+.topic-orchestrace-dansko .status-badge {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .loop-compare {
+  margin-top: 28px;
+  gap: 32px;
+}
+
+.topic-orchestrace-dansko.loop-slide h1 { font-size: var(--type-title); }
+
+.topic-orchestrace-dansko .loop-compare p {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .loop-bars span {
+  --text-role: compact;
+  --text-size: var(--type-compact);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .loop-hub-label { font-family: var(--br-font); }
+.topic-orchestrace-dansko .loop-hub-sub { font-size: 12px; }
+.topic-orchestrace-dansko .loop-node text { font-size: 14px; }
+
+.topic-orchestrace-dansko .signal-callout {
+  margin-top: 20px;
+  padding: 12px 16px;
+}
+
+.topic-orchestrace-dansko .signal-callout p {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .vertical-modules-lead,
+.topic-orchestrace-dansko .machine-demo-subtitle,
+.topic-orchestrace-dansko .hmi-testing-subtitle,
+.topic-orchestrace-dansko .mountain-footer {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .kanban-compare {
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.topic-orchestrace-dansko .kanban-panel {
+  min-height: 0;
+  padding: 12px;
+}
+
+.topic-orchestrace-dansko .kanban-panel-head div span,
+.topic-orchestrace-dansko .kanban-columns,
+.topic-orchestrace-dansko .kanban-lane-label,
+.topic-orchestrace-dansko .kanban-result div span,
+.topic-orchestrace-dansko .tdd-loop-label span,
+.topic-orchestrace-dansko .tdd-step span,
+.topic-orchestrace-dansko .vertical-modules-takeaway span {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .kanban-panel-note,
+.topic-orchestrace-dansko .kanban-card,
+.topic-orchestrace-dansko .kanban-result div b,
+.topic-orchestrace-dansko .tdd-step small,
+.topic-orchestrace-dansko .vertical-modules-takeaway strong {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .kanban-card {
+  --text-role: technical;
+  --text-size: var(--type-technical);
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .kanban-columns,
+.topic-orchestrace-dansko .kanban-lane-label {
+  overflow-wrap: anywhere;
+}
+
+.topic-orchestrace-dansko .kanban-lane {
+  min-height: 36px;
+}
+
+.topic-orchestrace-dansko .kanban-cell {
+  min-height: 36px;
+  padding: 3px;
+}
+
+.topic-orchestrace-dansko .kanban-card {
+  min-height: 28px;
+  padding: 3px 4px;
+}
+
+.topic-orchestrace-dansko .kanban-result {
+  min-height: 40px;
+}
+
+.topic-orchestrace-dansko .kanban-contrast span {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .tdd-loop {
+  grid-template-columns: 150px 1fr 24px 1fr 24px 1fr;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+}
+
+.topic-orchestrace-dansko .tdd-step {
+  min-height: 48px;
+  grid-template-columns: 28px 1fr;
+  padding: 6px 8px;
+}
+
+.topic-orchestrace-dansko .tdd-step strong {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .vertical-modules-takeaway {
+  grid-template-columns: 280px 1fr;
+  min-height: 36px;
+  margin-top: 6px;
+}
+
+.topic-orchestrace-dansko .workflow-triad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.topic-orchestrace-dansko .workflow-lane {
+  display: flex;
+  min-height: 360px;
+  flex-direction: column;
+  border-top: 3px solid var(--br-orange);
+}
+
+.topic-orchestrace-dansko .workflow-lane-head {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.topic-orchestrace-dansko .workflow-lane-head span,
+.topic-orchestrace-dansko .workflow-output span,
+.topic-orchestrace-dansko .mountain-statement-label {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .workflow-lane-head strong,
+.topic-orchestrace-dansko .mountain-statement strong {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .workflow-lane p {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  min-height: 72px;
+  margin: 12px 0 0;
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .workflow-lane ol {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 24px;
+  padding-left: 22px;
+}
+
+.topic-orchestrace-dansko .workflow-lane li {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  padding-left: 4px;
+  color: #e0e4e6;
+}
+
+.topic-orchestrace-dansko .workflow-output {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.topic-orchestrace-dansko .workflow-output b {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .machine-demo-subtitle,
+.topic-orchestrace-dansko .hmi-testing-subtitle {
+  max-width: 900px;
+  margin: 12px 0 0;
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .machine-demo-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.topic-orchestrace-dansko .machine-demo-meta > span:first-child {
+  color: var(--br-orange);
+  font: 600 10px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .machine-demo-path {
+  --text-role: technical;
+  --text-size: var(--type-technical);
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+  overflow-wrap: anywhere;
+}
+
+.topic-orchestrace-dansko .machine-demo-machine {
+  width: 100%;
+  margin: 20px auto 0;
+}
+
+.topic-orchestrace-dansko .machine-line {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  padding: 20px 24px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    #202326;
+  background-size: 24px 24px;
+}
+
+.topic-orchestrace-dansko .machine-line-head,
+.topic-orchestrace-dansko .machine-line-footer,
+.topic-orchestrace-dansko .machine-line-stations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topic-orchestrace-dansko .machine-line-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c5cdd1;
+  font: 600 10px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .machine-line-head b,
+.topic-orchestrace-dansko .machine-line-stations b { color: var(--br-orange); }
+
+.topic-orchestrace-dansko .machine-line-stations {
+  width: 58%;
+  margin: 26px auto 0;
+  color: #c5cdd1;
+  font: 600 12px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .machine-line-stations span {
+  display: flex;
+  min-width: 170px;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid var(--br-orange);
+}
+
+.topic-orchestrace-dansko .machine-line-belt {
+  position: relative;
+  height: 112px;
+  margin-top: 10px;
+  border-bottom: 8px solid #68747a;
+  background: linear-gradient(180deg, transparent 72%, rgba(255, 136, 0, 0.1) 72%);
+}
+
+.topic-orchestrace-dansko .machine-line-belt::before {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 1px;
+  background: var(--br-orange);
+  content: '';
+}
+
+.topic-orchestrace-dansko .machine-line-belt i {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 19px;
+  height: 44px;
+  border: 2px solid #b8c0c5;
+  border-radius: 5px 5px 3px 3px;
+  background: linear-gradient(0deg, #d97600 0 35%, transparent 36%);
+  animation: topic-bottle-travel 7s linear infinite;
+  animation-delay: calc(var(--bottle-index) * -0.7s);
+}
+
+.topic-orchestrace-dansko .machine-line-belt i::before {
+  position: absolute;
+  top: -7px;
+  left: 5px;
+  width: 5px;
+  height: 6px;
+  border: 1px solid var(--br-orange);
+  background: var(--br-orange);
+  content: '';
+}
+
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(1) { --bottle-index: 0; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(2) { --bottle-index: 1; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(3) { --bottle-index: 2; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(4) { --bottle-index: 3; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(5) { --bottle-index: 4; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(6) { --bottle-index: 5; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(7) { --bottle-index: 6; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(8) { --bottle-index: 7; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(9) { --bottle-index: 8; }
+.topic-orchestrace-dansko .machine-line-belt i:nth-child(10) { --bottle-index: 9; }
+
+.topic-orchestrace-dansko .machine-line-footer {
+  gap: 16px;
+  padding-top: 14px;
+  color: #c5cdd1;
+  font: 600 10px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .machine-line-footer strong {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  --text-font: var(--br-font);
+  color: var(--white);
+}
+
+.topic-orchestrace-dansko .machine-line-footer small {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .hmi-testing-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-top: 52px;
+}
+
+.topic-orchestrace-dansko .hmi-testing-card {
+  display: grid;
+  min-height: 170px;
+  align-content: space-between;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.topic-orchestrace-dansko .hmi-testing-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .hmi-testing-card-head span {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .hmi-testing-card-head svg { width: 28px; height: 28px; }
+.topic-orchestrace-dansko .hmi-testing-card > div:last-child small {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--br-orange);
+  font: 600 10px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .hmi-testing-card > div:last-child strong {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .hmi-testing-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .hmi-testing-arrow svg { width: 22px; height: 22px; }
+
+.topic-orchestrace-dansko .hmi-testing-takeaway {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 38px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.topic-orchestrace-dansko .hmi-testing-takeaway svg {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .hmi-testing-takeaway strong {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .hmi-testing-examples {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.topic-orchestrace-dansko .hmi-testing-examples span {
+  color: var(--br-orange);
+  font: 600 10px/1.2 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .hmi-testing-examples p {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  margin: 0;
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .mountain-stage {
+  position: absolute !important;
+  top: 196px;
+  right: 70px;
+  bottom: 110px;
+  left: 70px;
+}
+
+.topic-orchestrace-dansko .mountain-visual {
+  --mountain-level-x-start: 136px;
+  --mountain-level-x-step: 95px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 700px;
+}
+
+.topic-orchestrace-dansko .mountain-distant,
+.topic-orchestrace-dansko .mountain-main,
+.topic-orchestrace-dansko .mountain-facet,
+.topic-orchestrace-dansko .mountain-grid {
+  position: absolute;
+  pointer-events: none;
+  clip-path: polygon(0 100%, 14% 72%, 27% 78%, 43% 52%, 57% 64%, 78% 24%, 86% 0, 100% 100%);
+}
+
+.topic-orchestrace-dansko .mountain-distant {
+  right: 0;
+  bottom: 27px;
+  width: 700px;
+  height: 391px;
+  background: rgba(129, 145, 151, 0.11);
+  clip-path: polygon(0 100%, 11% 67%, 24% 76%, 39% 42%, 56% 69%, 72% 31%, 85% 55%, 100% 100%);
+}
+
+.topic-orchestrace-dansko .mountain-main {
+  left: 8px;
+  bottom: 29px;
+  width: 670px;
+  height: 360px;
+  background: linear-gradient(145deg, rgba(61, 77, 84, 0.96), rgba(25, 33, 38, 0.98) 60%, rgba(17, 22, 26, 0.99));
+}
+
+.topic-orchestrace-dansko .mountain-facet {
+  left: 8px;
+  bottom: 29px;
+  width: 670px;
+  height: 360px;
+  background: linear-gradient(135deg, rgba(114, 151, 157, 0.22), rgba(52, 80, 87, 0.08) 54%, rgba(255, 122, 0, 0.11));
+  clip-path: polygon(43% 52%, 57% 64%, 78% 24%, 86% 0, 100% 100%, 48% 100%);
+}
+
+.topic-orchestrace-dansko .mountain-grid {
+  left: 8px;
+  bottom: 29px;
+  width: 670px;
+  height: 360px;
+  background: repeating-linear-gradient(135deg, transparent 0 28px, rgba(255, 255, 255, 0.07) 29px 30px, transparent 31px 58px);
+  opacity: 0.5;
+}
+
+.topic-orchestrace-dansko .mountain-trail {
+  position: absolute;
+  left: 8px;
+  bottom: 32px;
+  z-index: 2;
+  width: 650px;
+  height: 355px;
+  background: var(--br-orange);
+  clip-path: polygon(4.3% 95.8%, 12.3% 93.5%, 16% 86.2%, 23.1% 83.4%, 34.9% 76.3%, 41.8% 69.9%, 53.7% 59.7%, 60.6% 54.9%, 72.5% 44.5%, 79.2% 37.7%, 89.5% 23.7%, 94.5% 7.6%, 93.2% 6.5%, 89% 22%, 78.8% 36.6%, 72% 43%, 60.2% 53.2%, 53.2% 57.5%, 41.4% 67.9%, 34.5% 74.4%, 22.8% 81.4%, 16% 84%, 12% 91.5%, 4.3% 93.5%);
+  filter: drop-shadow(0 0 7px rgba(255, 122, 0, 0.22));
+}
+
+.topic-orchestrace-dansko .mountain-origin {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  width: 102px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.topic-orchestrace-dansko .mountain-origin svg {
+  width: 43px;
+  height: 43px;
+  margin: 0 0 3px 8px;
+  color: #d7dfe2;
+}
+
+.topic-orchestrace-dansko .mountain-origin strong,
+.topic-orchestrace-dansko .mountain-origin small,
+.topic-orchestrace-dansko .mountain-checkpoint-label small,
+.topic-orchestrace-dansko .mountain-summit-copy em,
+.topic-orchestrace-dansko .mountain-statement-label,
+.topic-orchestrace-dansko .mountain-footer span,
+.topic-orchestrace-dansko .mountain-footer b {
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .mountain-origin strong {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .mountain-origin small,
+.topic-orchestrace-dansko .mountain-checkpoint-label small,
+.topic-orchestrace-dansko .mountain-summit-copy em {
+  --text-role: technical;
+  --text-size: var(--type-technical);
+  --text-leading: 1.35;
+  color: #c5cdd1;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.topic-orchestrace-dansko .mountain-checkpoint {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  width: 150px;
+  align-items: center;
+  gap: 7px;
+  transform: translateY(-30px) translateX(-90px);
+}
+
+.topic-orchestrace-dansko .checkpoint-git { top: 346px; left: var(--mountain-level-x-start); color: #a7b1b5; }
+.topic-orchestrace-dansko .checkpoint-build { top: 299px; left: calc(var(--mountain-level-x-start) + var(--mountain-level-x-step)); color: var(--flow-blue); }
+.topic-orchestrace-dansko .checkpoint-test { top: 246px; left: calc(var(--mountain-level-x-start) + (var(--mountain-level-x-step) * 2)); color: var(--flow-cyan); }
+.topic-orchestrace-dansko .checkpoint-evidence { top: 184px; left: calc(var(--mountain-level-x-start) + (var(--mountain-level-x-step) * 3)); color: var(--flow-green); }
+.topic-orchestrace-dansko .checkpoint-release { top: 130px; left: calc(var(--mountain-level-x-start) + (var(--mountain-level-x-step) * 4)); color: var(--br-orange); }
+
+.topic-orchestrace-dansko .mountain-checkpoint-marker {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+  display: grid;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  color: inherit;
+  background: rgba(21, 23, 25, 0.94);
+  font: 600 14px/1 'IBM Plex Mono', monospace;
+}
+
+.topic-orchestrace-dansko .mountain-checkpoint-label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.topic-orchestrace-dansko .mountain-checkpoint-label strong {
+  --text-role: compact;
+  --text-size: var(--type-compact);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+  color: currentColor;
+}
+
+.topic-orchestrace-dansko .mountain-summit {
+  --mountain-summit-x: 15px;
+  --mountain-summit-y: -30px;
+  position: absolute;
+  top: 27px;
+  left: 566px;
+  z-index: 5;
+  width: 180px;
+  height: 113px;
+  transform: translate(var(--mountain-summit-x), var(--mountain-summit-y));
+}
+
+.topic-orchestrace-dansko .mountain-flag-pole {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 75px;
+  background: #ced7da;
+}
+
+.topic-orchestrace-dansko .mountain-flag-pennant {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 48px;
+  height: 22px;
+  background: var(--br-orange);
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+}
+
+.topic-orchestrace-dansko .mountain-summit-copy {
+  position: absolute;
+  top: 29px;
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.topic-orchestrace-dansko .mountain-summit-copy strong {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+  color: var(--white);
+}
+
+.topic-orchestrace-dansko .mountain-summit-copy em {
+  font-style: normal;
+}
+
+.topic-orchestrace-dansko .mountain-statement {
+  position: absolute;
+  top: 49px;
+  right: 0;
+  width: 385px;
+}
+
+.topic-orchestrace-dansko .mountain-statement-label {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  display: block;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .mountain-statement strong {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  display: block;
+  margin-top: 18px;
+  color: var(--white);
+}
+
+.topic-orchestrace-dansko .mountain-statement b {
+  display: block;
+  margin-top: 23px;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .mountain-subtitle {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  margin-top: 12px;
+}
+
+.topic-orchestrace-dansko .mountain-footer {
+  position: absolute !important;
+  bottom: 48px;
+  left: 70px;
+  display: flex;
+  max-width: 790px;
+  flex-direction: column;
+  gap: 4px;
+  color: #aeb6bb;
+  line-height: 1.2;
+}
+
+.topic-orchestrace-dansko .mountain-footer span {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .mountain-footer b {
+  --text-role: technical;
+  --text-size: var(--type-technical);
+  --text-leading: 1.35;
+  color: #c5cdd1;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .topic-orchestrace-dansko .mountain-stage {
+    top: 151px;
+    right: 70px;
+    bottom: 110px;
+    left: 70px;
+  }
+
+  .topic-orchestrace-dansko .mountain-visual {
+    width: 63%;
+    transform: scale(0.62);
+    transform-origin: bottom left;
+  }
+
+  .topic-orchestrace-dansko .mountain-statement {
+    top: 23px;
+    width: 39%;
+  }
+
+  .topic-orchestrace-dansko .mountain-statement strong { margin-top: 12px; }
+  .topic-orchestrace-dansko .mountain-statement b { margin-top: 15px; }
+
+  .topic-orchestrace-dansko .mountain-footer {
+    right: 70px;
+    bottom: 48px;
+    left: 70px;
+    max-width: none;
+  }
+
+  .topic-orchestrace-dansko .workflow-triad {
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .topic-orchestrace-dansko .workflow-lane { min-height: 0; }
+
+  .topic-orchestrace-dansko .kanban-compare {
+    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .topic-orchestrace-dansko .kanban-columns,
+  .topic-orchestrace-dansko .kanban-lane {
+    grid-template-columns: 62px repeat(3, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .topic-orchestrace-dansko .hmi-testing-flow {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'user'
+      'arrow-one'
+      'hmi'
+      'arrow-two'
+      'plc'
+      'arrow-three'
+      'result';
+    gap: 5px;
+    margin-top: 18px;
+  }
+
+  .topic-orchestrace-dansko .hmi-testing-card {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    min-height: 70px;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+  }
+
+  .topic-orchestrace-dansko .hmi-testing-card.is-user { grid-area: user; }
+  .topic-orchestrace-dansko .hmi-testing-card.is-hmi { grid-area: hmi; }
+  .topic-orchestrace-dansko .hmi-testing-card.is-plc { grid-area: plc; }
+  .topic-orchestrace-dansko .hmi-testing-card.is-result { grid-area: result; }
+  .topic-orchestrace-dansko .hmi-testing-card-head {
+    height: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .topic-orchestrace-dansko .hmi-testing-card > div:last-child {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topic-orchestrace-dansko .hmi-testing-card small { margin-top: 0; }
+  .topic-orchestrace-dansko .hmi-testing-card strong { margin-top: 0; }
+  .topic-orchestrace-dansko .hmi-testing-arrow { min-height: 18px; }
+  .topic-orchestrace-dansko .hmi-testing-arrow:nth-of-type(1) { grid-area: arrow-one; }
+  .topic-orchestrace-dansko .hmi-testing-arrow:nth-of-type(2) { grid-area: arrow-two; }
+  .topic-orchestrace-dansko .hmi-testing-arrow:nth-of-type(3) { grid-area: arrow-three; }
+  .topic-orchestrace-dansko .hmi-testing-arrow svg { transform: rotate(90deg); }
+  .topic-orchestrace-dansko .hmi-testing-takeaway {
+    min-height: 62px;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 10px 13px;
+  }
+  .topic-orchestrace-dansko .hmi-testing-takeaway svg { width: 23px; height: 23px; }
+  .topic-orchestrace-dansko .hmi-testing-examples {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .topic-orchestrace-dansko .machine-line-stations { width: 100%; gap: 8px; }
+  .topic-orchestrace-dansko .machine-line-stations span { min-width: 0; flex: 1; }
+  .topic-orchestrace-dansko .machine-line-footer > span:last-child { display: none; }
+}
+
+@keyframes topic-bottle-travel {
+  from { transform: translateX(-24px); }
+  to { transform: translateX(calc(100cqw - 180px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-orchestrace-dansko.loop-slide .signal-pulse,
+  .topic-orchestrace-dansko.machine-demo-slide .bottle,
+  .topic-orchestrace-dansko.machine-demo-slide .bottle-liquid,
+  .topic-orchestrace-dansko.machine-demo-slide .bottle-cap,
+  .topic-orchestrace-dansko.machine-demo-slide .machine-line-belt i {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .topic-orchestrace-dansko .mountain-stage {
+    top: 137px;
+    right: 70px;
+    bottom: 110px;
+    left: 70px;
+  }
+
+  .topic-orchestrace-dansko .mountain-statement {
+    top: 0;
+    right: auto;
+    left: 0;
+    width: 100%;
+  }
+
+  .topic-orchestrace-dansko .mountain-statement strong { margin-top: 8px; }
+  .topic-orchestrace-dansko .mountain-statement b { margin-top: 10px; }
+
+  .topic-orchestrace-dansko .mountain-visual {
+    top: 97px;
+    width: 100%;
+    transform: scale(0.48);
+  }
+
+  .topic-orchestrace-dansko .mountain-footer { bottom: 48px; }
+  .topic-orchestrace-dansko .mountain-footer b { max-width: 310px; }
+}
