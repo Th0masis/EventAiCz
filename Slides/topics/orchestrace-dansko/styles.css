@@ -605,7 +605,7 @@
   --text-role: technical;
   --text-size: var(--type-technical);
   --text-leading: 1.35;
-  color: #c5cdd1;
+  color: #ffffff;
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
@@ -618,7 +618,7 @@
   width: 150px;
   align-items: center;
   gap: 7px;
-  transform: translateY(-30px) translateX(-90px);
+  transform: translateY(-82px) translateX(-90px);
 }
 
 .topic-orchestrace-dansko .checkpoint-git { top: 346px; left: var(--mountain-level-x-start); color: #a7b1b5; }
@@ -660,7 +660,7 @@
 
 .topic-orchestrace-dansko .mountain-summit {
   --mountain-summit-x: 15px;
-  --mountain-summit-y: -30px;
+  --mountain-summit-y: -60px;
   position: absolute;
   top: 27px;
   left: 566px;
