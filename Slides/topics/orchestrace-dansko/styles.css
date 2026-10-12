@@ -183,6 +183,7 @@
   padding-top: 16px;
 }
 
+.topic-orchestrace-dansko .machine-demo-meta > span:first-child,
 .topic-orchestrace-dansko .workflow-lane-head span,
 .topic-orchestrace-dansko .workflow-output span,
 .topic-orchestrace-dansko .mountain-statement-label {
@@ -256,14 +257,6 @@
   margin-top: 18px;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.topic-orchestrace-dansko .machine-demo-meta > span:first-child {
-  --text-role: minor;
-  --text-size: var(--type-minor);
-  --text-leading: 1.2;
-  --text-font: 'IBM Plex Mono', monospace;
-  color: var(--br-orange);
 }
 
 .topic-orchestrace-dansko .machine-demo-path {
