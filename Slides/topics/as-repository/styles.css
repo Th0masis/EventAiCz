@@ -1,0 +1,291 @@
+.topic-as-repository h2 {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  margin: 0 0 var(--space-xl);
+  font-weight: 700;
+}
+
+.topic-as-repository h3 {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  margin: 0;
+  font-weight: 700;
+}
+
+.topic-as-repository p {
+  margin: 0;
+}
+
+.topic-as-repository code {
+  --text-role: code;
+  --text-size: 12px;
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: none;
+  color: var(--ink);
+}
+
+.topic-as-repository .repo-lead {
+  margin-top: var(--space-xl);
+  color: var(--steel);
+  opacity: 1;
+}
+
+.topic-as-repository .repo-columns,
+.topic-as-repository .repo-three-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-lines {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.topic-as-repository .repo-lines > div {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+}
+
+.topic-as-repository .repo-lines svg,
+.topic-as-repository .repo-glossary svg {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  color: var(--br-orange);
+}
+
+.topic-as-repository .repo-takeaway {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-takeaway strong {
+  color: var(--ink);
+}
+
+.topic-as-repository .repo-note,
+.topic-as-repository .repo-glossary > div > span {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  margin-top: var(--space-md);
+  color: var(--steel);
+}
+
+.topic-as-repository .repo-glossary {
+  display: grid;
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-glossary > div {
+  display: grid;
+  grid-template-columns: 32px 160px 1fr 150px;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-glossary > div > span {
+  margin: 0;
+}
+
+.topic-as-repository .repo-document {
+  padding: var(--space-xl);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.topic-as-repository .repo-document code {
+  display: block;
+  margin-top: var(--space-md);
+}
+
+.topic-as-repository .repo-document ul {
+  margin: var(--space-xl) 0 0;
+  padding-left: var(--space-xl);
+}
+
+.topic-as-repository .repo-document li + li {
+  margin-top: var(--space-md);
+}
+
+.topic-as-repository .repo-skill-matches {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.topic-as-repository .repo-skill-matches code {
+  display: block;
+  margin-top: var(--space-sm);
+}
+
+.topic-as-repository .repo-process {
+  display: grid;
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-process > div {
+  display: grid;
+  grid-template-columns: 40px 250px 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-step {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  color: var(--br-orange);
+  font-weight: 700;
+}
+
+.topic-as-repository .repo-catalog {
+  display: grid;
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-catalog > div {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--space-xl);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-package-line {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-package-line p {
+  margin-top: var(--space-md);
+}
+
+.topic-as-repository .repo-three-columns {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.topic-as-repository .repo-three-columns > section > svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-lg);
+  color: var(--br-orange);
+}
+
+.topic-as-repository .repo-three-columns h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.topic-as-repository .repo-three-columns p {
+  margin-top: var(--space-md);
+}
+
+.topic-as-repository .repo-history {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-history > p {
+  margin-top: var(--space-md);
+}
+
+.topic-as-repository .repo-example {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-example > div {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-content: start;
+  gap: var(--space-md) var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-example p {
+  grid-column: 2;
+}
+
+.topic-as-repository .repo-plugin-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-repository .repo-plugin-card {
+  min-width: 0;
+  padding: var(--space-xl);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.topic-as-repository .repo-plugin-card[open] {
+  border-color: var(--br-orange);
+}
+
+.topic-as-repository .repo-plugin-card summary {
+  cursor: pointer;
+}
+
+.topic-as-repository .repo-plugin-card summary::marker {
+  color: var(--br-orange);
+}
+
+.topic-as-repository .repo-plugin-card summary:focus-visible {
+  outline: 3px solid var(--br-orange);
+  outline-offset: 4px;
+}
+
+.topic-as-repository .repo-plugin-card summary strong,
+.topic-as-repository .repo-plugin-card summary span {
+  display: block;
+}
+
+.topic-as-repository .repo-plugin-card summary strong {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+}
+
+.topic-as-repository .repo-plugin-card summary span {
+  margin-top: var(--space-sm);
+}
+
+.topic-as-repository .repo-plugin-body {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+@media (max-width: 700px) {
+  .topic-as-repository .repo-plugin-cards {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+
+  .topic-as-repository .repo-plugin-card {
+    padding: var(--space-lg);
+  }
+}
