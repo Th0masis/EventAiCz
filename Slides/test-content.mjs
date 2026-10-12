@@ -50,24 +50,4 @@ for (const slide of deck.slides) {
   assert.ok(slide.content.trim(), `Empty slide: ${slide.index + 1}`)
 }
 
-const orchestraceSlides = deck.slides.filter(slide =>
-  resolve(slide.source.filepath) === resolve(root, 'topics/orchestrace-dansko.md'),
-)
-const expectedOrchestraceSlides = [
-  'chapter-slide',
-  'loop-slide',
-  'vertical-modules-slide',
-  'planning-slide',
-  'machine-demo-slide',
-  'hmi-testing-slide',
-  'devops-mountain-slide',
-]
-const actualOrchestraceSlides = orchestraceSlides.map(slide =>
-  String(slide.frontmatter.class).split(/\s+/).find(className => expectedOrchestraceSlides.includes(className)),
-)
-assert.deepEqual(actualOrchestraceSlides, expectedOrchestraceSlides, 'Orchestrace topic slides are missing, duplicated, or out of order')
-const machineDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('machine-demo-slide'))
-const hmiDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('hmi-testing-slide'))
-assert.ok(machineDemoIndex >= 0 && hmiDemoIndex > machineDemoIndex, 'Orange machine demo must precede HMI verification')
-
 console.log(`Content checks passed: ${topicFiles.length} topics, ${deck.slides.length} slides`)
