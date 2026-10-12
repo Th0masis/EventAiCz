@@ -164,7 +164,8 @@ accent. Do not communicate status by color alone.
 
 The smoke test reads this JSON directly. `brand` means the ABBvoice stack;
 `mono` means IBM Plex Mono. Role values are size, line-height multiplier and font.
-The slide number is the minor role with a special line-height of 1.
+Slide numbers use the minor role with a dedicated 14px size, 700 weight and
+line-height of 1.
 
 ```json
 {
@@ -192,6 +193,8 @@ The slide number is the minor role with a special line-height of 1.
       "logoWidth": 39,
       "logoRight": 35,
       "logoBottom": 22,
+      "numberSize": 14,
+      "numberWeight": 700,
       "coverLogoWidth": 68,
       "coverLogoBottom": 39,
       "numberRight": 120,
@@ -289,7 +292,7 @@ The white SVG has transparent margins. Its CSS image box is 60.1px wide at
 right 24.49px/bottom 11.64px, with automatic height. The visible artwork is
 approximately 39 x 20.71px at right 35px/bottom 22px. Its small height difference
 from the light logo is intentional: preserve each original's proportions.
-Slide numbers use `.slide-id`: right 120px, bottom 25px, 10px IBM Plex Mono.
+Slide numbers use `.slide-id`: right 120px, bottom 25px, 14px bold IBM Plex Mono.
 
 ### Cover And Chapter Openers
 
