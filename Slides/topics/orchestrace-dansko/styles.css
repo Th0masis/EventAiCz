@@ -31,9 +31,24 @@
   --text-font: var(--br-font);
 }
 
-.topic-orchestrace-dansko .loop-hub-label { font-family: var(--br-font); }
-.topic-orchestrace-dansko .loop-hub-sub { font-size: 12px; }
-.topic-orchestrace-dansko .loop-node text { font-size: 14px; }
+.topic-orchestrace-dansko .loop-hub-label {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  --text-font: var(--br-font);
+  font-size: var(--text-size);
+  font-family: var(--text-font);
+}
+
+.topic-orchestrace-dansko .loop-hub-sub,
+.topic-orchestrace-dansko .loop-node text {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+  font-size: var(--text-size);
+  font-family: var(--text-font);
+}
 
 .topic-orchestrace-dansko .signal-callout {
   margin-top: 20px;
@@ -90,13 +105,6 @@
   --text-size: var(--type-note);
   --text-leading: 1.35;
   --text-font: var(--br-font);
-}
-
-.topic-orchestrace-dansko .kanban-card {
-  --text-role: technical;
-  --text-size: var(--type-technical);
-  --text-leading: 1.35;
-  --text-font: 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .kanban-columns,
@@ -251,8 +259,11 @@
 }
 
 .topic-orchestrace-dansko .machine-demo-meta > span:first-child {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
   color: var(--br-orange);
-  font: 600 10px/1.2 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .machine-demo-path {
@@ -291,20 +302,26 @@
 }
 
 .topic-orchestrace-dansko .machine-line-head {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   color: #c5cdd1;
-  font: 600 10px/1.2 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .machine-line-head b,
 .topic-orchestrace-dansko .machine-line-stations b { color: var(--br-orange); }
 
 .topic-orchestrace-dansko .machine-line-stations {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
   width: 58%;
   margin: 26px auto 0;
   color: #c5cdd1;
-  font: 600 12px/1.2 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .machine-line-stations span {
@@ -425,10 +442,13 @@
 
 .topic-orchestrace-dansko .hmi-testing-card-head svg { width: 28px; height: 28px; }
 .topic-orchestrace-dansko .hmi-testing-card > div:last-child small {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
   display: block;
   margin-bottom: 8px;
   color: var(--br-orange);
-  font: 600 10px/1.2 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .hmi-testing-card > div:last-child strong {
@@ -477,8 +497,11 @@
 }
 
 .topic-orchestrace-dansko .hmi-testing-examples span {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
   color: var(--br-orange);
-  font: 600 10px/1.2 'IBM Plex Mono', monospace;
 }
 
 .topic-orchestrace-dansko .hmi-testing-examples p {
@@ -583,12 +606,8 @@
 }
 
 .topic-orchestrace-dansko .mountain-origin strong,
-.topic-orchestrace-dansko .mountain-origin small,
-.topic-orchestrace-dansko .mountain-checkpoint-label small,
-.topic-orchestrace-dansko .mountain-summit-copy em,
 .topic-orchestrace-dansko .mountain-statement-label,
-.topic-orchestrace-dansko .mountain-footer span,
-.topic-orchestrace-dansko .mountain-footer b {
+.topic-orchestrace-dansko .mountain-footer span {
   --text-font: 'IBM Plex Mono', monospace;
 }
 
@@ -602,9 +621,10 @@
 .topic-orchestrace-dansko .mountain-origin small,
 .topic-orchestrace-dansko .mountain-checkpoint-label small,
 .topic-orchestrace-dansko .mountain-summit-copy em {
-  --text-role: technical;
-  --text-size: var(--type-technical);
+  --text-role: note;
+  --text-size: var(--type-note);
   --text-leading: 1.35;
+  --text-font: var(--br-font);
   color: #ffffff;
   white-space: normal;
   word-break: normal;
@@ -768,9 +788,10 @@
 }
 
 .topic-orchestrace-dansko .mountain-footer b {
-  --text-role: technical;
-  --text-size: var(--type-technical);
+  --text-role: note;
+  --text-size: var(--type-note);
   --text-leading: 1.35;
+  --text-font: var(--br-font);
   color: #c5cdd1;
   font-weight: 500;
 }
