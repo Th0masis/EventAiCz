@@ -56,10 +56,12 @@ import './as-repository/styles.css'
 <!--
 3 minuty. Neříkáme, že LLM nevědí o B&R vůbec nic. Nemůžeme se ale spolehnout na úplnost,
 aktuálnost a správnost jejich znalostí konkrétních verzí a proprietárních detailů.
-Například název vlastnosti widgetu může vypadat věrohodně, přesto nemusí existovat.
-Model navíc bez poskytnutého kontextu nezná naše konvence, cílovou konfiguraci a závislosti.
+[CLICK]
+Konkrétní vlastnost widgetu může vypadat věrohodně, přesto nemusí existovat. Model navíc
+bez poskytnutého kontextu nezná naše konvence, cílovou konfiguraci a závislosti.
 Potřebujeme informace z projektu, dokumentaci a metadata odpovídající instalované verzi.
-Přechod: Jaké části tohoto kontextu vlastně dodáváme?
+[CLICK]
+Věrohodný text ještě není funkční řešení. Přechod: Jaké části tohoto kontextu vlastně dodáváme?
 -->
 
 ---
@@ -83,10 +85,18 @@ import './as-repository/styles.css'
 
 <!--
 2 minuty. Pět pojmů, pět různých úloh, nikoli pět různých modelů.
+[CLICK]
+Skill dodává postup pro konkrétní typ úkolu.
+[CLICK]
+Agent určuje roli a používá nástroje.
+[CLICK]
+Plugin balí obsah pro instalaci a aktualizace.
+[CLICK]
+CLI a MCP jsou rozhraní k operacím a zdrojům.
 CLI je příkazový nástroj. MCP je protokol pro zpřístupnění nástrojů a zdrojů agentovi;
 není automaticky databází znalostí a může zpřístupnit i akční nástroje.
 Zde znalostní MCP používáme především jako přístup k dokumentaci.
-Plugin balí obsah pro instalaci a aktualizace. Samotná instalace není důkaz, že ho agent načetl.
+Samotná instalace pluginu není důkaz, že ho agent načetl.
 -->
 
 ---
@@ -128,7 +138,11 @@ import './as-repository/styles.css'
 
 <!--
 2 minuty. Projektová šablona repozitáře obsahuje AGENTS.md. Je to soubor instrukcí,
-nikoli definice dalšího agenta. Zde uvedené body jsou zkrácené příklady z tohoto základu
+nikoli definice dalšího agenta.
+
+[CLICK]
+
+Zde uvedené body jsou zkrácené příklady z tohoto základu
 a příklad firemní konvence. Není to doslovný výřez ani univerzální kompletní soubor.
 Načítání a rozsah instrukcí se řídí použitým agentním prostředím.
 Instrukce pomáhají směrovat chování, ale nevynucují oprávnění ani bezpečnost.
@@ -168,6 +182,8 @@ import './as-repository/styles.css'
 
 <!--
 3 minuty. SKILL.md je vstupní bod. Popis určuje relevantní úlohy, samotný text vede práci.
+[CLICK]
+Příklady ukazují výběr skillu podle zadání: structured-text, mappview a mapptrak.
 Podrobnější reference se načítají podle potřeby. V repozitáři jsou tyto engineering skills
 Markdown soubory, nikoli binární nástroje. Obecně mohou jiné skills přibalovat i skripty.
 Skill model nepřetrénuje. Dodává mu kontext pro aktuální práci.
@@ -199,7 +215,14 @@ import './as-repository/styles.css'
 
 <!--
 2 minuty. Definice AS-Project-Agent v lokálním pluginu určuje společný workflow a směrování.
-Nejdříve projektové instrukce, potom skill vlastníka změny a dokumentace pro danou verzi.
+Krok 1 je již viditelný. Nejdříve projektové instrukce, potom skill vlastníka změny
+a dokumentace pro danou verzi.
+[CLICK]
+Agent vybere postup podle technologie a vlastnictví souborů.
+[CLICK]
+Použije dokumentaci, metadata a podporované operace.
+[CLICK]
+Ověří výsledek buildem, testy a lidským review.
 Agent je model pracující v prostředí s kontextem a nástroji; custom agent přidává roli a postup.
 Subagent znamená delegovanou část úlohy. Není to synonymum skillu a není nutný pro každou změnu.
 Definice role sama nezaručuje, že budou všechny kroky dodrženy. Potřebujeme skutečné výsledky kontrol.
@@ -233,6 +256,8 @@ import './as-repository/styles.css'
 2 minuty. Toto jsou skupiny skutečného obsahu lokálně instalovaného repozitáře,
 ne příslib, že každý katalog nebo funkce je kompletní a funguje se všemi verzemi.
 Nemusíme číst všechny názvy. Smyslem je vybrat vlastnictví konkrétní úlohy.
+[CLICK]
+Spodní část ukazuje dva různé balíčky: plugin as-skills a projektovou šablonu.
 Plugin as-skills zahrnuje také AS-Project-Agent a branch-code-review.
 Projektová šablona obsahuje AGENTS.md, MCP konfiguraci a Git soubory.
 Plugin používám lokálně. Přístupnost repozitáře pro zákazníky musí být před distribucí ověřena;
@@ -270,8 +295,10 @@ import './as-repository/styles.css'
 </div>
 
 <!--
-3 minuty. as-skills předává agentovi znalosti podle typu práce, nikoli celý katalog
-při každém zadání. HMI plugin je zaměřený na návrh, převod a ověření vizualizace.
+3 minuty. Karty se rozbalují myší na jejich názvu, nikoli krokem prezentace.
+as-skills předává agentovi znalosti podle typu práce, nikoli celý katalog
+při každém zadání.
+HMI plugin je zaměřený na návrh, převod a ověření vizualizace.
 Vysvětlit rozdíl vůči mappview skillu, který vlastní ruční editaci mappView projektu.
 Read-only runtime assessment není interaktivní HMI test ani řízení stroje.
 -->
@@ -318,13 +345,24 @@ import './as-repository/styles.css'
 3 minuty. Toto jen propojuje předchozí bloky, neopakujeme jejich detailní výklad.
 Skill se opírá o CLI a znalostní zdroje. Dokumentaci ověřujeme už před implementací,
 nikoli až jako poslední záchranu při selhání.
+
+[CLICK]
+
+as-cli provádí podporované operace.
 Podle kolegy as-cli používá přímo AS API pro podporované operace; část zjišťování
 metadat pracuje také s instalací. Nejde o náhradu Automation Studia ani o AI agenta.
+
+[CLICK]
+
+Znalostní MCP vyhledává dokumentaci.
+MCP je obecný protokol; v tomto schématu ukazujeme jeho znalostní použití.
+
+[CLICK]
+
 README pluginu as-skills označuje staré as-script-task-skills za deprecated,
 ale root README ještě obsahuje starší doporučení instalovat oba pluginy.
 Neříkáme, že starý plugin už byl odstraněn. Používáme nový směr, ale ověřujeme konkrétní verzi.
 Automatizovaná migrace mapp balíčků je směr rozvoje, nikoli zde potvrzená kompletní funkce.
-MCP je obecný protokol; v tomto schématu ukazujeme jeho znalostní použití.
 -->
 
 ---
@@ -352,12 +390,23 @@ import './as-repository/styles.css'
 
 <!--
 4 minuty. Celý příklad držíme malý: proměnná a stránka už existují, nepřidáváme nové řízení stroje.
+[CLICK]
+
 Nejprve zjistit přesný název proměnné, node alias, cílovou konfiguraci a architekturu HMI.
+
+[CLICK]
+
 MappView skill rozlišuje znovupoužitelné vizuální definice v Logical a runtime konfiguraci
 a wiring v Physical. Konkrétní vlastnosti widgetu se zjišťují z instalace, nevymýšlejí.
 Pokud proměnná není vystavena nebo je potřeba měnit přístupová práva, práci vlastní
 opcua-connectivity. HMI samo nevlastní PLC data a skrytý widget není serverové oprávnění.
+
+[CLICK]
+
 Navázat přesná ID, obsah, stránku a registraci podle existujícího projektu.
+
+[CLICK]
+
 Build ověřuje část konzistence. V testovacím runtime ověřit očekávanou hodnotu,
 řízenou změnu hodnoty a aktualizaci zobrazení; podle rizika také výpadek spojení.
 Nezapisovat do skutečného stroje kvůli prezentačnímu příkladu.
@@ -403,6 +452,10 @@ Nevkládáme procenta produktivity. Důležitý je menší počet oprav, kratš�
 a konkrétní výsledky kontrol na vlastní ohraničené úloze.
 Znalosti a pravidla se dají sdílet, verzovat a aktualizovat bez přetrénování modelu.
 To neznamená stejné výstupy při každém běhu ani úplnou nezávislost na agentním prostředí.
+
+[CLICK]
+
+Build nenahrazuje test chování, instrukce nejsou pojistkou a review zůstává lidem.
 Skills i instrukce mohou být zastaralé nebo nesprávné; potřebují údržbu a review.
 Oprávnění, testovací brány, ochrana zákaznických dat a schvalování nasazení jsou samostatné kontroly.
 Body 1 až 10 představují 25 minut z plánovaného 30min bloku.
