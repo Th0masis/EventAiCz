@@ -23,6 +23,7 @@
   --type-caption: 14px;
   --type-note: 12px;
   --type-minor: 10px;
+  --type-slide-number: 14px;
   --type-compact: 14px;
   --type-technical: 10px;
   --space-xs: 4px;
@@ -1272,7 +1273,7 @@ ul {
   right: 66px;
   bottom: 25px;
   color: var(--muted);
-  font: 500 10px/1 'IBM Plex Mono', monospace;
+  font: 700 14px/1 'IBM Plex Mono', monospace;
 }
 
 .dark-slide {
@@ -4295,7 +4296,12 @@ h1 { width: auto; max-width: 100%; font-size: 58px; }
 
 .slidev-layout.cover h1 { max-width: 1140px; }
 
-.slidev-layout .slide-id { --text-leading: 1; }
+.slidev-layout .slide-id {
+  --text-role: minor;
+  --text-size: var(--type-slide-number);
+  --text-leading: 1;
+  --text-font: 'IBM Plex Mono', monospace;
+}
 
 .slidev-layout {
   container-type: inline-size;

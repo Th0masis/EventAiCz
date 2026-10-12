@@ -46,13 +46,17 @@ async function checkDesign(layout, label) {
       const style = getComputedStyle(node)
       const role = style.getPropertyValue('--text-role').trim()
       const expected = rules.typography[role]
+      const slideNumber = node.matches('.slide-id')
+      const expectedSize = slideNumber ? rules.footer.numberSize : expected?.[0]
+      const expectedLineHeight = slideNumber ? rules.footer.numberSize : expected?.[0] * expected?.[1]
       const name = `${node.localName}.${[...node.classList].join('.')} (${node.textContent.trim().slice(0, 35)})`
       check(Boolean(expected), `Unrecognized text role: ${name}`)
       if (!expected) continue
-      check(near(parseFloat(style.fontSize), expected[0]), `Wrong ${role} size: ${name}`)
-      check(near(parseFloat(style.lineHeight), expected[0] * (node.matches('.slide-id') ? 1 : expected[1])), `Wrong ${role} line-height: ${name}`)
+      check(near(parseFloat(style.fontSize), expectedSize), `Wrong ${role} size: ${name}`)
+      check(near(parseFloat(style.lineHeight), expectedLineHeight), `Wrong ${role} line-height: ${name}`)
       check(style.fontFamily.includes(expected[2] === 'mono' ? 'IBM Plex Mono' : 'ABBvoice'), `Wrong ${role} font: ${name}`)
       check(['normal', '0px'].includes(style.letterSpacing), `Wrong letter spacing: ${name}`)
+      if (slideNumber) check(style.fontWeight === String(rules.footer.numberWeight), 'Wrong slide-number weight')
       if (!node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue
       const rect = bounds(node)
       let scrollable = null
