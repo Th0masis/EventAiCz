@@ -10,6 +10,12 @@ const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
+let activePage
+let activeViewport
+let activeSlide = 1
+let activeClick = 0
+
+const context = () => `${activeViewport.name} (${activeViewport.width}x${activeViewport.height}), slide ${activeSlide}, click ${activeClick}`
 
 async function checkDesign(layout, label) {
   const errors = await layout.evaluate(async (element, rules) => {
@@ -247,24 +253,35 @@ try {
     { name: 'desktop', width: 1280, height: 720 },
     { name: 'mobile', width: 390, height: 844 },
   ]) {
+    if (activePage) await activePage.close()
+    activePage = undefined
+    activeViewport = viewport
+    activeSlide = 1
+    activeClick = 0
     const output = new URL(`${viewport.name}/`, screenshotRoot)
     await mkdir(output, { recursive: true })
     const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } })
+    activePage = page
     await page.context().grantPermissions(['screen-wake-lock'])
-    page.on('pageerror', error => failures.push(`${viewport.name}: ${error.message}`))
+    page.on('pageerror', error => failures.push(`${context()}: JavaScript ${error.stack ?? error.message}`))
     page.on('console', message => {
-      if (message.type() === 'error') failures.push(`${viewport.name}: ${message.text()}`)
+      if (message.type() === 'error') failures.push(`${context()}: Console ${message.text()}`)
     })
     page.on('response', response => {
       if (response.status() >= 400 && new URL(response.url()).origin === new URL(baseUrl).origin) {
-        failures.push(`${viewport.name}: HTTP ${response.status()} ${response.url()}`)
+        failures.push(`${context()}: HTTP ${response.status()} ${response.url()}`)
       }
     })
+    page.on('requestfailed', request => failures.push(
+      `${context()}: Request failed ${request.method()} ${request.url()}: ${request.failure()?.errorText}`,
+    ))
 
     await page.goto(`${baseUrl}/1`, { waitUntil: 'domcontentloaded', timeout: 15000 })
 
     for (const slide of deck.slides) {
       const slideNumber = slide.index + 1
+      activeSlide = slideNumber
+      activeClick = 0
       if (slideNumber > 1) {
         await page.goto(`${baseUrl}/${slideNumber}`, { waitUntil: 'domcontentloaded', timeout: 15000 })
       }
@@ -288,6 +305,7 @@ try {
         Math.max(0, ...nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')) || 0)),
       ))
       for (let click = 1; click <= clicks; click++) {
+        activeClick = click
         await page.goto(`${baseUrl}/${slideNumber}?clicks=${click}`, { waitUntil: 'domcontentloaded', timeout: 15000 })
         await layout.waitFor({ state: 'visible', timeout: 15000 })
         await page.waitForFunction(number => {
@@ -308,11 +326,26 @@ try {
       assert.ok(screenshotBounds, `Slide ${slideNumber} has no visible screenshot bounds`)
       await page.screenshot({ path: screenshotPath, clip: screenshotBounds, animations: 'disabled', timeout: 15000 })
     }
-    await page.close()
   }
 
   assert.deepEqual(failures, [], 'Browser runtime, asset or design-contract errors')
   console.log(`Browser smoke and design checks passed: ${deck.slides.length} slides, desktop and mobile screenshots`)
+} catch (error) {
+  console.error(`Smoke test failed: ${activeViewport ? context() : 'browser setup'}`)
+  console.error(`Current URL: ${activePage?.url() ?? '(no page)'}`)
+  console.error('Captured browser, network and design errors:', failures)
+  if (activePage) {
+    const screenshotPath = fileURLToPath(new URL(
+      `${activeViewport.name}/failure-${String(activeSlide).padStart(3, '0')}-click-${activeClick}.png`, screenshotRoot,
+    ))
+    try {
+      await activePage.screenshot({ path: screenshotPath, timeout: 15000 })
+      console.error(`Failure screenshot: ${screenshotPath}`)
+    } catch (screenshotError) {
+      console.error('Could not capture failure screenshot:', screenshotError)
+    }
+  }
+  throw error
 } finally {
   await browser.close()
 }

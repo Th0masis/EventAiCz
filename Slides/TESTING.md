@@ -49,7 +49,24 @@ npm.cmd run test:smoke
 ```
 
 Test projde slidy na desktopovém i mobilním rozlišení a uloží screenshoty do
-`artifacts/slides/`. Používá vývojový server na portu 3030. Pro kontrolu
+`artifacts/slides/`. Při selhání vypíše viewport, slide, klik, aktuální URL
+a dosud zachycené chyby JavaScriptu, konzole, HTTP a neúspěšné síťové požadavky.
+Chybový screenshot celého viewportu uloží jako
+`artifacts/slides/<desktop|mobile>/failure-<slide>-click-<klik>.png`.
+Pokud screenshot nelze pořídit, vypíše i tuto chybu; původní selhání zachová.
+Timeouty ani podmínky úspěchu se diagnostikou nemění.
+
+Diagnostiku lze ověřit bez běžící prezentace:
+
+```powershell
+npm.cmd run test:smoke-diagnostics
+```
+
+Regresní test používá lokální HTTP fixture, záměrně vyvolá timeout při vstupu
+na slide i při kliku a ověří výpis chyb, screenshot a neúspěšný návratový kód.
+Své chybové screenshoty po ověření odstraní.
+
+Smoke test používá vývojový server na portu 3030. Pro kontrolu
 produkčního buildu spusťte po sestavení preview server v prvním terminálu:
 
 ```powershell
