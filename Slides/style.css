@@ -4298,7 +4298,7 @@ h1 { width: auto; max-width: 100%; font-size: 58px; }
 
 .slidev-layout .slide-id {
   --text-role: minor;
-  --text-size: var(--type-slide-number);
+  --text-size: var(--type-slide-number) !important;
   --text-leading: 1;
   --text-font: 'IBM Plex Mono', monospace;
 }
