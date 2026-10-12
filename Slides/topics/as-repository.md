@@ -251,6 +251,40 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
+# Dva pluginy, <span class="accent">dvě role</span>
+
+<div class="repo-plugin-cards">
+	<details class="repo-plugin-card">
+		<summary><strong>as-skills</strong><span>Odborné postupy pro Automation Studio</span></summary>
+		<div class="repo-plugin-body">
+			<p>Plugin obsahuje odborné skills i AS project agenta. Podle zadání agent vybere postup, načte jeho <code>SKILL.md</code> a potřebné reference až podle potřeby, například <code>structured-text</code> pro IEC Structured Text nebo <code>mapptrak</code> pro ACOPOStrak.</p>
+		</div>
+	</details>
+	<details class="repo-plugin-card">
+		<summary><strong>mappview-hmi-design-and-conversion</strong><span>Specializovaný agent pro návrh a převod mappView</span></summary>
+		<div class="repo-plugin-body">
+			<p>Plugin obsahuje specializovaného agenta pro návrh HMI, převod anotovaného HTML do mappView a build validaci. Runtime assessment je read-only: agent běžící vizualizaci pouze posuzuje.</p>
+			<p>Skill <code>mappview</code> v <code>as-skills</code> naproti tomu vede ruční editaci mappView souborů, například stránek, widgetů a vazeb.</p>
+		</div>
+	</details>
+</div>
+
+<!--
+3 minuty. as-skills předává agentovi znalosti podle typu práce, nikoli celý katalog
+při každém zadání. HMI plugin je zaměřený na návrh, převod a ověření vizualizace.
+Vysvětlit rozdíl vůči mappview skillu, který vlastní ruční editaci mappView projektu.
+Read-only runtime assessment není interaktivní HMI test ani řízení stroje.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
 # Skills, as-cli a MCP<br>se <span class="accent">doplňují</span>
 
 <div class="repo-three-columns">
