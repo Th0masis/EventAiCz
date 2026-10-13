@@ -195,6 +195,217 @@
   margin-top: var(--space-md);
 }
 
+.topic-as-repository .repo-ecosystem-label {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+  color: var(--steel);
+}
+
+.topic-as-repository .repo-request-map {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) 24px minmax(0, 1.1fr) 28px minmax(0, 1.55fr) 28px minmax(0, 0.9fr);
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.topic-as-repository .repo-map-inputs,
+.topic-as-repository .repo-map-harness,
+.topic-as-repository .repo-map-target {
+  min-width: 0;
+}
+
+.topic-as-repository .repo-map-inputs {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.topic-as-repository .repo-map-input {
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-input h3,
+.topic-as-repository .repo-map-bridge-context h3,
+.topic-as-repository .repo-map-bridge-tools h3,
+.topic-as-repository .repo-map-target h3 {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  margin: var(--space-xs) 0;
+  font-weight: 700;
+}
+
+.topic-as-repository .repo-map-input p,
+.topic-as-repository .repo-map-harness > p,
+.topic-as-repository .repo-map-bridge-context p,
+.topic-as-repository .repo-map-bridge-tools p,
+.topic-as-repository .repo-map-target p {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+  color: var(--steel);
+}
+
+.topic-as-repository .repo-map-connector {
+  display: grid;
+  place-items: center;
+  color: var(--br-orange);
+}
+
+.topic-as-repository .repo-map-connector svg {
+  width: 22px;
+  height: 22px;
+}
+
+.topic-as-repository .repo-map-harness {
+  padding: var(--space-lg);
+  border: 1px solid var(--ink);
+}
+
+.topic-as-repository .repo-map-model {
+  margin: var(--space-md) 0;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-model h2 {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  margin: 0 0 var(--space-xs);
+}
+
+.topic-as-repository .repo-map-model p {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  color: var(--steel);
+}
+
+.topic-as-repository .repo-map-harness > p {
+  --text-size: var(--type-caption);
+}
+
+.topic-as-repository .repo-map-bridge {
+  min-width: 0;
+  padding: var(--space-md) var(--space-lg);
+  border: 2px solid var(--flow-blue);
+}
+
+.topic-as-repository .repo-map-bridge-heading {
+  display: grid;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-bridge-heading strong {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+}
+
+.topic-as-repository .repo-map-bridge-context {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-bridge-context h3,
+.topic-as-repository .repo-map-bridge-tools h3 {
+  --text-size: var(--type-block);
+}
+
+.topic-as-repository .repo-map-bridge-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  padding-top: var(--space-sm);
+}
+
+.topic-as-repository .repo-map-bridge-tools > div {
+  min-width: 0;
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-bridge-tools p {
+  --text-size: var(--type-caption);
+}
+
+.topic-as-repository .repo-map-target {
+  padding-top: var(--space-sm);
+  border-top: 2px solid var(--flow-green);
+}
+
+.topic-as-repository .repo-map-target-runtime {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-return {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-repository .repo-map-return p {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+}
+
+.topic-as-repository .repo-map-return svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--br-orange);
+}
+
+.topic-as-repository .repo-map-guardrails {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 2px solid var(--br-orange);
+}
+
+.topic-as-repository .repo-map-guardrails > strong {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+}
+
+.topic-as-repository .repo-map-guardrails > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.topic-as-repository .repo-map-guardrails > div span {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+}
+
+.topic-as-repository .repo-map-guardrails > p {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  margin-top: var(--space-sm);
+  color: var(--steel);
+}
+
+.topic-as-repository .repo-request-map + .repo-map-return + .repo-map-guardrails + .repo-note {
+  margin-top: var(--space-sm);
+}
+
 .topic-as-repository .repo-history {
   margin-top: var(--space-2xl);
   padding-top: var(--space-xl);
@@ -278,7 +489,57 @@
   margin-top: var(--space-xl);
 }
 
-@media (max-width: 700px) {
+@container slide-canvas (max-width: 900px) {
+  .topic-as-repository .repo-request-map {
+    grid-template-columns: minmax(0, 0.9fr) 20px minmax(0, 1.1fr) 24px minmax(0, 1.45fr);
+    row-gap: var(--space-md);
+  }
+
+  .topic-as-repository .repo-map-inputs {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .topic-as-repository .repo-map-inputs + .repo-map-connector {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .topic-as-repository .repo-map-harness {
+    grid-column: 3;
+    grid-row: 1;
+    padding: var(--space-md);
+  }
+
+  .topic-as-repository .repo-map-tools-connector {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .topic-as-repository .repo-map-bridge {
+    grid-column: 5;
+    grid-row: 1;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .topic-as-repository .repo-map-project-connector {
+    grid-column: 5;
+    grid-row: 2;
+  }
+
+  .topic-as-repository .repo-map-project-connector svg {
+    transform: rotate(90deg);
+  }
+
+  .topic-as-repository .repo-map-target {
+    grid-column: 5;
+    grid-row: 3;
+  }
+
+  .topic-as-repository .repo-map-guardrails > div {
+    gap: var(--space-sm);
+  }
+
   .topic-as-repository .repo-plugin-cards {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
@@ -288,4 +549,53 @@
   .topic-as-repository .repo-plugin-card {
     padding: var(--space-lg);
   }
+}
+
+@container slide-canvas (max-width: 700px) {
+  .topic-as-repository .repo-request-map {
+    grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1.1fr);
+    gap: var(--space-xs);
+  }
+
+  .topic-as-repository .repo-map-tools-connector {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .topic-as-repository .repo-map-tools-connector svg {
+    transform: rotate(90deg);
+  }
+
+  .topic-as-repository .repo-map-bridge {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .topic-as-repository .repo-map-project-connector {
+    grid-column: 2;
+    grid-row: 4;
+  }
+
+  .topic-as-repository .repo-map-project-connector svg {
+    transform: rotate(90deg);
+  }
+
+  .topic-as-repository .repo-map-target {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+
+  .topic-as-repository .repo-map-guardrails > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .topic-as-repository .repo-map-return {
+    gap: var(--space-sm);
+  }
+
+  .topic-as-repository .repo-map-return svg {
+    width: 16px;
+    height: 16px;
+  }
+
 }

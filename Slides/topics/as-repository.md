@@ -28,6 +28,116 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
+# Od požadavku<br>k <span class="accent">ověřené změně</span>
+
+<p class="repo-lead">Mapa požadavku: od zákaznického zadání přes projektový kontext a agentní prostředí až k nástrojům Automation Studia.</p>
+
+<div class="repo-request-map" aria-label="Tok požadavku od zákazníka přes harness a B&R Agentic Bridge k projektu Automation Studio a zpět, včetně samostatných kontrol">
+	<section class="repo-map-inputs">
+		<span class="repo-ecosystem-label">ZÁKAZNÍK A PROJEKT</span>
+		<div class="repo-map-input">
+			<h3>Zadání</h3>
+			<p>Cíl · rozsah · očekávaný výstup</p>
+		</div>
+		<div class="repo-map-input">
+			<h3>AS projekt</h3>
+			<p>Soubory · konfigurace · verze AS</p>
+		</div>
+	</section>
+	<div class="repo-map-connector" aria-hidden="true">
+		<mdi-arrow-right />
+	</div>
+	<section class="repo-map-harness">
+		<span class="repo-ecosystem-label">AGENTIC HARNESS</span>
+		<div class="repo-map-model">
+			<h2>Model</h2>
+			<p>Rozumí zadání · plánuje · navrhuje změnu</p>
+		</div>
+		<p>Harness dodá kontext, zprostředkuje povolená volání nástrojů a vrací jejich výsledky modelu.</p>
+	</section>
+	<div class="repo-map-connector repo-map-tools-connector" aria-hidden="true">
+		<mdi-arrow-left-right />
+	</div>
+	<section class="repo-map-bridge">
+		<div class="repo-map-bridge-heading">
+			<span class="repo-ecosystem-label">B&amp;R AGENTIC BRIDGE</span>
+			<strong>AS kontext + nástroje</strong>
+		</div>
+		<div class="repo-map-bridge-context">
+			<span class="repo-ecosystem-label">STATICKÝ KONTEXT</span>
+			<h3>AS repository</h3>
+			<p>Agenti · instrukce · skills · šablony</p>
+		</div>
+		<div class="repo-map-bridge-tools">
+			<div>
+				<span class="repo-ecosystem-label">ZNALOSTI</span>
+				<h3>MCP</h3>
+				<p>Dokumentace a technické informace</p>
+			</div>
+			<div>
+				<span class="repo-ecosystem-label">OPERACE</span>
+				<h3>AS CLI</h3>
+				<p>Metadata · build · runtime · diagnostika</p>
+			</div>
+		</div>
+	</section>
+	<div class="repo-map-connector repo-map-project-connector" aria-hidden="true">
+		<mdi-arrow-left-right />
+	</div>
+	<section class="repo-map-target">
+		<span class="repo-ecosystem-label">CÍLOVÉ PROSTŘEDÍ</span>
+		<h3>Automation Studio</h3>
+		<p>Konkrétní projekt a konfigurace</p>
+		<p class="repo-map-target-runtime">ARsim nebo fyzické PLC*</p>
+	</section>
+</div>
+
+<div class="repo-map-return">
+	<p><strong>Výsledek MCP / AS CLI</strong> se vrací do harnessu; model odpoví, nebo navrhne další volání.</p>
+	<mdi-arrow-left />
+</div>
+
+<section class="repo-map-guardrails" aria-label="Samostatné kontrolní body">
+	<strong>Guardrails: samostatné kontrolní body</strong>
+	<div>
+		<span>Oprávnění a přístup</span>
+		<span>Ochrana zákaznických dat</span>
+		<span>Build a testovací brány</span>
+		<span>Lidské review a schválení nasazení</span>
+	</div>
+	<p>Instrukce pomáhají; samy nezaručují vynucení oprávnění, bezpečnost ani správný výsledek.</p>
+</section>
+
+<p class="repo-note">* Konkrétní nástroje, oprávnění a cílové prostředí závisejí na instalaci zákazníka; diagram je koncepční.</p>
+
+<!--
+2 minuty. Projděte mapu odleva doprava a potom ukažte návrat výsledků.
+Zákazník zadá úlohu a poskytne odpovídající AS projekt, konfiguraci a verzi Automation Studia.
+Agentic harness propojí model s tímto kontextem a zprostředkuje jeho komunikaci s nástroji.
+Model si podle potřeby vyžádá znalost přes MCP nebo operaci přes AS CLI;
+nejde o přímé připojení modelu k PLC.
+AS repository dodává statický kontext: agenty, instrukce, skills a šablony.
+MCP zde představuje vyhledávání dokumentace a technických informací.
+AS CLI čte informace a provádí podporované operace nad projektem či runtime;
+konkrétní rozsah závisí na instalaci a dostupných oprávněních.
+Výsledek nástroje se vrátí do harnessu. Model ho může využít v odpovědi,
+nebo navrhnout další volání. Člověk kontroluje změny a rozhoduje o dalším použití.
+Build a testy, přístupová oprávnění, ochrana dat i schválení nasazení jsou
+samostatné kontroly. Samotné instrukce ani model je nenahrazují.
+Rámeček je koncepční: neznamená, že všechny součásti tvoří jediný balíček
+nebo že každá možnost je dostupná každému zákazníkovi.
+Přechod: Proč obecný model potřebuje přesně tento projektový kontext?
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
 # Proč samotný ChatGPT<br>nestačí na <span class="accent">B&R projekt</span>
 
 <p class="repo-lead">Obecná znalost programování není znalost vaší instalace.</p>
