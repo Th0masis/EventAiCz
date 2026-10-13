@@ -197,9 +197,8 @@
 
 .topic-as-repository .repo-request-map {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) 24px minmax(0, 1.1fr) 28px minmax(0, 1.55fr) 28px minmax(0, 0.9fr);
-  align-items: center;
-  gap: var(--space-sm);
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: stretch;
   margin-top: var(--space-xl);
 }
 
@@ -207,14 +206,15 @@
 .topic-as-repository .repo-map-harness,
 .topic-as-repository .repo-map-bridge,
 .topic-as-repository .repo-map-target {
+  display: grid;
+  align-content: start;
+  gap: var(--space-lg);
   min-width: 0;
   padding: var(--space-lg);
   border: 1px solid var(--line);
 }
 
 .topic-as-repository .repo-map-inputs {
-  display: grid;
-  align-content: center;
   gap: var(--space-xl);
 }
 
@@ -230,7 +230,7 @@
   --text-role: block;
   --text-size: var(--type-block);
   --text-leading: 1.2;
-  margin: var(--space-xs) 0;
+  margin: 0 0 var(--space-sm);
   font-weight: 700;
 }
 
@@ -259,14 +259,14 @@
 }
 
 .topic-as-repository .repo-map-model {
-  margin: 0 0 var(--space-md);
+  margin: 0;
 }
 
 .topic-as-repository .repo-map-model h2 {
-  --text-role: section;
-  --text-size: var(--type-section);
-  --text-leading: 1.15;
-  margin: 0 0 var(--space-xs);
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  margin: 0 0 var(--space-sm);
 }
 
 .topic-as-repository .repo-map-model p {
@@ -287,6 +287,9 @@
 }
 
 .topic-as-repository .repo-map-bridge-tools > div {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
   min-width: 0;
 }
 
@@ -434,7 +437,7 @@
 
 @container slide-canvas (max-width: 900px) {
   .topic-as-repository .repo-request-map {
-    grid-template-columns: minmax(0, 0.9fr) 20px minmax(0, 1.1fr) 24px minmax(0, 1.45fr);
+    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 24px minmax(0, 1fr);
     row-gap: var(--space-md);
   }
 
