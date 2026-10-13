@@ -195,14 +195,6 @@
   margin-top: var(--space-md);
 }
 
-.topic-as-repository .repo-ecosystem-label {
-  --text-role: minor;
-  --text-size: var(--type-minor);
-  --text-leading: 1.2;
-  --text-font: 'IBM Plex Mono', monospace;
-  color: var(--steel);
-}
-
 .topic-as-repository .repo-request-map {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) 24px minmax(0, 1.1fr) 28px minmax(0, 1.55fr) 28px minmax(0, 0.9fr);
@@ -213,21 +205,25 @@
 
 .topic-as-repository .repo-map-inputs,
 .topic-as-repository .repo-map-harness,
+.topic-as-repository .repo-map-bridge,
 .topic-as-repository .repo-map-target {
   min-width: 0;
+  padding: var(--space-lg);
+  border: 1px solid var(--line);
 }
 
 .topic-as-repository .repo-map-inputs {
   display: grid;
-  gap: var(--space-lg);
+  align-content: center;
+  gap: var(--space-xl);
 }
 
 .topic-as-repository .repo-map-input {
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--line);
+  min-width: 0;
 }
 
 .topic-as-repository .repo-map-input h3,
+.topic-as-repository .repo-map-bridge > h3,
 .topic-as-repository .repo-map-bridge-context h3,
 .topic-as-repository .repo-map-bridge-tools h3,
 .topic-as-repository .repo-map-target h3 {
@@ -258,17 +254,12 @@
 .topic-as-repository .repo-map-connector svg {
   width: 22px;
   height: 22px;
-}
-
-.topic-as-repository .repo-map-harness {
-  padding: var(--space-lg);
-  border: 1px solid var(--ink);
+  display: grid;
+  align-content: center;
 }
 
 .topic-as-repository .repo-map-model {
-  margin: var(--space-md) 0;
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--line);
+  margin: 0 0 var(--space-md);
 }
 
 .topic-as-repository .repo-map-model h2 {
@@ -279,71 +270,24 @@
 }
 
 .topic-as-repository .repo-map-model p {
-  --text-role: note;
-  --text-size: var(--type-note);
-  --text-leading: 1.35;
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
   color: var(--steel);
 }
 
-.topic-as-repository .repo-map-harness > p {
-  --text-size: var(--type-caption);
-}
-
-.topic-as-repository .repo-map-bridge {
-  min-width: 0;
-  padding: var(--space-md) var(--space-lg);
-  border: 2px solid var(--flow-blue);
-}
-
-.topic-as-repository .repo-map-bridge-heading {
-  display: grid;
-  gap: var(--space-xs);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--line);
-}
-
-.topic-as-repository .repo-map-bridge-heading strong {
-  --text-role: block;
-  --text-size: var(--type-block);
-  --text-leading: 1.2;
-}
-
 .topic-as-repository .repo-map-bridge-context {
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.topic-as-repository .repo-map-bridge-context h3,
-.topic-as-repository .repo-map-bridge-tools h3 {
-  --text-size: var(--type-block);
+  min-width: 0;
 }
 
 .topic-as-repository .repo-map-bridge-tools {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-md);
-  padding-top: var(--space-sm);
 }
 
 .topic-as-repository .repo-map-bridge-tools > div {
   min-width: 0;
-  padding-top: var(--space-xs);
-  border-top: 1px solid var(--line);
-}
-
-.topic-as-repository .repo-map-bridge-tools p {
-  --text-size: var(--type-caption);
-}
-
-.topic-as-repository .repo-map-target {
-  padding-top: var(--space-sm);
-  border-top: 2px solid var(--flow-green);
-}
-
-.topic-as-repository .repo-map-target-runtime {
-  margin-top: var(--space-sm);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--line);
 }
 
 .topic-as-repository .repo-map-return {
@@ -351,15 +295,13 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-lg);
-  margin-top: var(--space-md);
-  padding: var(--space-sm) 0;
-  border-top: 1px solid var(--line);
+  margin-top: var(--space-xl);
 }
 
 .topic-as-repository .repo-map-return p {
-  --text-role: note;
-  --text-size: var(--type-note);
-  --text-leading: 1.35;
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
 }
 
 .topic-as-repository .repo-map-return svg {
@@ -370,15 +312,16 @@
 }
 
 .topic-as-repository .repo-map-guardrails {
-  margin-top: var(--space-sm);
-  padding-top: var(--space-sm);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
   border-top: 2px solid var(--br-orange);
 }
 
-.topic-as-repository .repo-map-guardrails > strong {
-  --text-role: caption;
-  --text-size: var(--type-caption);
-  --text-leading: 1.3;
+.topic-as-repository .repo-map-guardrails > h3 {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  margin: 0;
 }
 
 .topic-as-repository .repo-map-guardrails > div {
@@ -508,7 +451,6 @@
   .topic-as-repository .repo-map-harness {
     grid-column: 3;
     grid-row: 1;
-    padding: var(--space-md);
   }
 
   .topic-as-repository .repo-map-tools-connector {
@@ -519,7 +461,6 @@
   .topic-as-repository .repo-map-bridge {
     grid-column: 5;
     grid-row: 1;
-    padding: var(--space-sm) var(--space-md);
   }
 
   .topic-as-repository .repo-map-project-connector {

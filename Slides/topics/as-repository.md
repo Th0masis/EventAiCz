@@ -30,11 +30,8 @@ import './as-repository/styles.css'
 
 # Od požadavku<br>k <span class="accent">ověřené změně</span>
 
-<p class="repo-lead">Mapa požadavku: od zákaznického zadání přes projektový kontext a agentní prostředí až k nástrojům Automation Studia.</p>
-
 <div class="repo-request-map" aria-label="Tok požadavku od zákazníka přes harness a B&R Agentic Bridge k projektu Automation Studio a zpět, včetně samostatných kontrol">
 	<section class="repo-map-inputs">
-		<span class="repo-ecosystem-label">ZÁKAZNÍK A PROJEKT</span>
 		<div class="repo-map-input">
 			<h3>Zadání</h3>
 			<p>Cíl · rozsah · očekávaný výstup</p>
@@ -48,34 +45,27 @@ import './as-repository/styles.css'
 		<mdi-arrow-right />
 	</div>
 	<section class="repo-map-harness">
-		<span class="repo-ecosystem-label">AGENTIC HARNESS</span>
 		<div class="repo-map-model">
 			<h2>Model</h2>
 			<p>Rozumí zadání · plánuje · navrhuje změnu</p>
 		</div>
-		<p>Harness dodá kontext, zprostředkuje povolená volání nástrojů a vrací jejich výsledky modelu.</p>
+		<p>Harness předává povolená volání nástrojů a výsledky vrací modelu.</p>
 	</section>
 	<div class="repo-map-connector repo-map-tools-connector" aria-hidden="true">
 		<mdi-arrow-left-right />
 	</div>
 	<section class="repo-map-bridge">
-		<div class="repo-map-bridge-heading">
-			<span class="repo-ecosystem-label">B&amp;R AGENTIC BRIDGE</span>
-			<strong>AS kontext + nástroje</strong>
-		</div>
+		<h3>B&amp;R Agentic Bridge</h3>
 		<div class="repo-map-bridge-context">
-			<span class="repo-ecosystem-label">STATICKÝ KONTEXT</span>
 			<h3>AS repository</h3>
 			<p>Agenti · instrukce · skills · šablony</p>
 		</div>
 		<div class="repo-map-bridge-tools">
 			<div>
-				<span class="repo-ecosystem-label">ZNALOSTI</span>
 				<h3>MCP</h3>
 				<p>Dokumentace a technické informace</p>
 			</div>
 			<div>
-				<span class="repo-ecosystem-label">OPERACE</span>
 				<h3>AS CLI</h3>
 				<p>Metadata · build · runtime · diagnostika</p>
 			</div>
@@ -85,27 +75,25 @@ import './as-repository/styles.css'
 		<mdi-arrow-left-right />
 	</div>
 	<section class="repo-map-target">
-		<span class="repo-ecosystem-label">CÍLOVÉ PROSTŘEDÍ</span>
 		<h3>Automation Studio</h3>
-		<p>Konkrétní projekt a konfigurace</p>
-		<p class="repo-map-target-runtime">ARsim nebo fyzické PLC*</p>
+		<p>Projekt a konfigurace; runtime: ARsim nebo fyzické PLC*</p>
 	</section>
 </div>
 
 <div class="repo-map-return">
-	<p><strong>Výsledek MCP / AS CLI</strong> se vrací do harnessu; model odpoví, nebo navrhne další volání.</p>
+	<p>Výsledek nástroje se vrací do harnessu; model odpoví, nebo navrhne další volání.</p>
 	<mdi-arrow-left />
 </div>
 
 <section class="repo-map-guardrails" aria-label="Samostatné kontrolní body">
-	<strong>Guardrails: samostatné kontrolní body</strong>
+	<h3>Guardrails</h3>
 	<div>
 		<span>Oprávnění a přístup</span>
 		<span>Ochrana zákaznických dat</span>
 		<span>Build a testovací brány</span>
 		<span>Lidské review a schválení nasazení</span>
 	</div>
-	<p>Instrukce pomáhají; samy nezaručují vynucení oprávnění, bezpečnost ani správný výsledek.</p>
+	<p>Instrukce samy tyto kontroly nevynucují.</p>
 </section>
 
 <p class="repo-note">* Konkrétní nástroje, oprávnění a cílové prostředí závisejí na instalaci zákazníka; diagram je koncepční.</p>
