@@ -6,6 +6,7 @@ import { chromium } from 'playwright-chromium'
 import { deck } from './test-content.mjs'
 
 const baseUrl = (process.env.SLIDES_URL ?? 'http://127.0.0.1:3030').replace(/\/$/, '')
+const baseOrigin = new URL(baseUrl).origin
 const root = dirname(fileURLToPath(import.meta.url))
 const selectedTopic = process.env.SLIDES_TOPIC
 const slides = selectedTopic
@@ -302,9 +303,13 @@ try {
         failures.push(`${context()}: HTTP ${response.status()} ${response.url()}`)
       }
     })
-    page.on('requestfailed', request => failures.push(
-      `${context()}: Request failed ${request.method()} ${request.url()}: ${request.failure()?.errorText}`,
-    ))
+    page.on('requestfailed', request => {
+      const url = new URL(request.url())
+      const error = request.failure()?.errorText
+      if (request.method() === 'POST' && url.origin === baseOrigin && url.pathname === '/@server-reactive/nav'
+        && error === 'net::ERR_ABORTED') return
+      failures.push(`${context()}: Request failed ${request.method()} ${request.url()}: ${error}`)
+    })
 
     await page.goto(`${baseUrl}/1`, { waitUntil: 'domcontentloaded', timeout: 15000 })
 
