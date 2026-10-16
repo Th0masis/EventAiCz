@@ -41,7 +41,17 @@ import './as-agentic-bridge/styles.css'
 <!--
 Nechceme jen další chatovací okno. Potřebujeme prostředí, které zná pravidla projektu, umí dohledat potřebné informace a dokáže ověřit, co skutečně změnilo.
 
-Příklad: požadavek na úpravu chování aplikace potřebuje nejen návrh kódu, ale také kontrolu projektu a test očekávaného chování. Detaily syntaxe a konfigurace zde neřešit. Neopakovat přednášku „proč ChatGPT nestačí“; tu rozvíjí AS Repository.
+[CLICK]
+Jak má pracovat? Podle projektových instrukcí a odborného postupu, ne jen podle obecného promptu.
+
+[CLICK]
+O co opře rozhodnutí? O dokumentaci a fakta konkrétního projektu, ne o domněnky modelu.
+
+[CLICK]
+Jak ověří výsledek? Nástroji a testem očekávaného chování. Detaily syntaxe a konfigurace zde neřešit; ty rozvíjí AS Repository.
+
+[CLICK]
+Nestačí navrhnout kód. Potřebujeme zpětnou vazbu.
 
 Přechod: B&R dodává propojení těchto částí, ne náhradu vašeho modelu.
 -->
@@ -85,11 +95,22 @@ import './as-agentic-bridge/styles.css'
 <p class="bridge-architecture-note" v-click="6">Agent využívá pilíře podle úkolu. Build ještě nedokazuje správné chování.</p>
 
 <!--
-Nahoře zůstává agentní prostředí a model, které si zvolíte. Bridge není další model mezi vámi a Automation Studiem. Dodává agentovi tři různé věci.
+Nahoře zůstává agentní prostředí a model, které si zvolíte. Bridge není další model mezi vámi a Automation Studiem.
 
-Workflow říká, jak postupovat a jaké konvence dodržet. Zde pouze roli; konkrétní instrukce, skills a pluginy ukáže AS Repository. Knowledge poskytuje dohledané podklady: MCP propojí agenta se znalostním nástrojem a podklady se musí vztahovat ke konkrétnímu dotazu a verzi. Execution umožní provést podporované operace a vrátit reálný výsledek; CLI ukáže následující přednáška.
+[CLICK]
+Workflow říká, jak postupovat a jaké konvence dodržet. Konkrétní instrukce, skills a pluginy ukáže AS Repository.
 
-Agent skládá vstupy dohromady. Znalostní služba projekt nesestavuje a úspěšný build ještě nedokazuje správné chování stroje. Koncept Bridge není vázán na jednoho poskytovatele modelu, ale konfigurace a nástroje závisí na konkrétním agentním prostředí; neslibovat stejnou kompatibilitu všech klientů. Náklady a licence diagram neřeší.
+[CLICK]
+Knowledge poskytuje dohledané podklady. MCP propojí agenta se znalostním nástrojem; podklady se musí vztahovat ke konkrétnímu dotazu a verzi.
+
+[CLICK]
+Execution umožní provést podporované operace a vrátit výsledek. CLI ukáže následující přednáška.
+
+[CLICK]
+Všechny tři části pracují v kontextu Automation Studia a projektu; ARsim je zde testovací prostředí.
+
+[CLICK]
+Agent využívá pilíře podle úkolu. Znalostní služba projekt nesestavuje a úspěšný build ještě nedokazuje správné chování stroje. Bridge není vázán na jednoho poskytovatele modelu, ale konfigurace a nástroje závisejí na konkrétním prostředí; neslibovat stejnou kompatibilitu všech klientů. Náklady a licence diagram neřeší.
 -->
 
 ---
@@ -116,11 +137,22 @@ import './as-agentic-bridge/styles.css'
 <p class="bridge-return" v-click="4"><mdi-arrow-u-left-top /><strong>Chyba nebo výsledek testu zpět do kontextu agenta</strong></p>
 
 <!--
-Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Agent nejdříve zjistí, co mění a podle čeho má pracovat. Dokumentaci dohledá, pokud ji úkol potřebuje. Potom upraví projekt, ověří sestavení a otestuje běh. Když dostane chybu, může se vrátit a změnu opravit.
+Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Požadavek je vidět hned; jednotlivé kroky odhalujeme postupně.
 
-Rozlišit Verify a Test: sestavitelný projekt není totéž co správné chování. Očekávání testu je, že po události se počet zvýší a po resetu bude nulový. Konkrétní příkazy patří do CLI bloku.
+[CLICK]
+Plan: agent zjistí, co mění, jaká pravidla platí a kterou dokumentaci potřebuje.
 
-Výsledkem pro člověka má být změna a důkazy, ne pouze ujištění agenta. Lidská revize se může uplatnit i dříve podle oprávnění. Tento scénář probíhá v simulaci; přenos na fyzický stroj vyžaduje samostatné schválení a validaci. Netvrdit, že Bridge automaticky zaručuje bezpečnost stroje.
+[CLICK]
+Implement: upraví projekt podle zjištěných pravidel.
+
+[CLICK]
+Verify: zkontroluje sestavení a konfiguraci. Sestavitelný projekt ještě nedokazuje správné chování.
+
+[CLICK]
+Test: v ARsim ověří očekávání, že po události se počet zvýší a po resetu bude nulový. Chyba nebo výsledek testu se vrací agentovi.
+
+[CLICK]
+Lidská revize posuzuje změnu i důkazy. Může proběhnout také dříve podle oprávnění. Přenos na fyzický stroj vyžaduje samostatné schválení a validaci; Bridge sám bezpečnost stroje nezaručuje.
 -->
 
 ---
@@ -157,9 +189,25 @@ import './as-agentic-bridge/styles.css'
 <p class="bridge-knowledge-limit" v-click="6"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
 
 <!--
-B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Prohledává Automation Help, příspěvky i komentáře Community, informace o verzích a schválený interní zdrojový kód. Rozsah a stav služby na slidu vycházejí z podkladu S8 dodaného zadavatelem, nejsou nezávisle ověřeným veřejným tvrzením.
+B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejdřív ukážeme cestu dotazu a vrácených podkladů; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
-Služba je v produkci od červnového vydání Automation Studio Code a aktualizuje se čtvrtletně. Rok vydání není známý; čtvrtletní aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety zatím zahrnuté nejsou, jejich zahrnutí čeká na řádnou anonymizaci. Neslibovat termín. Schválený interní kód není libovolný interní ani zákaznický kód.
+[CLICK]
+Dotaz a agent: agent rozhodne, co potřebuje dohledat.
+
+[CLICK]
+MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhraní, ne samotná znalostní báze.
+
+[CLICK]
+Znalostní báze vyhledá odpovídající podklady.
+
+[CLICK]
+Podklady se zdroji se vrátí do kontextu agenta; člověk posoudí výslednou odpověď.
+
+[CLICK]
+Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód. Příklad dotazu je ilustrativní, ne výsledek živého vyhledávání.
+
+[CLICK]
+Provozní údaje: služba je v produkci od červnového vydání Automation Studio Code; čtvrtletní aktualizaci potvrdil vývojář služby. Rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté; schválený interní kód neznamená libovolný interní ani zákaznický kód.
 
 MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
