@@ -81,6 +81,19 @@ npm.cmd run test:smoke
 Remove-Item Env:SLIDES_URL
 ```
 
+Pro rychlou lokální kontrolu jednoho tématu lze nastavit jeho ID. Projdou se
+všechny slidy tohoto tématu na desktopu i mobilu, včetně klikacích stavů:
+
+```powershell
+$env:SLIDES_TOPIC = 'as-cli'
+npm.cmd run test:smoke
+Remove-Item Env:SLIDES_TOPIC
+```
+
+Tento režim nenahrazuje úplný smoke test před PR ani v CI. Používejte ho při
+iteraci nad izolovaným tématem; změny sdílených stylů, layoutů, slidů nebo
+komponent vyžadují úplný smoke test.
+
 Před PR ručně projděte všechny změněné slidy: ověřte odhalování obsahu,
 interakce, obrázky, poznámky prezentujícího, čitelnost na menším rozlišení
 a délku vystoupení. CI navíc kontroluje build, produkční preview a screenshoty.

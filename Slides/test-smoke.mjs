@@ -1,15 +1,34 @@
 import assert from 'node:assert/strict'
 import { mkdir, readFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright-chromium'
 import { deck } from './test-content.mjs'
 
 const baseUrl = (process.env.SLIDES_URL ?? 'http://127.0.0.1:3030').replace(/\/$/, '')
+const baseOrigin = new URL(baseUrl).origin
+const root = dirname(fileURLToPath(import.meta.url))
+const selectedTopic = process.env.SLIDES_TOPIC
+const slides = selectedTopic
+  ? deck.slides.filter(slide => resolve(slide.source.filepath) === resolve(root, 'topics', `${selectedTopic}.md`))
+  : deck.slides
+assert.ok(slides.length > 0, `No slides found${selectedTopic ? ` for topic "${selectedTopic}"` : ''}`)
 const screenshotRoot = new URL('./artifacts/slides/', import.meta.url)
 const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url), 'utf8')
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
+const asCliRevealSequence = [
+  'BROWSE',
+  'PROJECT STATUS',
+  'SIM ENABLE',
+  'BUILD SIM',
+  'PLC CONNECT',
+  'VAR READ',
+  'VAR WRITE',
+  'LOGBOOK READ',
+  'BUILD PIP',
+]
 let activePage
 let activeViewport
 let activeSlide = 1
@@ -252,6 +271,14 @@ async function checkDesign(layout, label) {
   failures.push(...errors.map(error => `${label}: ${error}`))
 }
 
+async function checkRevealSequence(layout, slide, click) {
+  if (!String(slide.frontmatter.class ?? '').split(/\s+/).includes('as-cli-slide')) return
+
+  const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
+  assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+    `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+}
+
 try {
   for (const viewport of [
     { name: 'desktop', width: 1280, height: 720 },
@@ -276,13 +303,17 @@ try {
         failures.push(`${context()}: HTTP ${response.status()} ${response.url()}`)
       }
     })
-    page.on('requestfailed', request => failures.push(
-      `${context()}: Request failed ${request.method()} ${request.url()}: ${request.failure()?.errorText}`,
-    ))
+    page.on('requestfailed', request => {
+      const url = new URL(request.url())
+      const error = request.failure()?.errorText
+      if (request.method() === 'POST' && url.origin === baseOrigin && url.pathname === '/@server-reactive/nav'
+        && error === 'net::ERR_ABORTED') return
+      failures.push(`${context()}: Request failed ${request.method()} ${request.url()}: ${error}`)
+    })
 
     await page.goto(`${baseUrl}/1`, { waitUntil: 'domcontentloaded', timeout: 15000 })
 
-    for (const slide of deck.slides) {
+    for (const slide of slides) {
       const slideNumber = slide.index + 1
       activeSlide = slideNumber
       activeClick = 0
@@ -304,6 +335,7 @@ try {
         assert.ok((await layout.textContent()).includes(expectedTitle), `Wrong slide: ${slideNumber}`)
       }
       await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 15000 })
+      await checkRevealSequence(layout, slide, 0)
       await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, initial`)
       const clicks = Math.max(Number(slide.frontmatter.clicks) || 0, await layout.locator('[data-slidev-clicks-start]').evaluateAll(nodes =>
         Math.max(0, ...nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')) || 0)),
@@ -318,6 +350,7 @@ try {
             && element.getAnimations({ subtree: true }).every(animation =>
               animation.effect.getComputedTiming().iterations === Infinity || animation.playState === 'finished')
         }, slideNumber, { timeout: 15000 })
+        await checkRevealSequence(layout, slide, click)
         await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, click ${click}`)
       }
       await layout.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
@@ -333,7 +366,7 @@ try {
   }
 
   assert.deepEqual(failures, [], 'Browser runtime, asset or design-contract errors')
-  console.log(`Browser smoke and design checks passed: ${deck.slides.length} slides, desktop and mobile screenshots`)
+  console.log(`Browser smoke and design checks passed: ${slides.length} slides${selectedTopic ? ` (${selectedTopic})` : ''}, desktop and mobile screenshots`)
 } catch (error) {
   console.error(`Smoke test failed: ${activeViewport ? context() : 'browser setup'}`)
   console.error(`Current URL: ${activePage?.url() ?? '(no page)'}`)
