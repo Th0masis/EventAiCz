@@ -16,25 +16,25 @@ type TerminalCommand = {
   multiline?: boolean
 }
 
-const helpOutput = `as - B&R Automation Studio CLI
+const helpOutput = `as - Příkazové rozhraní Automation Studia B&R
 
-USAGE
+POUŽITÍ
   as [global-options] <command> [subcommand ...] [args] [options]
 
-COMMANDS
+PŘÍKAZY
 
-  PROJECT
-  project    - Project operations
-    status - Show project info (name, path, config, CPU)
-    reload - Reload project from disk (picks up hardware/logical changes made in AS)
-    close - Close the project
-  config     - Configuration management
-    list - List all configurations
-    tree - Show configuration object tree
-    set-active - Switch active configuration
-    read - Read a config file
-    set - Set values in a config file
-    cpu - Show CPU software configuration (tasks & libraries)
+  PROJEKT
+  project    - Operace s projektem
+    status - Zobrazí informace o projektu (název, cesta, konfigurace, CPU)
+    reload - Znovu načte projekt z disku včetně změn v hardwaru a Logical
+    close - Zavře projekt
+  config     - Správa konfigurací
+    list - Vypíše konfigurace
+    tree - Zobrazí strom konfiguračních objektů
+    set-active - Přepne aktivní konfiguraci
+    read - Přečte konfigurační soubor
+    set - Nastaví hodnoty v konfiguračním souboru
+    cpu - Zobrazí softwarovou konfiguraci CPU (úlohy a knihovny)
     scan - Scan directory for all config files
     search - Search config settings by keyword
     schema - Configuration schemas
@@ -65,6 +65,36 @@ COMMANDS
     io-mappings - List a hardware module's permitted IO channel mappings (name, data type, direction) for use in .iom file
     connections - List a hardware module's possible connections (connectors, routing) for connecting it with other modules in the .hw file
     set - Set hardware module parameters
+      scan - Scan directory for all config files
+      search - Search config settings by keyword
+      schema - Configuration schemas
+        list - List config file types provided by installed technology packages (optionally filter by package)
+        read - Read the schema (allowed nodes/defaults) for a technology-package config type (valid under Physical/<Config>/<CPU>/<TP>), e.g. .axis/.uacfg
+    logical    - Logical view & mutations
+      list - List all logical view objects
+      catalog - Show available object types
+      add - Add a new object
+      remove - Remove an object
+      rename - Rename an object
+      set-description - Set object description
+      undo - Undo last mutation
+      redo - Redo last undone mutation
+    library    - Installed library management
+      list - List all installed B&R libraries and versions
+      add - Add a library using Automation Studio dependency resolution
+      replace - Replace a library with an exact installed version
+    tp         - Technology Package management
+      list - List all installed Technology Packages and versions
+      add - Add a Technology Package or select an optional Module
+      replace - Replace a selected Technology Package or Module version
+    hardware   - Hardware operations
+      list - List hardware topology
+      module - Hardware module inventory
+        list - List hardware modules with type and version
+      read - Read hardware module configuration
+      io-mappings - List a hardware module's permitted IO channel mappings (name, data type, direction) for use in .iom file
+      connections - List a hardware module's possible connections (connectors, routing) for connecting it with other modules in the .hw file
+      set - Set hardware module parameters
 
   BUILD & RUN
   build      - Build project
@@ -195,24 +225,24 @@ const commands: TerminalCommand[] = [
   { time: '09:40:59', command: 'as --help', result: helpOutput, multiline: true },
   { time: '09:41:02', command: 'as project status', result: 'name=DevOpsDemo · config=Config1 · cpu=X20CP1686X' },
   { time: '09:41:09', command: 'as sim enable', result: 'simulation=enabled · cpu=X20CP1686X' },
-  { time: '09:41:18', command: 'as build sim', result: 'success=true · 0 errors · 5 warnings · installed to ARsim' },
+  { time: '09:41:18', command: 'as build sim', result: 'success=true · 0 chyb · 5 varování · nainstalováno do ARsim' },
   { time: '09:41:29', command: 'as plc connect --ip 127.0.0.1', result: 'connected=true · target=127.0.0.1' },
   { time: '09:41:46', command: 'as var read gProductionCount --task Cyclic', result: 'name=gProductionCount · value=17 · typeName=UDINT' },
   { time: '09:42:05', command: 'as var write gCmdClear --task Cyclic --value 1', result: 'name=gCmdClear · written=true · value=1' },
   {
     time: '09:42:21',
     command: 'as logbook read --count 20 --level error',
-    result: 'logbook=$arlogsys · entries=3',
+    result: 'logbook=$arlogsys · záznamů=3',
     logMessages: [
-      { dateTime: '09:41:48', level: 'INFO', errorText: 'download to ArSim' },
-      { dateTime: '09:41:52', level: 'INFO', errorText: 'Opcua server ready' },
-      { dateTime: '09:42:03', level: 'ERROR', errorText: 'MpAxis gAxisConveyor · # -1067378809 [6023]: Voltage sag at controller enable input' },
+      { dateTime: '09:41:48', level: 'INFO', errorText: 'přenos do ArSim' },
+      { dateTime: '09:41:52', level: 'INFO', errorText: 'server OPC UA je připraven' },
+      { dateTime: '09:42:03', level: 'ERROR', errorText: 'MpAxis gAxisConveyor · # -1067378809 [6023]: pokles napětí na vstupu enable řídicí jednotky' },
     ],
   },
-  { time: '09:42:37', command: 'as build pip', result: 'pip created · ReleaseCandidate/' },
+  { time: '09:42:37', command: 'as build pip', result: 'PIP vytvořen · ReleaseCandidate/' },
 ]
 
-// Section headings in the help text (PROJECT, BUILD & RUN, ...) are highlighted.
+// Nadpisy skupin v nápovědě jsou zvýrazněné.
 const helpLines = helpOutput.split('\n').slice(0, 19).map(text => ({
   text,
   category: /^ {2}[A-Z][A-Z &()]*$/.test(text),
@@ -251,25 +281,25 @@ const visibleCommands = computed(() => commands
 
 <template>
   <div class="evidence-terminal">
-    <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>COMMAND PROMPT</small></div>
+      <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>PŘÍKAZOVÝ ŘÁDEK</small></div>
     <div class="terminal-body">
       <div v-if="currentStep < 0" class="terminal-idle">
-        <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
-        <div>[as-cli] Waiting for daemon to initialize (this may take up to 2 minutes)...</div>
+        <div>[AsBackend] Spuštěn daemon PID &lt;pid&gt; pro &lt;absolutní cestu&gt;\DevOpsDemo.apj</div>
+        <div>[as-cli] Čekání na inicializaci daemonu (může trvat až 2 minuty)...</div>
       </div>
       <div v-for="item in visibleCommands" :key="item.entry.command" class="terminal-entry">
         <div class="terminal-command">
           <span class="time">{{ item.entry.time }}</span>
           <span class="op">[as]</span>
           <b>{{ item.entry.command }}</b>
-          <em :class="item.index <= readyThrough ? 'ok' : 'pending'">{{ item.index <= readyThrough ? 'DONE' : '...' }}</em>
+          <em :class="item.index <= readyThrough ? 'ok' : 'pending'">{{ item.index <= readyThrough ? 'HOTOVO' : '...' }}</em>
         </div>
         <div v-if="item.index === currentStep && item.index <= readyThrough" class="terminal-output">
-          <span class="output-label">OUT</span>
+          <span class="output-label">VÝSTUP</span>
           <div v-if="item.entry.logMessages" class="logbook-output">
             <strong>{{ item.entry.result }}</strong>
             <table>
-              <thead><tr><th>DATE/TIME</th><th>LEVEL</th><th>LOG MESSAGE</th></tr></thead>
+              <thead><tr><th>DATUM/ČAS</th><th>ÚROVEŇ</th><th>ZÁZNAM LOGBOOKU</th></tr></thead>
               <tbody>
                 <tr v-for="message in item.entry.logMessages" :key="`${message.dateTime}-${message.errorText}`">
                   <td>{{ message.dateTime }}</td><td :class="`log-level-${message.level.toLowerCase()}`">{{ message.level }}</td><td>{{ message.errorText }}</td>
@@ -278,7 +308,7 @@ const visibleCommands = computed(() => commands
             </table>
           </div>
           <div v-else-if="item.entry.multiline" class="terminal-help">
-            <div class="help-excerpt-label">as --help (excerpt)</div>
+            <div class="help-excerpt-label">as --help (přeložený výřez)</div>
             <pre class="help-output"><span
             v-for="(line, lineIndex) in helpLines"
             :key="lineIndex"
@@ -290,7 +320,7 @@ const visibleCommands = computed(() => commands
         </div>
       </div>
     </div>
-    <div class="terminal-footer">AS CLI GIVES CONTROLLED ACTION + OBSERVATION</div>
+    <div class="terminal-footer">AS CLI ZPŘÍSTUPŇUJE ŘÍZENOU AKCI A ZPĚTNOU VAZBU</div>
   </div>
 </template>
 
