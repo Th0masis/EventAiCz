@@ -171,26 +171,30 @@ import './as-agentic-bridge/styles.css'
 <div class="bridge-knowledge-flow" aria-label="Ilustrační dotaz, jeho předání přes MCP, zjednodušený princip RAG a návrat podkladů agentovi">
 	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání" v-click-hide="5">
 		<strong class="bridge-knowledge-path-label">Dotaz / vyhledání</strong>
-		<div v-click="1"><strong>Dotaz</strong></div><mdi-arrow-right v-click="1" />
-		<div v-click="2"><strong>Agent</strong><span>vyloží dotaz a zvolí, co hledat</span></div><mdi-arrow-right v-click="2" />
-		<div v-click="3"><strong>MCP</strong><span>předá volání službě</span></div><mdi-arrow-right v-click="3" />
-		<div class="knowledge-service" v-click="4"><strong>Knowledge Hub</strong><span>vyhledá podklady (RAG)</span></div>
+		<div class="bridge-knowledge-step" v-click="1"><strong>Dotaz</strong></div><mdi-arrow-right v-click="1" />
+		<div class="bridge-knowledge-step" v-click="2"><strong>Agent</strong><span>vyloží dotaz a zvolí, co hledat</span></div><mdi-arrow-right v-click="2" />
+		<div class="bridge-knowledge-step" v-click="3"><strong>MCP</strong><span>předá volání službě</span></div><mdi-arrow-right v-click="3" />
+		<div class="bridge-knowledge-step knowledge-service" v-click="4"><strong>Knowledge Hub</strong><span>vyhledá podklady (RAG)</span></div>
 	</div>
-	<p class="bridge-illustrative-query" v-click="1" v-click-hide="5"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
-	<div class="bridge-knowledge-rag" v-click="4" v-click-hide="5" aria-label="Zjednodušený princip RAG, ne popis konkrétní implementace">
-		<div class="bridge-knowledge-rag-label"><strong>Zjednodušený princip RAG</strong><span>konkrétní interní mechanismus Hubu zde není ověřen</span></div>
-		<div class="bridge-knowledge-rag-steps">
-			<div><strong>Připravené zdroje</strong><span>obsah dostupný pro hledání</span></div><mdi-arrow-right />
-			<div><strong>Vyhledání pasáží</strong><span>vyberou se části související s dotazem</span></div><mdi-arrow-right />
-			<div><strong>Podklady se zdroji</strong><span>vrátí se agentovi do kontextu</span></div>
+	<div class="bridge-illustrative-query-slot" v-click-hide="5">
+		<p class="bridge-illustrative-query" v-click="1"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
+	</div>
+	<div class="bridge-knowledge-rag-slot" v-click="4">
+		<div class="bridge-knowledge-rag" v-click-hide="5" aria-label="Zjednodušený princip RAG, ne popis konkrétní implementace Hubu">
+			<div class="bridge-knowledge-rag-label"><strong>Zjednodušený princip RAG</strong><span>konkrétní interní mechanismus Hubu zde není ověřen</span></div>
+			<div class="bridge-knowledge-rag-steps">
+				<div class="bridge-knowledge-step"><strong>Připravené zdroje</strong><span>obsah dostupný pro hledání</span></div><mdi-arrow-right />
+				<div class="bridge-knowledge-step"><strong>Vyhledání pasáží</strong><span>vyberou se části související s dotazem</span></div><mdi-arrow-right />
+				<div class="bridge-knowledge-step"><strong>Podklady se zdroji</strong><span>vrátí se agentovi do kontextu</span></div>
+			</div>
 		</div>
 	</div>
 	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi" v-click="5">
 		<strong class="bridge-knowledge-path-label">Návrat podkladů k agentovi</strong>
-		<div><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left />
-		<div><strong>Agent</strong><span>využije podklady, sestaví odpověď</span></div><mdi-arrow-left />
-		<div><strong>MCP</strong><span>vrátí výsledek volání</span></div><mdi-arrow-left />
-		<div class="knowledge-sources"><strong>Pasáže + zdroje</strong><span>výsledek vyhledávání</span></div>
+		<div class="bridge-knowledge-step"><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left />
+		<div class="bridge-knowledge-step"><strong>Agent</strong><span>využije podklady, sestaví odpověď</span></div><mdi-arrow-left />
+		<div class="bridge-knowledge-step"><strong>MCP</strong><span>vrátí výsledek volání</span></div><mdi-arrow-left />
+		<div class="bridge-knowledge-step knowledge-sources"><strong>Pasáže + zdroje</strong><span>výsledek vyhledávání</span></div>
 	</div>
 </div>
 

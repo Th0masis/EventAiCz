@@ -227,19 +227,36 @@
   align-self: start;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > .bridge-illustrative-query {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  margin-top: 12px;
+.topic-as-agentic-bridge .bridge-knowledge-step,
+.topic-as-agentic-bridge .bridge-illustrative-query {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > .bridge-illustrative-query.slidev-vclick-hidden {
+.topic-as-agentic-bridge .bridge-knowledge-step {
+  border-top: 3px solid var(--br-orange);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-flow > .bridge-illustrative-query-slot {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.topic-as-agentic-bridge .bridge-illustrative-query-slot.slidev-vclick-hidden,
+.topic-as-agentic-bridge .bridge-illustrative-query.slidev-vclick-hidden,
+.topic-as-agentic-bridge .bridge-knowledge-rag-slot.slidev-vclick-hidden {
   display: none;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-rag {
+.topic-as-agentic-bridge .bridge-knowledge-rag-slot {
   grid-column: 1 / -1;
   grid-row: 3;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag {
   display: grid;
   gap: 8px;
   padding-top: 10px;
@@ -269,9 +286,9 @@
   gap: 8px;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-rag-steps > div {
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps > .bridge-knowledge-step {
   display: flex;
-  min-height: 44px;
+  min-height: 68px;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
@@ -300,19 +317,19 @@
   font-weight: 700;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-path > div {
+.topic-as-agentic-bridge .bridge-knowledge-path > .bridge-knowledge-step {
   display: flex;
-  min-height: 68px;
+  min-height: 76px;
   flex-direction: column;
   justify-content: center;
   gap: 6px;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-path > div strong {
+.topic-as-agentic-bridge .bridge-knowledge-path > .bridge-knowledge-step strong {
   font-size: var(--type-body);
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-path > div span {
+.topic-as-agentic-bridge .bridge-knowledge-path > .bridge-knowledge-step span {
   color: var(--steel);
   font-size: var(--type-caption);
   line-height: 1.25;
@@ -360,9 +377,7 @@
 .topic-as-agentic-bridge .bridge-illustrative-query {
   display: grid;
   gap: 8px;
-  margin: 0;
-  padding-left: 16px;
-  border-left: 2px solid var(--br-orange);
+  margin: 12px 0 0;
 }
 
 .topic-as-agentic-bridge .bridge-illustrative-query strong {

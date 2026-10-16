@@ -272,11 +272,26 @@ async function checkDesign(layout, label) {
 }
 
 async function checkRevealSequence(layout, slide, click) {
-  if (!String(slide.frontmatter.class ?? '').split(/\s+/).includes('as-cli-slide')) return
-
-  const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-  assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
-    `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('as-cli-slide')) {
+    const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
+    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+      `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  }
+  if (classes.includes('bridge-knowledge-slide')) {
+    const requestSteps = await layout.locator('.bridge-knowledge-path:not(.bridge-knowledge-return):not(.slidev-vclick-hidden) > .bridge-knowledge-step:not(.slidev-vclick-hidden) > strong').allTextContents()
+    const returnSteps = await layout.locator('.bridge-knowledge-return:not(.slidev-vclick-hidden) > .bridge-knowledge-step:not(.slidev-vclick-hidden) > strong').allTextContents()
+    const query = layout.locator('.bridge-illustrative-query-slot:not(.slidev-vclick-hidden) .bridge-illustrative-query:not(.slidev-vclick-hidden)')
+    const rag = layout.locator('.bridge-knowledge-rag-slot:not(.slidev-vclick-hidden) .bridge-knowledge-rag:not(.slidev-vclick-hidden)')
+    assert.deepEqual(requestSteps, ['Dotaz', 'Agent', 'MCP', 'Knowledge Hub'].slice(0, click < 5 ? Math.min(click, 4) : 0),
+      `Wrong Knowledge Hub request sequence on slide ${slide.index + 1} after click ${click}`)
+    assert.deepEqual(returnSteps, click >= 5 ? ['Odpověď', 'Agent', 'MCP', 'Pasáže + zdroje'] : [],
+      `Wrong Knowledge Hub return sequence on slide ${slide.index + 1} after click ${click}`)
+    assert.equal(await query.count(), click >= 1 && click < 5 ? 1 : 0,
+      `Wrong illustrative query visibility on slide ${slide.index + 1} after click ${click}`)
+    assert.equal(await rag.count(), click === 4 ? 1 : 0,
+      `Wrong RAG visibility on slide ${slide.index + 1} after click ${click}`)
+  }
 }
 
 try {
