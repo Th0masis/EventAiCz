@@ -168,13 +168,21 @@ import './as-agentic-bridge/styles.css'
 
 <p class="bridge-lead">Online vyhledávací služba napříč technologickými znalostmi B&amp;R.</p>
 
-<div class="bridge-knowledge-flow" aria-label="Tok dotazu přes MCP Knowledge Hub a zpět k agentovi">
-	<div v-click="1"><strong>Dotaz</strong><span>ilustrační otázka</span></div><mdi-arrow-right v-click="1" />
-	<div v-click="1"><strong>Agent</strong><span>rozhodne, co dohledat</span></div><mdi-arrow-right v-click="2" />
-	<div v-click="2"><strong>MCP nástroj</strong><span>Model Context Protocol</span></div><mdi-arrow-right v-click="2" />
-	<div class="knowledge-service" v-click="3"><strong>Znalostní báze</strong><span>vyhledání podkladů</span></div><mdi-arrow-left v-click="4" />
-	<div class="knowledge-sources" v-click="4"><strong>Podklady + zdroje</strong><span>zpět do kontextu agenta</span></div><mdi-arrow-left v-click="4" />
-	<div v-click="4"><strong>Odpověď</strong><span>posoudí člověk</span></div>
+<div class="bridge-knowledge-flow" aria-label="Dvě oddělené cesty: dotaz do znalostní báze a návrat podkladů k agentovi">
+	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání">
+		<strong class="bridge-knowledge-path-label">Dotaz / vyhledání</strong>
+		<div v-click="1"><strong>Dotaz</strong><span>ilustrační otázka</span></div><mdi-arrow-right v-click="1" />
+		<div v-click="1"><strong>Agent</strong><span>rozhodne, co dohledat</span></div><mdi-arrow-right v-click="2" />
+		<div v-click="2"><strong>MCP nástroj</strong><span>Model Context Protocol</span></div><mdi-arrow-right v-click="2" />
+		<div class="knowledge-service" v-click="3"><strong>Znalostní báze</strong><span>vyhledání podkladů</span></div>
+	</div>
+	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi">
+		<strong class="bridge-knowledge-path-label">Návrat podkladů k agentovi</strong>
+		<div v-click="4"><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left v-click="4" />
+		<div v-click="4"><strong>Agent</strong><span>podklady do kontextu</span></div><mdi-arrow-left v-click="4" />
+		<div v-click="4"><strong>MCP nástroj</strong><span>předá výsledek</span></div><mdi-arrow-left v-click="4" />
+		<div class="knowledge-sources" v-click="4"><strong>Podklady + zdroje</strong><span>výsledek vyhledávání</span></div>
+	</div>
 </div>
 
 <div class="bridge-knowledge-details" v-click="5">
@@ -189,10 +197,10 @@ import './as-agentic-bridge/styles.css'
 <p class="bridge-knowledge-limit" v-click="6"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
 
 <!--
-B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejdřív ukážeme cestu dotazu a vrácených podkladů; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
+B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejdřív ukážeme cestu dotazu do služby, potom samostatně návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 [CLICK]
-Dotaz a agent: agent rozhodne, co potřebuje dohledat.
+Dotazovací cesta začíná ilustrační otázkou. Agent rozhodne, co potřebuje dohledat.
 
 [CLICK]
 MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhraní, ne samotná znalostní báze.
@@ -201,7 +209,7 @@ MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhran
 Znalostní báze vyhledá odpovídající podklady.
 
 [CLICK]
-Podklady se zdroji se vrátí do kontextu agenta; člověk posoudí výslednou odpověď.
+Návratová cesta vede opačným směrem: podklady se zdroji se přes MCP vrátí agentovi do kontextu a člověk posoudí výslednou odpověď.
 
 [CLICK]
 Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód. Příklad dotazu je ilustrativní, ne výsledek živého vyhledávání.

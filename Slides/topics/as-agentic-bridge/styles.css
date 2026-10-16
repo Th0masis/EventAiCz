@@ -208,16 +208,34 @@
 
 .topic-as-agentic-bridge .bridge-knowledge-flow {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin: 24px 0 28px;
-  padding: 18px 0;
+  padding: 14px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > div {
+.topic-as-agentic-bridge .bridge-knowledge-path {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-return {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-path-label {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  color: var(--steel);
+  font-size: var(--type-caption);
+  font-weight: 700;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-path > div {
   display: flex;
   min-height: 68px;
   flex-direction: column;
@@ -225,17 +243,17 @@
   gap: 6px;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > div strong {
+.topic-as-agentic-bridge .bridge-knowledge-path > div strong {
   font-size: var(--type-body);
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > div span {
+.topic-as-agentic-bridge .bridge-knowledge-path > div span {
   color: var(--steel);
   font-size: var(--type-caption);
   line-height: 1.25;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-flow > svg {
+.topic-as-agentic-bridge .bridge-knowledge-path > svg {
   color: var(--br-orange);
   font-size: 20px;
 }
