@@ -208,7 +208,7 @@
 
 .topic-as-agentic-bridge .bridge-knowledge-flow {
   display: grid;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
   margin: 24px 0 28px;
   padding: 14px 0;
   border-top: 1px solid var(--line);
@@ -216,6 +216,7 @@
 }
 
 .topic-as-agentic-bridge .bridge-knowledge-path {
+  grid-area: 1 / 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
   align-items: center;
@@ -223,8 +224,17 @@
 }
 
 .topic-as-agentic-bridge .bridge-knowledge-return {
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
+  align-self: start;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-flow > .bridge-illustrative-query {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 12px;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-flow > .bridge-illustrative-query.slidev-vclick-hidden {
+  display: none;
 }
 
 .topic-as-agentic-bridge .bridge-knowledge-path-label {
@@ -264,10 +274,7 @@
 }
 
 .topic-as-agentic-bridge .bridge-knowledge-details {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 40px;
-  align-items: start;
+  display: block;
 }
 
 .topic-as-agentic-bridge .bridge-knowledge-details h2 {
@@ -277,7 +284,7 @@
 
 .topic-as-agentic-bridge .bridge-knowledge-details ul {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px 20px;
   margin: 0;
   padding: 0;

@@ -72,8 +72,8 @@ import './as-agentic-bridge/styles.css'
 <div class="bridge-pillars" aria-label="Tři části Agentic Bridge">
 	<section class="bridge-pillar workflow-pillar" v-click="2">
 		<h2>Workflow</h2>
-		<strong>Instrukce a skills</strong>
-		<p>Postup pro váš projekt</p>
+		<strong>AS Repository</strong>
+		<p>Instrukce, skills a postup pro projekt</p>
 		<div class="bridge-pillar-flow"><mdi-arrow-up /><span>pravidla do agenta</span></div>
 	</section>
 	<section class="bridge-pillar knowledge-pillar" v-click="3">
@@ -168,39 +168,40 @@ import './as-agentic-bridge/styles.css'
 
 <p class="bridge-lead">Online vyhledávací služba napříč technologickými znalostmi B&amp;R.</p>
 
-<div class="bridge-knowledge-flow" aria-label="Dvě oddělené cesty: dotaz do znalostní báze a návrat podkladů k agentovi">
-	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání">
+<div class="bridge-knowledge-flow" aria-label="Dotaz do znalostní báze a následný návrat podkladů přes MCP k agentovi">
+	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání" v-click-hide="5">
 		<strong class="bridge-knowledge-path-label">Dotaz / vyhledání</strong>
-		<div v-click="1"><strong>Dotaz</strong><span>ilustrační otázka</span></div><mdi-arrow-right v-click="1" />
-		<div v-click="1"><strong>Agent</strong><span>rozhodne, co dohledat</span></div><mdi-arrow-right v-click="2" />
-		<div v-click="2"><strong>MCP nástroj</strong><span>Model Context Protocol</span></div><mdi-arrow-right v-click="2" />
-		<div class="knowledge-service" v-click="3"><strong>Znalostní báze</strong><span>vyhledání podkladů</span></div>
+		<div v-click="1"><strong>Dotaz</strong></div><mdi-arrow-right v-click="1" />
+		<div v-click="2"><strong>Agent</strong><span>rozhodne, co dohledat</span></div><mdi-arrow-right v-click="2" />
+		<div v-click="3"><strong>MCP nástroj</strong><span>Model Context Protocol</span></div><mdi-arrow-right v-click="3" />
+		<div class="knowledge-service" v-click="4"><strong>Znalostní báze</strong><span>vyhledání podkladů</span></div>
 	</div>
-	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi">
+	<p class="bridge-illustrative-query" v-click="1" v-click-hide="5"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
+	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi" v-click="5">
 		<strong class="bridge-knowledge-path-label">Návrat podkladů k agentovi</strong>
-		<div v-click="4"><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left v-click="4" />
-		<div v-click="4"><strong>Agent</strong><span>podklady do kontextu</span></div><mdi-arrow-left v-click="4" />
-		<div v-click="4"><strong>MCP nástroj</strong><span>předá výsledek</span></div><mdi-arrow-left v-click="4" />
-		<div class="knowledge-sources" v-click="4"><strong>Podklady + zdroje</strong><span>výsledek vyhledávání</span></div>
+		<div><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left />
+		<div><strong>Agent</strong><span>podklady do kontextu</span></div><mdi-arrow-left />
+		<div><strong>MCP nástroj</strong><span>předá výsledek</span></div><mdi-arrow-left />
+		<div class="knowledge-sources"><strong>Podklady + zdroje</strong><span>výsledek vyhledávání</span></div>
 	</div>
 </div>
 
-<div class="bridge-knowledge-details" v-click="5">
-	<section>
-		<h2>Vyhledávané zdroje</h2>
-		<ul><li>Automation Help</li><li>B&amp;R Community: příspěvky a komentáře</li><li>Informace o verzích</li><li>Schválený interní zdrojový kód</li></ul>
-	</section>
-	<p class="bridge-illustrative-query"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
+<div class="bridge-knowledge-details" v-click="6">
+	<h2>Vyhledávané zdroje</h2>
+	<ul><li>Automation Help</li><li>B&amp;R Community: příspěvky a komentáře</li><li>Informace o verzích</li><li>Schválený interní zdrojový kód</li></ul>
 </div>
 
-<p class="bridge-knowledge-status" v-click="6">Přes MCP · v produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
-<p class="bridge-knowledge-limit" v-click="6"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
+<p class="bridge-knowledge-status" v-click="7">Přes MCP · v produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
+<p class="bridge-knowledge-limit" v-click="7"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
 
 <!--
-B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejdřív ukážeme cestu dotazu do služby, potom samostatně návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
+B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 [CLICK]
-Dotazovací cesta začíná ilustrační otázkou. Agent rozhodne, co potřebuje dohledat.
+Zpracujeme ilustrační dotaz z workflow. Není to výsledek živého vyhledávání.
+
+[CLICK]
+Agent rozhodne, co potřebuje dohledat.
 
 [CLICK]
 MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhraní, ne samotná znalostní báze.
@@ -209,10 +210,10 @@ MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhran
 Znalostní báze vyhledá odpovídající podklady.
 
 [CLICK]
-Návratová cesta vede opačným směrem: podklady se zdroji se přes MCP vrátí agentovi do kontextu a člověk posoudí výslednou odpověď.
+Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent pak sestaví odpověď, kterou posoudí člověk.
 
 [CLICK]
-Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód. Příklad dotazu je ilustrativní, ne výsledek živého vyhledávání.
+Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód.
 
 [CLICK]
 Provozní údaje: služba je v produkci od červnového vydání Automation Studio Code; čtvrtletní aktualizaci potvrdil vývojář služby. Rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté; schválený interní kód neznamená libovolný interní ani zákaznický kód.
