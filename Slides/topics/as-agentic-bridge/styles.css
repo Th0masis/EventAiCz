@@ -237,6 +237,61 @@
   display: none;
 }
 
+.topic-as-agentic-bridge .bridge-knowledge-rag {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag.slidev-vclick-hidden {
+  display: none;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-label {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--steel);
+  font-size: var(--type-caption);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-label strong {
+  color: var(--ink);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps > div {
+  display: flex;
+  min-height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps strong {
+  font-size: var(--type-caption);
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps span {
+  color: var(--steel);
+  font-size: var(--type-caption);
+  line-height: 1.25;
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-rag-steps svg {
+  color: var(--br-orange);
+  font-size: 20px;
+}
+
 .topic-as-agentic-bridge .bridge-knowledge-path-label {
   grid-column: 1 / -1;
   margin: 0 0 4px;

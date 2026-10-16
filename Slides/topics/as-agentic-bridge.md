@@ -168,21 +168,29 @@ import './as-agentic-bridge/styles.css'
 
 <p class="bridge-lead">Online vyhledávací služba napříč technologickými znalostmi B&amp;R.</p>
 
-<div class="bridge-knowledge-flow" aria-label="Dotaz do znalostní báze a následný návrat podkladů přes MCP k agentovi">
+<div class="bridge-knowledge-flow" aria-label="Ilustrační dotaz, jeho předání přes MCP, zjednodušený princip RAG a návrat podkladů agentovi">
 	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání" v-click-hide="5">
 		<strong class="bridge-knowledge-path-label">Dotaz / vyhledání</strong>
 		<div v-click="1"><strong>Dotaz</strong></div><mdi-arrow-right v-click="1" />
-		<div v-click="2"><strong>Agent</strong><span>rozhodne, co dohledat</span></div><mdi-arrow-right v-click="2" />
-		<div v-click="3"><strong>MCP nástroj</strong><span>Model Context Protocol</span></div><mdi-arrow-right v-click="3" />
-		<div class="knowledge-service" v-click="4"><strong>Znalostní báze</strong><span>vyhledání podkladů</span></div>
+		<div v-click="2"><strong>Agent</strong><span>vyloží dotaz a zvolí, co hledat</span></div><mdi-arrow-right v-click="2" />
+		<div v-click="3"><strong>MCP</strong><span>předá volání službě</span></div><mdi-arrow-right v-click="3" />
+		<div class="knowledge-service" v-click="4"><strong>Knowledge Hub</strong><span>vyhledá podklady (RAG)</span></div>
 	</div>
 	<p class="bridge-illustrative-query" v-click="1" v-click-hide="5"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
+	<div class="bridge-knowledge-rag" v-click="4" v-click-hide="5" aria-label="Zjednodušený princip RAG, ne popis konkrétní implementace">
+		<div class="bridge-knowledge-rag-label"><strong>Zjednodušený princip RAG</strong><span>konkrétní interní mechanismus Hubu zde není ověřen</span></div>
+		<div class="bridge-knowledge-rag-steps">
+			<div><strong>Připravené zdroje</strong><span>obsah dostupný pro hledání</span></div><mdi-arrow-right />
+			<div><strong>Vyhledání pasáží</strong><span>vyberou se části související s dotazem</span></div><mdi-arrow-right />
+			<div><strong>Podklady se zdroji</strong><span>vrátí se agentovi do kontextu</span></div>
+		</div>
+	</div>
 	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi" v-click="5">
 		<strong class="bridge-knowledge-path-label">Návrat podkladů k agentovi</strong>
 		<div><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left />
-		<div><strong>Agent</strong><span>podklady do kontextu</span></div><mdi-arrow-left />
-		<div><strong>MCP nástroj</strong><span>předá výsledek</span></div><mdi-arrow-left />
-		<div class="knowledge-sources"><strong>Podklady + zdroje</strong><span>výsledek vyhledávání</span></div>
+		<div><strong>Agent</strong><span>využije podklady, sestaví odpověď</span></div><mdi-arrow-left />
+		<div><strong>MCP</strong><span>vrátí výsledek volání</span></div><mdi-arrow-left />
+		<div class="knowledge-sources"><strong>Pasáže + zdroje</strong><span>výsledek vyhledávání</span></div>
 	</div>
 </div>
 
@@ -198,19 +206,19 @@ import './as-agentic-bridge/styles.css'
 B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 [CLICK]
-Zpracujeme ilustrační dotaz z workflow. Není to výsledek živého vyhledávání.
+Příklad je ilustrační, nejde o výsledek živého vyhledávání.
 
 [CLICK]
-Agent rozhodne, co potřebuje dohledat.
+Agent otázku vyloží a rozhodne, jaké podklady si vyžádat.
 
 [CLICK]
-MCP nástroj předá dotaz znalostní službě. MCP je zde přístupové rozhraní, ne samotná znalostní báze.
+MCP předá volání znalostní službě a vrátí její výsledek. Je to rozhraní a transport, ne vyhledávač ani znalostní báze.
 
 [CLICK]
-Znalostní báze vyhledá odpovídající podklady.
+Zjednodušeně: RAG vyhledá relevantní pasáže v připravených zdrojích a vrátí je i s odkazy. Neznáme zde přesné interní kroky Hubu, proto netvrdíme, zda používá například embeddingy, vektorové vyhledávání nebo reranking.
 
 [CLICK]
-Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent pak sestaví odpověď, kterou posoudí člověk.
+Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent z nich sestaví odpověď, kterou posoudí člověk.
 
 [CLICK]
 Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód.
