@@ -8,6 +8,7 @@ import './as-repository/styles.css'
 </script>
 
 <img class="chapter-image" src="/topics/as-repository/chapter.jpg" alt="">
+
 # AS repository: dejte AI<br>kontext automation experta
 
 <!--
