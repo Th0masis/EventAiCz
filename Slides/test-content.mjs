@@ -65,15 +65,9 @@ const expectedOrchestraceSlides = [
 const actualOrchestraceSlides = orchestraceSlides.map(slide =>
   String(slide.frontmatter.class).split(/\s+/).find(className => expectedOrchestraceSlides.includes(className)),
 )
-const chapterOnly = actualOrchestraceSlides.length === 1 && actualOrchestraceSlides[0] === 'chapter-slide'
-assert.ok(
-  chapterOnly || JSON.stringify(actualOrchestraceSlides) === JSON.stringify(expectedOrchestraceSlides),
-  'Orchestrace topic slides are missing, duplicated, or out of order',
-)
-if (!chapterOnly) {
-  const machineDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('machine-demo-slide'))
-  const hmiDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('hmi-testing-slide'))
-  assert.ok(machineDemoIndex >= 0 && hmiDemoIndex > machineDemoIndex, 'Orange machine demo must precede HMI verification')
-}
+assert.deepEqual(actualOrchestraceSlides, expectedOrchestraceSlides, 'Orchestrace topic slides are missing, duplicated, or out of order')
+const machineDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('machine-demo-slide'))
+const hmiDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('hmi-testing-slide'))
+assert.ok(machineDemoIndex >= 0 && hmiDemoIndex > machineDemoIndex, 'Orange machine demo must precede HMI verification')
 
 console.log(`Content checks passed: ${topicFiles.length} topics, ${deck.slides.length} slides`)
