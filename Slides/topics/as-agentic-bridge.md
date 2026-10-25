@@ -158,45 +158,19 @@ Lidská revize posuzuje změnu i důkazy. Může proběhnout také dříve podle
 ---
 layout: default
 class: ot-slide topic-as-agentic-bridge bridge-knowledge-slide
+clicks: 7
 ---
 
 <script setup>
 import './as-agentic-bridge/styles.css'
+import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 </script>
 
 # MCP Knowledge Hub: znalosti se zdrojem
 
 <p class="bridge-lead">Online vyhledávací služba napříč technologickými znalostmi B&amp;R.</p>
 
-<div class="bridge-knowledge-flow" aria-label="Ilustrační dotaz, jeho předání přes MCP, zjednodušený princip RAG a návrat podkladů agentovi">
-	<div class="bridge-knowledge-path" aria-label="Dotaz a vyhledání" v-click-hide="5">
-		<strong class="bridge-knowledge-path-label">Dotaz / vyhledání</strong>
-		<div class="bridge-knowledge-step" v-click="1"><strong>Dotaz</strong></div><mdi-arrow-right v-click="1" />
-		<div class="bridge-knowledge-step" v-click="2"><strong>Agent</strong><span>vyloží dotaz a zvolí, co hledat</span></div><mdi-arrow-right v-click="2" />
-		<div class="bridge-knowledge-step" v-click="3"><strong>MCP</strong><span>předá volání službě</span></div><mdi-arrow-right v-click="3" />
-		<div class="bridge-knowledge-step knowledge-service" v-click="4"><strong>Knowledge Hub</strong><span>vyhledá podklady (RAG)</span></div>
-	</div>
-	<div class="bridge-illustrative-query-slot" v-click-hide="5">
-		<p class="bridge-illustrative-query" v-click="1"><strong>Ilustrační dotaz</strong><span>Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?</span></p>
-	</div>
-	<div class="bridge-knowledge-rag-slot" v-click="4">
-		<div class="bridge-knowledge-rag" v-click-hide="5" aria-label="Zjednodušený princip RAG, ne popis konkrétní implementace Hubu">
-			<div class="bridge-knowledge-rag-label"><strong>Zjednodušený princip RAG</strong><span>konkrétní interní mechanismus Hubu zde není ověřen</span></div>
-			<div class="bridge-knowledge-rag-steps">
-				<div class="bridge-knowledge-step"><strong>Připravené zdroje</strong><span>obsah dostupný pro hledání</span></div><mdi-arrow-right />
-				<div class="bridge-knowledge-step"><strong>Vyhledání pasáží</strong><span>vyberou se části související s dotazem</span></div><mdi-arrow-right />
-				<div class="bridge-knowledge-step"><strong>Podklady se zdroji</strong><span>vrátí se agentovi do kontextu</span></div>
-			</div>
-		</div>
-	</div>
-	<div class="bridge-knowledge-path bridge-knowledge-return" aria-label="Návrat podkladů k agentovi" v-click="5">
-		<strong class="bridge-knowledge-path-label">Návrat podkladů k agentovi</strong>
-		<div class="bridge-knowledge-step"><strong>Odpověď</strong><span>posoudí člověk</span></div><mdi-arrow-left />
-		<div class="bridge-knowledge-step"><strong>Agent</strong><span>využije podklady, sestaví odpověď</span></div><mdi-arrow-left />
-		<div class="bridge-knowledge-step"><strong>MCP</strong><span>vrátí výsledek volání</span></div><mdi-arrow-left />
-		<div class="bridge-knowledge-step knowledge-sources"><strong>Pasáže + zdroje</strong><span>výsledek vyhledávání</span></div>
-	</div>
-</div>
+<KnowledgeFlow />
 
 <div class="bridge-knowledge-details" v-click="6">
 	<h2>Vyhledávané zdroje</h2>
@@ -210,19 +184,19 @@ import './as-agentic-bridge/styles.css'
 B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 [CLICK]
-Příklad je ilustrační, nejde o výsledek živého vyhledávání.
+Dotaz pochází ze sdílené ukázky. Hover nebo fokus otevře vysvětlující kartu, kliknutí ji připne; Escape nebo tlačítko Zavřít ji zavře. Nejde o živé vyhledávání.
 
 [CLICK]
-Agent otázku vyloží a rozhodne, jaké podklady si vyžádat.
+Agent otázku vyloží a rozhodne, jaké podklady si vyžádat. Jeho karta vysvětluje převod českého dotazu do anglické vyhledávací formulace a práci s výsledkem; neukazuje interní uvažování.
 
 [CLICK]
-MCP předá volání znalostní službě a vrátí její výsledek. Je to rozhraní a transport, ne vyhledávač ani znalostní báze.
+MCP předá volání znalostní službě a vrátí její výsledek. Karta ukazuje bnr_knowledge_base_rag a skutečné argumenty z dodaného snímku: query, top_k 5, include_images false. Je to rozhraní a transport, ne vyhledávač ani znalostní báze.
 
 [CLICK]
-Zjednodušeně: RAG vyhledá relevantní pasáže v připravených zdrojích a vrátí je i s odkazy. Neznáme zde přesné interní kroky Hubu, proto netvrdíme, zda používá například embeddingy, vektorové vyhledávání nebo reranking.
+Zjednodušeně: RAG vyhledá pasáže v připravených zdrojích a vrátí je i s odkazy. Karta Hubu ukazuje dodané výsledky a jejich relevanci. Source 2 souvisí s transferem, Source 1 je chyba osy, Source 3 je zkrácený. Neznáme přesné interní kroky Hubu, proto netvrdíme, zda používá například embeddingy, vektorové vyhledávání nebo reranking. Vrácený výsledek ještě nemusí být relevantní.
 
 [CLICK]
-Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent z nich sestaví odpověď, kterou posoudí člověk.
+Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent z nich sestaví odpověď, kterou posoudí člověk. Karta Odpověď shrnuje sdílený výstup a upozorňuje, že předložený výřez nepodkládá celý seznam příčin.
 
 [CLICK]
 Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód.
@@ -232,7 +206,7 @@ Provozní údaje: služba je v produkci od červnového vydání Automation Stud
 
 MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
-Příklad dotazu ze školení: „Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny a co ověřit?“ Neřešit zde diagnostiku, jen ukázat, že nejprve chceme dohledané podklady a pak doporučení. Skutečný výřez volání není připraven, proto použít označené schéma; neimprovizovat živé výsledky ani nevkládat domyšlené citace.
+Používáme dodaný snímek volání a zkrácený text výsledků. Odpověď je shrnutí sdílené ukázky, nikoli ověřený diagnostický postup. Neřešit zde diagnostiku ani neimprovizovat chybějící výsledky nebo citace. Při změně klikového kroku se detail zavře, aby nezůstal otevřený nad jinou fází toku.
 
 Dohledaná odpověď se zdrojem je kontrolovatelnější, ne automaticky správná. Je nutné posoudit relevanci, verzi a soulad s projektem. Přístup se konfiguruje v klientovi; školení ukazuje Bearer JWT. Nikdy nezobrazovat reálné přihlašovací údaje a netvrdit anonymní přístup ani dostupnost bez dalších podmínek.
 -->
