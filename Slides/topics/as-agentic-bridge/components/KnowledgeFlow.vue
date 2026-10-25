@@ -29,8 +29,9 @@ const titles: Record<Detail, string> = {
   hub: 'Knowledge Hub: vyhledání pasáží, ne hotové odpovědi',
   answer: 'Odpověď agenta: návrh, který vyžaduje ověření',
 }
+const searchQuery = 'X20 PLC starts in SERVICE after transfer to project causes possible reasons'
 const payload = JSON.stringify({
-  query: 'X20 PLC starts in SERVICE after transfer to project causes possible reasons',
+  query: searchQuery,
   top_k: 5,
   include_images: false,
 }, null, 2)
@@ -79,16 +80,15 @@ watch($clicks, close)
   >
     <div class="bridge-knowledge-path-label">
       {{ returning ? 'Návrat podkladů k agentovi' : 'Dotaz / vyhledání' }}
-      <span>Hover nebo fokus: detail · kliknutí: připnout · Esc: zavřít</span>
     </div>
     <div class="bridge-knowledge-path" :class="{ 'bridge-knowledge-return': returning }">
-      <div v-for="(step, index) in steps" :key="step.detail" class="bridge-knowledge-node">
+      <div v-for="(step, index) in steps" :key="`${returning}-${step.detail}`" class="bridge-knowledge-node">
         <button
           v-show="$clicks >= (returning ? 5 : index + 1)"
           :id="`${id}-${step.detail}`"
           type="button"
           class="bridge-knowledge-step"
-          :class="{ 'is-active': active === step.detail }"
+          :class="{ 'is-active': active === step.detail, 'is-current': !active && !returning && $clicks === index + 1 }"
           :data-detail="step.detail"
           :aria-expanded="active === step.detail"
           :aria-controls="`${id}-detail`"
@@ -96,14 +96,36 @@ watch($clicks, close)
           @focus="preview(step.detail)"
           @click="toggle(step.detail)"
         >
-          <strong>{{ step.label }}</strong><span>{{ step.description }}</span>
+          <div class="bridge-knowledge-step-heading">
+            <span class="bridge-knowledge-step-icon" aria-hidden="true">
+              <mdi-account-question-outline v-if="step.detail === 'query'" />
+              <mdi-account-check-outline v-else-if="step.detail === 'answer'" />
+              <mdi-robot-outline v-else-if="step.detail === 'agent'" />
+              <mdi-connection v-else-if="step.detail === 'mcp'" />
+              <mdi-file-document-multiple-outline v-else-if="returning" />
+              <mdi-database-search-outline v-else />
+            </span>
+            <strong>{{ step.label }}</strong>
+          </div>
+          <span>{{ step.description }}</span>
         </button>
         <svg v-if="index < 3" v-show="$clicks >= (returning ? 5 : index + 1)" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
     </div>
-    <p v-if="!active" class="bridge-knowledge-hint">Otevřete kartu a sledujte konkrétní dotaz, volání i vrácené zdroje.</p>
+    <div v-if="!active && $clicks >= 1" class="bridge-knowledge-context">
+      <template v-if="returning">
+        <h3>Od podkladů k odpovědi</h3>
+        <p>RAG dodává podklady; výslednou odpověď vytváří agent.</p>
+        <p class="bridge-knowledge-caveat">Podklady vstupují do kontextu, ne natrvalo do modelu.</p>
+      </template>
+      <template v-else>
+        <h3>Dotaz ze sdílené ukázky</h3>
+        <p>„Proč X20 PLC přejde po nahrání projektu do SERVICE?“</p>
+        <p class="bridge-knowledge-caveat">Cílem je dohledat podklady pro diagnostiku, nikoli měnit stav PLC.</p>
+      </template>
+    </div>
     <section v-if="active" :id="`${id}-detail`" class="bridge-knowledge-popup" role="region" :aria-labelledby="`${id}-title`">
       <header>
         <h2 :id="`${id}-title`">{{ titles[active] }}</h2>
@@ -118,37 +140,33 @@ watch($clicks, close)
         </template>
         <div v-else-if="active === 'agent'" class="bridge-knowledge-columns">
           <div>
-            <h3>Před voláním</h3>
-            <p>Z české otázky vznikne anglický vyhledávací dotaz: X20 PLC, SERVICE, přenos projektu a možné příčiny.</p>
-            <p>Ve skutečném volání agent požádal o nejvýše 5 výsledků, bez obrázků.</p>
+            <h3>{{ returning ? 'Vrácené podklady' : 'Otázka uživatele' }}</h3>
+            <p v-if="returning">Textové pasáže s odkazy. Agent posoudí relevanci, verzi a návaznost na projekt.</p>
+            <p v-else class="bridge-knowledge-question">„Proč X20 PLC přejde po nahrání projektu do SERVICE?“</p>
           </div>
           <div>
-            <h3>Po návratu</h3>
-            <p>Agent dostane textové pasáže s odkazy. Má posoudit relevanci a verzi, oddělit doložená tvrzení od hypotéz a sestavit odpověď.</p>
-            <p>Jde o vysvětlení role agenta, ne záznam jeho interního uvažování.</p>
+            <h3>{{ returning ? 'Odpověď pro člověka' : 'Vyhledávací dotaz' }}</h3>
+            <p v-if="returning">Oddělit doložená tvrzení od hypotéz a sestavit odpověď se zdroji.</p>
+            <template v-else><p><code>{{ searchQuery }}</code></p><p>Nejvýše 5 výsledků, bez obrázků.</p></template>
+            <p class="bridge-knowledge-caveat">Vysvětlení role agenta, ne záznam jeho interního uvažování.</p>
           </div>
         </div>
         <div v-else-if="active === 'mcp'" class="bridge-knowledge-columns">
           <div>
             <h3>Volání nástroje</h3>
-            <code>bnr_knowledge_base_rag</code>
-            <p>MCP přenese název nástroje a argumenty ke službě. Zpět vrátí její výstup do kontextu agenta.</p>
-            <p>Není to příkaz CLI ani řízení PLC. Zobrazené argumenty pocházejí z dodaného snímku volání.</p>
+            <p><code>bnr_knowledge_base_rag</code></p>
+            <p>MCP předá argumenty službě a vrátí výsledek agentovi.</p>
+            <p class="bridge-knowledge-caveat">Argumenty z dodaného snímku. Nejde o živé volání ani řízení PLC.</p>
           </div>
           <pre aria-label="Argumenty MCP volání"><code>{{ payload }}</code></pre>
         </div>
         <template v-else-if="active === 'hub'">
-          <div class="bridge-knowledge-rag-steps" aria-label="Zjednodušený princip vyhledávání">
-            <p><strong>Dotaz</strong><span>Služba přijme hledaný problém.</span></p>
-            <p><strong>Vyhledání</strong><span>Vybere pasáže z připravených zdrojů.</span></p>
-            <p><strong>Kontext agenta</strong><span>Vrátí text a odkazy, ne jistotu správnosti.</span></p>
-          </div>
           <ul class="bridge-knowledge-results">
-            <li><a href="https://help.br-automation.com/#/en/4/programming/build_rebuildactiveconfiguration.html" target="_blank" rel="noopener noreferrer">Source 2 · Rebuilding the active configuration</a><span>Relevantní k transferu: „the PLC should be switched to HALT mode before transferring the project“ — uvedeno pro sdílené globální proměnné ve více taskech.</span></li>
-            <li><a href="https://help.br-automation.com/#/en/6/motion/mapp_motion/statusnummern/event-ids/axdrivenotreadyforpoweronanymore.html" target="_blank" rel="noopener noreferrer">Source 1 · The axis isn't ready for power on anymore</a><span>Chyba osy / ErrorStop. Sama nedokládá příčinu SERVICE na CPU.</span></li>
-            <li><a href="https://help.br-automation.com/#/de/4/hardware/x20if10e3-1/firmware_fur_x20_module.html" target="_blank" rel="noopener noreferrer">Source 3 · Firmware</a><span>Výřez je zkrácený; nelze z něj ověřit tvrzení o firmware CPU.</span></li>
+            <li><a href="https://help.br-automation.com/#/en/4/programming/build_rebuildactiveconfiguration.html" target="_blank" rel="noopener noreferrer">Source 2 · Rebuilding the active configuration</a><span>„the PLC should be switched to HALT mode before transferring the project“</span><span class="bridge-knowledge-caveat">Relevantní k transferu sdílených globálních proměnných mezi tasky.</span></li>
+            <li><a href="https://help.br-automation.com/#/en/6/motion/mapp_motion/statusnummern/event-ids/axdrivenotreadyforpoweronanymore.html" target="_blank" rel="noopener noreferrer">Source 1 · The axis isn't ready for power on anymore</a><span>Chyba osy / ErrorStop.</span><span class="bridge-knowledge-caveat">Sama nedokládá příčinu SERVICE na CPU.</span></li>
+            <li><a href="https://help.br-automation.com/#/de/4/hardware/x20if10e3-1/firmware_fur_x20_module.html" target="_blank" rel="noopener noreferrer">Source 3 · Firmware</a><span>Výřez výsledku je zkrácený.</span><span class="bridge-knowledge-caveat">Nelze z něj ověřit tvrzení o firmware CPU.</span></li>
           </ul>
-          <p class="bridge-knowledge-caveat">Dodané výsledky jsou typu text_chunk. Interní vyhledávací algoritmus ani úplný výstup zde neznáme.</p>
+          <p class="bridge-knowledge-caveat">Dodané výsledky: text_chunk. Algoritmus ani úplný výstup zde neznáme.</p>
         </template>
         <template v-else>
           <p>Ve sdílené odpovědi agent uvádí šest skupin možných příčin: hardware/firmware, transfer, start systému, režim přenosu, runtime a komunikaci.</p>
