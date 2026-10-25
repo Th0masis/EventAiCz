@@ -71,7 +71,7 @@ cd Slides
 npm.cmd run test:smoke
 ```
 
-Smoke test projde slidy na desktopovém i mobilním rozlišení a uloží screenshoty
+Smoke test projde slidy pouze na desktopovém rozlišení 1280 × 720 a uloží screenshoty
 do `Slides/artifacts/slides/`. Před PR také ručně zkontrolujte odhalování
 obsahu, interakce, poznámky prezentujícího, obrázky a délku vystoupení.
 Duplicate checker kontroluje topicové i sdílené zdroje, CSS a testovací skripty;

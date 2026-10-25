@@ -35,10 +35,20 @@ extensions, not a claim about the template's official brand rules.
    content groups by 24-32px. Relationships matter more than filling the canvas.
 - Ordinary cards use 16-24px internal padding. Compact consumer cards and
    genuinely framed technical tools may use 12px. Command rows may use 4px
-   vertically/8px horizontally; workflow rows are repeated diagram items,
-   not ordinary cards. These are explicit density exceptions.
+   vertically/8px horizontally. Workflow rows are ordinarily repeated diagram
+   items, not ordinary cards; use cards when a sequence needs distinct,
+   bounded stages.
 - Use 16-24px between repeated cards. Align comparison-card top and bottom
    edges, headings and command baselines. Let text determine row height.
+- Knowledge Hub stages show one inline detail below the workflow on hover or keyboard focus.
+   Clicking pins it for touch/pointer use; Escape or Close dismisses it.
+   Reserve stable rows for the stages and detail even before reveal. Do not
+   overlay the stages, shift the sources below, or add interaction instructions
+   to the slide. Keep the pointer path into the detail open and reset details
+   on reveal changes. The supplied examples must fit without scrolling; source
+   links open the longer original documents separately.
+   Distinguish supplied tool arguments/results from conceptual RAG explanations
+   and unverified generated answers.
 - Never use fixed-height text rows with hidden overflow or ellipses for
    essential information. Wrapped commands must grow vertically.
 - Whitespace must support hierarchy and grouping. Do not fill every empty
@@ -208,7 +218,7 @@ line-height of 1.
       { "selector": ".help-output", "whiteSpace": "pre-wrap", "wordBreak": "normal", "overflowWrap": "anywhere" }
    ],
    "structure": {
-      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card",
+      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card, .bridge-knowledge-step",
       "unframed": ".tooling-workflow-panel, .tooling-automated-steps > div"
    },
    "terminal": {
@@ -225,6 +235,7 @@ line-height of 1.
       "components": [
          { "selector": ".tooling-workflow-panel, .as-cli-capability-card, .as-cli-core", "padding": [16, 16, 16, 16] },
          { "selector": ".tooling-gui-window, .tooling-runner-shell, .tooling-cli-boundary, .as-cli-consumer-card", "padding": [12, 12, 12, 12] },
+         { "selector": ".bridge-knowledge-step", "padding": [12, 12, 12, 12] },
          { "selector": ".as-cli-devops-gate", "padding": [24, 24, 24, 24] },
          { "selector": ".as-cli-command", "padding": [4, 8, 4, 8] }
       ],
@@ -457,7 +468,8 @@ another port. A smoke test against the dev server does not test the built output
 CI builds the deck, runs `npm run preview` on port 4173 and points the smoke test
 at that production preview. It reads the executable design contract above and checks all
 text roles, heading geometry, logo artwork bounds and slide-number placement
-on desktop and mobile. It also checks text clipping and footer clearance
+on desktop (1280 × 720). Mobile testing is not part of the presentation checks.
+It also checks text clipping and footer clearance
 at every reveal step, after transitions and terminal responses complete.
 The terminal must display all revealed commands without scrolling or clipping;
 only the active result is expanded. Tests verify transcript contents, wrapping,

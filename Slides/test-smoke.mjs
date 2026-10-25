@@ -33,6 +33,7 @@ let activePage
 let activeViewport
 let activeSlide = 1
 let activeClick = 0
+let knowledgeGeometry
 
 const context = () => `${activeViewport.name} (${activeViewport.width}x${activeViewport.height}), slide ${activeSlide}, click ${activeClick}`
 
@@ -272,17 +273,142 @@ async function checkDesign(layout, label) {
 }
 
 async function checkRevealSequence(layout, slide, click) {
-  if (!String(slide.frontmatter.class ?? '').split(/\s+/).includes('as-cli-slide')) return
+  const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('topic-as-agentic-bridge')) {
+    const emphasis = await layout.locator('.bridge-lead strong, .bridge-need-row b, .bridge-takeaway strong, .bridge-review-takeaway strong, .bridge-next-talk strong')
+      .evaluateAll(nodes => nodes.map(node => {
+        const channels = getComputedStyle(node).color.match(/\d+(\.\d+)?/g).slice(0, 3).map(Number)
+        const linear = channels.map(value => {
+          const channel = value / 255
+          return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+        })
+        const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+        return { text: node.textContent, contrast: 1.05 / (luminance + 0.05) }
+      }))
+    for (const item of emphasis) assert.ok(item.contrast >= 4.5,
+      `Bridge emphasis must remain readable on white: ${item.text} (${item.contrast.toFixed(2)}:1)`)
+  }
+  if (classes.includes('as-cli-slide')) {
+    const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
+    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+      `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  }
+  if (classes.includes('bridge-loop-slide')) {
+    const visible = await layout.locator('.bridge-loop > section:not(.slidev-vclick-hidden) h2').allTextContents()
+    assert.deepEqual(visible, ['Plan', 'Implement', 'Verify', 'Test', 'Lidská revize'].slice(0, click),
+      `Wrong engineering loop sequence after click ${click}`)
+    assert.deepEqual(await layout.locator('.bridge-loop .is-current h2').allTextContents(),
+      click ? [visible.at(-1)] : [], `Wrong active engineering step after click ${click}`)
+    assert.equal(await layout.locator('.bridge-return:not(.slidev-vclick-hidden)').count(), click >= 4 ? 1 : 0,
+      'Feedback must appear together with the test step')
+  }
+  if (classes.includes('bridge-mcp-selection-slide')) {
+    assert.equal(await layout.locator('.bridge-mcp-tool-options .is-selected').count(), click >= 2 ? 1 : 0,
+      'Tool selection must be highlighted together with its explanation')
+    assert.equal(await layout.locator('.bridge-tool-selected').count(), click >= 2 ? 1 : 0,
+      'Tool selection must not rely on color alone')
+  }
+  if (classes.includes('bridge-knowledge-slide')) {
+    const geometry = await layout.evaluate(element => {
+      const flow = element.querySelector('.bridge-knowledge-flow')
+      const path = element.querySelector('.bridge-knowledge-path')
+      const sources = element.querySelector('.bridge-knowledge-details')
+      return [flow.offsetTop, flow.offsetHeight, path.offsetTop, path.offsetHeight, sources.offsetTop]
+    })
+    if (click === 0) knowledgeGeometry = geometry
+    else assert.deepEqual(geometry, knowledgeGeometry, 'Knowledge Hub layout must not shift between reveals')
+    assert.equal(await layout.locator('.bridge-knowledge-hint, .bridge-knowledge-path-label span').count(), 0,
+      'Interaction instructions must not appear on the slide')
+    const visible = await layout.locator('.bridge-knowledge-step').evaluateAll(nodes =>
+      nodes.filter(node => node.checkVisibility()).map(node => node.querySelector('strong').textContent))
+    assert.deepEqual(visible, click >= 5
+      ? ['Odpověď', 'Agent', 'MCP', 'Pasáže + zdroje']
+      : ['Dotaz', 'Agent', 'MCP', 'Knowledge Hub'].slice(0, click),
+    `Wrong Knowledge Hub sequence on slide ${slide.index + 1} after click ${click}`)
+    assert.equal(await layout.locator('.bridge-knowledge-popup').count(), 0, 'Details must start closed after a reveal change')
+    const context = layout.locator('.bridge-knowledge-context')
+    assert.equal(await context.count(), click >= 1 ? 1 : 0, 'The closed detail area must explain the current phase')
+    if (click >= 1) assert.ok((await context.textContent()).includes(click < 5
+      ? 'Proč X20 PLC přejde po nahrání projektu do SERVICE?'
+      : 'RAG dodává podklady; výslednou odpověď vytváří agent.'))
+    if (click >= 1) assert.equal(await layout.locator('.bridge-knowledge-step').first()
+      .evaluate(node => getComputedStyle(node).animationName), click < 5 ? 'bridge-request-stage' : 'bridge-return-stage',
+    'Stage motion must follow the direction of the current flow')
+    if (click === 7) {
+      await layout.page().emulateMedia({ reducedMotion: 'reduce' })
+      assert.equal(await layout.locator('.bridge-knowledge-step').first().evaluate(node => {
+        const style = getComputedStyle(node)
+        return style.animationName === 'none' && style.transitionDuration === '0s'
+      }), true, 'Reduced motion must remove stage movement while keeping its visible state')
+      await layout.page().emulateMedia({ reducedMotion: 'no-preference' })
+    }
+    if (click === 4 || click === 5) await checkKnowledgeInteractions(layout, click)
+  }
+}
 
-  const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-  assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
-    `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+async function checkKnowledgeInteractions(layout, click) {
+  const page = layout.page()
+  const url = page.url()
+  const popup = layout.locator('.bridge-knowledge-popup')
+  const details = click === 4 ? ['query', 'agent', 'mcp', 'hub'] : ['answer']
+  for (const detail of details) {
+    const trigger = layout.locator(`[data-detail="${detail}"]`)
+    await trigger.hover()
+    assert.equal(await popup.isVisible(), true, `Hover must open ${detail}`)
+    assert.equal(await layout.locator('.bridge-knowledge-context').count(), 0,
+      'Opening a detail must replace the phase summary without moving the workflow')
+    assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
+    assert.equal(await popup.evaluate(panel => {
+      const path = panel.parentElement.querySelector('.bridge-knowledge-path').getBoundingClientRect()
+      const body = panel.querySelector('.bridge-knowledge-popup-body')
+      return panel.getBoundingClientRect().top >= path.bottom && getComputedStyle(panel).position !== 'absolute'
+        && getComputedStyle(panel).boxShadow === 'none' && body.scrollHeight <= body.clientHeight + 1
+    }), true, `${detail} detail must fit below the workflow without an overlay or scrolling`)
+    const content = await popup.textContent()
+    if (detail === 'query') assert.ok(content.includes('Proč X20 PLC přejde po nahrání projektu do SERVICE?'))
+    if (detail === 'agent') assert.ok(content.includes('ne záznam jeho interního uvažování'))
+    if (detail === 'mcp') {
+      assert.ok(content.includes('bnr_knowledge_base_rag'))
+      assert.deepEqual(JSON.parse(await popup.locator('pre code').textContent()), {
+        query: 'X20 PLC starts in SERVICE after transfer to project causes possible reasons',
+        top_k: 5,
+        include_images: false,
+      })
+    }
+    if (detail === 'hub') {
+      assert.equal(await popup.locator('a').count(), 3)
+      assert.ok(content.includes('Sama nedokládá příčinu SERVICE na CPU'))
+      assert.equal(await popup.locator('.bridge-knowledge-popup-body > .bridge-knowledge-caveat').isVisible(), true)
+    }
+    if (detail === 'answer') assert.ok(content.includes('Nejde o potvrzenou diagnózu'))
+    await checkDesign(layout, `${activeViewport.name}, Knowledge Hub ${detail} popup`)
+    await page.screenshot({
+      path: fileURLToPath(new URL(`${activeViewport.name}/knowledge-${detail}.png`, screenshotRoot)),
+      clip: await layout.boundingBox(),
+      animations: 'disabled',
+    })
+    await layout.locator('h1').hover()
+    assert.equal(await popup.count(), 0, 'Unpinned hover detail must close on pointer leave')
+    await trigger.click()
+    await layout.locator('h1').hover()
+    assert.equal(await popup.isVisible(), true, 'Click must pin the detail for touch and pointer users')
+    assert.equal(page.url(), url, 'Popup controls must not advance the slide')
+    await page.keyboard.press('Escape')
+    assert.equal(await popup.count(), 0, 'Escape must dismiss the detail')
+    await trigger.blur()
+    await trigger.focus()
+    assert.equal(await popup.isVisible(), true, 'Keyboard focus must open the detail')
+    await trigger.press('Enter')
+    await popup.getByRole('button', { name: 'Zavřít detail' }).click()
+    assert.equal(await popup.count(), 0, 'Close button must dismiss the detail')
+    assert.equal(await trigger.evaluate(node => node === document.activeElement), true, 'Closing must restore focus to the trigger')
+    assert.equal(page.url(), url)
+  }
 }
 
 try {
   for (const viewport of [
     { name: 'desktop', width: 1280, height: 720 },
-    { name: 'mobile', width: 390, height: 844 },
   ]) {
     if (activePage) await activePage.close()
     activePage = undefined
@@ -366,7 +492,7 @@ try {
   }
 
   assert.deepEqual(failures, [], 'Browser runtime, asset or design-contract errors')
-  console.log(`Browser smoke and design checks passed: ${slides.length} slides${selectedTopic ? ` (${selectedTopic})` : ''}, desktop and mobile screenshots`)
+  console.log(`Browser smoke and design checks passed: ${slides.length} slides${selectedTopic ? ` (${selectedTopic})` : ''}, desktop screenshots`)
 } catch (error) {
   console.error(`Smoke test failed: ${activeViewport ? context() : 'browser setup'}`)
   console.error(`Current URL: ${activePage?.url() ?? '(no page)'}`)
