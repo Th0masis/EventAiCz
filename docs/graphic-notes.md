@@ -35,9 +35,8 @@ extensions, not a claim about the template's official brand rules.
    content groups by 24-32px. Relationships matter more than filling the canvas.
 - Ordinary cards use 16-24px internal padding. Compact consumer cards and
    genuinely framed technical tools may use 12px. Command rows may use 4px
-   vertically/8px horizontally. Workflow rows are ordinarily repeated diagram
-   items, not ordinary cards; use cards when a sequence needs distinct,
-   bounded stages.
+   vertically/8px horizontally; workflow rows are repeated diagram items,
+   not ordinary cards. These are explicit density exceptions.
 - Use 16-24px between repeated cards. Align comparison-card top and bottom
    edges, headings and command baselines. Let text determine row height.
 - Never use fixed-height text rows with hidden overflow or ellipses for
@@ -209,7 +208,7 @@ line-height of 1.
       { "selector": ".help-output", "whiteSpace": "pre-wrap", "wordBreak": "normal", "overflowWrap": "anywhere" }
    ],
    "structure": {
-      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card, .bridge-knowledge-step, .bridge-illustrative-query",
+      "cards": ".as-cli-consumer-card, .as-cli-capability-card, .as-cli-devops-gate, .ot-compare-card",
       "unframed": ".tooling-workflow-panel, .tooling-automated-steps > div"
    },
    "terminal": {
@@ -226,7 +225,6 @@ line-height of 1.
       "components": [
          { "selector": ".tooling-workflow-panel, .as-cli-capability-card, .as-cli-core", "padding": [16, 16, 16, 16] },
          { "selector": ".tooling-gui-window, .tooling-runner-shell, .tooling-cli-boundary, .as-cli-consumer-card", "padding": [12, 12, 12, 12] },
-         { "selector": ".bridge-knowledge-step, .bridge-illustrative-query", "padding": [12, 12, 12, 12] },
          { "selector": ".as-cli-devops-gate", "padding": [24, 24, 24, 24] },
          { "selector": ".as-cli-command", "padding": [4, 8, 4, 8] }
       ],
