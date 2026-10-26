@@ -48,11 +48,11 @@ V druhém terminálu spusťte smoke test:
 npm.cmd run test:smoke
 ```
 
-Test projde slidy na desktopovém i mobilním rozlišení a uloží screenshoty do
+Test projde slidy pouze na desktopovém rozlišení 1280 × 720 a uloží screenshoty do
 `artifacts/slides/`. Při selhání vypíše viewport, slide, klik, aktuální URL
 a dosud zachycené chyby JavaScriptu, konzole, HTTP a neúspěšné síťové požadavky.
 Chybový screenshot celého viewportu uloží jako
-`artifacts/slides/<desktop|mobile>/failure-<slide>-click-<klik>.png`.
+`artifacts/slides/desktop/failure-<slide>-click-<klik>.png`.
 Pokud screenshot nelze pořídit, vypíše i tuto chybu; původní selhání zachová.
 Timeouty ani podmínky úspěchu se diagnostikou nemění.
 
@@ -82,7 +82,7 @@ Remove-Item Env:SLIDES_URL
 ```
 
 Pro rychlou lokální kontrolu jednoho tématu lze nastavit jeho ID. Projdou se
-všechny slidy tohoto tématu na desktopu i mobilu, včetně klikacích stavů:
+všechny slidy tohoto tématu na desktopu, včetně klikacích stavů:
 
 ```powershell
 $env:SLIDES_TOPIC = 'as-cli'
@@ -94,8 +94,13 @@ Tento režim nenahrazuje úplný smoke test před PR ani v CI. Používejte ho p
 iteraci nad izolovaným tématem; změny sdílených stylů, layoutů, slidů nebo
 komponent vyžadují úplný smoke test.
 
+Pro `as-agentic-bridge` smoke test kontroluje také aktuální krok engineering
+smyčky, výběr nástroje, návratový tok Knowledge Hubu a omezení pohybu při
+`prefers-reduced-motion`. Textové důrazy na bílém pozadí musí mít kontrast alespoň
+4,5 : 1. Přechody mezi slidy ověřte i běžnou navigací vpřed a zpět.
+
 Před PR ručně projděte všechny změněné slidy: ověřte odhalování obsahu,
-interakce, obrázky, poznámky prezentujícího, čitelnost na menším rozlišení
+interakce, obrázky, poznámky prezentujícího, čitelnost na desktopu
 a délku vystoupení. CI navíc kontroluje build, produkční preview a screenshoty.
 Automatické kontroly nenahrazují vizuální kontrolu. Grafická pravidla jsou v
 [grafických poznámkách](../docs/graphic-notes.md).
