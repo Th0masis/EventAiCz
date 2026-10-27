@@ -307,6 +307,7 @@
   margin: 12px 0 0;
   color: var(--steel);
   opacity: 1;
+  text-wrap: pretty;
 }
 
 .topic-as-agentic-bridge .bridge-mcp-architecture {
@@ -820,7 +821,7 @@
   animation: bridge-detail-reveal 160ms ease-out;
 }
 
-.topic-as-agentic-bridge .bridge-knowledge-context h3 {
+.topic-as-agentic-bridge .bridge-knowledge-context h2 {
   margin: 0;
   color: var(--steel);
   --text-role: caption;
@@ -1016,7 +1017,7 @@
   color: var(--br-orange);
 }
 
-.topic-as-agentic-bridge .bridge-illustrative-query h3 {
+.topic-as-agentic-bridge .bridge-illustrative-query h2 {
   margin: 0 0 4px;
   color: var(--steel);
   --text-role: caption;
@@ -1070,6 +1071,10 @@
 .topic-as-agentic-bridge .bridge-summary p {
   max-width: 30ch;
   margin: 0;
+}
+
+.topic-as-agentic-bridge .bridge-summary .summary-execution p {
+  text-wrap: pretty;
 }
 
 .topic-as-agentic-bridge .bridge-review-takeaway {

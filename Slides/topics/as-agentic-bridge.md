@@ -162,14 +162,14 @@ transition: fade-out
 import './as-agentic-bridge/styles.css'
 </script>
 
-# MCP: jak agent používá externí nástroje
+# MCP? Společná řeč mezi AI aplikací a nástrojem
 
-<p class="bridge-mcp-lead"><strong>Model Context Protocol</strong> je standard pro propojení AI aplikací s nástroji a daty.</p>
+<p class="bridge-mcp-lead">Představ si, že každý AI editor potřebuje vlastní integraci ke každému nástroji. <strong>MCP dává oběma stranám společný způsob, jak se domluvit.</strong></p>
 
-<div class="bridge-mcp-architecture" aria-label="Agentní aplikace s MCP klientem komunikuje přes MCP se serverem, který zpřístupňuje nástroje a data">
-	<section class="bridge-mcp-part"><mdi-robot-outline aria-hidden="true" /><h2>Agentní aplikace</h2><p>Model a harness.<br>MCP klient zajišťuje spojení.</p><span class="bridge-mcp-link" aria-hidden="true"><span>MCP</span><mdi-arrow-left-right /></span></section>
-	<section class="bridge-mcp-part"><mdi-connection aria-hidden="true" /><h2>MCP server</h2><p>Zpřístupní nástroje<br>a zpracuje jejich volání.</p><span class="bridge-mcp-link" aria-hidden="true"><span>API</span><mdi-arrow-left-right /></span></section>
-	<section class="bridge-mcp-part"><mdi-database-outline aria-hidden="true" /><h2>Nástroje a data</h2><p>Vyhledávání, soubory,<br>databáze nebo jiné služby.</p></section>
+<div class="bridge-mcp-architecture" aria-label="AI aplikace obsahuje MCP klienta, který mluví se serverem MCP; server zpřístupní existující nástroje a data">
+	<section class="bridge-mcp-part"><mdi-robot-outline aria-hidden="true" /><h2>AI aplikace</h2><p>Například chat nebo IDE.<br>Uvnitř běží MCP klient.</p><span class="bridge-mcp-link" aria-hidden="true"><span>MCP</span><mdi-arrow-left-right /></span></section>
+	<section class="bridge-mcp-part"><mdi-connection aria-hidden="true" /><h2>MCP server</h2><p>Popíše, co umí,<br>a provede požadovanou akci.</p><span class="bridge-mcp-link" aria-hidden="true"><span>API<br>volitelně</span><mdi-arrow-left-right /></span></section>
+	<section class="bridge-mcp-part"><mdi-database-outline aria-hidden="true" /><h2>Existující nástroje a data</h2><p>API, CLI, soubory,<br>databáze nebo vlastní kód.</p></section>
 </div>
 
 <div class="bridge-mcp-capabilities" aria-label="Co může MCP server zpřístupnit">
@@ -179,34 +179,34 @@ import './as-agentic-bridge/styles.css'
 </div>
 
 <div class="bridge-mcp-exchange" aria-label="Zjednodušený průběh použití MCP nástroje">
-	<div v-click="1"><span>1</span><strong>Nabídka nástrojů</strong><p>Klient získá popisy nástrojů a jejich argumentů.</p><code>tools/list</code></div>
-	<div v-click="2"><span>2</span><strong>Volání</strong><p>Agent vybere nástroj; klient odešle název a argumenty.</p><code>tools/call</code></div>
-	<div v-click="3"><span>3</span><strong>Provedení</strong><p>Server provede operaci nebo zavolá navázanou službu.</p><mdi-cog-outline aria-hidden="true" /></div>
-	<div v-click="4"><span>4</span><strong>Výsledek</strong><p>Výsledek nebo chyba se vrátí agentovi do kontextu.</p><mdi-arrow-u-left-top aria-hidden="true" /></div>
+	<div v-click="1"><span>1</span><strong>Co umíš?</strong><p>Klient zjistí, jaké akce server nabízí a jaké vstupy potřebují.</p><code>tools/list</code></div>
+	<div v-click="2"><span>2</span><strong>Použij tohle</strong><p>Agent vybere akci; klient předá serveru požadavek.</p><code>tools/call</code></div>
+	<div v-click="3"><span>3</span><strong>Proveď akci</strong><p>Server použije API, CLI, soubory nebo vlastní kód.</p><mdi-cog-outline aria-hidden="true" /></div>
+	<div v-click="4"><span>4</span><strong>Vrať výsledek</strong><p>Výsledek se vrátí do AI aplikace jako kontext pro odpověď.</p><mdi-arrow-u-left-top aria-hidden="true" /></div>
 </div>
 
-<p class="bridge-mcp-takeaway" v-click="4"><strong>MCP propojuje. RAG vyhledává.</strong> Oprávnění určuje aplikace a server.</p>
+<p class="bridge-mcp-takeaway" v-click="4"><strong>MCP je společný protokol, ne model ani databáze.</strong> Díky němu mohou MCP-kompatibilní AI aplikace používat stejný server bez zvláštní integrace pro každý nástroj.</p>
 
 <!--
-Záměr: vysvětlit MCP před konkrétní ukázkou Knowledge Hubu, přibližně 90 sekund.
+Záměr: odpovědět kolegovi programátorovi, který se ptá „A co je vlastně MCP?“, přibližně 60–90 sekund.
 
 Počáteční stav: nadpis, definice, všechny tři role diagramu a řádek Tools / Resources / Prompts jsou viditelné. Skupina 1 odhalí nabídku nástrojů, skupina 2 volání, skupina 3 provedení a skupina 4 návrat výsledku společně se spodním shrnutím. Konečný stav: celý čtyřkrokový průběh i shrnutí. Bez dalších interakcí.
 
-MCP znamená Model Context Protocol. Je to standardizovaný způsob komunikace, nikoli model, znalostní báze nebo vyhledávací algoritmus. Agentní aplikace je host, například vývojové prostředí s asistentem. Obsahuje MCP klienta, který komunikuje se serverem. Model sám neotevírá spojení ani přímo nespouští službu.
+„MCP“ znamená Model Context Protocol. Představ si, že chceš, aby AI editor uměl vyhledat dokumentaci nebo spustit nástroj. Bez společné dohody by se integrace musela přizpůsobovat každé aplikaci zvlášť. MCP je společný protokol, kterému rozumí AI aplikace i připojené nástroje. Není to další model, databáze ani kouzelný přístup k počítači.
 
 [CLICK]
-Klient zjistí, které nástroje server nabízí. Každý nástroj má název, popis a schéma argumentů. Zde ukazujeme větev tools; MCP může zpřístupňovat také resources a prompts. Detail navázání spojení a vyjednání schopností záměrně vynecháváme. Seznam nástrojů se nemusí načítat při každém dotazu.
+Vlevo je AI aplikace, třeba IDE s agentem. Uvnitř ní běží MCP klient: část programu, která umí protokol MCP. Klient se připojí k MCP serveru a zjistí, jaké nástroje server nabízí a jaké argumenty očekávají. Proto je na slidu otázka „Co umíš?“; skutečná zpráva se jmenuje tools/list.
 
 [CLICK]
-Agent podle úkolu navrhne vhodný nástroj a argumenty. Aplikace uplatní konfiguraci a případné schválení; její klient odešle tools/call na příslušný server. MCP neuděluje automaticky přístup ke všem datům ani oprávnění k libovolné akci.
+Když agent potřebuje například vyhledat dokumentaci, navrhne odpovídající nástroj a vstupy. Aplikace rozhodne, zda volání povolí; její klient předá požadavek serveru. Tomuto kroku se v MCP říká tools/call. Model sám neotevírá spojení se serverem.
 
 [CLICK]
-Server požadavek zpracuje. Operaci může implementovat sám nebo ji předat navázané službě či API. MCP server může běžet lokálně i vzdáleně; diagram nepředpokládá cloud ani konkrétní transport.
+MCP server je často adaptér: převede standardní požadavek na konkrétní práci. Může zavolat API, spustit CLI, číst soubory nebo použít vlastní kód. API je jen jedna možnost, ne povinná součást MCP serveru. Server vrátí výsledek klientovi a ten jej předá aplikaci, aby z něj agent mohl odpovědět.
 
 [CLICK]
-Výsledek nebo chyba se přes klienta vrátí do kontextu agentní aplikace. Model může výsledek použít k odpovědi nebo k dalšímu kroku. Přenos výsledku neznamená automaticky jeho správnost. Oprávnění a přístup se řídí aplikací a serverem, nikoli pouhou přítomností MCP.
+Představ si MCP jako společnou zásuvku pro integrace: server nemusí být přepsán pro každý MCP-kompatibilní editor. Přirovnání má hranice: MCP nezaručuje, že každá aplikace podporuje každou schopnost serveru, ani samo neřeší přihlášení či oprávnění. Proto kontrolujeme, který server spouštíme a co mu dovolíme.
 
-Nejprve ukážeme, podle čeho agent vybere nástroj. Potom porovnáme MCP a RAG a přejdeme ke konkrétní znalostní službě přístupné přes MCP.
+Nejprve ukážeme, podle čeho agent vybere nástroj. Potom odlišíme MCP od API a přejdeme ke konkrétní znalostní službě přístupné přes MCP.
 
 Zdroj: https://modelcontextprotocol.io/docs/learn/architecture (role host/client/server, tools/list, tools/call a návrat výsledku).
 -->
@@ -258,7 +258,7 @@ Zdroj: https://modelcontextprotocol.io/docs/learn/architecture (metadata nástro
 
 ---
 layout: default
-class: ot-slide topic-as-agentic-bridge bridge-rag-comparison-slide
+class: ot-slide topic-as-agentic-bridge bridge-mcp-comparison-slide
 transition: fade-out
 ---
 
@@ -266,50 +266,50 @@ transition: fade-out
 import './as-agentic-bridge/styles.css'
 </script>
 
-# MCP propojuje. RAG dohledává podklady.
+# MCP a API: propojené vrstvy, ne náhrady
 
-<p class="bridge-mcp-lead">Protokol komunikace a způsob práce s podklady nejsou totéž.</p>
+<p class="bridge-mcp-lead">MCP sjednocuje přístup AI aplikace k nástrojům. API zpřístupňuje funkce konkrétní služby.</p>
 
 <div class="bridge-mcp-comparison">
 	<section>
 		<div class="bridge-mcp-section-heading"><mdi-connection aria-hidden="true" /><h2>MCP</h2></div>
-		<p>Jak si aplikace a nástroj předají požadavek a výsledek.</p>
+		<p>Standardní protokol mezi AI hostem a MCP serverem.</p>
 		<div class="bridge-mcp-example" v-click="1">
-			<h3>Volání API bez RAG</h3>
-			<ol class="bridge-mcp-example-path"><li><mdi-robot-outline aria-hidden="true" /><span>Agent požádá o aktuální data.</span></li><li><mdi-api aria-hidden="true" /><span>MCP server zavolá API.</span></li><li><mdi-message-reply-text-outline aria-hidden="true" /><span>Data z API se vrátí pro odpověď.</span></li></ol>
-			<p class="bridge-mcp-example-note">Není nutné vyhledávat pasáže v dokumentech.</p>
+			<h3>Když funkci používá AI host</h3>
+			<ol class="bridge-mcp-example-path"><li><mdi-robot-outline aria-hidden="true" /><span>Host vytvoří MCP klienta pro server.</span></li><li><mdi-connection aria-hidden="true" /><span>Klient zjistí nástroje a zavolá například <code>get_order_status</code>.</span></li><li><mdi-message-reply-text-outline aria-hidden="true" /><span>Server vrátí výsledek; může přitom zavolat API.</span></li></ol>
+			<p class="bridge-mcp-example-note">Klient a server mluví přes MCP; model sám spojení neotevírá.</p>
 		</div>
 	</section>
 	<section>
-		<div class="bridge-mcp-section-heading"><mdi-book-search-outline aria-hidden="true" /><h2>RAG</h2></div>
-		<p>Retrieval-Augmented Generation: odpověď s dohledanými podklady v kontextu.</p>
+		<div class="bridge-mcp-section-heading"><mdi-api aria-hidden="true" /><h2>API</h2></div>
+		<p>Kontrakt, kterým služba nabízí data nebo operace klientům.</p>
 		<div class="bridge-mcp-example" v-click="2">
-			<h3>Dohledání dokumentace</h3>
-			<ol class="bridge-mcp-example-path"><li><mdi-file-search-outline aria-hidden="true" /><span>Dotaz vyhledá relevantní pasáže.</span></li><li><mdi-file-document-multiple-outline aria-hidden="true" /><span>Pasáže a zdroje vstoupí do kontextu.</span></li><li><mdi-message-text-outline aria-hidden="true" /><span>Model z podkladů sestaví odpověď.</span></li></ol>
-			<p class="bridge-mcp-example-note">Stále je nutné posoudit relevanci a správnost.</p>
+			<h3>Když službu volá aplikace</h3>
+			<ol class="bridge-mcp-example-path"><li><mdi-code-braces aria-hidden="true" /><span>Klient zná konkrétní API kontrakt a přihlašování.</span></li><li><mdi-api aria-hidden="true" /><span>Pošle požadavek, například <code>GET /orders/42</code>.</span></li><li><mdi-message-reply-text-outline aria-hidden="true" /><span>Služba vrátí data klientovi.</span></li></ol>
+			<p class="bridge-mcp-example-note">REST přes HTTP je běžné API, ne jediný možný druh API.</p>
 		</div>
 	</section>
 </div>
 
-<div class="bridge-mcp-comparison-takeaway" v-click="3"><p><strong>Nástroj přístupný přes MCP může používat RAG. Nemusí.</strong></p><p>RAG může fungovat i bez MCP.</p></div>
+<div class="bridge-mcp-comparison-takeaway" v-click="3"><p><strong>MCP server může API zpřístupnit agentovi; API tím nezaniká.</strong></p><p>MCP volíme pro kompatibilní AI hosty a znovupoužitelné nástroje, přímé API pro integraci na úrovni aplikace. Oprávnění se kontrolují v každé vrstvě.</p></div>
 
 <!--
-Záměr: oddělit protokol od způsobu získávání a použití podkladů, přibližně 60 sekund.
+Záměr: vysvětlit rozdíl mezi MCP a API a ukázat jejich běžné vrstvení, přibližně 60 sekund.
 
-Počáteční stav: nadpis, úvodní věta a definice obou sloupců jsou viditelné. Skupina 1 odhalí celý příklad API bez RAG; skupina 2 celý příklad práce s dokumentací; skupina 3 obě spodní věty. Konečný stav: oba příklady a shrnutí. Bez dalších interakcí.
+Počáteční stav: nadpis, úvodní věta a definice obou sloupců jsou viditelné. Skupina 1 odhalí celý příklad MCP; skupina 2 přímé volání API; skupina 3 shrnutí použití a oprávnění. Konečný stav: oba příklady a shrnutí. Bez dalších interakcí.
 
-MCP standardizuje výměnu mezi aplikací a serverem. RAG propojuje dohledání podkladů s generováním odpovědi. Nejsou to soupeřící protokoly ani dvě povinné vrstvy každého nástroje.
-
-[CLICK]
-Příkladem je nástroj pro získání aktuálního stavu objednávky z API. Server provede běžný API dotaz a vrátí data. Nemusí přitom prohledávat dokumenty ani používat RAG. Nejde o živou ukázku ani konkrétní produktovou funkci.
+MCP a API neporovnáváme jako dvě alternativy na stejné vrstvě. MCP standardizuje komunikaci agentní aplikace s MCP serverem. API je rozhraní, kterým služba nabízí své operace nebo data; může jít například o REST API přes HTTP.
 
 [CLICK]
-U dokumentace nejprve vyhledáme relevantní pasáže, vložíme je do kontextu a model je použije při sestavení odpovědi. Podklady nenahradí model a neodstraní potřebu kontroly. RAG může využívat i jiné zdroje než textové dokumenty; zde je ukazujeme kvůli návaznosti na Knowledge Hub. Nevnucujeme konkrétní vyhledávací algoritmus.
+AI host spravuje jednoho MCP klienta pro každý připojený server. Klient podle nabídky serveru zavolá nástroj přes MCP. MCP server může operaci provést sám, nebo ji delegovat na navázané API. Výsledek putuje zpět přes MCP klienta do host aplikace. Model navrhuje nástroj, ale připojení a směrování řídí host.
 
 [CLICK]
-MCP nástroj může zpřístupnit službu používající RAG, ale není to požadavek protokolu. Stejně tak RAG může běžet uvnitř aplikace bez MCP. Tímto rozlišením přejdeme ke konkrétní ukázce Knowledge Hubu.
+Při přímé integraci volá klient API podle jeho konkrétního kontraktu: endpoint nebo operaci, schéma, autentizaci a chybové stavy. API není synonymum pro REST; REST přes HTTP je pouze častý typ webového API. Příklad GET /orders/42 je schematický, nikoli konkrétní rozhraní B&R.
 
-Zdroje: https://modelcontextprotocol.io/docs/learn/architecture a https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview
+[CLICK]
+MCP dává smysl, když chceme jednotně nabídnout schopnosti různým MCP-kompatibilním AI hostům a nepsat pro každý vlastní adaptér. Přímé API dává smysl pro běžnou aplikační integraci s přesnou kontrolou nad kontraktem. Nejde o volbu buď/anebo: MCP server může být adaptér nad API. MCP samo o sobě neuděluje oprávnění; autentizaci, autorizaci a případné potvrzení akce musí řešit host, server i navázaná služba.
+
+Zdroje: https://modelcontextprotocol.io/docs/learn/architecture (role hostu/klienta/serveru, tools/list a tools/call) a https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design (příklady REST API přes HTTP).
 -->
 
 ---
@@ -337,7 +337,7 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 	</section>
 	<section class="bridge-illustrative-query">
 		<mdi-chat-question-outline aria-hidden="true" />
-		<div><h3>Ilustrační dotaz</h3><p>„Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?“</p><p class="bridge-query-caveat">Příklad dotazu, nikoli živé vyhledávání ani ověřený diagnostický postup.</p></div>
+		<div><h2>Ilustrační dotaz</h2><p>„Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?“</p><p class="bridge-query-caveat">Příklad dotazu, nikoli živé vyhledávání ani ověřený diagnostický postup.</p></div>
 	</section>
 </div>
 
