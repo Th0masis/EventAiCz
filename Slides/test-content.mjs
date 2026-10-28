@@ -9,6 +9,7 @@ export const deck = await load(
   { roots: [root], userRoot: root, allowedRoots: [root] },
   resolve(root, 'slides.md'),
 )
+export const topicMarkdownFiles = { ...deck.markdownFiles }
 
 for (const markdown of Object.values(deck.markdownFiles)) {
   assert.equal(markdown.errors?.length ?? 0, 0, `${markdown.filepath}: ${JSON.stringify(markdown.errors)}`)
@@ -42,6 +43,7 @@ for (const filename of topicFiles) {
     for (const markdown of Object.values(topicDeck.markdownFiles)) {
       assert.equal(markdown.errors?.length ?? 0, 0, `${markdown.filepath}: ${JSON.stringify(markdown.errors)}`)
     }
+    Object.assign(topicMarkdownFiles, topicDeck.markdownFiles)
   }
   const markdown = Object.values(topicDeck.markdownFiles)
     .find(markdown => resolve(markdown.filepath) === topicPath)
