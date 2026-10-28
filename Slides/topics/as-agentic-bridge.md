@@ -15,6 +15,13 @@ import './as-agentic-bridge/styles.css'
 Dopoledne jsme viděli, jak agent pracuje. Teď si ukážeme, co potřebuje, aby dokázal pracovat s Automation Studiem: pracovní postup, odborné znalosti a nástroje pro akci i kontrolu výsledku. To je role Agentic Bridge.
 
 Navázat na předchozí Community blok: informace mají být dostupné nejen člověku, ale také jeho nástrojům. Nevracet se k definici agentního systému.
+
+Rozšíření podle Webinar Agentic Engineering with B&R, 7:34–12:12,
+a dodaného slidu „Why B&R offers an ideal environment“; ověřeno vůči
+agentic-bridge-training/docs/agentic-bridge/slides/s5 a
+agentic-engineering-in-automation-studio/{README.md,plugins/as-skills/README.md}.
+Nový slide o textovém základu přidává přibližně 90 sekund.
+Původní DOCX ani screenshot nekopírujeme do repozitáře.
 -->
 
 ---
@@ -59,6 +66,70 @@ Přechod: B&R dodává propojení těchto částí, ne náhradu vašeho modelu.
 
 ---
 layout: default
+class: ot-slide topic-as-agentic-bridge bridge-foundation-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Automation Studio má textový základ
+
+<p class="bridge-lead">Agent může <strong>číst projekt i technické podklady.</strong></p>
+
+<div class="bridge-needs-list" aria-label="Textové vstupy pro práci agenta s Automation Studiem">
+	<div class="bridge-need-row" v-click="1"><mdi-file-code-outline aria-hidden="true" /><strong>Projektové zdroje</strong><span>Kód a konfigurace v textu: čtení, úpravy a kontrola diffu.</span></div>
+	<div class="bridge-need-row" v-click="2"><mdi-book-search-outline aria-hidden="true" /><strong>Instalace a Help</strong><span>Textová metadata, schémata a HTML dokumentace pro danou verzi.</span></div>
+	<div class="bridge-need-row" v-click="3"><mdi-console aria-hidden="true" /><strong>Zpětná vazba</strong><span>Build, hodnoty v ARsim a čitelný logbook pro další krok.</span></div>
+</div>
+
+<p class="bridge-takeaway" v-click="4">Bridge dodává <strong>nástroje a know-how.</strong><br>Nemění AS na jiný typ projektu.</p>
+
+<!--
+Čas: 1:30. Mapa odhalování: 0 = nadpis a lead; 1 = Projektové zdroje;
+2 = Instalace a Help; 3 = Zpětná vazba; 4 = celý závěr.
+Finále = tři vstupy a role Bridge. Bez dalších interakcí.
+
+Textový základ není až důsledek AI. Webinář ho popisuje jako přínos dřívějších
+architektonických rozhodnutí Automation Studia: agent nemusí získávat
+všechny informace jen klikáním v GUI nebo rozpoznáváním screenshotů.
+
+[CLICK]
+Kód i podstatná část konfigurace jsou přístupné jako textové soubory.
+Agent může pracovat s existujícím projektem; změny lze kontrolovat v diffu.
+Neopakovat absolutní „žádné binární soubory“: přepis výslovně připouští
+kompilované knihovny, projekt může mít i další netextové podklady.
+
+[CLICK]
+V instalaci jsou metadata a schémata; Help má HTML podobu.
+Dokumentace vysvětluje význam, metadata určují dostupnou strukturu a vlastnosti.
+Agent potřebuje podklady odpovídající verzi projektu a instalace.
+Preferovat podporované nástroje, například CLI pro zjištění schématu;
+textová dostupnost není oprávnění libovolně měnit instalaci.
+
+[CLICK]
+CLI zpřístupňuje podporované operace a výsledky. ARsim umožní testovat
+aplikační scénář bez fyzického stroje; čtení hodnot a logbooku dává zpětnou vazbu.
+Simulace sama neověří skutečné I/O, mechaniku ani bezpečnost stroje.
+Konkrétní ověření ukáže blok AS CLI.
+
+[CLICK]
+„Nešaháme do projektu“ zde znamená: Bridge nenahrazuje projektový model AS.
+Dodáváme nástroje, instrukce a odborné postupy; agent jimi podle zadání
+a oprávnění projekt skutečně upravuje. Není to read-only režim ani záruka,
+že žádná změna nenastane. Projektová šablona navíc přidává podpůrné soubory.
+Model a harness volí zákazník; Bridge není nový LLM.
+
+Zdroj: Webinar Agentic Engineering with B&R, 7:34–12:12;
+training s5/09-capabilities (logical, config, build, sim, plc);
+as-skills/README.md, Toolchain precedence; root README, Project Template.
+IntelliSense je na dodaném screenshotu „coming soon“; z tohoto slidu
+nelze odvodit aktuální dostupnost ani podporu všech klientů.
+-->
+
+---
+layout: default
 class: ot-slide topic-as-agentic-bridge bridge-architecture-slide
 transition: fade-out
 ---
@@ -75,15 +146,15 @@ import './as-agentic-bridge/styles.css'
 <div class="bridge-pillars" aria-label="Tři části Agentic Bridge">
 	<section class="bridge-pillar knowledge-pillar" v-click="1">
 		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-book-search-outline aria-hidden="true" /></span><h2>Knowledge Hub</h2></div>
-		<p>Odborné podklady dohledané pro dotaz, včetně zdrojů.</p>
+		<p><strong>Knowledge:</strong> podklady dohledané přes MCP, včetně zdrojů.</p>
 	</section>
 	<section class="bridge-pillar workflow-pillar" v-click="2">
 		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-source-repository aria-hidden="true" /></span><h2>AS Repository</h2></div>
-		<p>Instrukce, skills a postup pro práci na projektu.</p>
+		<p><strong>Workflow:</strong> instrukce, skills a postup pro práci na projektu.</p>
 	</section>
 	<section class="bridge-pillar execution-pillar" v-click="3">
 		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-console aria-hidden="true" /></span><h2>AS CLI</h2></div>
-		<p>Podporované operace a návrat výsledků nástrojů.</p>
+		<p><strong>Execution:</strong> podporované operace a návrat výsledků nástrojů.</p>
 	</section>
 </div>
 
@@ -92,10 +163,10 @@ import './as-agentic-bridge/styles.css'
 <!--
 Počáteční stav: nadpis, agent se zvoleným modelem a harness, popisek a prostředí Automation Studio. Tři části jsou skryté. Skupiny 1–3 odhalují Knowledge Hub, AS Repository a AS CLI. Konečný stav: všechny tři části mezi agentem a konkrétním projektem.
 
-Nahoře zůstává agentní prostředí a model, které si zvolíte. Bridge není další model mezi vámi a Automation Studiem.
+Nahoře zůstává agentní prostředí a model, které si zvolíte. Bridge není další model mezi vámi a Automation Studiem. Tři role jsou Knowledge, Workflow a Execution; nejde o tři AI modely.
 
 [CLICK]
-Knowledge Hub poskytuje dohledané podklady včetně zdrojů. MCP propojí agenta se znalostním nástrojem; podklady se musí vztahovat ke konkrétnímu dotazu a verzi.
+Knowledge Hub poskytuje dohledané podklady včetně zdrojů. MCP propojí agenta se znalostním nástrojem; podklady se musí vztahovat ke konkrétnímu dotazu a verzi. Tento znalostní nástroj neovládá PLC.
 
 [CLICK]
 AS Repository říká, jak postupovat a jaké konvence dodržet. Konkrétní instrukce, skills a pluginy ukáže následující přednáška o AS Repository.
