@@ -8,7 +8,7 @@ import MarkdownIt from 'markdown-it'
 import postcss from 'postcss'
 import selectorParser from 'postcss-selector-parser'
 import tokenizeCss from 'postcss/lib/tokenize'
-import { deck } from './test-content.mjs'
+import { topicMarkdownFiles } from './test-content.mjs'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const topicRoot = resolve(root, 'topics')
@@ -274,8 +274,8 @@ async function checkFile(file, topic) {
   const code = await readFile(file, 'utf8')
   let imports
   if (extension === '.md') {
-    const slides = Object.values(deck.markdownFiles).find(entry => resolve(entry.filepath) === file)?.slides
-    assert.ok(slides, `${file}: Markdown is not loaded by the deck`)
+    const slides = Object.values(topicMarkdownFiles).find(entry => resolve(entry.filepath) === file)?.slides
+    assert.ok(slides, `${file}: Markdown is not loaded by the topic content checks`)
     imports = slides.flatMap(slide => {
       const imports = markdownImports(slide.content, file)
       if (slide.frontmatter.src) {

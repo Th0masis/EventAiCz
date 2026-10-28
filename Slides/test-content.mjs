@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { access, readdir } from 'node:fs/promises'
-import { basename, dirname, relative, resolve } from 'node:path'
+import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { load } from '@slidev/parser/fs'
 
@@ -9,6 +9,7 @@ export const deck = await load(
   { roots: [root], userRoot: root, allowedRoots: [root] },
   resolve(root, 'slides.md'),
 )
+export const topicMarkdownFiles = { ...deck.markdownFiles }
 
 for (const markdown of Object.values(deck.markdownFiles)) {
   assert.equal(markdown.errors?.length ?? 0, 0, `${markdown.filepath}: ${JSON.stringify(markdown.errors)}`)
@@ -25,13 +26,29 @@ assert.ok(topicFiles.length > 0, 'No topic files found')
 const imports = deck.entry.slides
   .filter(slide => slide.frontmatter.src)
   .map(slide => slide.frontmatter.src)
-assert.deepEqual(imports.slice().sort(), topicFiles.map(filename => `./topics/${filename}`))
+const importedTopicFiles = imports.map(source => source.slice('./topics/'.length))
+assert.equal(new Set(importedTopicFiles).size, importedTopicFiles.length, 'Duplicate topic imports')
+for (const filename of importedTopicFiles) {
+  assert.ok(topicFiles.includes(filename), `Missing topic file: ${filename}`)
+}
 
 for (const filename of topicFiles) {
-  const markdown = Object.values(deck.markdownFiles)
-    .find(markdown => relative(resolve(root, 'topics', filename), markdown.filepath) === '')
+  const topicPath = resolve(root, 'topics', filename)
+  let topicDeck = deck
+  if (!Object.values(deck.markdownFiles).some(markdown => resolve(markdown.filepath) === topicPath)) {
+    topicDeck = await load(
+      { roots: [root], userRoot: root, allowedRoots: [root] },
+      topicPath,
+    )
+    for (const markdown of Object.values(topicDeck.markdownFiles)) {
+      assert.equal(markdown.errors?.length ?? 0, 0, `${markdown.filepath}: ${JSON.stringify(markdown.errors)}`)
+    }
+    Object.assign(topicMarkdownFiles, topicDeck.markdownFiles)
+  }
+  const markdown = Object.values(topicDeck.markdownFiles)
+    .find(markdown => resolve(markdown.filepath) === topicPath)
   assert.ok(markdown?.slides.length > 0, `Empty topic: ${filename}`)
-  assert.ok(deck.slides.some(slide => slide.source.filepath === markdown.filepath), `Hidden topic: ${filename}`)
+  assert.ok(topicDeck.slides.some(slide => resolve(slide.source.filepath) === topicPath), `Hidden topic: ${filename}`)
   await access(resolve(root, 'public', 'topics', basename(filename, '.md')))
 }
 
@@ -70,4 +87,7 @@ const machineDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.
 const hmiDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('hmi-testing-slide'))
 assert.ok(machineDemoIndex >= 0 && hmiDemoIndex > machineDemoIndex, 'Orange machine demo must precede HMI verification')
 
-console.log(`Content checks passed: ${topicFiles.length} topics, ${deck.slides.length} slides`)
+const pendingTopics = topicFiles.length - importedTopicFiles.length
+console.log(
+  `Content checks passed: ${topicFiles.length} topics (${pendingTopics} pending registration), ${deck.slides.length} slides`,
+)

@@ -166,6 +166,19 @@ nemají vlastní tematickou větev.
    topicové větve. Rozsah PR se kontroluje vůči `main`, ne pouze podle posledního
    commitu; topicový PR nesmí obsahovat dosud nesloučené společné změny.
 
+   U nového tématu, které se má přidat do programu, postupujte opačně ve dvou
+   PR: nejprve slučte topicový PR do `main` bez registrace v `Slides/slides.md`.
+   Téma se tím ještě nezařadí do prezentace; `test:content` a
+   `test:topic-styles` dovolují zdroj čekající na registraci, ale ověřují jeho
+   obsah a styly. Každý již registrovaný import musí existovat. Poté vytvořte
+   čerstvou větev `coord/<id>` z aktuálního
+   `origin/main`, zaregistrujte téma v `Slides/slides.md` a README a otevřete
+   druhý PR do `main`. Koordinační PR nikdy nesmí obsahovat Markdown tématu ani
+   jeho podklady. Pokud jste topicovou větev už sloučili do koordinační větve,
+   po sloučení topicového PR do `main` aktualizujte koordinační větev z
+   `origin/main`; tím se obsah tématu stane součástí základu PR a jeho diff
+   zůstane omezený na koordinaci.
+
 ## Vytvoření PR
 
 1. Na GitHubu otevřete PR z vaší větve do `main`. Použijte automaticky
