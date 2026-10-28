@@ -251,7 +251,7 @@ const visibleCommands = computed(() => commands
 
 <template>
   <div class="evidence-terminal">
-    <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>COMMAND PROMPT</small></div>
+    <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>ILUSTRAČNÍ PŘEPIS</small></div>
     <div class="terminal-body">
       <div v-if="currentStep < 0" class="terminal-idle">
         <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
@@ -290,7 +290,7 @@ const visibleCommands = computed(() => commands
         </div>
       </div>
     </div>
-    <div class="terminal-footer">AS CLI GIVES CONTROLLED ACTION + OBSERVATION</div>
+    <div class="terminal-footer">Výsledek příkazu je podklad pro ověření, ne automatický verdikt testu.</div>
   </div>
 </template>
 

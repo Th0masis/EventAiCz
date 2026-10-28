@@ -1744,3 +1744,112 @@
   word-break: normal;
   white-space: normal;
 }
+
+.slidev-layout.topic-as-cli .cli-lead {
+  margin: var(--space-xl) 0 0;
+  color: var(--line);
+  opacity: 1;
+}
+
+.topic-as-cli .cli-comparison,
+.topic-as-cli .cli-discovery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-cli .cli-capabilities,
+.topic-as-cli .cli-use-cases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+.topic-as-cli .cli-comparison section,
+.topic-as-cli .cli-discovery section,
+.topic-as-cli .cli-capabilities section,
+.topic-as-cli .cli-use-cases section {
+  min-width: 0;
+}
+
+.topic-as-cli.cli-story h2 {
+  margin: 0 0 var(--space-lg);
+}
+
+.topic-as-cli.cli-story p {
+  max-width: none;
+}
+
+.topic-as-cli .cli-comparison p,
+.topic-as-cli .cli-discovery p,
+.topic-as-cli .cli-capabilities p,
+.topic-as-cli .cli-use-cases p {
+  margin: 0 0 var(--space-xl);
+}
+
+.topic-as-cli .cli-conclusion {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--br-orange);
+}
+
+.topic-as-cli .cli-conclusion p {
+  margin: var(--space-sm) 0 0;
+  color: var(--line);
+}
+
+.slidev-layout.topic-as-cli .cli-code {
+  display: block;
+  --text-role: command;
+  --text-size: var(--type-caption);
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.25);
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.topic-as-cli .cli-request {
+  margin: 0 0 var(--space-xl);
+  padding: 0;
+  border: 0;
+  color: var(--white);
+  background: transparent;
+  font-style: normal;
+  font-size: var(--text-size);
+  line-height: var(--text-leading);
+}
+
+.topic-as-cli .cli-test-plan {
+  display: grid;
+  gap: var(--space-xl);
+  margin: 0;
+  padding-left: var(--space-xl);
+}
+
+.topic-as-cli .cli-test-plan li {
+  padding-left: var(--space-sm);
+}
+
+.topic-as-cli .cli-evidence {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--line);
+}
+
+.slidev-layout.topic-as-cli .cli-demo-label {
+  margin: var(--space-md) 0 0;
+  color: var(--line);
+  opacity: 1;
+}
+
+.topic-as-cli.cli-story :not(pre) > code {
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.25);
+}
