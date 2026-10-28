@@ -5,11 +5,3 @@ dist/
 *.pptx
 Slides/artifacts/
 Slides/preview.log
-
-# Local agent and skill tooling
-/.agents/
-/.codex/
-/.github/agents/
-/.github/hooks/
-/.github/skills/
-/skills-lock.json
