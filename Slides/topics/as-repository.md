@@ -553,26 +553,92 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# as-lsp:<br><span class="accent">od symbolového dotazu k bezpečnému ověření</span>
+# as-lsp:<br><span class="accent">co agent zjistí o Structured Textu</span>
 
-<div class="repo-example">
-	<div><span class="repo-step">1</span><h3>Dotaz v projektu</h3><p>Spusťte harness v kořeni s <code>*.apj</code>; zeptejte se na definici nebo použití symbolu.</p></div>
-	<div><span class="repo-step">2</span><h3>Klient spustí server</h3><p><code>lsp.json</code> / <code>.lsp.json</code> → Node.js launcher → B&amp;R ST-LSP rozšíření.</p></div>
-	<div><span class="repo-step">3</span><h3>LSP vrátí strukturu</h3><p>Definition, references, hover a symbols; rename závisí na harnessu.</p></div>
-	<div><span class="repo-step">4</span><h3>Agent ověří změnu</h3><p>Skill vede dotaz; po editaci spusťte <code>as build</code>. LSP build chyby nehlásí.</p></div>
+<p class="repo-lead">B&amp;R language server propojí dotaz na symbol se strukturou projektu — ne jen s výskytem textu.</p>
+
+<div class="repo-hmi-capabilities">
+	<section><h3>Najde definici</h3><p><code>goToDefinition</code> vede k deklaraci, i do generovaných deklarací komponentů.</p></section>
+	<section><h3>Sleduje použití</h3><p><code>findReferences</code> vrátí místa použití symbolu v projektu; zahrne i deklaraci.</p></section>
+	<section><h3>Vysvětlí symbol</h3><p><code>hover</code> ukáže typ, rozsah platnosti a komentář deklarace.</p></section>
+	<section><h3>Hledá v symbolech</h3><p>Outline souboru i hledání symbolů napříč workspace pomáhá s orientací.</p></section>
+	<section><h3>Přejmenuje jen někdy</h3><p><code>rename</code> závisí na harnessu a mění ST, ne konfigurace ani I/O mapy.</p></section>
+	<section><h3>Nepotvrzuje správnost</h3><p>LSP nehlásí chyby buildu ani runtime; některé typy knihoven mohou zůstat nerozpoznané.</p></section>
 </div>
 
-<p class="repo-takeaway">Language server není test server. <strong>Je to nástroj pro orientaci v kódu.</strong></p>
-<p class="repo-note">Požadavky: Windows · B&amp;R ST-LSP rozšíření · Node.js 18+ · jeden projekt · předchozí build.</p>
+<p class="repo-takeaway">Požadavky: <strong>Windows · Node.js 18+ · rozšíření <code>br-automation.st-lsp</code> · harness s podporou LSP.</strong></p>
+<p class="repo-note">Harness spusťte v kořeni jednoho projektu s <code>*.apj</code>; projekt předtím alespoň jednou sestavte příkazem <code>as build</code>.</p>
 
 <!--
-*Záměr a čas: 3:00. Vysvětlit volání, konfigurační soubory, launcher, skutečný server a ověřovací hranici.*
-*Počáteční stav: celý čtyřkrokový diagram a požadavky jsou viditelné; bez kliků. Konečný stav: stejný.*
+*Záměr a čas: 2:00. Ukázat konkrétní symbolové operace AS-LSP, rozdíly v možnostech zápisu a ověřovací hranice.*
+*Počáteční i konečný stav: všech šest schopností a požadavky jsou viditelné; bez kliků.*
 
-Uživatel položí symbolový dotaz v harnessi spuštěném ve složce s .apj. Pluginová konfigurace je klientská: Copilot CLI čte lsp.json, Claude Code .lsp.json. Agent Skills plugin standard LSP registraci nepřenáší univerzálně.
-Konfigurace spustí scripts/st-lsp-launcher.js přes Node.js. Launcher najde server dodaný instalovaným br-automation.st-lsp VS Code extension, předává LSP zprávy přes stdio a po initialized předá cestu ke generovaným AS deklaracím. Samotný plugin server nedodává.
-Server vrací go-to-definition, find-references, hover, document/workspace symbols a další LSP možnosti podle klienta. Některé harnessy jsou read-only; rename není univerzální. Rename mění ST, ne konfiguraci, bindingy nebo I/O mapy.
-`as build` musí být proveden alespoň jednou předem pro vygenerování deklarací. Po změně se build spouští znovu jako kompilátorová kontrola. LSP nehlásí chyby buildu a není runtime/test server; některé library typy mohou zůstat unresolved.
+Plugin nedodává vlastní language server. Přes skill popisuje agentovi, kdy a jak použít nástroj klienta; schopnosti dostupné agentovi závisí na LSP rozhraní jeho harnessu. Server umí definici, reference, hover, rename, document/workspace symbols a další operace. Claude Code má LSP nástroj read-only; Copilot CLI může rename aplikovat. Rename zasahuje jen ST, ne konfiguraci, mappView bindings ani I/O/PV mapy. Generované deklarace v Temp se nepřejmenovávají.
+Windows, Node.js 18+, instalované rozšíření br-automation.st-lsp, jeden projekt v kořeni workspace a předchozí as build jsou požadavky podle README. Některé knihovní typy mohou zůstat unresolved; LSP nehlásí chyby buildu a nepotvrzuje běhové chování.
+Zdroje: plugins/as-lsp/README.md (Requirements, Harness support, Limitations); plugins/as-lsp/skills/as-lsp/SKILL.md (description, Operations, Limits); plugins/as-lsp/plugin.json.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Jak dotaz <span class="accent">projde</span> k agentovi?
+
+<div class="repo-binding-steps">
+	<div><span class="repo-step">1</span><h3>Agent se ptá</h3><p>Uživatel se zeptá na symbol; skill AS-LSP navede agenta k symbolovému dotazu.</p></div>
+	<div><span class="repo-step">2</span><h3>Harness vybere server</h3><p>Copilot CLI čte <code>lsp.json</code>, Claude Code <code>.lsp.json</code>; jednotná přenosná konfigurace neexistuje.</p></div>
+	<div><span class="repo-step">3</span><h3>Launcher předá dotaz</h3><p>Node.js spustí server z rozšíření ST-LSP a předává LSP zprávy; doplní cestu ke generovaným deklaracím.</p></div>
+	<div><span class="repo-step">4</span><h3>Agent použije odpověď</h3><p>Server vrátí symbolovou informaci. Agent vysvětlí nález; změny a jejich build se řeší zvlášť.</p></div>
+</div>
+
+<p class="repo-takeaway">Tok: <strong>dotaz → LSP klient → launcher → B&amp;R ST-LSP server → strukturovaná odpověď agentovi.</strong></p>
+<p class="repo-note">Server pochází z VS Code rozšíření — plugin ho nespouští bez instalace. Kořen projektu musí obsahovat <code>*.apj</code>; bez předchozího <code>as build</code> nemusí být dostupné generované deklarace.</p>
+
+<!--
+*Záměr a čas: 2:00. Vysvětlit, která vrstva zpracovává symbolový dotaz a co musí připravit uživatel.*
+*Počáteční i konečný stav: celý čtyřkrokový tok, odpovědnosti i požadavky jsou viditelné; bez kliků.*
+
+Agent nezačíná s univerzální registrací LSP. Konkrétní klient načte svou konfiguraci: Copilot CLI používá lsp.json a Claude Code .lsp.json; ostatní harnessy mohou potřebovat vlastní konfiguraci nebo nemusí LSP podporovat. Skill nese instrukce pro práci se symboly, server poskytuje dotazy.
+Node.js launcher spouští language-server.js z nainstalovaného rozšíření br-automation.st-lsp, přeposílá zprávy přes stdio a po inicializaci posílá cestu ke generovaným AS deklaracím podle aktivní konfigurace. Plugin samotný server neobsahuje.
+Server má jeden projekt v kořeni workspace; projekt musí být sestaven alespoň jednou. Pokud globální symboly nejsou rozpoznané, ověřte aktivní konfiguraci a vygenerované deklarace; po as build obnovte/reloadujte LSP.
+Zdroje: plugins/as-lsp/README.md (Requirements, Harness support, How the launcher works, Troubleshooting); plugins/as-lsp/lsp.json; plugins/as-lsp/.lsp.json; plugins/as-lsp/scripts/st-lsp-launcher.js.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Situace: <span class="accent">kde se používá gAlarmXCore?</span>
+
+<p class="repo-lead">Modelový příklad: před úpravou alarmové logiky potřebuji znát typ a všechna použití symbolu.</p>
+
+<div class="repo-example">
+	<div><span class="repo-step">1</span><h3>Ověřit symbol</h3><p>Agent použije <code>hover</code> a <code>goToDefinition</code>; ověří typ a původ <code>gAlarmXCore</code>.</p></div>
+	<div><span class="repo-step">2</span><h3>Zmapovat dopad</h3><p><code>findReferences</code> vrátí deklaraci i místa použití, která má uživatel před změnou posoudit.</p></div>
+	<div><span class="repo-step">3</span><h3>Rozlišit generovaný kód</h3><p>Pokud deklarace leží v <code>Temp/Includes/AS_TempDecl/</code>, nepřejmenovávat ji; vzniká z konfigurace.</p></div>
+	<div><span class="repo-step">4</span><h3>Ověřit sestavení</h3><p>Chybí-li deklarace, spusťte <code>as build</code> a obnovte LSP. Po změně znovu sestavte projekt.</p></div>
+</div>
+
+<p class="repo-takeaway">Výsledek: <strong>agent ukáže typ a rozsah použití; inženýr rozhodne o změně.</strong></p>
+<p class="repo-note">Příklad ilustruje situaci popsanou v dokumentaci pluginu; nalezené soubory a použití vždy ověřte ve vlastním projektu.</p>
+
+<!--
+*Záměr a čas: 1:30. Uzavřít AS-LSP krátkým modelovým průchodem od otázky k důkazu a bezpečné hranici.*
+*Počáteční i konečný stav: všechny čtyři kroky a upozornění na modelový příklad jsou viditelné; bez kliků.*
+
+Zeptejte se: „Kde se používá gAlarmXCore a jaký má typ?“ Agent nejprve ověří symbol přes hover/definici, pak vyhledá reference. Pokud definici najde v Temp/Includes/AS_TempDecl/, jde o generovanou deklaraci komponenty; nepřejmenovávat ji, změnit zdroj konfigurace a ST použití pouze podle záměru projektu. Pokud globální symbol chybí, ověřit, zda už proběhl as build a zda je aktivní konfigurace dostupná launcheru; pak LSP reloadnout a dotaz zopakovat.
+Názvy a očekávaný výsledek jsou modelový scénář vycházející z README pluginu, nikoli výsledek skutečně otevřeného zákaznického projektu. findReferences není kompilace. Po úpravě as build ověřuje sestavení, ne běh systému.
+Zdroje: plugins/as-lsp/README.md (generated declarations, Troubleshooting); plugins/as-lsp/skills/as-lsp/SKILL.md (Workflow, Limits).
 -->
 
 ---
