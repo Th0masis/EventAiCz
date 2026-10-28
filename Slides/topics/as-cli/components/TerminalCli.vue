@@ -213,7 +213,7 @@ const commands: TerminalCommand[] = [
 ]
 
 // Section headings in the help text (PROJECT, BUILD & RUN, ...) are highlighted.
-const helpLines = helpOutput.split('\n').slice(0, 19).map(text => ({
+const helpLines = helpOutput.split('\n').slice(0, 12).map(text => ({
   text,
   category: /^ {2}[A-Z][A-Z &()]*$/.test(text),
 }))
@@ -251,7 +251,7 @@ const visibleCommands = computed(() => commands
 
 <template>
   <div class="evidence-terminal">
-    <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>COMMAND PROMPT</small></div>
+    <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>ILUSTRAČNÍ PŘEPIS</small></div>
     <div class="terminal-body">
       <div v-if="currentStep < 0" class="terminal-idle">
         <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
@@ -290,7 +290,7 @@ const visibleCommands = computed(() => commands
         </div>
       </div>
     </div>
-    <div class="terminal-footer">AS CLI GIVES CONTROLLED ACTION + OBSERVATION</div>
+    <div class="terminal-footer">Výsledek příkazu je podklad pro ověření, ne automatický verdikt testu.</div>
   </div>
 </template>
 
@@ -350,8 +350,13 @@ const visibleCommands = computed(() => commands
 }
 
 .terminal-command em.pending {
-  color: #8f989e;
+  color: var(--muted);
   animation: terminal-pending 0.9s steps(2, end) infinite;
+}
+
+.terminal-command .time,
+.terminal-footer {
+  color: var(--muted);
 }
 
 .terminal-output {
@@ -366,7 +371,7 @@ const visibleCommands = computed(() => commands
 }
 
 .output-label {
-  color: #596267;
+  color: var(--muted);
 }
 
 .terminal-output b,
@@ -410,16 +415,16 @@ const visibleCommands = computed(() => commands
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.logbook-output th:first-child { width: 76px; }
+.logbook-output th:first-child { width: 96px; }
 .logbook-output th:nth-child(2) { width: 56px; }
 
 .logbook-output th {
-  color: #596267;
+  color: var(--muted);
   font-weight: 500;
 }
 
 .logbook-output td:first-child {
-  color: #70797e;
+  color: var(--muted);
 }
 
 .logbook-output .log-level-error {
@@ -428,5 +433,11 @@ const visibleCommands = computed(() => commands
 
 @keyframes terminal-pending {
   50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-command em.pending {
+    animation: none;
+  }
 }
 </style>

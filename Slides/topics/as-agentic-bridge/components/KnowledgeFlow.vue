@@ -116,12 +116,12 @@ watch($clicks, close)
     </div>
     <div v-if="!active && $clicks >= 1" class="bridge-knowledge-context">
       <template v-if="returning">
-        <h3>Od podkladů k odpovědi</h3>
+        <h2>Od podkladů k odpovědi</h2>
         <p>RAG dodává podklady; výslednou odpověď vytváří agent.</p>
         <p class="bridge-knowledge-caveat">Podklady vstupují do kontextu, ne natrvalo do modelu.</p>
       </template>
       <template v-else>
-        <h3>Dotaz ze sdílené ukázky</h3>
+        <h2>Dotaz ze sdílené ukázky</h2>
         <p>„Proč X20 PLC přejde po nahrání projektu do SERVICE?“</p>
         <p class="bridge-knowledge-caveat">Cílem je dohledat podklady pro diagnostiku, nikoli měnit stav PLC.</p>
       </template>
