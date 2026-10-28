@@ -11,12 +11,34 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
   const base = process.env.SLIDES_URL || 'http://localhost:3030'
   let checked = 0
+  let diagrams = 0
   for (const slide of deck.slides.filter(slide => slide.source.filepath.endsWith('as-cli.md'))) {
     const number = slide.index + 1
     await page.goto(`${base}/${number}?clicks=99`)
     const layout = page.locator(`[data-slidev-no="${number}"] .slidev-layout`).first()
     await layout.waitFor({ state: 'visible' })
     await page.waitForTimeout(1000)
+    for (const [selector, items, count] of [
+      ['.tooling-access-grid', '.tooling-step', 5],
+      ['.as-cli-consumer-row', '.as-cli-consumer-card', 3],
+      ['.cli-discovery-flow', '.cli-flow-node', 4],
+      ['.cli-reset-flow', '.cli-reset-step', 3],
+      ['.as-cli-devops-flow', '.as-cli-devops-gate', 2],
+    ]) {
+      if (!await layout.locator(selector).count()) continue
+      diagrams++
+      const diagram = layout.locator(selector)
+      assert.equal(await diagram.count(), 1, `Slide ${number}: missing graphical structure`)
+      assert.equal(await diagram.locator(items).count(), count, `Slide ${number}: missing diagram steps`)
+      assert.ok(await diagram.locator('svg').count() >= 3, `Slide ${number}: diagram icons were removed`)
+    }
+    if (await layout.locator('.as-cli-core').count()) {
+      assert.equal(await layout.locator('.as-cli-consumer-card').count(), 3)
+      assert.equal(await layout.locator('.as-cli-capability-card').count(), 5)
+    }
+    if (await layout.locator('.cli-reset-flow').count()) {
+      assert.deepEqual(await layout.locator('.cli-counter').allTextContents(), ['17 UDINT', '1', '?'])
+    }
     const results = await layout.evaluate(element => {
       const rgba = value => value.match(/[\d.]+/g).map(Number)
       const blend = (front, back) => front.slice(0, 3).map((value, i) =>
@@ -25,7 +47,10 @@ try {
         const srgb = value / 255
         return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4
       }).reduce((sum, value, i) => sum + value * [0.2126, 0.7152, 0.0722][i], 0)
-      return [...element.querySelectorAll('.cli-lead, .cli-demo-label, .cli-request, .cli-conclusion p, code')]
+      return [...element.querySelectorAll(
+        '.cli-lead, .cli-demo-label, .cli-request, .cli-conclusion p, code, .as-cli-command, ' +
+        '.cli-flow-node p, .cli-feedback span, .cli-final-note, .cli-reset-step p, .tooling-panel-note',
+      )]
         .filter(node => node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }))
         .map(node => {
           const ancestors = []
@@ -54,7 +79,8 @@ try {
     }
   }
   assert.ok(checked >= 20, `Expected AS CLI text coverage, checked only ${checked} elements`)
-  console.log(`AS CLI contrast and quote typography regression checks passed: ${checked} elements.`)
+  assert.equal(diagrams, 5, 'The five AS CLI explanation diagrams must not regress to text-only slides')
+  console.log(`AS CLI graphical and readability regression checks passed: ${diagrams} diagrams, ${checked} text elements.`)
 } finally {
   await browser.close()
 }

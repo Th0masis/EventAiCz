@@ -27,14 +27,14 @@ Zdroje celého bloku, studováno 28. 10. 2026:
 - UserMeetingSK_AI/Slides/slides.md, kapitola Agentic Bridge.
 Rozsah je podle lokálních podkladů; přesnou verzi instalovaného CLI nelze
 uvést, protože zde není na PATH. Nejde o potvrzení všeobecné dostupnosti.
-Regrese čitelnosti tohoto tématu se ověřuje ze Slides příkazem
+Regrese grafických diagramů a čitelnosti tohoto tématu se ověřuje ze Slides příkazem
 `node topics\as-cli\tests\contrast.test.mjs` proti běžícímu serveru;
 SLIDES_URL mění jeho adresu. Ostatní kontroly a smoke test viz Slides/TESTING.md.
 -->
 
 ---
 layout: default
-class: ot-slide dark-slide topic-as-cli cli-story
+class: ot-slide dark-slide tooling-matters-slide topic-as-cli cli-story
 ---
 
 <script setup>
@@ -45,36 +45,73 @@ import './as-cli/styles.css'
 
 <p class="cli-lead">Automatizace potřebuje provádět operace a číst jejich výsledky, ne jen klikat v GUI.</p>
 
-<div class="cli-comparison">
-  <section>
-    <h2>Samotný text nestačí</h2>
-    <p>Nový program musí být součástí projektu a přiřazený ke spuštění.</p>
-    <p>Odhad názvu parametru nebo platného XML může být chybný.</p>
-    <p>„Hotovo“ v odpovědi agenta není výsledek testu.</p>
+<div class="tooling-access-grid" aria-label="Ruční práce v GUI a automatizace přes CLI">
+  <section class="tooling-workflow-panel gui-workflow-panel" aria-label="Ruční postup">
+    <div class="tooling-panel-title"><mdi-monitor-dashboard /><b>Člověk v GUI</b></div>
+    <div class="tooling-gui-window" v-click="1">
+      <div class="tooling-window-bar"><span>Automation Studio</span><i></i><i></i><i></i></div>
+      <div class="tooling-step-list">
+        <div class="tooling-step"><span>01</span><mdi-folder-open-outline /><b>Otevřít projekt</b><span class="tooling-click-icon"><mdi-cursor-default-click-outline /></span></div>
+        <div class="tooling-step-arrow"><mdi-arrow-down /></div>
+        <div class="tooling-step"><span>02</span><mdi-tune-variant /><b>Zvolit konfiguraci</b><span class="tooling-click-icon"><mdi-cursor-default-click-outline /></span></div>
+        <div class="tooling-step-arrow"><mdi-arrow-down /></div>
+        <div class="tooling-step"><span>03</span><mdi-hammer-wrench /><b>Spustit build</b><span class="tooling-click-icon"><mdi-cursor-default-click-outline /></span></div>
+        <div class="tooling-step-arrow"><mdi-arrow-down /></div>
+        <div class="tooling-step"><span>04</span><mdi-text-box-search-outline /><b>Přečíst výsledek</b><span class="tooling-click-icon"><mdi-cursor-default-click-outline /></span></div>
+        <div class="tooling-step-arrow"><mdi-arrow-down /></div>
+        <div class="tooling-step"><span>05</span><mdi-upload-network-outline /><b>Provést transfer</b><span class="tooling-click-icon"><mdi-cursor-default-click-outline /></span></div>
+      </div>
+      <div class="tooling-manual-cue"><mdi-cursor-default-click-outline /><span>Každý krok obsluhuje člověk</span></div>
+    </div>
+    <p class="tooling-panel-note" v-click="1">Vhodné pro interaktivní engineering.</p>
   </section>
-  <section v-click="1">
-    <h2>AS CLI přidává nástroj</h2>
-    <p>V podporovaných operacích mění projekt přes Automation Studio.</p>
-    <p>Čte schémata a metadata z nainstalovaného prostředí.</p>
-    <p>Vrací diagnostiku buildu, hodnoty PLC a logbook.</p>
+  <div class="tooling-interface-bridge" v-click="2" aria-label="Dvě rozhraní k podporovaným operacím">
+    <div class="tooling-bridge-box"><strong>GUI</strong><small>Pro člověka</small></div>
+    <mdi-arrow-down />
+    <div class="tooling-bridge-caption">Podporované<br>operace AS</div>
+    <mdi-arrow-down />
+    <div class="tooling-bridge-box is-automation"><strong>CLI</strong><small>Pro automatizaci</small></div>
+  </div>
+  <section class="tooling-workflow-panel pipeline-workflow-panel" aria-label="Programovatelný postup">
+    <div class="tooling-panel-title" v-click="2"><mdi-console-line /><b>Agent nebo skript</b></div>
+    <div class="tooling-runner-shell" v-click="2">
+      <div class="tooling-runner-bar"><mdi-source-branch /><span>Spustit → přečíst → vyhodnotit</span></div>
+      <div class="tooling-runner-question"><mdi-robot-outline /><b>Konkrétní příkaz<br>místo ručního kliku</b></div>
+    </div>
+    <div class="tooling-cli-boundary" v-click="2">
+      <div class="tooling-cli-label"><mdi-console-line /><b>AS CLI</b><small>Operace a jejich výsledky</small></div>
+      <div class="tooling-automated-steps">
+        <div><mdi-hammer-wrench /><b>Build</b></div>
+        <div><mdi-test-tube /><b>Test</b></div>
+        <div><mdi-package-variant-closed /><b>Balíček</b></div>
+        <div><mdi-upload-network-outline /><b>Transfer</b></div>
+        <div><mdi-file-check-outline /><b>Výsledek</b></div>
+      </div>
+    </div>
+    <p class="tooling-panel-note" v-click="2">Stejné příkazy pro člověka, agenta i CI.</p>
   </section>
 </div>
 
-<div class="cli-conclusion" v-click="2">
-  <strong>Člověk, skript i agent mohou použít stejné příkazy.</strong>
-  <p>AS CLI vykonává operace. Agent plánuje. Člověk určuje cíl a hranice.</p>
+<div class="tooling-takeaway" v-click="3">
+  <strong>AS CLI propojí akci s pozorováním výsledku.</strong>
+  <small>Agent plánuje. CLI provádí podporované operace. Člověk určuje cíl a hranice.</small>
 </div>
 
 <!--
 Čas: 2:00.
-Mapa odhalování: 0 = nadpis, lead a levý sloupec; 1 = celý pravý sloupec;
-2 = závěr s odpovědnostmi. Konečný stav = obě srovnání i závěr.
+Mapa odhalování: 0 = nadpis, lead a levý titulek; 1 = celé GUI s pěti kroky
+a poznámkou; 2 = most GUI/CLI a celý pravý postup; 3 = závěr s odpovědnostmi.
+Konečný stav = obě srovnání i závěr.
 Žádné další interaktivní komponenty. Každý marker odpovídá jedné skupině.
 
 Začněte praktickým problémem: soubor se Structured Textem ještě není běžící
 úloha. Projekt obsahuje registrace a vazby mezi Logical a Physical.
 GUI je vhodné pro člověka. CLI ho nemusí nahrazovat; přidává rozhraní pro
 opakovatelný postup bez ručního předávání mezi okny.
+
+[CLICK]
+Pět kroků v GUI je jedna odhalovací skupina, ne pět kliků prezentace.
+Člověk vybírá konfiguraci, spouští operaci a ručně čte výsledek.
 
 [CLICK]
 V podporovaných operacích může AS objekt vytvořit a zaregistrovat.
@@ -94,7 +131,7 @@ Project Architecture a Global Invariants. Platí jen pro podporované operace.
 
 ---
 layout: default
-class: ot-slide dark-slide topic-as-cli cli-story
+class: ot-slide dark-slide as-cli-intro-slide topic-as-cli cli-story
 ---
 
 <script setup>
@@ -103,56 +140,109 @@ import './as-cli/styles.css'
 
 # Co můžeme přes AS CLI dělat
 
-<p class="cli-lead">Od struktury projektu přes sestavení až po pozorování runtime.</p>
-
-<div class="cli-capabilities">
-  <section>
-    <h2>Projekt a konfigurace</h2>
-    <p>Objekty, knihovny, technology packages, hardware a schémata.</p>
-    <code class="cli-code">as project status</code>
-    <code class="cli-code">as logical add StProgram Conveyor --parent Machine</code>
-    <code class="cli-code">as config schema read .axis</code>
-  </section>
-  <section v-click="1">
-    <h2>Sestavení a doručení</h2>
-    <p>Build, ARsim, instalační balíčky a transfer na zvolený cíl.</p>
-    <code class="cli-code">as build</code>
-    <code class="cli-code">as build sim</code>
-    <code class="cli-code">as build pip</code>
-  </section>
-  <section v-click="2">
-    <h2>Runtime a diagnostika</h2>
-    <p>Připojení PLC, čtení a zápis hodnot, I/O a logbook.</p>
-    <code class="cli-code">as plc connect --ip 127.0.0.1</code>
-    <code class="cli-code">as var read gProductionCount --task Cyclic</code>
-    <code class="cli-code">as logbook read --count 20 --level error</code>
+<div class="as-cli-consumer-row" aria-label="Tři uživatelé stejného rozhraní">
+  <article class="as-cli-consumer-card as-cli-consumer-devops" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-source-branch /></div>
+    <div class="as-cli-consumer-copy"><b>CI pipeline</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+  <article class="as-cli-consumer-card as-cli-consumer-engineer" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-account-hard-hat-outline /></div>
+    <div class="as-cli-consumer-copy"><b>Inženýr</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+  <article class="as-cli-consumer-card as-cli-consumer-agent" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-robot-outline /></div>
+    <div class="as-cli-consumer-copy"><b>AI agent</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+</div>
+<div class="as-cli-core-row" aria-label="Společné programovatelné rozhraní">
+  <section class="as-cli-core">
+    <div class="as-cli-terminal-line"><span>&gt;_</span> <strong>as</strong></div>
+    <div class="as-cli-core-name">Programovatelné rozhraní k Automation Studiu</div>
   </section>
 </div>
-
-<p class="cli-conclusion">Příkazy a parametry ověřujeme v <code>as --help</code> konkrétní instalace.</p>
+<div class="as-cli-roadmap" v-click="2" aria-label="Pět oblastí operací">
+  <div class="as-cli-capability-grid">
+    <article class="as-cli-capability-card as-cli-capability-build">
+      <div class="as-cli-capability-head"><mdi-hammer-wrench /></div>
+      <b class="as-cli-capability-name">Build</b>
+      <div class="as-cli-capability-purpose">Sestavení a simulace</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build</span></div>
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build sim</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-test">
+      <div class="as-cli-capability-head"><mdi-test-tube /></div>
+      <b class="as-cli-capability-name">Testování</b>
+      <div class="as-cli-capability-purpose">Nastavit vstup, přečíst stav</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var write …</span></div>
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var read …</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-package">
+      <div class="as-cli-capability-head"><mdi-package-variant-closed /></div>
+      <b class="as-cli-capability-name">Balíček</b>
+      <div class="as-cli-capability-purpose">Instalační artefakt PIP</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build pip</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-transfer">
+      <div class="as-cli-capability-head"><mdi-upload-network-outline /></div>
+      <b class="as-cli-capability-name">Transfer</b>
+      <div class="as-cli-capability-purpose">Přenos na zvolený cíl</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> transfer online --ip …</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-diagnostics">
+      <div class="as-cli-capability-head"><mdi-file-search-outline /></div>
+      <b class="as-cli-capability-name">Diagnostika</b>
+      <div class="as-cli-capability-purpose">Logbook a chyby runtime</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> logbook read</span></div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class="cli-project-strip" v-click="3">
+  <mdi-file-tree-outline />
+  <div><strong>Také struktura projektu a konfigurace</strong><code>as logical add StProgram Conveyor --parent Machine</code><code>as config schema read .axis</code></div>
+</div>
 
 <!--
 Čas: 2:30.
-Mapa odhalování: 0 = nadpis, lead, první oblast a spodní poznámka;
-1 = sestavení a doručení; 2 = runtime a diagnostika. Finále = všechny tři oblasti.
+Mapa odhalování: 0 = nadpis a centrální AS CLI; 1 = tři uživatelé a šipky;
+2 = všech pět oblastí současně; 3 = spodní pás struktury a konfigurace.
+Finále = celý diagram od uživatelů přes CLI k operacím a projektovým změnám.
 
-Nečtěte všechny příkazy. První sloupec ukazuje, že nejde jen o build wrapper:
-CLI umí pracovat i s projektovou strukturou a metadata získává z prostředí.
-Conveyor a rodič Machine jsou modelové názvy převzaté ze školicího příkladu,
-ne existence těchto objektů v otevřeném projektu.
-Úprava ST těla je práce agenta se souborem, ne automatická schopnost CLI.
+Centrální AS CLI je společné rozhraní, nikoli AI agent nebo CI služba.
 
 [CLICK]
+Stejné příkazy může používat člověk, skript pipeline i agent.
+Všichni tři používají centrální CLI, pod ním jsou oblasti podporovaných operací.
+
+[CLICK]
+Nečtěte všechny příkazy. Pět oblastí je jedna odhalovací skupina.
 as build sestaví projekt. as build sim sestaví a instaluje do ARsim;
 as build pip vytváří instalační artefakt, nikoli schválení k nasazení.
 Transfer na fyzické zařízení je samostatná zapisující operace
 `as transfer online --ip <IP>`; dnes ji nepoužijeme.
 
-[CLICK]
 Čtení hodnot a logbooku vrací pozorování. Zápis a force mění chování cíle;
 force není obyčejné čtení ani bezpečná výchozí volba pro demonstraci.
 Další skupiny podle školení: symbol, network, mappview. Rozsah a názvy
 se mohou lišit podle instalace; netvrdíme úplnou paritu s GUI.
+
+[CLICK]
+CLI umí pracovat i s projektovou strukturou a metadata získává z prostředí.
+Conveyor a rodič Machine jsou modelové názvy ze školicího příkladu, ne
+existence těchto objektů v otevřeném projektu. Úprava ST těla je práce agenta
+se souborem. Parametry ověřujeme v as --help konkrétní instalace.
 
 Zdroje: training s5/09-capabilities/page.js, s5/07-what-is-as-cli/lang.en.js;
 as-skills/README.md; lokální TerminalCli.vue/helpOutput.
@@ -175,31 +265,48 @@ import './as-cli/styles.css'
 
 <p class="cli-lead">Instrukce určují postup. Nápověda popisuje dostupné operace.</p>
 
-<div class="cli-discovery">
-  <section>
-    <h2>Cíl a pravidla</h2>
-    <p>Uživatel vymezí projekt, očekávaný výsledek a povolené změny.</p>
-    <p><code>AGENTS.md</code> a příslušný skill vedou agenta k nástroji.</p>
-    <p>Oprávnění spouštět příkazy řídí klient a jeho nastavení.</p>
+<div class="cli-discovery-flow" aria-label="Od cíle přes instrukce a nápovědu k důkazu">
+  <section class="cli-flow-node">
+    <mdi-account-hard-hat-outline />
+    <h2>Cíl</h2>
+    <p>Projekt, očekávání a povolené změny.</p>
+    <small>Zadává uživatel</small>
   </section>
-  <section v-click="1">
-    <h2>Od nápovědy k výsledku</h2>
-    <code class="cli-code">as --help</code>
-    <code class="cli-code">as help build</code>
-    <code class="cli-code">as --format json project status</code>
-    <p>Text pro člověka, JSON pro zpracování; návratový kód pro stav operace.</p>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="1" />
+  <section class="cli-flow-node" v-click="1">
+    <mdi-book-open-page-variant-outline />
+    <h2>Postup</h2>
+    <p>Instrukce a skill vedou agenta k nástroji.</p>
+    <code>AGENTS.md</code>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="1" />
+  <section class="cli-flow-node" v-click="1">
+    <mdi-console-line />
+    <h2>Příkaz</h2>
+    <p>Syntaxe z nápovědy, ne z paměti modelu.</p>
+    <code>as --help</code>
+    <code>as help build</code>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="2" />
+  <section class="cli-flow-node cli-flow-evidence" v-click="2">
+    <mdi-file-check-outline />
+    <h2>Důkaz</h2>
+    <p>Výstup a návratový kód pro další rozhodnutí.</p>
+    <code>--format json</code>
   </section>
 </div>
 
-<div class="cli-conclusion" v-click="2">
-  <strong>Nejdřív zjistit stav. Potom provést změnu. Nakonec ověřit výsledek.</strong>
-  <p>Při chybě přečíst diagnostiku a opravit příčinu, ne pokračovat jako při úspěchu.</p>
+<div class="cli-feedback" v-click="2"><mdi-arrow-u-left-top /><span>Při chybě: diagnostika → oprava → nové ověření</span></div>
+<div class="cli-conclusion">
+  <strong>Klient řídí oprávnění. Skill je návod, ne povolení k zápisu.</strong>
+  <p>Nejdřív zjistit stav. Potom provést změnu. Nakonec ověřit výsledek.</p>
 </div>
 
 <!--
 Čas: 2:00.
-Mapa odhalování: 0 = nadpis, lead a levá část; 1 = pravá část s třemi
-příkazy; 2 = závěr. Finále = celý postup. Bez dalších interakcí.
+Mapa odhalování: 0 = nadpis, lead, uzel Cíl a spodní pravidlo oprávnění;
+1 = uzly Postup a Příkaz s jejich šipkami; 2 = uzel Důkaz, poslední šipka
+a návratová vazba k opravě. Finále = celý čtyřuzlový diagram. Bez dalších interakcí.
 
 AS CLI nevybírá cíl za uživatele. Uživatel specifikuje projekt, konfiguraci
 a hranice, agent dodá plán a důkazy. Skill je návod, ne oprávnění.
@@ -238,30 +345,44 @@ import './as-cli/styles.css'
 
 <p class="cli-lead">Modelové zadání nad demonstračním přepisem, pouze v lokální simulaci.</p>
 
-<div class="cli-discovery">
-  <section>
-    <h2>Uživatel vymezí test</h2>
-    <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
-    <p>Projekt: <code>DevOpsDemo</code>, úloha: <code>Cyclic</code>.</p>
-    <p>Počítadlo: <code>gProductionCount</code><br>Reset: <code>gCmdClear</code></p>
+<div class="cli-test-context">
+  <mdi-robot-outline />
+  <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
+  <div class="cli-target"><mdi-desktop-classic /><strong>ARsim</strong><code>DevOpsDemo / Cyclic</code><small>127.0.0.1</small></div>
+</div>
+<div class="cli-reset-flow" v-click="1" aria-label="Přečíst hodnotu, zapsat reset a znovu přečíst">
+  <section class="cli-reset-step">
+    <mdi-eye-outline />
+    <h2>Přečíst před</h2>
+    <div class="cli-counter">17 <small>UDINT</small></div>
+    <code>gProductionCount</code>
+    <p>Výchozí hodnota v přepisu</p>
   </section>
-  <section v-click="1">
-    <h2>Agent připraví postup</h2>
-    <ol class="cli-test-plan">
-      <li>Ověřit projekt a dostupnou syntaxi.</li>
-      <li>Zapnout simulaci, sestavit, připojit se.</li>
-      <li>Přečíst hodnotu → resetovat → znovu přečíst.</li>
-      <li>Porovnat s očekáváním a přečíst logbook.</li>
-    </ol>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-action">
+    <mdi-restart />
+    <h2>Zapsat reset</h2>
+    <div class="cli-counter">1</div>
+    <code>gCmdClear</code>
+    <p>Potvrzený zápis ≠ ověřený reset</p>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-observe">
+    <mdi-magnify />
+    <h2>Přečíst po</h2>
+    <div class="cli-counter">?</div>
+    <code>gProductionCount</code>
+    <p>V přepisu chybí měření</p>
   </section>
 </div>
 
-<p class="cli-conclusion" v-click="2"><strong>Podmínka testu:</strong> při zastaveném počítání očekáváme po resetu hodnotu 0. Úspěšný zápis sám nestačí.</p>
+<div class="cli-feedback" v-click="2"><mdi-check-decagram-outline /><span>Při zastaveném počítání očekáváme 0. Ověřit čtením a zkontrolovat logbook.</span></div>
 
 <!--
 Čas: 2:00.
-Mapa odhalování: 0 = zadání, kontext a proměnné; 1 = všechny čtyři kroky
-testovacího plánu současně; 2 = podmínka úspěchu. Finále = celý kontrakt testu.
+Mapa odhalování: 0 = zadání a cíl ARsim; 1 = celá trojice Přečíst před →
+Zapsat reset → Přečíst po s hodnotami 17, 1, ?; 2 = podmínka očekávané nuly
+a kontrola logbooku. Finále = celý kontrakt testu, ? se nemění na naměřenou 0.
 
 Příklad je záměrně malý. Neřešíme nový pohon ani HMI; ukazujeme vazbu
 akce a pozorování. Projekt a názvy proměnných pocházejí z existujícího
@@ -370,7 +491,7 @@ v nápovědě nainstalované verze. Zde AS CLI není na PATH a nebylo spuštěno
 
 ---
 layout: default
-class: ot-slide dark-slide topic-as-cli cli-story
+class: ot-slide dark-slide as-cli-demo-slide topic-as-cli cli-story
 ---
 
 <script setup>
@@ -379,37 +500,37 @@ import './as-cli/styles.css'
 
 # Kde AS CLI použít a co tím neprokážeme
 
-<div class="cli-use-cases">
-  <section>
-    <h2>Inženýr</h2>
-    <p>Opakovaný build a diagnostika bez ručního procházení stejných oken.</p>
-  </section>
-  <section>
-    <h2>Agent</h2>
-    <p>Změní projekt, sestaví jej a podle pozorování opraví další krok.</p>
-  </section>
-  <section>
-    <h2>CI skript</h2>
-    <p>Spustí příkazy, vyhodnotí podmínky a při chybě zastaví další kroky.</p>
-  </section>
+<div class="cli-audience-strip" aria-label="Použití inženýrem, agentem a v CI">
+  <span><mdi-account-hard-hat-outline />Inženýr</span>
+  <span><mdi-robot-outline />Agent</span>
+  <span><mdi-source-branch />CI skript</span>
 </div>
-
-<div class="cli-evidence" v-click="1">
-  <h2>Výsledek operace není důkaz celé aplikace</h2>
-  <p><code>build OK</code> ≠ správné chování · <code>written</code> ≠ reset ověřen · PIP ≠ nasazeno</p>
-  <code class="cli-code">as var read gProductionCount --task Cyclic</code>
-  <p>Doplnit čtení po resetu: očekáváme 0, skutečný výsledek přepis nedokládá.</p>
+<div class="as-cli-devops-flow" aria-label="Dvě samostatné úrovně ověření">
+  <article class="as-cli-devops-gate as-cli-devops-unit">
+    <div class="as-cli-devops-gate-head"><mdi-hammer-wrench /><span>Sestavení</span></div>
+    <b class="as-cli-devops-gate-name">Build prošel</b>
+    <p>Projekt lze sestavit.<br>Chování aplikace tím není ověřeno.</p>
+    <code>as build</code>
+  </article>
+  <div class="as-cli-devops-arrow" v-click="1"><span>Potom</span><mdi-arrow-right /></div>
+  <article class="as-cli-devops-gate as-cli-devops-integration" v-click="1">
+    <div class="as-cli-devops-gate-head"><mdi-test-tube /><span>Runtime test</span></div>
+    <b class="as-cli-devops-gate-name">Chování odpovídá?</b>
+    <p>Porovnat výsledek s očekáváním.<br>V přepisu chybí čtení po resetu.</p>
+    <code>as var read gProductionCount --task Cyclic</code>
+  </article>
 </div>
-
-<div class="cli-conclusion" v-click="2">
-  <strong>Začněte jedním měřitelným testem v simulaci.</strong>
-  <p>Windows + kompatibilní AS + dostupné CLI. Člověk zkontroluje změny a schvaluje rizikové kroky.</p>
+<div class="as-cli-devops-result" v-click="2">
+  <mdi-shield-check-outline /><span>Lidská revize</span>
+  <strong>Test → kontrola změn → schválení nasazení</strong>
 </div>
+<p class="cli-final-note" v-click="2">Začněte v simulaci. Windows + kompatibilní AS + dostupné CLI. PIP balíček ≠ nasazení.</p>
 
 <!--
 Čas: 3:00. Časový součet: 0:30 + 2:00 + 2:30 + 2:00 + 2:00 + 3:00 + 3:00 = 15:00.
-Mapa odhalování: 0 = nadpis a tři použití; 1 = celý blok důkazů a závěr
-o nedokončeném testu; 2 = doporučení a předpoklady. Finále = všechno.
+Mapa odhalování: 0 = nadpis, tři uživatelé a gate sestavení; 1 = spojovací
+šipka a celý gate runtime testu; 2 = pás lidské revize a spodní předpoklady.
+Finále = obě úrovně důkazu a schválení, ne automatický verdikt PASS.
 Bez dalších interaktivních komponent.
 
 Vraťte se ke třem uživatelům stejného nástroje. Pipeline ale ještě vyžaduje
