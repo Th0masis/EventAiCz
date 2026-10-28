@@ -33,7 +33,8 @@ npm.cmd run build
 importy a dovoluje nové téma čekající na registraci. I čekající témata se
 parsují a kontrolují na obsah. `test:topic-styles` kontroluje pravidla
 topicového CSS pro registrovaná i čekající témata a `test:topic-code` hranice
-importů a skriptů. `test:duplicates` hledá výrazně duplicitní zdrojový kód.
+importů a skriptů v obou stavech registrace. `test:duplicates` hledá výrazně
+duplicitní zdrojový kód.
 Kontroly stylů, kódu a duplicit běží také v CI.
 
 ## Náhled a smoke test
