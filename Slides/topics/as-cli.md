@@ -1,6 +1,7 @@
 ---
 layout: default
 class: ot-slide chapter-slide topic-as-cli
+transition: fade
 ---
 
 <script setup>
@@ -30,11 +31,14 @@ uvést, protože zde není na PATH. Nejde o potvrzení všeobecné dostupnosti.
 Regrese grafických diagramů a čitelnosti tohoto tématu se ověřuje ze Slides příkazem
 `node topics\as-cli\tests\contrast.test.mjs` proti běžícímu serveru;
 SLIDES_URL mění jeho adresu. Ostatní kontroly a smoke test viz Slides/TESTING.md.
+Test zahrnuje kontrast a minimálně 14px výstupy terminálu ve všech deseti stavech,
+návrat mezi kroky a omezený pohyb. Přechody tématu používají prolínání bez posunu.
 -->
 
 ---
 layout: default
 class: ot-slide dark-slide tooling-matters-slide topic-as-cli cli-story
+transition: fade
 ---
 
 <script setup>
@@ -132,6 +136,7 @@ Project Architecture a Global Invariants. Platí jen pro podporované operace.
 ---
 layout: default
 class: ot-slide dark-slide as-cli-intro-slide topic-as-cli cli-story
+transition: fade
 ---
 
 <script setup>
@@ -255,6 +260,7 @@ nepředstírat ověřenou kompatibilitu. Balíčky ani PLC zde nebyly vytvořeny
 ---
 layout: default
 class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
 ---
 
 <script setup>
@@ -335,6 +341,7 @@ distribuce ani konkrétní číslo AS verze. Instalaci ověřit před živou uk�
 ---
 layout: default
 class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
 ---
 
 <script setup>
@@ -416,6 +423,7 @@ Zdroje: vlastní TerminalCli.vue, commands; training s5/15-loop-test
 ---
 layout: default
 class: demo-slide dark-slide as-cli-slide topic-as-cli
+transition: fade
 ---
 
 <script setup>
@@ -457,7 +465,8 @@ nově provedeného testu. Výstupy jsou zjednodušené. DONE označuje dokončen
 animace, nikoli prokázaný úspěch engineeringové operace.
 
 [CLICK]
-Agent si nejprve zjistí příkazy. Zobrazujeme označený výřez help, ne celý výpis.
+Agent si nejprve zjistí příkazy. Zobrazujeme označený výřez help pro project,
+ne celý výpis. Výsledky i nápověda mají stejnou 14px velikost jako příkazy.
 
 [CLICK]
 Status ukazuje modelový DevOpsDemo, Config1, X20CP1686X.
@@ -498,6 +507,7 @@ v nápovědě nainstalované verze. Zde AS CLI není na PATH a nebylo spuštěno
 ---
 layout: default
 class: ot-slide dark-slide as-cli-demo-slide topic-as-cli cli-story
+transition: fade
 ---
 
 <script setup>

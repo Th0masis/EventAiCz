@@ -2044,3 +2044,17 @@
   transform: none;
   transition-property: opacity;
 }
+
+.slidev-layout.topic-as-cli .evidence-terminal :where(.terminal-idle, .terminal-output, .help-output, .logbook-output table) {
+  --text-role: command;
+  --text-size: var(--type-caption);
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-as-cli .slidev-vclick-target {
+    transform: none;
+    transition: opacity 160ms ease;
+  }
+}
