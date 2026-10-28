@@ -170,7 +170,7 @@ jobs:
                   }
                 }
               } else if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
-                if (paths.some(path => /^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) || path.startsWith('Slides/public/topics/'))) {
+                if (paths.some(path => path.startsWith('Slides/topics/') || path.startsWith('Slides/public/topics/'))) {
                   throw new Error('Topic content and assets must use their topic branch, not a coordination PR')
                 }
               } else {
