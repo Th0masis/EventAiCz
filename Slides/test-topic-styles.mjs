@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { access, readFile, readdir } from 'node:fs/promises'
 import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { load } from '@slidev/parser/fs'
 import postcss from 'postcss'
 import selectorParser from 'postcss-selector-parser'
 import { deck } from './test-content.mjs'
@@ -31,7 +32,17 @@ for (const filename of topicFiles) {
   stylesheets++
   const topicClass = `topic-${topic}`
   const markdownPath = resolve(topicRoot, filename)
-  const slides = deck.slides.filter(slide => resolve(slide.source.filepath) === markdownPath)
+  let topicDeck = deck
+  if (!Object.values(deck.markdownFiles).some(markdown => resolve(markdown.filepath) === markdownPath)) {
+    topicDeck = await load(
+      { roots: [root], userRoot: root, allowedRoots: [root] },
+      markdownPath,
+    )
+    for (const markdown of Object.values(topicDeck.markdownFiles)) {
+      assert.equal(markdown.errors?.length ?? 0, 0, `${markdown.filepath}: ${JSON.stringify(markdown.errors)}`)
+    }
+  }
+  const slides = topicDeck.slides.filter(slide => resolve(slide.source.filepath) === markdownPath)
   assert.ok(slides.length > 0, `No parsed slides found for topic stylesheet: ${topic}`)
 
   for (const slide of slides) {

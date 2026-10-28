@@ -167,9 +167,10 @@ nemají vlastní tematickou větev.
 
    U nového tématu, které se má přidat do programu, postupujte opačně ve dvou
    PR: nejprve slučte topicový PR do `main` bez registrace v `Slides/slides.md`.
-   Téma se tím ještě nezařadí do prezentace; `test:content` dovoluje zdroj
-   čekající na registraci, ale ověřuje, že každý již registrovaný import
-   existuje. Poté vytvořte čerstvou větev `coord/<id>` z aktuálního
+   Téma se tím ještě nezařadí do prezentace; `test:content` a
+   `test:topic-styles` dovolují zdroj čekající na registraci, ale ověřují jeho
+   obsah a styly. Každý již registrovaný import musí existovat. Poté vytvořte
+   čerstvou větev `coord/<id>` z aktuálního
    `origin/main`, zaregistrujte téma v `Slides/slides.md` a README a otevřete
    druhý PR do `main`. Koordinační PR nikdy nesmí obsahovat Markdown tématu ani
    jeho podklady. Pokud jste topicovou větev už sloučili do koordinační větve,
