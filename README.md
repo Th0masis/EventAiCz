@@ -106,6 +106,7 @@ souboru v `Slides/topics/` bez přípony:
 | `as-cli` | AS CLI - nový koncept kontroly Automation Studia pomocí AI |
 | `as-repository` | AS repository: dejte AI schopnosti automation experta |
 | `support-agent` | Příklad z B&R: Support Agent |
+| `success-stories` | Příklady z praxe: úspěšná použití AI |
 | `prakticky-prinos` | Příklady z praxe: praktický přínos AI |
 | `br-services` | B&R Services - nabídka AI služeb |
 | `ai-management` | AI pro management - externí speaker |

@@ -177,6 +177,10 @@ src: ./topics/support-agent.md
 ---
 
 ---
+src: ./topics/success-stories.md
+---
+
+---
 src: ./topics/prakticky-prinos.md
 ---
 
