@@ -694,7 +694,7 @@ Modelu se poskytují podklady pro danou úlohu, nepřetrénovává se.
 Přepis zmiňuje mappView 6.6 v tehdejším projektu, nikoli povinnou verzi pro všechny.
 Současný mappview/SKILL.md směruje na `as mappview widget list <query>`
 a `as mappview widget read <WidgetType> --properties`.
-Zobrazený příkaz je převzatý vzor: <WidgetType> je zástupný parametr,
+Zobrazený příkaz je převzatý vzor: `WidgetType` je zástupný parametr,
 nikoli doslovná hodnota. Nejprve zjistit skutečný typ; syntaxi potvrdit v --help.
 Tyto dotazy čtou metadata; samotný dotaz ještě projekt nemění.
 Pro konfigurační soubory obdobnou roli plní `as config schema read <.ending>`.
