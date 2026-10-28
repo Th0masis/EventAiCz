@@ -179,7 +179,13 @@ jobs:
                 const topic = match[1]
                 const topicFile = `Slides/topics/${topic}.md`
                 const topicSource = `Slides/topics/${topic}/`
-                await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.base.sha })
+                const topicFileChange = files.find(file => file.filename === topicFile)
+                try {
+                  await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.base.sha })
+                } catch (error) {
+                  if (error.status !== 404 || topicFileChange?.status !== 'added') throw error
+                }
+                await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.head.sha })
                 const assetRoot = `Slides/public/topics/${topic}/`
                 if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(topicSource) && !path.startsWith(assetRoot))) {
                   throw new Error(`Only ${topicFile}, ${topicSource}, and ${assetRoot} may change in this PR`)
