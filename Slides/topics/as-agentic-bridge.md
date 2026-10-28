@@ -167,15 +167,18 @@ import './as-agentic-bridge/styles.css'
 <p class="bridge-mcp-lead">Představ si, že každý AI editor potřebuje vlastní integraci ke každému nástroji. <strong>MCP dává oběma stranám společný způsob, jak se domluvit.</strong></p>
 
 <div class="bridge-mcp-architecture" aria-label="AI aplikace obsahuje MCP klienta, který mluví se serverem MCP; server zpřístupní existující nástroje a data">
-	<section class="bridge-mcp-part"><mdi-robot-outline aria-hidden="true" /><h2>AI aplikace</h2><p>Například chat nebo IDE.<br>Uvnitř běží MCP klient.</p><span class="bridge-mcp-link" aria-hidden="true"><span>MCP</span><mdi-arrow-left-right /></span></section>
-	<section class="bridge-mcp-part"><mdi-connection aria-hidden="true" /><h2>MCP server</h2><p>Popíše, co umí,<br>a provede požadovanou akci.</p><span class="bridge-mcp-link" aria-hidden="true"><span>API<br>volitelně</span><mdi-arrow-left-right /></span></section>
+	<section class="bridge-mcp-part"><mdi-robot-outline aria-hidden="true" /><h2>AI aplikace</h2><p>Například chat nebo IDE.<br>Uvnitř běží MCP klient.</p></section>
+	<span class="bridge-mcp-link" aria-hidden="true"><span>MCP</span><mdi-arrow-left-right /></span>
+	<section class="bridge-mcp-part"><mdi-connection aria-hidden="true" /><h2>MCP server</h2><p>Popíše, co umí,<br>a provede požadovanou akci.</p></section>
+	<span class="bridge-mcp-link" aria-hidden="true"><span>API<br>volitelně</span><mdi-arrow-left-right /></span>
 	<section class="bridge-mcp-part"><mdi-database-outline aria-hidden="true" /><h2>Existující nástroje a data</h2><p>API, CLI, soubory,<br>databáze nebo vlastní kód.</p></section>
 </div>
 
-<div class="bridge-mcp-capabilities" aria-label="Co může MCP server zpřístupnit">
-	<span><mdi-wrench-outline aria-hidden="true" /><strong>Tools</strong> akce</span>
-	<span><mdi-file-document-outline aria-hidden="true" /><strong>Resources</strong> data</span>
-	<span><mdi-message-text-outline aria-hidden="true" /><strong>Prompts</strong> šablony</span>
+<div class="bridge-mcp-capabilities" aria-label="MCP server může nabídnout nástroje, data a připravené šablony zadání">
+	<strong>MCP server může nabídnout:</strong>
+	<span><mdi-wrench-outline aria-hidden="true" /><strong>Tools</strong> – akce, o které může AI požádat</span>
+	<span><mdi-file-document-outline aria-hidden="true" /><strong>Resources</strong> – data, ze kterých může AI čerpat</span>
+	<span><mdi-message-text-outline aria-hidden="true" /><strong>Prompts</strong> – připravené šablony zadání</span>
 </div>
 
 <div class="bridge-mcp-exchange" aria-label="Zjednodušený průběh použití MCP nástroje">
@@ -196,6 +199,8 @@ Počáteční stav: nadpis, definice, všechny tři role diagramu a řádek Tool
 
 [CLICK]
 Vlevo je AI aplikace, třeba IDE s agentem. Uvnitř ní běží MCP klient: část programu, která umí protokol MCP. Klient se připojí k MCP serveru a zjistí, jaké nástroje server nabízí a jaké argumenty očekávají. Proto je na slidu otázka „Co umíš?“; skutečná zpráva se jmenuje tools/list.
+
+Řádek pod kartami shrnuje tři druhy schopností, které může MCP server nabídnout: nástroje k volání, data pro kontext a připravené šablony zadání.
 
 [CLICK]
 Když agent potřebuje například vyhledat dokumentaci, navrhne odpovídající nástroj a vstupy. Aplikace rozhodne, zda volání povolí; její klient předá požadavek serveru. Tomuto kroku se v MCP říká tools/call. Model sám neotevírá spojení se serverem.
