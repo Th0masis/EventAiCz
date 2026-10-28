@@ -12,11 +12,12 @@ import './as-repository/styles.css'
 # AS repository: dejte AI<br>kontext automation experta
 
 <!--
-1 minuta. Navazujeme na Agentic Bridge a AS CLI, které už představily nástroje.
-Nyní řešíme, podle čeho se agent rozhoduje a jak mu předat znalosti B&R i našeho projektu.
-Neinstalujeme jiný model ani do něj nenahráváme nové znalosti natrvalo.
-Přidáváme čitelný kontext, odborné postupy a pravidla, která lze sdílet a aktualizovat.
-Tyto pluginy a skills používám i ve svém pracovním prostředí.
+*Záměr a čas: 0:30. Navázat na Agentic Bridge a AS CLI; teď se zaměříme na to, co agentovi říká, jak postupovat.*
+*Počáteční stav: celý titulek a obraz jsou viditelné; slide nemá klikací odhalení.*
+
+AS Repository není nový model. Jde o sdílené postupy, pravidla a nástroje pro práci s konkrétním Automation Studio projektem. Nejdřív si ujasníme tři základní typy přizpůsobení: instrukce, skills a agenty.
+
+*Konečný stav: stejný jako počáteční; přechod k rozdílům mezi instrukcemi, skills a agenty.*
 -->
 
 ---
@@ -28,135 +29,40 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Od požadavku<br>k <span class="accent">ověřené změně</span>
+# Obecná znalost<br>není znalost <span class="accent">vašeho projektu</span>
 
-<div class="repo-request-map" aria-label="Tok požadavku od zákazníka přes harness a B&R Agentic Bridge k projektu Automation Studio a zpět, včetně samostatných kontrol">
-	<section class="repo-map-inputs">
-		<div class="repo-map-input">
-			<h3>Zadání</h3>
-			<p>Cíl · rozsah · očekávaný výstup</p>
-		</div>
-		<div class="repo-map-input">
-			<h3>AS projekt</h3>
-			<p>Soubory · konfigurace · verze AS</p>
-		</div>
-	</section>
-	<div class="repo-map-connector" aria-hidden="true">
-		<mdi-arrow-right />
-	</div>
-	<section class="repo-map-harness">
-		<div class="repo-map-model">
-			<h2>Model</h2>
-			<p>Rozumí zadání · plánuje · navrhuje změnu</p>
-		</div>
-		<p>Harness předává povolená volání nástrojů a výsledky vrací modelu.</p>
-	</section>
-	<div class="repo-map-connector repo-map-tools-connector" aria-hidden="true">
-		<mdi-arrow-left-right />
-	</div>
-	<section class="repo-map-bridge">
-		<h3>B&amp;R Agentic Bridge</h3>
-		<div class="repo-map-bridge-context">
-			<h3>AS repository</h3>
-			<p>Agenti · instrukce · skills · šablony</p>
-		</div>
-		<div class="repo-map-bridge-tools">
-			<div>
-				<h3>MCP</h3>
-				<p>Dokumentace a technické informace</p>
-			</div>
-			<div>
-				<h3>AS CLI</h3>
-				<p>Metadata · build · runtime · diagnostika</p>
-			</div>
-		</div>
-	</section>
-	<div class="repo-map-connector repo-map-project-connector" aria-hidden="true">
-		<mdi-arrow-left-right />
-	</div>
-	<section class="repo-map-target">
-		<h3>Automation Studio</h3>
-		<p>Projekt a konfigurace; runtime: ARsim nebo fyzické PLC*</p>
-	</section>
-</div>
-
-<div class="repo-map-return">
-	<p>Výsledek nástroje se vrací do harnessu; model odpoví, nebo navrhne další volání.</p>
-	<mdi-arrow-left />
-</div>
-
-<section class="repo-map-guardrails" aria-label="Samostatné kontrolní body">
-	<h3>Guardrails</h3>
-	<div>
-		<span>Oprávnění a přístup</span>
-		<span>Ochrana zákaznických dat</span>
-		<span>Build a testovací brány</span>
-		<span>Lidské review a schválení nasazení</span>
-	</div>
-	<p>Instrukce samy tyto kontroly nevynucují.</p>
-</section>
-
-<p class="repo-note">* Konkrétní nástroje, oprávnění a cílové prostředí závisejí na instalaci zákazníka; diagram je koncepční.</p>
-
-<!--
-2 minuty. Projděte mapu odleva doprava a potom ukažte návrat výsledků.
-Zákazník zadá úlohu a poskytne odpovídající AS projekt, konfiguraci a verzi Automation Studia.
-Agentic harness propojí model s tímto kontextem a zprostředkuje jeho komunikaci s nástroji.
-Model si podle potřeby vyžádá znalost přes MCP nebo operaci přes AS CLI;
-nejde o přímé připojení modelu k PLC.
-AS repository dodává statický kontext: agenty, instrukce, skills a šablony.
-MCP zde představuje vyhledávání dokumentace a technických informací.
-AS CLI čte informace a provádí podporované operace nad projektem či runtime;
-konkrétní rozsah závisí na instalaci a dostupných oprávněních.
-Výsledek nástroje se vrátí do harnessu. Model ho může využít v odpovědi,
-nebo navrhnout další volání. Člověk kontroluje změny a rozhoduje o dalším použití.
-Build a testy, přístupová oprávnění, ochrana dat i schválení nasazení jsou
-samostatné kontroly. Samotné instrukce ani model je nenahrazují.
-Rámeček je koncepční: neznamená, že všechny součásti tvoří jediný balíček
-nebo že každá možnost je dostupná každému zákazníkovi.
-Přechod: Proč obecný model potřebuje přesně tento projektový kontext?
--->
-
----
-layout: default
-class: ot-slide topic-as-repository
----
-
-<script setup>
-import './as-repository/styles.css'
-</script>
-
-# Proč samotný ChatGPT<br>nestačí na <span class="accent">B&R projekt</span>
-
-<p class="repo-lead">Obecná znalost programování není znalost vaší instalace.</p>
+<p class="repo-lead">Model potřebuje správné podklady pro instalaci, verzi i týmové konvence.</p>
 
 <div class="repo-columns">
 	<section>
-		<h2>Model může znát princip</h2>
+		<h2>Obecný základ</h2>
 		<div class="repo-lines">
 			<div><mdi-code-braces /><span>Syntaxe a běžné programovací vzory</span></div>
-			<div><mdi-state-machine /><span>Stavové automaty a rozdělení úlohy</span></div>
-			<div><mdi-text-box-search-outline /><span>Vysvětlení předloženého kódu</span></div>
+			<div><mdi-state-machine /><span>Principy automatizace a návrhové postupy</span></div>
+			<div><mdi-text-box-search-outline /><span>Vysvětlení kódu, který dostane do kontextu</span></div>
 		</div>
 	</section>
-	<section v-click>
-		<h2>Konkrétní detaily musíme ověřit</h2>
+	<section v-click="1">
+		<h2>Konkrétní skutečnost</h2>
 		<div class="repo-lines">
-			<div><mdi-monitor-dashboard /><span>Platné vlastnosti widgetu mappView</span></div>
-			<div><mdi-link-variant /><span>Vazby mezi konfigurací, HMI a PLC</span></div>
-			<div><mdi-package-variant-closed /><span>API a schémata instalované verze</span></div>
+			<div><mdi-monitor-dashboard /><span>Vlastnosti widgetů v instalované verzi</span></div>
+			<div><mdi-link-variant /><span>Vazby mezi HMI, konfigurací a PLC</span></div>
+			<div><mdi-package-variant-closed /><span>Architektura a pravidla vašeho projektu</span></div>
 		</div>
 	</section>
 </div>
 
-<p class="repo-takeaway" v-click>Věrohodný text ještě není <strong>funkční řešení.</strong></p>
+<p class="repo-takeaway" v-click="2">Přesvědčivý návrh ještě není <strong>ověřené řešení.</strong></p>
 
 <!--
-3 minuty. Neříkáme, že LLM nevědí o B&R vůbec nic. Nemůžeme se ale spolehnout na úplnost, aktuálnost a správnost jejich znalostí konkrétních verzí a proprietárních detailů.
+*Záměr a čas: 2:00. Vysvětlit, proč se vyplatí dodat projektový a verzový kontext, aniž bychom tvrdili, že model o B&R nic neví.*
+*Počáteční stav: nadpis, podtitul a levý sloupec. Skupina 1 odhalí pravý sloupec; skupina 2 závěrečné sdělení. Konečný stav: oba sloupce a takeaway.*
+
+Model může znát obecné principy, ale nemůžeme spoléhat na úplnost a aktuálnost konkrétního API, schématu nebo instalace. I věrohodná vlastnost widgetu může být pro danou verzi chybná. Potřebujeme dodat architekturu projektu, relevantní postup a podklady pro ověření.
 [CLICK]
-Konkrétní vlastnost widgetu může vypadat věrohodně, přesto nemusí existovat. Model navíc bez poskytnutého kontextu nezná naše konvence, cílovou konfiguraci a závislosti. Potřebujeme informace z projektu, dokumentaci a metadata odpovídající instalované verzi.
+Konkrétní detaily musí odpovídat skutečnému projektu a instalované verzi.
 [CLICK]
-Věrohodný text ještě není funkční řešení. Přechod: Jaké části tohoto kontextu vlastně dodáváme?
+Přesvědčivý text sám o sobě nepotvrzuje funkční řešení. Jaké části tohoto kontextu tedy můžeme připravit?
 -->
 
 ---
@@ -168,74 +74,40 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Stavební bloky:<br><span class="accent">kdo dělá co?</span>
+# Instrukce:<br><span class="accent">pravidla a hranice projektu</span>
 
-<div class="repo-glossary">
-	<div><mdi-format-list-checks /><h3>Instrukce</h3><p>Kořenový <code>AGENTS.md</code>: pravidla projektu, architektura a směrování.</p><span>Projektový kontext</span></div>
-	<div><mdi-book-open-page-variant-outline /><h3>Skill</h3><p><code>SKILL.md</code>: postup pro konkrétní typ úlohy.</p><span>Odborný postup</span></div>
-	<div><mdi-robot-outline /><h3>Agent</h3><p><code>as-project.agent.md</code>: specializovaná role a workflow.</p><span>Řízení práce</span></div>
-	<div v-click="1"><mdi-package-variant-closed /><h3>Plugin</h3><p>Balíček pro instalaci a aktualizaci skills a agentů.</p><span>Distribuce</span></div>
-	<div v-click="1"><mdi-console-line /><h3>CLI</h3><p>Provádí podporované operace Automation Studia.</p><span>Příkazy a výsledky</span></div>
-	<div v-click="1"><mdi-book-search-outline /><h3>MCP</h3><p>Protokol pro připojení k nástrojům a zdrojům.</p><span>Přístupové rozhraní</span></div>
-</div>
-
-<!--
-2 minuty. První tři řádky popisují projektový kontext a soubory, které vedou práci agenta.
-`AGENTS.md` leží v kořeni projektu vedle `Logical/`, `Physical/` a souboru `.apj`; obsahuje architekturu, invarianty a směrování.
-Skill má povinný `SKILL.md`. Projektový skill může být v `.agents/skills/<název>/`; volitelné `references/`, `scripts/` a `assets/` doplňují postup podle potřeby.
-Soubor `as-project.agent.md` je součástí pluginu as-skills, nikoli soubor `AGENTS.md` v projektu. Definuje specializovanou roli a odkazuje na příslušné skills.
-
-[CLICK]
-Plugin distribuuje agentní definice a skills. CLI provádí podporované operace Automation Studia a vrací výsledky. MCP je samostatný protokol pro připojení k nástrojům a zdrojům; samo o sobě není znalostní bází.
--->
-
----
-layout: default
-class: ot-slide topic-as-repository
----
-
-<script setup>
-import './as-repository/styles.css'
-</script>
-
-# Instrukce:<br><span class="accent">pravidla vašeho projektu</span>
-
-<p class="repo-lead">B&R základ + vaše architektura, konvence a hranice změn.</p>
+<p class="repo-lead">Řeknou agentovi, co má respektovat napříč prací na projektu.</p>
 
 <div class="repo-columns">
 	<section>
-		<h2>Co má agent respektovat</h2>
+		<h2>Co sem patří</h2>
 		<div class="repo-lines">
-			<div><mdi-file-tree-outline /><span>Vlastnictví souborů v Logical a Physical</span></div>
-			<div><mdi-link-variant /><span>Přesné identifikátory a reference</span></div>
-			<div><mdi-shield-check-outline /><span>Rozsah změny a povinné ověření</span></div>
+			<div><mdi-file-tree-outline /><span>Architektura a vlastnictví souborů</span></div>
+			<div><mdi-link-variant /><span>Konvence a důležité invarianty</span></div>
+			<div><mdi-test-tube /><span>Požadované ověření a projektové příkazy</span></div>
 		</div>
 	</section>
 	<section class="repo-document" v-click>
-		<h3>Projektové instrukce</h3>
-		<code>AGENTS.md</code>
+		<h3>Příklad: <code>AGENTS.md</code></h3>
 		<ul>
 			<li>Neměň generované výstupy.</li>
-			<li>Při přidání objektu aktualizuj jeho registraci.</li>
-			<li>Nevymýšlej metadata. Ověř je v instalaci.</li>
-			<li>Dodržuj firemní pojmenování.</li>
+			<li>Při přidání objektu aktualizuj registraci.</li>
+			<li>Metadata ověř v instalaci, nevymýšlej je.</li>
 		</ul>
-		<p class="repo-note">Zkrácené příklady pravidel, nikoli úplná šablona.</p>
+		<p class="repo-note">Instrukce vedou chování; samy nevynucují oprávnění.</p>
 	</section>
 </div>
 
-<p class="repo-takeaway">Pravidla napište jednou. <strong>Sdílejte je s projektem.</strong></p>
+<p class="repo-takeaway">Projektová pravidla patří <strong>k projektu a jeho týmu.</strong></p>
 
 <!--
-2 minuty. Projektová šablona repozitáře obsahuje AGENTS.md. Je to soubor instrukcí,
-nikoli definice dalšího agenta.
+*Záměr a čas: 2:30. Ukázat odpovědnost instrukcí a jejich hranice.*
+*Počáteční stav: nadpis, podtitul a levý seznam. Skupina 1 odhalí příklad AGENTS.md. Konečný stav: oba sloupce a takeaway.*
 
+Instrukce popisují architekturu, konvence a důležitá omezení. V Automation Studio šabloně jde například o kořenový AGENTS.md vedle Logical, Physical a souboru projektu. AGENTS.md je soubor s instrukcemi, ne definice agenta.
 [CLICK]
-
-Zde uvedené body jsou zkrácené příklady z tohoto základu
-a příklad firemní konvence. Není to doslovný výřez ani univerzální kompletní soubor.
-Načítání a rozsah instrukcí se řídí použitým agentním prostředím.
-Instrukce pomáhají směrovat chování, ale nevynucují oprávnění ani bezpečnost.
+Příklady jsou zkrácené. Pravidla mohou agentovi připomenout kontrolu nebo zakázat určitou změnu v jeho postupu, ale sama technicky nezablokují příkaz ani přístup. To musí řešit oprávnění a skutečné kontrolní mechanismy.
+Přechod: Co když kromě pravidel potřebujeme opakovatelný odborný postup?
 -->
 
 ---
@@ -247,19 +119,19 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Skills: správný postup<br><span class="accent">ve správnou chvíli</span>
+# Skills:<br><span class="accent">odborný postup pro daný úkol</span>
 
 <div class="repo-columns">
 	<section>
-		<h2>Co obsahuje skill</h2>
+		<h2>Skill obsahuje</h2>
 		<div class="repo-lines">
-			<div><mdi-target /><span><code>.agents/skills/&lt;název&gt;/SKILL.md</code>: kdy jej použít a které soubory vlastní</span></div>
-			<div><mdi-alert-circle-outline /><span>Stručný postup, pravidla a typické chyby technologie</span></div>
-			<div><mdi-book-search-outline /><span>Volitelné <code>references/</code>, <code>scripts/</code> a <code>assets/</code></span></div>
+			<div><mdi-book-open-page-variant-outline /><span><code>SKILL.md</code>: účel, spouštěcí popis a postup</span></div>
+			<div><mdi-alert-circle-outline /><span>Pravidla technologie a typické chyby</span></div>
+			<div><mdi-folder-multiple-outline /><span>Podle potřeby reference, skripty a šablony</span></div>
 		</div>
 	</section>
-	<section v-click>
-		<h2>Úkol vybírá relevantní postup</h2>
+	<section v-click="1">
+		<h2>Příklady podle zadání</h2>
 		<div class="repo-skill-matches">
 			<div><p>„Přidej stavový automat.“</p><code>structured-text</code></div>
 			<div><p>„Zobraz teplotu na HMI.“</p><code>mappview</code></div>
@@ -268,17 +140,17 @@ import './as-repository/styles.css'
 	</section>
 </div>
 
-<p class="repo-takeaway">Načíst potřebný postup a reference. <strong>Ne celý katalog do promptu.</strong></p>
+<p class="repo-takeaway" v-click="2">Načti relevantní postup a reference. <strong>Ne celý katalog.</strong></p>
 
 <!--
-3 minuty. Složka skillu má povinný soubor SKILL.md; adresáře references/, scripts/ a assets/ jsou volitelné.
-V projektu může být lokální skill například v .agents/skills/<název>/SKILL.md. B&R skills se dodávají v pluginu as-skills.
+*Záměr a čas: 3:00. Vysvětlit obsah skillu, jeho objevování a postupné načítání.*
+*Počáteční stav: nadpis a levý sloupec. Skupina 1 odhalí příklady úloh; skupina 2 takeaway. Konečný stav: celý obsah.*
+
+Skill je složka s povinným SKILL.md; další materiály mohou být v references, scripts nebo assets. Popis v hlavičce pomáhá kompatibilnímu prostředí rozpoznat, kdy se skill hodí. Model může načíst skill podle relevance, člověk ho může vyvolat přímo. Samotné zobrazení skillu v seznamu ale nezaručuje jeho použití.
 [CLICK]
-Příklady ukazují výběr skillu podle zadání: structured-text, mappview a mapptrak.
-Podrobnější reference se načítají podle potřeby. SKILL.md popisuje, kdy postup použít a jak jej ověřit; volitelné skripty nejsou obsahem všech skills.
-Skill model nepřetrénuje. Dodává mu kontext pro aktuální práci.
-Automatický výběr závisí na prostředí a popisu skillu; ověřujeme, že byl skutečně načten.
-Ukázka shuttle má v tomto příkladu kontext ACOPOStrak, nikoli ACOPOS 6D či SuperTrak.
+Příklady propojují záměr uživatele s konkrétním postupem. V B&R repozitáři jsou specializované skills oddělené podle technologií a vlastnictví souborů.
+[CLICK]
+Detailní reference se načítají podle potřeby; skill nepřetrénuje model. Je to kontext pro aktuální práci. Chování i umístění skillů závisí na harnessu.
 -->
 
 ---
@@ -290,32 +162,30 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Agenti:<br><span class="accent">role a řízení práce</span>
+# Agent:<br><span class="accent">specializovaná role</span>
 
-<p class="repo-lead"><code>as-project.agent.md</code> v pluginu as-skills definuje roli a workflow pro práci na Automation Studio projektu.</p>
+<p class="repo-lead"><code>as-project.agent.md</code> dodává roli a pracovní rámec pro projekt Automation Studio.</p>
 
 <div class="repo-process">
-	<div><span class="repo-step">1</span><h3>Přečte projekt</h3><p>Instrukce, architektura a rozsah zadání.</p></div>
-	<div v-click><span class="repo-step">2</span><h3>Vybere postup</h3><p>Skill podle technologie a vlastnictví souborů.</p></div>
-	<div v-click><span class="repo-step">3</span><h3>Použije nástroje</h3><p>Dokumentace, metadata a podporované operace.</p></div>
-	<div v-click><span class="repo-step">4</span><h3>Ověří výsledek</h3><p>Build, testy a podklady pro lidské review.</p></div>
+	<div><span class="repo-step">1</span><h3>Porozumí zadání</h3><p>Načte pravidla a relevantní projektový kontext.</p></div>
+	<div v-click="1"><span class="repo-step">2</span><h3>Vybere postup</h3><p>Použije skill pro technologii a vlastnictví změny.</p></div>
+	<div v-click="2"><span class="repo-step">3</span><h3>Pracuje s nástroji</h3><p>Vyhledá symbol nebo provede podporovanou operaci.</p></div>
+	<div v-click="3"><span class="repo-step">4</span><h3>Předloží důkazy</h3><p>Build, testy a změna pro lidské review.</p></div>
 </div>
 
-<p class="repo-takeaway">Specializovaná role <strong>není další vytrénovaný model.</strong></p>
+<p class="repo-takeaway">Agent je role pro harness. <strong>Není to další vytrénovaný model.</strong></p>
 
 <!--
-2 minuty. Soubor agenta je součástí instalovaného pluginu, ne AGENTS.md v projektu. Určuje roli a společný workflow; konkrétní podrobnosti načítá ze skillu.
-Krok 1 je již viditelný. Nejdříve projektové instrukce, potom skill vlastníka změny
-a dokumentace pro danou verzi.
+*Záměr a čas: 2:00. Odlišit agenta jako specializovanou roli od skillu a subagenta.*
+*Počáteční stav: nadpis, podtitul a první krok. Skupiny 1–3 postupně odhalí kroky 2–4. Konečný stav: celý proces a takeaway.*
+
+V repozitáři je as-project agent součástí pluginu as-skills. Agent je definice role a workflow, kterou si uživatel vybere, případně ji jiné prostředí spustí jako delegovaný úkol. Skill naopak dodává opakovatelný odborný postup. Subagent označuje delegovanou část práce; není synonymem pro skill.
 [CLICK]
-Agent vybere postup podle technologie a vlastnictví souborů.
+Agent vybere postup podle technologie a souborů, které změna vlastní.
 [CLICK]
-Použije dokumentaci, metadata a podporované operace.
+Pak může použít zpřístupněné nástroje, například jazykový server nebo CLI.
 [CLICK]
-Ověří výsledek buildem, testy a lidským review.
-Agent je model pracující v prostředí s kontextem a nástroji; custom agent přidává roli a postup.
-Subagent znamená delegovanou část úlohy. Není to synonymum skillu a není nutný pro každou změnu.
-Definice role sama nezaručuje, že budou všechny kroky dodrženy. Potřebujeme skutečné výsledky kontrol.
+Výsledek musí předložit ke kontrole. Samotná definice agenta nezaručuje, že všechny kroky opravdu proběhly.
 -->
 
 ---
@@ -327,34 +197,81 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Co najdete<br>v <span class="accent">B&R repozitáři</span>
+# Kdy se který díl <span class="accent">zapojí?</span>
 
-<div class="repo-catalog">
-	<div><h3>Programování</h3><p>Structured Text a ANSI C</p></div>
-	<div><h3>Konfigurace a data</h3><p>Physical konfigurace a OPC UA</p></div>
-	<div><h3>HMI</h3><p>mappView: stránky, widgety, bindings a události</p></div>
-	<div><h3>Motion</h3><p>Osy, ACOPOStrak, ACOPOS 6D a SuperTrak</p></div>
-	<div><h3>mapp Services</h3><p>Alarmy, audit, uživatelé, receptury a runtime I/O</p></div>
+<p class="repo-lead">Přesné načítání závisí na agentním prostředí a formátu souboru.</p>
+
+<div class="repo-glossary">
+	<div><mdi-format-list-checks /><h3>Instrukce</h3><p>Trvalá nebo cílená pravidla pro projekt či soubory.</p><span>Automaticky, podle vzoru/úkolu, nebo ručně</span></div>
+	<div><mdi-book-open-page-variant-outline /><h3>Skill</h3><p>Specializovaný postup dostupný agentovi.</p><span>Podle relevance, nebo přímým vyvoláním</span></div>
+	<div><mdi-robot-outline /><h3>Agent</h3><p>Role, pravidla a případně omezené nástroje.</p><span>Vybere ho uživatel, nebo deleguje jiný agent</span></div>
+</div>
+
+<p class="repo-takeaway">Nejdřív vyberte <strong>opakující se problém</strong>, potom vhodný typ přizpůsobení.</p>
+
+<!--
+*Záměr a čas: 2:30. Srovnat aktivaci tří konceptů a výslovně upozornit na rozdíly mezi harnessy.*
+*Počáteční stav: celý srovnávací přehled a takeaway jsou viditelné; bez klikacích skupin. Konečný stav je stejný.*
+
+Instrukce mohou být vždy součástí kontextu, omezené na glob či připojené podle popisu úkolu nebo ručně. Skill může prostředí doporučit podle relevance, ale dostupnost ještě nezaručuje použití. Agenta si uživatel vybere nebo ho lze delegovat. To jsou příklady chování VS Code/Copilot; jiné harnessy mohou používat jiné formáty a pravidla.
+Začněte pozorovaným problémem, který se opakuje. Ne každý úkol potřebuje nový soubor přizpůsobení.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository repo-overview-slide
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Co nabízí <span class="accent">AS Repository</span>
+
+<div class="repo-ecosystem" aria-label="Moduly AS Repository">
+	<svg class="repo-ecosystem-branches" viewBox="0 0 1140 52" role="presentation" aria-hidden="true">
+		<path d="M570 0v20H179v32m391-32v32m0-32h391v32" />
+	</svg>
+	<div class="repo-ecosystem-modules">
+		<section class="repo-ecosystem-module">
+			<h3>as-skills</h3>
+			<div class="repo-module-stats"><span class="repo-module-stat"><strong>15</strong><span>skills</span></span></div>
+			<p>Rozděluje práci na specializované postupy podle úlohy a souborů projektu. Pokrývá například vývoj v Structured Textu, konfiguraci i provozní funkce.</p>
+		</section>
+		<section class="repo-ecosystem-module">
+			<h3>mappView HMI</h3>
+			<div class="repo-module-stats">
+				<span class="repo-module-stat"><strong>1</strong><span>agent</span></span>
+				<span class="repo-module-join" aria-hidden="true">+</span>
+				<span class="repo-module-stat"><strong>1</strong><span>skill</span></span>
+			</div>
+			<p>Pomáhá navrhovat a převádět aplikace mappView do projektu Automation Studio. Read-only kontrola nasazené verze vrátí nálezy, ale nic sama nemění.</p>
+		</section>
+		<section class="repo-ecosystem-module">
+			<h3>as-lsp</h3>
+			<div class="repo-module-stats"><span class="repo-module-stat"><strong>1</strong><span>skill</span></span></div>
+			<p>Umožňuje agentovi rychle najít definice a použití symbolů ve Structured Textu. Nenahrazuje kompilaci ani testy; změny je nutné ověřit samostatným sestavením projektu.</p>
+		</section>
+	</div>
 </div>
 
 <div class="repo-package-line" v-click>
-	<div><h3>Plugin as-skills</h3><p>Skills + agentní definice + review příkaz</p></div>
-	<div><h3>Projektová šablona</h3><p><code>AGENTS.md</code> + MCP konfigurace + Git nastavení</p></div>
+	<div class="repo-template">
+		<mdi-file-tree-outline />
+		<div><h3>Projektová šablona</h3><p><code>AGENTS.md</code>, MCP konfigurace a Automation Studio Git nastavení.</p></div>
+	</div>
+	<p class="repo-package-note">Pluginy lze instalovat po částech podle potřeb týmu a harnessu.</p>
 </div>
 
 <!--
-2 minuty. Toto jsou skupiny skutečného obsahu lokálně instalovaného repozitáře,
-ne příslib, že každý katalog nebo funkce je kompletní a funguje se všemi verzemi.
-Nemusíme číst všechny názvy. Smyslem je vybrat vlastnictví konkrétní úlohy.
+*Záměr a čas: 2:00. Ukázat hlavní stavební části repozitáře a nově přidaný as-lsp.*
+*Počáteční stav: AS Repository a tři napojené moduly včetně jejich počtů. Skupina 1 odhalí projektovou šablonu a samostatnou volbu pluginů. Konečný stav: moduly i šablona.*
+
+AS Repository nabízí doménový plugin as-skills, specializovaný plugin mappView HMI a klientský plugin as-lsp.
+Počty rozlišují 15 doménových skills, agenta se skill pro mappView HMI a jeden skill pro LSP navigaci.
+Detailní rozdělení doménových skills následuje na dalším slidu. Samostatně pak ukážeme pracovní postupy jednotlivých pluginů.
 [CLICK]
-Spodní část ukazuje dva různé balíčky: plugin as-skills a projektovou šablonu.
-Plugin as-skills zahrnuje také AS-Project-Agent a branch-code-review.
-Projektová šablona vloží do kořene projektu AGENTS.md, `.vscode/mcp.json` a Git soubory. Skills zůstávají v pluginu nebo v oddělené lokální složce `.agents/skills/`.
-Plugin používám lokálně. Přístupnost repozitáře pro zákazníky musí být před distribucí ověřena;
-webový odkaz při přípravě vyžadoval ABB SSO.
-EventAiAndDevOps je jiný repozitář: demonstrace, projekt a testy, nikoli totožný katalog pluginů.
-Zdroje: https://github.com/br-automation-com/agentic-engineering-in-automation-studio
-a https://github.com/Th0masis/EventAiAndDevOps
+Šablona přidává projektové instrukce, MCP konfiguraci a nastavení pro Automation Studio. Pluginy lze vybírat samostatně podle potřeb týmu a možností harnessu.
 -->
 
 ---
@@ -366,31 +283,44 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Dva pluginy, <span class="accent">dvě role</span>
+# 15 odborných oblastí<br><span class="accent">v as-skills</span>
 
-<div class="repo-plugin-cards">
-	<details class="repo-plugin-card">
-		<summary><strong>as-skills</strong><span>Odborné postupy pro Automation Studio</span></summary>
-		<div class="repo-plugin-body">
-			<p>Plugin obsahuje odborné skills i AS project agenta. Podle zadání agent vybere postup, načte jeho <code>SKILL.md</code> a potřebné reference až podle potřeby, například <code>structured-text</code> pro IEC Structured Text nebo <code>mapptrak</code> pro ACOPOStrak.</p>
-		</div>
-	</details>
-	<details class="repo-plugin-card">
-		<summary><strong>mappview-hmi-design-and-conversion</strong><span>Specializovaný agent pro návrh a převod mappView</span></summary>
-		<div class="repo-plugin-body">
-			<p>Plugin obsahuje specializovaného agenta pro návrh HMI, převod anotovaného HTML do mappView a build validaci. Runtime assessment je read-only: agent běžící vizualizaci pouze posuzuje.</p>
-			<p>Skill <code>mappview</code> v <code>as-skills</code> naproti tomu vede ruční editaci mappView souborů, například stránek, widgetů a vazeb.</p>
-		</div>
-	</details>
+<p class="repo-lead">Doménové postupy pokrývají programování, konfiguraci i provozní funkce.</p>
+
+<div class="repo-skill-breakdown">
+	<section>
+		<div class="repo-skill-heading"><span class="repo-skill-count">4</span><h2>Programování a konfigurace</h2></div>
+		<p>Structured Text · ANSI C · Physical · OPC UA</p>
+	</section>
+	<section>
+		<div class="repo-skill-heading"><span class="repo-skill-count">6</span><h2>HMI a pohyb</h2></div>
+		<p>mappView · Motion · Robotics · 6D · Trak · SuperTrak</p>
+	</section>
+	<section>
+		<div class="repo-skill-heading"><span class="repo-skill-count">5</span><h2>Provozní funkce</h2></div>
+		<p>AlarmX · Audit · I/O · Recipe · UserX</p>
+	</section>
 </div>
 
+<div class="repo-skill-routing">
+	<p class="repo-skill-routing-lead">Agent nenačítá celý katalog: podle zadání a souborů vybere postup pro danou technologii.</p>
+	<div class="repo-skill-routes">
+		<p><span>Structured Text</span><b>→</b><code>structured-text</code></p>
+		<p><span>Úloha ACOPOS Trak</span><b>→</b><code>mapptrak</code></p>
+	</div>
+	<p class="repo-skill-routing-detail"><code>SKILL.md</code> určí pravidla a pořadí práce; podle potřeby následují reference, scripts/assets a required tools. Skill také stanoví, jak výsledek ověřit.</p>
+</div>
+
+<p class="repo-takeaway">Specializovaný skill vede konkrétní úkol. <strong><code>AGENTS.md</code> platí napříč projektem.</strong></p>
+
 <!--
-3 minuty. Karty se rozbalují myší na jejich názvu, nikoli krokem prezentace.
-as-skills předává agentovi znalosti podle typu práce, nikoli celý katalog
-při každém zadání.
-HMI plugin je zaměřený na návrh, převod a ověření vizualizace.
-Vysvětlit rozdíl vůči mappview skillu, který vlastní ruční editaci mappView projektu.
-Read-only runtime assessment není interaktivní HMI test ani řízení stroje.
+*Záměr a čas: 1:15. Rozdělit 15 doménových skills do tří přehledových oblastí.*
+*Počáteční stav: rozdělení, směrovací příklady i takeaway jsou viditelné; slide nemá klikací odhalení. Konečný stav je stejný.*
+
+Jde o přehledové seskupení 15 skills podle oblasti použití: čtyři programovací a konfigurační postupy, šest HMI a pohybových oblastí a pět provozních funkcí.
+Agent podle zadání a souborů, které vlastní, vybere relevantní skill: například structured-text pro změnu IEC Structured Textu nebo mapptrak pro úlohu ACOPOS Trak. Nenačítá celý katalog.
+Skill obsahuje účel a rozsah, nepřekročitelná pravidla, požadované nástroje, směrování do referencí, pracovní postup, hranice vůči sousedním oblastem a ověřovací bránu. Reference se načítají jen tehdy, když se jejich téma týká úkolu; scripts a assets skill používá podle potřeby.
+AS-Project-Agent a AGENTS.md dávají projektu širší kontext a pravidla. Doménový skill dodá specifický postup pro technologii; konkrétní ověření může využít nástroje jako as-cli.
 -->
 
 ---
@@ -402,57 +332,294 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Skills, as-cli a MCP<br>se <span class="accent">doplňují</span>
+# as-skills:<br><span class="accent">od zadání k ověřenému výsledku</span>
+
+<div class="repo-example">
+	<div><span class="repo-step">1</span><h3>Vyberte roli</h3><p>Agent AS-Project-Agent načte projektové <code>AGENTS.md</code>, pokud je přítomné.</p></div>
+	<div><span class="repo-step">2</span><h3>Určete vlastníka</h3><p>Podle souborů a úlohy vybere jednu z 15 doménových skills.</p></div>
+	<div><span class="repo-step">3</span><h3>Proveďte postup</h3><p><code>SKILL.md</code> směruje reference, <code>as</code> CLI, MCP nebo účelový skript.</p></div>
+	<div><span class="repo-step">4</span><h3>Ověřte změnu</h3><p>Build, test či cílená kontrola podle skillu; člověk reviewuje důkazy.</p></div>
+</div>
+
+<p class="repo-takeaway">Skill není nástroj. <strong>Popisuje, kdy a jak použít nástroje.</strong></p>
+<p class="repo-note">Skripty jsou jen v některých skills; CLI, MCP servery i runtime jsou samostatné závislosti.</p>
+
+<!--
+*Záměr a čas: 2:00. Ukázat skutečný postup as-skills včetně rozdílu mezi instrukcí, procedurou, nástrojem a ověřením.*
+*Počáteční stav: všechny čtyři kroky jsou viditelné; bez kliků. Konečný stav: stejný.*
+
+Uživatel vybere AS-Project-Agent pro práci v Automation Studio projektu. Agent nejprve čte kořenový AGENTS.md, pokud existuje; šablona repozitáře ho do AS projektu dodává. Tato instrukce popisuje architekturu, invarianty a směrování.
+Podle přesných cest a typu úlohy agent zvolí vlastnící skill, například structured-text pro Logical/*.st nebo as-physical-config pro Hardware.hw. SKILL.md je vstupní bod; delší references se načítají jen při odpovídajícím triggeru.
+Nástroje jsou další vrstva: as-cli provádí podporované změny, čte metadata a spouští build; MCP se připojuje ke zdrojům/nástrojům; specifické skripty běží jen když je daný postup vyžaduje. Příklad: mapprobotics má volitelný PowerShell capture-scene-viewer.ps1. Ne každá skill má skript.
+Ověření určuje vlastní skill a riziko úlohy. Build není runtime test; předání nasazení nebo test na PLC zůstává samostatný krok s lidským rozhodnutím. Branch-code-review je oddělený příkaz, ne automatická součást každého requestu.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Uvnitř skillu: <span class="accent">mapprobotics</span>
+
+<p class="repo-lead">Reálný příklad z as-skills: formát, závislosti i hranice platí pro tento konkrétní skill.</p>
+
+<div class="repo-skill-anatomy">
+	<section class="repo-skill-source">
+		<h2>Výřez hlavičky <code>SKILL.md</code></h2>
+		<pre><code>name: mapprobotics
+metadata:
+  argument-hint: "Describe the robot, hierarchy, tracking path, feature, or frame/tool change"</code></pre>
+		<p class="repo-note"><code>description</code> určuje spouštěče a hranice; kompatibilita: Automation Studio 6 + mapp Motion 6.x.</p>
+	</section>
+	<section class="repo-skill-resources">
+		<h2>Reference a soubory podle úkolu</h2>
+		<div><code>references/scene-viewer-validation.md</code><span>Ověření generované scény.</span></div>
+		<div><code>scripts/capture-scene-viewer.ps1</code><span>Volitelné snímky z otevřeného Scene Vieweru.</span></div>
+		<div><code>assets/robot-motion-program.st</code><span>Ukázkový MotionST program.</span></div>
+		<div><code>#pragma LOAD 'robot-motion-interface.typ'</code><span>Řádek z programu výše načítá typový asset, neřídí pohyb.</span></div>
+	</section>
+</div>
+
+<div class="repo-skill-ops">
+	<section>
+		<h3>Potřebné nástroje</h3>
+		<p><code>as-cli</code> + B&amp;R AS Help MCP.</p>
+		<p>PowerShell 5.1+ jen pro volitelný skript snímků.</p>
+	</section>
+	<section>
+		<h3>Ověřovací příkazy</h3>
+		<p><code>as config schema list mappMotion</code> → <code>as build</code></p>
+		<p>Build ověří konzistenci projektu, ne pohyb robota za běhu.</p>
+	</section>
+	<section>
+		<h3>Na co pozor</h3>
+		<p>AS 4 má jiné cesty a dostupné funkce. Ověř schéma instalované verze; needituj generované soubory.</p>
+	</section>
+</div>
+
+<p class="repo-takeaway"><code>agents/as-project.agent.md</code> potřebuje zapnutý plugin a <code>as</code> na PATH; směruje práci na skill podle vlastnictví souborů.</p>
+
+<!--
+*Záměr a čas: 1:30. Ukázat konkrétní tvar skillu a rozlišit jeho obsah od závislostí agenta.*
+*Počáteční stav: celý příklad je viditelný; slide nemá klikací odhalení. Konečný stav je stejný.*
+
+Jde o konkrétní výřez z plugins/as-skills/skills/mapprobotics/SKILL.md. Hlavička obsahuje název a argument-hint; úplný soubor navíc popisuje spouštěcí situace, nepodporované oblasti a kompatibilitu s Automation Studio 6 a mapp Motion 6.x.
+Reference se načítá jen při práci s generovanou scénou. capture-scene-viewer.ps1 je volitelný, připojuje se k již otevřenému Scene Vieweru a vyžaduje Windows PowerShell 5.1+. robot-motion-program.st je pojmenovaný příkladový asset, nikoli hotový produkční program.
+Ukázka <code>#pragma LOAD 'robot-motion-interface.typ'</code> je převzatá z tohoto assetu a pouze načte typovou definici; nejde o příkaz pro pohyb.
+mapprobotics očekává as-cli a B&R AS Help MCP. as config schema list mappMotion pomáhá ověřit povolené prvky a přípony podle instalované verze; po změně následuje as build. AS 4 cesty a dostupnost funkcí se mohou lišit. Build sám nepotvrzuje inicializaci runtime ani bezpečný pohyb.
+AS-Project-Agent v agents/as-project.agent.md je vstupní bod. Potřebuje nainstalovaný a zapnutý as-skills i příkaz as dostupný na PATH; potom načte skill vlastnící daný soubor nebo operaci.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Co umí plugin <span class="accent">mappView HMI?</span>
+
+<p class="repo-lead">Od návrhu pro obsluhu po ověřené začlenění do projektu Automation Studio 6.</p>
+
+<div class="repo-hmi-capabilities">
+	<section>
+		<h3>Navrhuje pro obsluhu</h3>
+		<p>Uspořádá stav stroje, zpětnou vazbu, alarmy, navigaci i ovládací prvky podle úkolů operátora.</p>
+	</section>
+	<section>
+		<h3>Popisuje návrh jako kontrakt</h3>
+		<p>Anotované HTML zachytí vzhled, PLC vazby, akce, formuláře, stránky a média.</p>
+	</section>
+	<section>
+		<h3>Integruje do projektu</h3>
+		<p>Schválený návrh mapuje na existující stránky, obsahy, widgety, styly a vazby mappView.</p>
+	</section>
+	<section>
+		<h3>Diagnostikuje sestavení</h3>
+		<p>Spustí povinný <code>as build</code>, vysvětlí chyby převodu a nepředpokládá PLC logiku.</p>
+	</section>
+	<section>
+		<h3>Posuzuje nasazené HMI</h3>
+		<p>Read-only kontrola hledá problémy ve vazbách, navigaci, zdrojích, čitelnosti a rozvržení.</p>
+	</section>
+</div>
+
+<p class="repo-takeaway">Návrh, sestavení a chování za běhu jsou <strong>samostatné výsledky s vlastními důkazy.</strong></p>
+
+<!--
+*Záměr a čas: 1:30. Představit hlavní schopnosti HMI pluginu bez dojmu, že samotný návrh dokazuje funkční runtime.*
+*Počáteční stav: všech pět schopností a závěrečné sdělení jsou viditelné; bez kliků. Konečný stav je stejný.*
+
+Plugin pokrývá návrh průmyslového rozhraní s ohledem na úkoly obsluhy, stav stroje, zpětnou vazbu, alarmy a bezpečnostně významné ovládací prvky. Návrh může předat jako browser-previewable HTML s výslovnými anotacemi pro převod.
+V Convert mapuje schválený kontrakt do existující vizualizace mappView a zachovává nesouvisející části projektu. Povinný build diagnostikuje chyby, ale neprokazuje funkční vazby na nasazeném stroji.
+Samostatná trasa Validate prohlíží potvrzené nasazení pouze read-only a vrací nálezy. Neprovádí nasazení, nezapisuje do PLC a sama neopravuje projekt.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# mappView HMI:<br><span class="accent">návrh, převod a read-only ověření</span>
+
+<p class="repo-lead">Uživatel vybere specialistu a zůstává součástí rozhodování na každém kontrolním bodě.</p>
+
+<div class="repo-binding-steps">
+	<div><span class="repo-step">1</span><h3>Příprava zadání</h3><p>Uživatel vybere agenta, projekt a vymezí cíl i rozsah změny.</p></div>
+	<div><span class="repo-step">2</span><h3>Design</h3><p>Agent připraví anotované HTML; uživatel návrh zkontroluje a schválí.</p></div>
+	<div><span class="repo-step">3</span><h3>Convert + build</h3><p>Agent převede schválený návrh do mappView a spustí <code>as build</code>.</p></div>
+	<div><span class="repo-step">4</span><h3>Validate</h3><p>Uživatel nasadí; agent s potvrzenou URL provede read-only kontrolu.</p></div>
+</div>
+
+<p class="repo-takeaway">Návrh schvaluje uživatel. <strong>Nasazení i případnou opravu potvrzuje také uživatel.</strong></p>
+<p class="repo-note">Plugin je potřeba výslovně vybrat; převod vyžaduje <code>as</code>. Validace sama nic nemění ani nenasazuje.</p>
+
+<!--
+*Záměr a čas: 2:30. Projít spolupráci uživatele a agenta od zadání až po bezpečné ověření.*
+*Počáteční i konečný stav: celý čtyřkrokový přehled a závěrečné sdělení jsou viditelné; slide nemá interaktivní detaily ani klikací odhalení.*
+
+Uživatel ve svém prostředí výslovně vybere agenta MappView HMI Designer and Converter a otevře správný projekt Automation Studio 6. Agent načte svůj interní skill a zvolí trasu Design, Convert, Validate nebo Complete.
+Na začátku uživatel dodá cíl, panel a relevantní podklady. Agent se doptá na chybějící rozhodnutí, například na zamýšlené chování nebo rozhraní PLC; při nevyřešeném předpokladu nepokračuje potichu.
+V Design vznikne anotované HTML, které uživatel může prohlédnout a schválit. Teprve schválený kontrakt a jasný rozsah otevřou Convert. U změny existující vizualizace agent předem zmapuje relevantní stránky a artefakty; chrání nesouvisející práci.
+V Convert agent upraví existující projekt pomocí dostupného `as` CLI a spustí povinný `as build`. Při chybě nebo nejasném PLC rozhraní sdělí stav a požádá o potřebný vstup; build bez chyb dokazuje pouze sestavení.
+Nasazení provádí uživatel. Pro Validate předá runtime URL a potvrdí verzi; agent používá jen bezpečné read-only cesty a vrací nálezy i navrhované opravy. Jakákoli projektová oprava vyžaduje samostatný požadavek či schválení.
+Plugin nedodává testovací server a nevykonává strojové příkazy. Specializovaný agent je odlišný od běžného `mappview` skillu v `as-skills`.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository repo-binding-slide
+---
+
+<script setup>
+import HmiWorkflow from './as-repository/components/HmiWorkflow.vue'
+import './as-repository/styles.css'
+</script>
+
+# Příklad v projektu: <span class="accent">teplota na HMI</span>
+
+<p class="repo-lead">Zadání: „Zobraz aktuální teplotu z PLC.“ Cílem je doplnit existující vizualizaci.</p>
+
+<div class="repo-binding-flow" aria-label="Vazba procesní proměnné na hodnotu widgetu mappView">
+	<div class="repo-binding-endpoint">
+		<span>Existující proměnná PLC</span>
+		<code>::AsGlobalPV:gTemperature</code>
+	</div>
+	<div class="repo-binding-link">
+		<mdi-arrow-right />
+		<code>HTML → *.binding</code>
+	</div>
+	<div class="repo-binding-endpoint">
+		<span>Widget v návrhu HMI</span>
+		<div class="repo-binding-value">
+			<div class="repo-module-stats"><span class="repo-module-stat"><strong>23,8</strong><span>°C</span></span></div>
+			<code>TemperatureValue.value</code>
+		</div>
+	</div>
+</div>
+
+<HmiWorkflow />
+
+<p class="repo-takeaway">Build potvrzuje sestavení. <strong>Živou teplotu ověří až kontrola nasazeného HMI.</strong></p>
+<p class="repo-note">Ilustrace: proměnná, widget i hodnota; skutečný zdroj musí agent ověřit v projektu.</p>
+
+<!--
+*Záměr a čas: 2:30. Projít příklad od výběru pluginu až k bezpečnému ověření nasazené teploty.*
+*Počáteční stav: datový tok a čtyři kroky jsou viditelné. Hover nebo fokus na kroku zobrazí podrobnosti; kliknutí detail připne; Escape nebo Zavřít detail jej zavře. Nejde o Slidev klikací odhalení. Konečný stav po zavření: datový tok a kroky zůstávají viditelné.*
+
+Uživatel otevře svůj projekt AS6, výslovně spustí MappView HMI Designer and Converter a požádá o doplnění aktuální teploty do existující vizualizace. Agent načte vlastní skill, který rozdělí práci na Design, Convert, Validate, případně úplnou trasu Complete. AGENTS.md a další projektové instrukce dodají pravidla a rozsah práce; nejde o součást HMI pluginu.
+Design vytvoří náhledové anotované HTML s číselným widgetem, jednotkou °C a deklarovanou vazbou na PLC rozhraní. Uživatel zkontroluje a schválí tento kontrakt před převodem. Pokud projekt neobsahuje ověřitelný zdroj teploty nebo je třeba doplnit PLC logiku, agent se zastaví a vyžádá si rozhodnutí; PLC logiku si nevymýšlí.
+V Convert agent použije dostupné `as` CLI, najde existující proměnnou a strukturu vizualizace a schválený návrh promítne do mappView artefaktů včetně vazby. `gTemperature`, cesta `::AsGlobalPV:gTemperature` a `TemperatureValue` jsou pouze názorné; konkrétní identifikátory musí odpovídat projektu. Následuje povinný `as build`; nula chyb potvrzuje build, nikoli to, že HMI zobrazuje živou hodnotu.
+Po úspěšném buildu nasadí změnu člověk. Pro Validate předá agentovi runtime URL a potvrdí, že obsahuje právě tuto verzi. Agent přes Playwright ověří zobrazení a bezpečné read-only cesty a vrátí nálezy. Hodnoty neposílá, příkazy stroje neaktivuje a případné opravy provede až po samostatném schválení.
+Při hoveru nebo klávesnicovém fokusu ukažte nejdřív uživatelské zadání, pak anotovaný HTML kontrakt, převod do artefaktů mappView a nakonec handoff s read-only kontrolou. Kliknutím detail připnete; Escape nebo tlačítkem Zavřít detail se vraťte k přehledu. Hodnoty v anotaci jsou ilustrativní, identifikátory je nutné potvrdit v projektu.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# as-lsp:<br><span class="accent">od symbolového dotazu k bezpečnému ověření</span>
+
+<div class="repo-example">
+	<div><span class="repo-step">1</span><h3>Dotaz v projektu</h3><p>Spusťte harness v kořeni s <code>*.apj</code>; zeptejte se na definici nebo použití symbolu.</p></div>
+	<div><span class="repo-step">2</span><h3>Klient spustí server</h3><p><code>lsp.json</code> / <code>.lsp.json</code> → Node.js launcher → B&amp;R ST-LSP rozšíření.</p></div>
+	<div><span class="repo-step">3</span><h3>LSP vrátí strukturu</h3><p>Definition, references, hover a symbols; rename závisí na harnessu.</p></div>
+	<div><span class="repo-step">4</span><h3>Agent ověří změnu</h3><p>Skill vede dotaz; po editaci spusťte <code>as build</code>. LSP build chyby nehlásí.</p></div>
+</div>
+
+<p class="repo-takeaway">Language server není test server. <strong>Je to nástroj pro orientaci v kódu.</strong></p>
+<p class="repo-note">Požadavky: Windows · B&amp;R ST-LSP rozšíření · Node.js 18+ · jeden projekt · předchozí build.</p>
+
+<!--
+*Záměr a čas: 3:00. Vysvětlit volání, konfigurační soubory, launcher, skutečný server a ověřovací hranici.*
+*Počáteční stav: celý čtyřkrokový diagram a požadavky jsou viditelné; bez kliků. Konečný stav: stejný.*
+
+Uživatel položí symbolový dotaz v harnessi spuštěném ve složce s .apj. Pluginová konfigurace je klientská: Copilot CLI čte lsp.json, Claude Code .lsp.json. Agent Skills plugin standard LSP registraci nepřenáší univerzálně.
+Konfigurace spustí scripts/st-lsp-launcher.js přes Node.js. Launcher najde server dodaný instalovaným br-automation.st-lsp VS Code extension, předává LSP zprávy přes stdio a po initialized předá cestu ke generovaným AS deklaracím. Samotný plugin server nedodává.
+Server vrací go-to-definition, find-references, hover, document/workspace symbols a další LSP možnosti podle klienta. Některé harnessy jsou read-only; rename není univerzální. Rename mění ST, ne konfiguraci, bindingy nebo I/O mapy.
+`as build` musí být proveden alespoň jednou předem pro vygenerování deklarací. Po změně se build spouští znovu jako kompilátorová kontrola. LSP nehlásí chyby buildu a není runtime/test server; některé library typy mohou zůstat unresolved.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Skill, as-cli a MCP<br>mají <span class="accent">odlišné role</span>
 
 <div class="repo-three-columns">
 	<section>
 		<mdi-book-open-page-variant-outline />
 		<h2>Skill</h2>
 		<h3>Jak postupovat</h3>
-		<p>Pravidla technologie, návaznosti a požadované ověření.</p>
+		<p>Odborné kroky, pravidla technologie a ověření.</p>
 	</section>
-	<section v-click>
+	<section v-click="1">
 		<mdi-console-line />
 		<h2>as-cli</h2>
-		<h3>Provést a pozorovat</h3>
-		<p>Podporované operace AS, metadata, build a diagnostika.</p>
+		<h3>Co provést a zjistit</h3>
+		<p>Podporované operace Automation Studia, metadata a build.</p>
 	</section>
-	<section v-click>
+	<section v-click="2">
 		<mdi-book-search-outline />
-		<h2>Znalostní MCP</h2>
-		<h3>Vyhledat a ověřit</h3>
-		<p>Dokumentace a další zdroje pro konkrétní technický detail.</p>
+		<h2>MCP</h2>
+		<h3>Jak připojit zdroje</h3>
+		<p>Protokol pro nástroje a zdroje; není sám o sobě znalostní bází.</p>
 	</section>
 </div>
 
-<div class="repo-history" v-click>
-	<h3>Dříve PowerShellové helpery. Dnes as-cli.</h3>
-	<p>CLI nahrazuje as-script-task-skills, ne odborné as-skills.</p>
-	<p class="repo-note">Stejné CLI využije inženýr, agent i DevOps pipeline.</p>
-</div>
+<p class="repo-takeaway" v-click="3">Postup, nástroj a zdroj informací jsou <strong>různé vrstvy.</strong></p>
 
 <!--
-3 minuty. Toto jen propojuje předchozí bloky, neopakujeme jejich detailní výklad.
-Skill se opírá o CLI a znalostní zdroje. Dokumentaci ověřujeme už před implementací,
-nikoli až jako poslední záchranu při selhání.
+*Záměr a čas: 2:00. Krátce odlišit znalostní postup, vykonávání operací a protokol nástrojů.*
+*Počáteční stav: skill. Skupina 1 odhalí as-cli, skupina 2 MCP a skupina 3 závěrečné sdělení. Konečný stav: všechny tři role.*
 
+Skill říká, jak na úlohu jít; může předepsat použití konkrétního nástroje.
 [CLICK]
-
-as-cli provádí podporované operace.
-Podle kolegy as-cli používá přímo AS API pro podporované operace; část zjišťování
-metadat pracuje také s instalací. Nejde o náhradu Automation Studia ani o AI agenta.
-
+as-cli poskytuje podporované operace nad projektem a Automation Studiem. Nejde o agenta a jeho příkazy mohou spouštět člověk, agent nebo automatizace.
 [CLICK]
-
-Znalostní MCP vyhledává dokumentaci.
-MCP je obecný protokol; v tomto schématu ukazujeme jeho znalostní použití.
-
+MCP je protokol, kterým se harness může připojit k nástrojům či zdrojům. Konkrétní znalostní server z něj nedělá obecnou databázi ani záruku správnosti.
 [CLICK]
-
-README pluginu as-skills označuje staré as-script-task-skills za deprecated,
-ale root README ještě obsahuje starší doporučení instalovat oba pluginy.
-Neříkáme, že starý plugin už byl odstraněn. Používáme nový směr, ale ověřujeme konkrétní verzi.
-Automatizovaná migrace mapp balíčků je směr rozvoje, nikoli zde potvrzená kompletní funkce.
+Tyto vrstvy se doplňují. Rozsah dostupných příkazů a serverů závisí na konkrétním prostředí.
 -->
 
 ---
@@ -464,89 +631,81 @@ class: ot-slide topic-as-repository
 import './as-repository/styles.css'
 </script>
 
-# Příklad: zobrazte teplotu<br>v <span class="accent">mappView</span>
-
-<p class="repo-lead">Zadání: na existující stránce zobrazit hodnotu existující PLC proměnné.</p>
-
-<div class="repo-example">
-	<div v-click><span class="repo-step">1</span><h3>Kontext projektu</h3><p>Stránka, cílové CPU, konvence a zdroj hodnoty.</p></div>
-	<div v-click><span class="repo-step">2</span><h3>Skill a dokumentace</h3><p>mappView; OPC UA postup, pokud chybí vystavení proměnné.</p></div>
-	<div v-click><span class="repo-step">3</span><h3>Widget a binding</h3><p>Ověřené vlastnosti, přesná ID a potřebná registrace.</p></div>
-	<div v-click><span class="repo-step">4</span><h3>Důkaz výsledku</h3><p>Build a kontrola hodnoty i její aktualizace v testovacím runtime.</p></div>
-</div>
-
-<p class="repo-takeaway">Nestačí přidat widget. <strong>Hodnota musí skutečně přijít z PLC.</strong></p>
-<p class="repo-note">Ilustrace pracovního postupu, nikoli záznam provedeného dema.</p>
-
-<!--
-4 minuty. Celý příklad držíme malý: proměnná a stránka už existují, nepřidáváme nové řízení stroje.
-[CLICK]
-
-Nejprve zjistit přesný název proměnné, node alias, cílovou konfiguraci a architekturu HMI.
-
-[CLICK]
-
-MappView skill rozlišuje znovupoužitelné vizuální definice v Logical a runtime konfiguraci
-a wiring v Physical. Konkrétní vlastnosti widgetu se zjišťují z instalace, nevymýšlejí.
-Pokud proměnná není vystavena nebo je potřeba měnit přístupová práva, práci vlastní
-opcua-connectivity. HMI samo nevlastní PLC data a skrytý widget není serverové oprávnění.
-
-[CLICK]
-
-Navázat přesná ID, obsah, stránku a registraci podle existujícího projektu.
-
-[CLICK]
-
-Build ověřuje část konzistence. V testovacím runtime ověřit očekávanou hodnotu,
-řízenou změnu hodnoty a aktualizaci zobrazení; podle rizika také výpadek spojení.
-Nezapisovat do skutečného stroje kvůli prezentačnímu příkladu.
-Tento slide nezobrazuje naměřené výsledky ani vykonané příkazy; není to úspěšné živé demo.
--->
-
----
-layout: default
-class: ot-slide topic-as-repository
----
-
-<script setup>
-import './as-repository/styles.css'
-</script>
-
-# Co získá váš tým,<br><span class="accent">a co tím nenahradíme</span>
+# Vlastní přizpůsobení:<br><span class="accent">projekt, nebo uživatel?</span>
 
 <div class="repo-columns">
 	<section>
-		<h2>Sdílené know-how</h2>
+		<h2>Pro celý projekt a tým</h2>
 		<div class="repo-lines">
-			<div><mdi-account-multiple-outline /><span>Méně opakovaného vysvětlování</span></div>
-			<div><mdi-source-branch /><span>Verzované postupy a pravidla projektu</span></div>
-			<div><mdi-format-list-checks /><span>Konzistentnější práce a snazší onboarding</span></div>
+			<div><mdi-source-repository /><span><code>AGENTS.md</code>: sdílená architektura a invarianty</span></div>
+			<div><mdi-file-document-outline /><span><code>.github/instructions/*.instructions.md</code>: pravidla pro úkoly či soubory</span></div>
+			<div><mdi-book-open-page-variant-outline /><span><code>.agents/skills/&lt;name&gt;/SKILL.md</code>: sdílený pracovní postup</span></div>
+			<div><mdi-robot-outline /><span><code>.github/agents/*.agent.md</code>: týmová role</span></div>
 		</div>
 	</section>
 	<section v-click>
-		<h2>Odpovědnost zůstává</h2>
+		<h2>Pro sebe napříč projekty</h2>
 		<div class="repo-lines">
-			<div><mdi-test-tube /><span>Build nenahrazuje test chování.</span></div>
-			<div><mdi-shield-lock-outline /><span>Instrukce nejsou bezpečnostní pojistka.</span></div>
-			<div><mdi-account-check-outline /><span>Review a schválení zůstávají na lidech.</span></div>
+			<div><mdi-account-outline /><span><code>~/.copilot/copilot-instructions.md</code>: osobní výchozí pravidla</span></div>
+			<div><mdi-file-document-outline /><span><code>~/.copilot/instructions/</code>: osobní cílené instrukce</span></div>
+			<div><mdi-book-open-page-variant-outline /><span><code>~/.copilot/skills/</code>: osobní opakované postupy</span></div>
+			<div><mdi-robot-outline /><span><code>~/.copilot/agents/</code>: osobní specializované role</span></div>
 		</div>
 	</section>
 </div>
 
-<p class="repo-takeaway">Know-how aktualizujeme v souborech. <strong>Bez přetrénování modelu.</strong></p>
-<p class="repo-note">Přínos ověřujte na vlastní úloze. Instalace pluginu není garance úspory ani kvality.</p>
+<p class="repo-takeaway">Sdílená pravidla do projektu. <strong>Osobní preference do uživatelského profilu.</strong></p>
+<p class="repo-note">Cesty jsou příklady pro Copilot/VS Code; jiné harnessy mohou používat jiné formáty.</p>
 
 <!--
-3 minuty. Přínosy jsou důvod pro tento přístup, nikoli změřený výsledek konkrétního zákazníka.
-Nevkládáme procenta produktivity. Důležitý je menší počet oprav, kratší vysvětlování
-a konkrétní výsledky kontrol na vlastní ohraničené úloze.
-Znalosti a pravidla se dají sdílet, verzovat a aktualizovat bez přetrénování modelu.
-To neznamená stejné výstupy při každém běhu ani úplnou nezávislost na agentním prostředí.
+*Záměr a čas: 2:30. Dát posluchačům jednoduché rozhodnutí, kam vlastní pravidla a postupy uložit.*
+*Počáteční stav: projektová oblast. Skupina 1 odhalí uživatelský profil. Konečný stav: obě varianty, takeaway a poznámka k harnessům.*
 
+Pravidla architektury a týmového workflow ukládejte do repozitáře, aby byla verzovaná a dostupná spolupracovníkům. Osobní styl práce, který nechcete vnucovat týmu, patří do uživatelského profilu.
 [CLICK]
+Pro Copilot/VS Code jsou zde uvedeny příklady cest pro instrukce, skills a agenty. Přesná umístění a podpora závisí na harnessu; nejdřív ověřte, co vybrané prostředí skutečně načítá.
+Začněte pravidlem, které řeší opakující se problém. Vyzkoušejte ho na reprezentativním úkolu a zkontrolujte, zda bylo načteno i následováno.
+-->
 
-Build nenahrazuje test chování, instrukce nejsou pojistkou a review zůstává lidem.
-Skills i instrukce mohou být zastaralé nebo nesprávné; potřebují údržbu a review.
-Oprávnění, testovací brány, ochrana zákaznických dat a schvalování nasazení jsou samostatné kontroly.
-Body 1 až 10 představují 25 minut z plánovaného 30min bloku.
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Sdílené know-how.<br><span class="accent">Odpovědnost zůstává.</span>
+
+<div class="repo-columns">
+	<section>
+		<h2>Co přizpůsobení přináší</h2>
+		<div class="repo-lines">
+			<div><mdi-account-multiple-outline /><span>Méně opakovaného vysvětlování</span></div>
+			<div><mdi-source-branch /><span>Verzované postupy a pravidla projektu</span></div>
+			<div><mdi-format-list-checks /><span>Konzistentnější výchozí pracovní postup</span></div>
+		</div>
+	</section>
+	<section v-click>
+		<h2>Co tím nenahrazujeme</h2>
+		<div class="repo-lines">
+			<div><mdi-shield-lock-outline /><span>Oprávnění a ochranu dat</span></div>
+			<div><mdi-test-tube /><span>Build, testy a ověření chování</span></div>
+			<div><mdi-account-check-outline /><span>Lidské review a schválení nasazení</span></div>
+		</div>
+	</section>
+</div>
+
+<p class="repo-takeaway">Začněte malým pravidlem. <strong>Ověřte, že skutečně pomáhá.</strong></p>
+
+<!--
+*Záměr a čas: 1:00. Uzavřít přínosem, hranicemi a konkrétním dalším krokem.*
+*Počáteční stav: levý sloupec. Skupina 1 odhalí odpovědnost a kontroly. Konečný stav: oba sloupce a takeaway.*
+
+Sdílené a osobní přizpůsobení pomáhá udržet pravidla a postupy dostupné. Nezaručuje totožné výstupy ani samo o sobě bezpečný provoz.
+[CLICK]
+Oprávnění, ochrana dat, build, testy, lidské review a schválení nasazení zůstávají samostatné. Začněte jedním opakujícím se problémem a ověřte změnu na konkrétním úkolu.
+
+*Konečný stav: jsou vidět přínosy, nezastupitelné kontroly a závěrečné doporučení.*
 -->
