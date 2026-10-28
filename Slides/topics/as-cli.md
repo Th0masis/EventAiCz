@@ -355,7 +355,7 @@ import './as-cli/styles.css'
     <mdi-eye-outline />
     <h2>Přečíst před</h2>
     <div class="cli-counter">17 <small>UDINT</small></div>
-    <code>gProductionCount</code>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
     <p>Výchozí hodnota v přepisu</p>
   </section>
   <mdi-arrow-right class="cli-flow-arrow" />
@@ -363,7 +363,7 @@ import './as-cli/styles.css'
     <mdi-restart />
     <h2>Zapsat reset</h2>
     <div class="cli-counter">1</div>
-    <code>gCmdClear</code>
+    <code class="cli-reset-command">as var write gCmdClear<br>--task Cyclic<br>--value 1</code>
     <p>Potvrzený zápis ≠ ověřený reset</p>
   </section>
   <mdi-arrow-right class="cli-flow-arrow" />
@@ -371,7 +371,7 @@ import './as-cli/styles.css'
     <mdi-magnify />
     <h2>Přečíst po</h2>
     <div class="cli-counter">?</div>
-    <code>gProductionCount</code>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
     <p>V přepisu chybí měření</p>
   </section>
 </div>
@@ -381,7 +381,8 @@ import './as-cli/styles.css'
 <!--
 Čas: 2:00.
 Mapa odhalování: 0 = zadání a cíl ARsim; 1 = celá trojice Přečíst před →
-Zapsat reset → Přečíst po s hodnotami 17, 1, ?; 2 = podmínka očekávané nuly
+Zapsat reset → Přečíst po s hodnotami 17, 1, ? a konkrétními příkazy;
+2 = podmínka očekávané nuly
 a kontrola logbooku. Finále = celý kontrakt testu, ? se nemění na naměřenou 0.
 
 Příklad je záměrně malý. Neřešíme nový pohon ani HMI; ukazujeme vazbu
@@ -390,6 +391,11 @@ ilustračního TerminalCli.vue; nejsou zde ověřeny v dostupném AS projektu.
 Požadavek testu a očekávaná nula jsou modelové, ne naměřený výsledek.
 
 [CLICK]
+Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako
+jeden řádek. Používají syntaxi stejného ilustračního přepisu jako následující
+terminál. Před skutečným spuštěním ověřit nápovědu instalované verze:
+školení používá také seskupení as plc var. Třetí příkaz je požadované
+doplňující čtení, nikoli výsledek obsažený v původním přepisu.
 Nejdřív si potvrdit, že reset opravdu takto funguje: datový typ, zda je
 gCmdClear jednorázový příkaz či vyžaduje návrat na 0 a zda počítadlo mezitím
 neběží. Agent to musí zjistit z kódu/projektu nebo si vyžádat rozhodnutí.

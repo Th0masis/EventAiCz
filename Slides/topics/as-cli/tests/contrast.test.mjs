@@ -38,6 +38,15 @@ try {
     }
     if (await layout.locator('.cli-reset-flow').count()) {
       assert.deepEqual(await layout.locator('.cli-counter').allTextContents(), ['17 UDINT', '1', '?'])
+      assert.deepEqual(
+        (await layout.locator('.cli-reset-command').allInnerTexts()).map(text => text.replace(/\s+/g, ' ').trim()),
+        [
+          'as var read gProductionCount --task Cyclic',
+          'as var write gCmdClear --task Cyclic --value 1',
+          'as var read gProductionCount --task Cyclic',
+        ],
+        'The reset example must show executable read/write/read command lines',
+      )
     }
     const results = await layout.evaluate(element => {
       const rgba = value => value.match(/[\d.]+/g).map(Number)

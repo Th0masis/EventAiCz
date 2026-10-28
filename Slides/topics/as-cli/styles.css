@@ -1955,7 +1955,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr) 48px minmax(0, 1fr);
   gap: var(--space-xl);
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl);
+}
+
+.topic-as-cli .cli-reset-flow + .cli-feedback {
+  margin-top: var(--space-xl);
 }
 
 .topic-as-cli .cli-reset-step {
@@ -1988,6 +1992,20 @@
 
 .topic-as-cli .cli-reset-step p {
   margin: var(--space-md) 0 0;
+}
+
+.slidev-layout.topic-as-cli .cli-reset-command {
+  display: block;
+  --text-role: command;
+  --text-size: var(--type-caption);
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+  padding: var(--space-sm) var(--space-sm);
+  white-space: nowrap;
+}
+
+.topic-as-cli .cli-reset-step > svg {
+  margin-bottom: var(--space-sm);
 }
 
 .topic-as-cli .cli-audience-strip {
