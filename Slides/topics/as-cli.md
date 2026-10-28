@@ -13,7 +13,8 @@ import './as-cli/styles.css'
 # AS CLI: od zadání k ověřenému výsledku
 
 <!--
-Čas: 0:30. Celý blok: 15:00, šest obsahových slidů a tento úvod.
+Čas: 0:30. Celý blok: 17:00, sedm obsahových slidů a tento úvod.
+Pro původní 15min slot vynechat dvouminutové rozšíření HMI → PLC → HMI.
 Mapa odhalování: název a obraz viditelné od začátku; bez kliků a interakcí.
 
 Agent může napsat správně vypadající kód. Jak ale pozná, že je změna správně
@@ -26,6 +27,11 @@ Zdroje celého bloku, studováno 28. 10. 2026:
 - s5/08-cli-primer, 09-capabilities, 10-how-agent-learns-as, 14-loop-verify, 15-loop-test.
 - agentic-engineering-in-automation-studio/plugins/as-skills/README.md a template/AGENTS.md.
 - UserMeetingSK_AI/Slides/slides.md, kapitola Agentic Bridge.
+- Webinar Agentic Engineering with B&R, přepis a dodaný screenshot:
+  7:34–9:38 (textové podklady a PVI), 16:33–18:55 (runtime test),
+  26:19–29:26 (HMI a oprávnění), 32:31–33:51 (diagnostika Motion).
+  Původní DOCX zůstává mimo repozitář. Přepis obsahuje chyby rozpoznávání;
+  příkazy a názvy technologií ověřujeme ve školicích a pluginových zdrojích.
 Rozsah je podle lokálních podkladů; přesnou verzi instalovaného CLI nelze
 uvést, protože zde není na PATH. Nejde o potvrzení všeobecné dostupnosti.
 Regrese grafických diagramů a čitelnosti tohoto tématu se ověřuje ze Slides příkazem
@@ -514,6 +520,96 @@ transition: fade
 import './as-cli/styles.css'
 </script>
 
+# Test HMI: klik musí dojít až do PLC
+
+<p class="cli-lead">Dva nástroje, jeden scénář: HMI → PLC → HMI. Ilustrace podle webináře.</p>
+
+<div class="cli-discovery-flow" aria-label="Test resetu přes HMI a nezávislé pozorování runtime">
+  <section class="cli-flow-node">
+    <mdi-cursor-default-click-outline />
+    <h2>Akce v HMI</h2>
+    <p>Přihlásit operátora a kliknout na Reset.</p>
+    <small>Playwright / prohlížeč</small>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="1" />
+  <section class="cli-flow-node" v-click="1">
+    <mdi-eye-outline />
+    <h2>Stav PLC</h2>
+    <p>Přečíst počítadlo a porovnat s očekáváním.</p>
+    <small>AS CLI / runtime</small>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="2" />
+  <section class="cli-flow-node" v-click="2">
+    <mdi-monitor-dashboard />
+    <h2>Zpět v HMI</h2>
+    <p>Ověřit zobrazenou hodnotu a aktualizaci.</p>
+    <small>Playwright / prohlížeč</small>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" v-click="3" />
+  <section class="cli-flow-node cli-flow-evidence" v-click="3">
+    <mdi-account-lock-outline />
+    <h2>Oprávnění</h2>
+    <p>Po odhlášení ověřit zákaz resetu pro hosta.</p>
+    <small>HMI i serverová práva</small>
+  </section>
+</div>
+
+<div class="cli-feedback" v-click="4"><mdi-arrow-u-left-top /><span>Při chybě: logbook + dokumentace → oprava → zopakovat scénář.</span></div>
+<div class="cli-conclusion">
+  <strong>Úspěšný klik ani screenshot nestačí jako důkaz změny PLC.</strong>
+  <p>Testovat v určené simulaci. Skrytý nebo zakázaný widget není serverové oprávnění.</p>
+</div>
+
+<!--
+Čas: 2:00. Volitelné rozšíření původního 15min bloku; celý blok s ním má 17 minut.
+Mapa odhalování: 0 = nadpis, lead, Akce v HMI a závěr; 1 = šipka a Stav PLC;
+2 = šipka a Zpět v HMI; 3 = šipka a Oprávnění; 4 = návratová vazba.
+Finále = čtyři kroky a oprava podle diagnostiky. Bez interaktivní komponenty;
+slide nespouští prohlížečové testy ani CLI. Čtyři markery jsou čtyři skupiny.
+
+Webinář používá Box Lift: jednoduchý stavový automat, později HMI a Motion.
+Zde převádíme jeho princip na již vysvětlený reset, neukazujeme naměřená data.
+Playwright může být připojen přes MCP; není součástí AS CLI.
+
+[CLICK]
+Klik je vstup testu. Nezávislé čtení runtime ověří účinek: za zastaveného
+počítání očekáváme nulu. Použít skutečné názvy a syntaxi instalovaného CLI.
+PVI SDK je základ pro vlastní komunikaci s kontrolérem či simulací;
+AS CLI zpřístupňuje podporované runtime operace bez psaní vlastního klienta.
+PVI není další model ani znalostní MCP.
+
+[CLICK]
+Porovnat i hodnotu v HMI a její aktualizaci. Ve webináři build prošel,
+ale test odhalil problémy stylů, zobrazení stavů a chování tlačítek.
+Screenshot ověřuje vzhled; klik, odečet PLC a kontrola HMI ověřují vazbu.
+
+[CLICK]
+Ve webináři po odhlášení přestal být reset dostupný. To samo neprokazuje
+serverovou ochranu: podle testovacího plánu samostatně ověřit odmítnutí
+neoprávněného zápisu. Žádné skutečné přihlašovací údaje na tomto slidu.
+
+[CLICK]
+Diagnostika uzavírá smyčku: ve Motion části webináře agent četl logbook
+po chybě při startu a dohledával příčinu v dokumentaci i instalaci.
+Konkrétní označení opraveného parametru z nepřesného přepisu nepřebíráme.
+Po opravě nový build a opakovaný runtime test, ne jen ujištění agenta.
+ARsim neověří fyziku stroje, skutečné I/O ani bezpečnostní funkce.
+
+Zdroje: Webinar Agentic Engineering with B&R, 8:44–9:19, 16:33–18:55,
+26:19–29:26 a 32:31–33:51; training s5/15-loop-test/{page,lang.en}.js;
+UserMeetingSK_AI/Slides/slides.md, Online PLC (PVI).
+-->
+
+---
+layout: default
+class: ot-slide dark-slide as-cli-demo-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
 # Kde AS CLI použít a co tím neprokážeme
 
 <div class="cli-audience-strip" aria-label="Použití inženýrem, agentem a v CI">
@@ -543,7 +639,8 @@ import './as-cli/styles.css'
 <p class="cli-final-note" v-click="2">Začněte v simulaci. Windows + kompatibilní AS + dostupné CLI. PIP balíček ≠ nasazení.</p>
 
 <!--
-Čas: 3:00. Časový součet: 0:30 + 2:00 + 2:30 + 2:00 + 2:00 + 3:00 + 3:00 = 15:00.
+Čas: 3:00. Časový součet: 0:30 + 2:00 + 2:30 + 2:00 + 2:00 + 3:00 + 2:00 + 3:00 = 17:00.
+Bez volitelného rozšíření HMI → PLC → HMI zůstává původních 15:00.
 Mapa odhalování: 0 = nadpis, tři uživatelé a gate sestavení; 1 = spojovací
 šipka a celý gate runtime testu; 2 = pás lidské revize a spodní předpoklady.
 Finále = obě úrovně důkazu a schválení, ne automatický verdikt PASS.

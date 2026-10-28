@@ -149,18 +149,28 @@ try {
   await page.goto(`${base}/${terminalSlide}?clicks=9`)
   await terminal.waitFor({ state: 'visible' })
   await terminal.locator('em.pending').waitFor({ state: 'detached' })
-  await page.keyboard.press('ArrowRight')
+  const [motion] = await Promise.all([
+    page.evaluate(() => new Promise(resolve => {
+      const samples = []
+      const until = performance.now() + 500
+      const sample = () => {
+        samples.push(...document.getAnimations()
+          .filter(animation => animation.effect.target.classList.contains('slidev-page'))
+          .map(animation => ({ frames: animation.effect.getKeyframes(), name: animation.transitionProperty })))
+        if (performance.now() < until) requestAnimationFrame(sample)
+        else resolve(samples)
+      }
+      requestAnimationFrame(sample)
+    })),
+    page.keyboard.press('ArrowRight'),
+  ])
   await page.waitForURL(`${base}/${terminalSlide + 1}`)
-  const motion = await page.evaluate(() => document.getAnimations()
-    .filter(animation => animation.effect.target.classList.contains('slidev-page'))
-    .map(animation => ({ frames: animation.effect.getKeyframes(), name: animation.transitionProperty })),
-  )
-  assert.ok(motion.length > 0, 'Expected an active slide transition to verify')
+  assert.ok(motion.length > 0, 'Expected a sampled slide transition to verify')
   assert.ok(motion.every(animation => animation.name === 'opacity' &&
     animation.frames.every(frame => !frame.transform && !frame.translate)),
   'Reduced-motion slide navigation must only crossfade')
   assert.ok(checked >= 20, `Expected AS CLI text coverage, checked only ${checked} elements`)
-  assert.equal(diagrams, 5, 'The five AS CLI explanation diagrams must not regress to text-only slides')
+  assert.equal(diagrams, 6, 'The six AS CLI explanation diagrams must not regress to text-only slides')
   console.log(`AS CLI readability and motion checks passed: ${diagrams} diagrams, ${checked} text elements, 10 terminal states.`)
 } finally {
   await browser.close()
