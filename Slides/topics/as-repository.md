@@ -17,6 +17,13 @@ import './as-repository/styles.css'
 
 AS Repository není nový model. Jde o sdílené postupy, pravidla a nástroje pro práci s konkrétním Automation Studio projektem. Nejdřív si ujasníme tři základní typy přizpůsobení: instrukce, skills a agenty.
 
+Rozšíření podle Webinar Agentic Engineering with B&R, zejména 10:56–11:44
+a 19:45–23:34. Nový příklad ověření instalace přidává přibližně dvě minuty;
+pro zachování původního slotu jej lze vynechat. Zdroje ověřeny v lokálním
+agentic-engineering-in-automation-studio, plugins/as-skills/README.md
+a skills/mappview/SKILL.md. Přepis popisuje tehdejší demo; nejde o
+potvrzení aktuální dostupnosti všech nástrojů či kompatibility všech klientů.
+
 *Konečný stav: stejný jako počáteční; přechod k rozdílům mezi instrukcemi, skills a agenty.*
 -->
 
@@ -639,6 +646,73 @@ import './as-repository/styles.css'
 Zeptejte se: „Kde se používá gAlarmXCore a jaký má typ?“ Agent nejprve ověří symbol přes hover/definici, pak vyhledá reference. Pokud definici najde v Temp/Includes/AS_TempDecl/, jde o generovanou deklaraci komponenty; nepřejmenovávat ji, změnit zdroj konfigurace a ST použití pouze podle záměru projektu. Pokud globální symbol chybí, ověřit, zda už proběhl as build a zda je aktivní konfigurace dostupná launcheru; pak LSP reloadnout a dotaz zopakovat.
 Názvy a očekávaný výsledek jsou modelový scénář vycházející z README pluginu, nikoli výsledek skutečně otevřeného zákaznického projektu. findReferences není kompilace. Po úpravě as build ověřuje sestavení, ne běh systému.
 Zdroje: plugins/as-lsp/README.md (generated declarations, Troubleshooting); plugins/as-lsp/skills/as-lsp/SKILL.md (Workflow, Limits).
+-->
+
+---
+layout: default
+class: ot-slide topic-as-repository
+---
+
+<script setup>
+import './as-repository/styles.css'
+</script>
+
+# Když Help nestačí:<br><span class="accent">agent ověří instalaci</span>
+
+<p class="repo-lead">Příklad z webináře: zjistit platné vlastnosti widgetu mappView před zápisem XML.</p>
+
+<div class="repo-process" aria-label="Od odborného postupu přes dokumentaci a metadata k ověření">
+	<div><span class="repo-step">1</span><h3>Odborný postup</h3><p>Skill <code>mappview</code>: vlastnictví souborů, reference a požadované nástroje.</p></div>
+	<div v-click="1"><span class="repo-step">2</span><h3>Dokumentace</h3><p>Help přes znalostní MCP vysvětlí význam vlastnosti a její použití.</p></div>
+	<div v-click="2"><span class="repo-step">3</span><h3>Metadata instalace</h3><p>CLI zjistí dostupné vlastnosti:<br><code class="repo-discovery-command">as mappview widget read &lt;WidgetType&gt; --properties</code></p></div>
+	<div v-click="3"><span class="repo-step">4</span><h3>Změna a důkaz</h3><p>Upravit soubory i vazby. Build a test HMI proti očekávanému stavu PLC.</p></div>
+</div>
+
+<p class="repo-takeaway">Skill vede postup. <strong>Platné vlastnosti zjišťujeme, nehádáme.</strong></p>
+<p class="repo-note">Ilustrace postupu, nikoli nově provedené demo. Typ widgetu a syntaxi ověřte v nápovědě své verze CLI.</p>
+
+<!--
+Čas: 2:00. Volitelné rozšíření.
+Mapa odhalování: 0 = nadpis, lead, Odborný postup a závěrečné texty;
+1 = Dokumentace; 2 = Metadata instalace včetně příkazu; 3 = Změna a důkaz.
+Finále = všechny čtyři kroky. Tři markery odpovídají třem skupinám;
+bez klikací komponenty a bez spouštění skutečných nástrojů.
+
+Webinář odděluje statický kontext od nástrojů. Instrukce a skills
+zhušťují odborný postup, nikoli všechny informace všech verzí do jednoho promptu.
+Uživatel musí určit projekt, verzi a rozsah změny; agent nemá chybějící údaje
+doplňovat domněnkou. Textový projekt je čitelný, ale samotná čitelnost XML
+neříká, které prvky a hodnoty podporuje konkrétní instalace.
+
+[CLICK]
+V části 19:45–23:34 agent dohledává pravidla mappView a oprávnění.
+Když odpověď v Helpu nenajde, ověřuje definice v instalaci.
+To neznamená, že libovolný znalostní MCP server čte lokální instalaci.
+Modelu se poskytují podklady pro danou úlohu, nepřetrénovává se.
+
+[CLICK]
+Přepis zmiňuje mappView 6.6 v tehdejším projektu, nikoli povinnou verzi pro všechny.
+Současný mappview/SKILL.md směruje na `as mappview widget list <query>`
+a `as mappview widget read <WidgetType> --properties`.
+Zobrazený příkaz je převzatý vzor: <WidgetType> je zástupný parametr,
+nikoli doslovná hodnota. Nejprve zjistit skutečný typ; syntaxi potvrdit v --help.
+Tyto dotazy čtou metadata; samotný dotaz ještě projekt nemění.
+Pro konfigurační soubory obdobnou roli plní `as config schema read <.ending>`.
+Nezapisovat ručně do instalace a nepřebírat vlastnosti jiné verze.
+
+[CLICK]
+Teprve potom upravit správné soubory v Logical a Physical, přesná ID a registrace.
+Mappview skill neřeší vlastnictví PLC proměnných ani OPC UA ACL; pokud se mění
+vystavení dat nebo práva, použít opcua-connectivity.
+Úspěšný build ještě neověřuje vzhled HMI ani účinek jeho akcí v PLC.
+Výsledek musí obsahovat diff a konkrétní důkaz; člověk posoudí změny a rizika.
+Žádný příkaz na tomto slidu nebyl spuštěn proti skutečnému AS projektu.
+
+Zdroje: Webinar Agentic Engineering with B&R, 10:56–11:44, 19:45–23:34
+a 26:19–29:26; plugins/as-skills/README.md (Toolchain precedence,
+Skill structure); plugins/as-skills/skills/mappview/SKILL.md
+(Scope and Ownership, Required tools, Reference routing);
+training s5/09-capabilities (schema discovery).
 -->
 
 ---

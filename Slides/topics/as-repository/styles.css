@@ -36,6 +36,11 @@
   opacity: 1;
 }
 
+.topic-as-repository .repo-discovery-command {
+  --text-role: command;
+  --text-size: var(--type-caption);
+}
+
 .topic-as-repository .repo-columns,
 .topic-as-repository .repo-three-columns {
   display: grid;
