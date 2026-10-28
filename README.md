@@ -37,12 +37,19 @@ nebo jiné změny zasahující více témat řešte samostatným koordinačním 
 
 ## Lokální náhled a kontrola
 
+Použijte Node.js 22 stejně jako CI a npm. Pro požadovaný vzhled musí být
+nainstalované licencované písmo ABBvoice; není součástí repozitáře. Podrobnosti
+jsou v [grafických poznámkách](docs/graphic-notes.md#typography).
+Před `npm.cmd ci` zastavte běžící dev/preview servery tohoto projektu;
+ve Windows mohou držet načtené soubory v `node_modules`.
+
 V PowerShellu přejděte do složky `Slides/`. Pokud PowerShell blokuje `npm`,
 použijte příkaz `npm.cmd`:
 
 ```powershell
 cd Slides
 npm.cmd ci
+npx.cmd playwright install chromium
 npm.cmd run test:content
 npm.cmd run test:topic-styles
 npm.cmd run test:topic-code
@@ -64,9 +71,24 @@ cd Slides
 npm.cmd run test:smoke
 ```
 
-Smoke test projde slidy na desktopovém i mobilním rozlišení a uloží screenshoty
+Smoke test projde slidy pouze na desktopovém rozlišení 1280 × 720 a uloží screenshoty
 do `Slides/artifacts/slides/`. Před PR také ručně zkontrolujte odhalování
 obsahu, interakce, poznámky prezentujícího, obrázky a délku vystoupení.
+Duplicate checker kontroluje topicové i sdílené zdroje, CSS a testovací skripty;
+závislosti a generované výstupy ignoruje. Jeho dočasný report se po běhu odstraní.
+
+Pro kontrolu produkčního buildu stejně jako v CI spusťte místo dev serveru
+`npm.cmd run preview` po úspěšném `npm.cmd run build`. V druhém terminálu,
+ve složce `Slides/`, spusťte:
+
+```powershell
+$env:SLIDES_URL = 'http://127.0.0.1:4173'
+npm.cmd run test:smoke
+Remove-Item Env:SLIDES_URL
+```
+
+Při jiné adrese náhledu upravte `SLIDES_URL`. Pro návrat k dev serveru proměnnou
+odstraňte, aby test opět použil výchozí port 3030.
 
 ## Větev a změny tématu
 
@@ -111,6 +133,10 @@ nemají vlastní tematickou větev.
 2. Upravujte pouze `Slides/topics/<id>.md`, vlastní zdroje v
    `Slides/topics/<id>/` a soubory v `Slides/public/topics/<id>/`.
    Topicový PR nesmí zahrnovat sdílené soubory ani jiné téma.
+   Vue komponenty importujte explicitně z vlastní složky; mimo
+   `Slides/components/` se neregistrují automaticky. Pokud téma má
+   `styles.css`, každý jeho slide včetně chapter openeru musí mít root třídu
+   `topic-<id>` a vlastní import stylesheetu v `<script setup>`.
 3. Pokud na tématu pracuje více lidí, všichni používejte stejnou větev a jeden
    otevřený PR. Nevytvářejte pro stejné téma další PR.
 4. Po úpravách odešlete změny do stejné vzdálené větve:
@@ -135,13 +161,18 @@ nemají vlastní tematickou větev.
    git switch -c coord/program-order origin/main
    ```
 
+   Koordinovanou migraci nejprve slučte do `main`, potom aktualizujte základ
+   topicové větve. Rozsah PR se kontroluje vůči `main`, ne pouze podle posledního
+   commitu; topicový PR nesmí obsahovat dosud nesloučené společné změny.
+
 ## Vytvoření PR
 
 1. Na GitHubu otevřete PR z vaší větve do `main`. Použijte automaticky
    předvyplněnou šablonu a uveďte ID tématu, prezentující, spoluautory, délku,
    shrnutí změn a stav dema.
-2. U obsahového PR ověřte, že je to jediný otevřený PR pro téma a že mění jen
-   jeho soubor a podklady. Všechny spoluautory přidejte do téhož PR.
+2. U topicového PR ověřte, že je to jediný otevřený PR pro téma a že mění jen
+   jeho Markdown, vlastní CSS/Vue/skripty a podklady. Všechny spoluautory
+   přidejte do téhož PR.
 3. Počkejte na kontroly `Slides validation` a `PR policy`. V artefaktu
    `rendered-slides` zkontrolujte vykreslené slidy a screenshoty.
 4. Doplňte informace pro ruční ověření dema a záložní variantu. Do repozitáře
@@ -154,4 +185,6 @@ nemají vlastní tematickou větev.
 Po schválení a úspěšných kontrolách lze PR sloučit do `main`. GitHub Actions
 pak automaticky publikuje prezentaci. Dokud správce nezapne ochranu `main`,
 jsou schválení koordinátorem a úspěšné kontroly popsaným procesem, nikoli
-vynucenou podmínkou GitHubu.
+vynucenou podmínkou GitHubu. Ochrana `main` musí vyžadovat oba statusy:
+`Slides validation` a `PR policy`. Aktuální nastavení ochrany není ověřitelné
+jen z těchto workflow souborů.

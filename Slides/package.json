@@ -12,7 +12,8 @@
     "test:topic-styles": "node test-topic-styles.mjs",
     "test:topic-code": "node test-topic-code.mjs",
     "test:duplicates": "node test-duplicates.mjs",
-    "test:smoke": "node test-smoke.mjs"
+    "test:smoke": "node test-smoke.mjs",
+    "test:smoke-diagnostics": "node --test test-smoke-diagnostics.mjs"
   },
   "devDependencies": {
     "@babel/parser": "^7.29.8",

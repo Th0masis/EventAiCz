@@ -157,6 +157,11 @@ function isKeyframeRule(rule) {
   return false
 }
 
+function isCodeFile(file) {
+  const extension = extname(file)
+  return extension !== '.md' && (sourceExtensions.includes(extension) || extension === '.css')
+}
+
 function sfcImports(code, file) {
   const { descriptor, errors } = parseSfc(code, { filename: file })
   assert.equal(errors.length, 0, `${file}: ${errors.map(String).join('; ')}`)
@@ -199,6 +204,7 @@ function markdownImports(content, file) {
 function selfCheck() {
   const file = resolve(topicRoot, 'as-cli/components/fixture.vue')
   const reject = (action, message) => assert.throws(action, message)
+  assert.equal(isCodeFile('topics/as-cli/plan.md'), false)
   reject(() => importTarget('../../agentic-demo/scripts/demo.js', file, 'as-cli'), /boundary/)
   reject(() => importTarget('./agentic-demo.md', resolve(topicRoot, 'as-cli.md'), 'as-cli'), /boundary/)
   reject(() => importTarget('../../../style.css?inline', file, 'as-cli'), /boundary/)
@@ -294,7 +300,7 @@ async function checkDirectory(directory, topic) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const file = resolve(directory, entry.name)
     if (entry.isDirectory()) await checkDirectory(file, topic)
-    else if (sourceExtensions.includes(extname(file)) || extname(file) === '.css') await checkFile(file, topic)
+    else if (isCodeFile(file)) await checkFile(file, topic)
   }
 }
 

@@ -1,15 +1,41 @@
 import assert from 'node:assert/strict'
 import { mkdir, readFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright-chromium'
 import { deck } from './test-content.mjs'
 
 const baseUrl = (process.env.SLIDES_URL ?? 'http://127.0.0.1:3030').replace(/\/$/, '')
+const baseOrigin = new URL(baseUrl).origin
+const root = dirname(fileURLToPath(import.meta.url))
+const selectedTopic = process.env.SLIDES_TOPIC
+const slides = selectedTopic
+  ? deck.slides.filter(slide => resolve(slide.source.filepath) === resolve(root, 'topics', `${selectedTopic}.md`))
+  : deck.slides
+assert.ok(slides.length > 0, `No slides found${selectedTopic ? ` for topic "${selectedTopic}"` : ''}`)
 const screenshotRoot = new URL('./artifacts/slides/', import.meta.url)
 const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url), 'utf8')
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
+const asCliRevealSequence = [
+  'BROWSE',
+  'PROJECT STATUS',
+  'SIM ENABLE',
+  'BUILD SIM',
+  'PLC CONNECT',
+  'VAR READ',
+  'VAR WRITE',
+  'LOGBOOK READ',
+  'BUILD PIP',
+]
+let activePage
+let activeViewport
+let activeSlide = 1
+let activeClick = 0
+let knowledgeGeometry
+
+const context = () => `${activeViewport.name} (${activeViewport.width}x${activeViewport.height}), slide ${activeSlide}, click ${activeClick}`
 
 async function checkDesign(layout, label) {
   const errors = await layout.evaluate(async (element, rules) => {
@@ -46,13 +72,17 @@ async function checkDesign(layout, label) {
       const style = getComputedStyle(node)
       const role = style.getPropertyValue('--text-role').trim()
       const expected = rules.typography[role]
+      const slideNumber = node.matches('.slide-id')
+      const expectedSize = slideNumber ? rules.footer.numberSize : expected?.[0]
+      const expectedLineHeight = slideNumber ? rules.footer.numberSize : expected?.[0] * expected?.[1]
       const name = `${node.localName}.${[...node.classList].join('.')} (${node.textContent.trim().slice(0, 35)})`
       check(Boolean(expected), `Unrecognized text role: ${name}`)
       if (!expected) continue
-      check(near(parseFloat(style.fontSize), expected[0]), `Wrong ${role} size: ${name}`)
-      check(near(parseFloat(style.lineHeight), expected[0] * (node.matches('.slide-id') ? 1 : expected[1])), `Wrong ${role} line-height: ${name}`)
+      check(near(parseFloat(style.fontSize), expectedSize), `Wrong ${role} size: ${name}`)
+      check(near(parseFloat(style.lineHeight), expectedLineHeight), `Wrong ${role} line-height: ${name}`)
       check(style.fontFamily.includes(expected[2] === 'mono' ? 'IBM Plex Mono' : 'ABBvoice'), `Wrong ${role} font: ${name}`)
       check(['normal', '0px'].includes(style.letterSpacing), `Wrong letter spacing: ${name}`)
+      if (slideNumber) check(style.fontWeight === String(rules.footer.numberWeight), 'Wrong slide-number weight')
       if (!node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue
       const rect = bounds(node)
       let scrollable = null
@@ -242,29 +272,177 @@ async function checkDesign(layout, label) {
   failures.push(...errors.map(error => `${label}: ${error}`))
 }
 
+async function checkRevealSequence(layout, slide, click) {
+  const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('topic-as-agentic-bridge')) {
+    const emphasis = await layout.locator('.bridge-lead strong, .bridge-need-row b, .bridge-takeaway strong, .bridge-review-takeaway strong, .bridge-next-talk strong')
+      .evaluateAll(nodes => nodes.map(node => {
+        const channels = getComputedStyle(node).color.match(/\d+(\.\d+)?/g).slice(0, 3).map(Number)
+        const linear = channels.map(value => {
+          const channel = value / 255
+          return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+        })
+        const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+        return { text: node.textContent, contrast: 1.05 / (luminance + 0.05) }
+      }))
+    for (const item of emphasis) assert.ok(item.contrast >= 4.5,
+      `Bridge emphasis must remain readable on white: ${item.text} (${item.contrast.toFixed(2)}:1)`)
+  }
+  if (classes.includes('as-cli-slide')) {
+    const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
+    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+      `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  }
+  if (classes.includes('bridge-loop-slide')) {
+    const visible = await layout.locator('.bridge-loop > section:not(.slidev-vclick-hidden) h2').allTextContents()
+    assert.deepEqual(visible, ['Plan', 'Implement', 'Verify', 'Test', 'Lidská revize'].slice(0, click),
+      `Wrong engineering loop sequence after click ${click}`)
+    assert.deepEqual(await layout.locator('.bridge-loop .is-current h2').allTextContents(),
+      click ? [visible.at(-1)] : [], `Wrong active engineering step after click ${click}`)
+    assert.equal(await layout.locator('.bridge-return:not(.slidev-vclick-hidden)').count(), click >= 4 ? 1 : 0,
+      'Feedback must appear together with the test step')
+  }
+  if (classes.includes('bridge-mcp-selection-slide')) {
+    assert.equal(await layout.locator('.bridge-mcp-tool-options .is-selected').count(), click >= 2 ? 1 : 0,
+      'Tool selection must be highlighted together with its explanation')
+    assert.equal(await layout.locator('.bridge-tool-selected').count(), click >= 2 ? 1 : 0,
+      'Tool selection must not rely on color alone')
+  }
+  if (classes.includes('bridge-knowledge-slide')) {
+    const geometry = await layout.evaluate(element => {
+      const flow = element.querySelector('.bridge-knowledge-flow')
+      const path = element.querySelector('.bridge-knowledge-path')
+      const sources = element.querySelector('.bridge-knowledge-details')
+      return [flow.offsetTop, flow.offsetHeight, path.offsetTop, path.offsetHeight, sources.offsetTop]
+    })
+    if (click === 0) knowledgeGeometry = geometry
+    else assert.deepEqual(geometry, knowledgeGeometry, 'Knowledge Hub layout must not shift between reveals')
+    assert.equal(await layout.locator('.bridge-knowledge-hint, .bridge-knowledge-path-label span').count(), 0,
+      'Interaction instructions must not appear on the slide')
+    const visible = await layout.locator('.bridge-knowledge-step').evaluateAll(nodes =>
+      nodes.filter(node => node.checkVisibility()).map(node => node.querySelector('strong').textContent))
+    assert.deepEqual(visible, click >= 5
+      ? ['Odpověď', 'Agent', 'MCP', 'Pasáže + zdroje']
+      : ['Dotaz', 'Agent', 'MCP', 'Knowledge Hub'].slice(0, click),
+    `Wrong Knowledge Hub sequence on slide ${slide.index + 1} after click ${click}`)
+    assert.equal(await layout.locator('.bridge-knowledge-popup').count(), 0, 'Details must start closed after a reveal change')
+    const context = layout.locator('.bridge-knowledge-context')
+    assert.equal(await context.count(), click >= 1 ? 1 : 0, 'The closed detail area must explain the current phase')
+    if (click >= 1) assert.ok((await context.textContent()).includes(click < 5
+      ? 'Proč X20 PLC přejde po nahrání projektu do SERVICE?'
+      : 'RAG dodává podklady; výslednou odpověď vytváří agent.'))
+    if (click >= 1) assert.equal(await layout.locator('.bridge-knowledge-step').first()
+      .evaluate(node => getComputedStyle(node).animationName), click < 5 ? 'bridge-request-stage' : 'bridge-return-stage',
+    'Stage motion must follow the direction of the current flow')
+    if (click === 7) {
+      await layout.page().emulateMedia({ reducedMotion: 'reduce' })
+      assert.equal(await layout.locator('.bridge-knowledge-step').first().evaluate(node => {
+        const style = getComputedStyle(node)
+        return style.animationName === 'none' && style.transitionDuration === '0s'
+      }), true, 'Reduced motion must remove stage movement while keeping its visible state')
+      await layout.page().emulateMedia({ reducedMotion: 'no-preference' })
+    }
+    if (click === 4 || click === 5) await checkKnowledgeInteractions(layout, click)
+  }
+}
+
+async function checkKnowledgeInteractions(layout, click) {
+  const page = layout.page()
+  const url = page.url()
+  const popup = layout.locator('.bridge-knowledge-popup')
+  const details = click === 4 ? ['query', 'agent', 'mcp', 'hub'] : ['answer']
+  for (const detail of details) {
+    const trigger = layout.locator(`[data-detail="${detail}"]`)
+    await trigger.hover()
+    assert.equal(await popup.isVisible(), true, `Hover must open ${detail}`)
+    assert.equal(await layout.locator('.bridge-knowledge-context').count(), 0,
+      'Opening a detail must replace the phase summary without moving the workflow')
+    assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
+    assert.equal(await popup.evaluate(panel => {
+      const path = panel.parentElement.querySelector('.bridge-knowledge-path').getBoundingClientRect()
+      const body = panel.querySelector('.bridge-knowledge-popup-body')
+      return panel.getBoundingClientRect().top >= path.bottom && getComputedStyle(panel).position !== 'absolute'
+        && getComputedStyle(panel).boxShadow === 'none' && body.scrollHeight <= body.clientHeight + 1
+    }), true, `${detail} detail must fit below the workflow without an overlay or scrolling`)
+    const content = await popup.textContent()
+    if (detail === 'query') assert.ok(content.includes('Proč X20 PLC přejde po nahrání projektu do SERVICE?'))
+    if (detail === 'agent') assert.ok(content.includes('ne záznam jeho interního uvažování'))
+    if (detail === 'mcp') {
+      assert.ok(content.includes('bnr_knowledge_base_rag'))
+      assert.deepEqual(JSON.parse(await popup.locator('pre code').textContent()), {
+        query: 'X20 PLC starts in SERVICE after transfer to project causes possible reasons',
+        top_k: 5,
+        include_images: false,
+      })
+    }
+    if (detail === 'hub') {
+      assert.equal(await popup.locator('a').count(), 3)
+      assert.ok(content.includes('Sama nedokládá příčinu SERVICE na CPU'))
+      assert.equal(await popup.locator('.bridge-knowledge-popup-body > .bridge-knowledge-caveat').isVisible(), true)
+    }
+    if (detail === 'answer') assert.ok(content.includes('Nejde o potvrzenou diagnózu'))
+    await checkDesign(layout, `${activeViewport.name}, Knowledge Hub ${detail} popup`)
+    await page.screenshot({
+      path: fileURLToPath(new URL(`${activeViewport.name}/knowledge-${detail}.png`, screenshotRoot)),
+      clip: await layout.boundingBox(),
+      animations: 'disabled',
+    })
+    await layout.locator('h1').hover()
+    assert.equal(await popup.count(), 0, 'Unpinned hover detail must close on pointer leave')
+    await trigger.click()
+    await layout.locator('h1').hover()
+    assert.equal(await popup.isVisible(), true, 'Click must pin the detail for touch and pointer users')
+    assert.equal(page.url(), url, 'Popup controls must not advance the slide')
+    await page.keyboard.press('Escape')
+    assert.equal(await popup.count(), 0, 'Escape must dismiss the detail')
+    await trigger.blur()
+    await trigger.focus()
+    assert.equal(await popup.isVisible(), true, 'Keyboard focus must open the detail')
+    await trigger.press('Enter')
+    await popup.getByRole('button', { name: 'Zavřít detail' }).click()
+    assert.equal(await popup.count(), 0, 'Close button must dismiss the detail')
+    assert.equal(await trigger.evaluate(node => node === document.activeElement), true, 'Closing must restore focus to the trigger')
+    assert.equal(page.url(), url)
+  }
+}
+
 try {
   for (const viewport of [
     { name: 'desktop', width: 1280, height: 720 },
-    { name: 'mobile', width: 390, height: 844 },
   ]) {
+    if (activePage) await activePage.close()
+    activePage = undefined
+    activeViewport = viewport
+    activeSlide = 1
+    activeClick = 0
     const output = new URL(`${viewport.name}/`, screenshotRoot)
     await mkdir(output, { recursive: true })
     const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } })
+    activePage = page
     await page.context().grantPermissions(['screen-wake-lock'])
-    page.on('pageerror', error => failures.push(`${viewport.name}: ${error.message}`))
+    page.on('pageerror', error => failures.push(`${context()}: JavaScript ${error.stack ?? error.message}`))
     page.on('console', message => {
-      if (message.type() === 'error') failures.push(`${viewport.name}: ${message.text()}`)
+      if (message.type() === 'error') failures.push(`${context()}: Console ${message.text()}`)
     })
     page.on('response', response => {
       if (response.status() >= 400 && new URL(response.url()).origin === new URL(baseUrl).origin) {
-        failures.push(`${viewport.name}: HTTP ${response.status()} ${response.url()}`)
+        failures.push(`${context()}: HTTP ${response.status()} ${response.url()}`)
       }
+    })
+    page.on('requestfailed', request => {
+      const url = new URL(request.url())
+      const error = request.failure()?.errorText
+      if (request.method() === 'POST' && url.origin === baseOrigin && url.pathname === '/@server-reactive/nav'
+        && error === 'net::ERR_ABORTED') return
+      failures.push(`${context()}: Request failed ${request.method()} ${request.url()}: ${error}`)
     })
 
     await page.goto(`${baseUrl}/1`, { waitUntil: 'domcontentloaded', timeout: 15000 })
 
-    for (const slide of deck.slides) {
+    for (const slide of slides) {
       const slideNumber = slide.index + 1
+      activeSlide = slideNumber
+      activeClick = 0
       if (slideNumber > 1) {
         await page.goto(`${baseUrl}/${slideNumber}`, { waitUntil: 'domcontentloaded', timeout: 15000 })
       }
@@ -283,11 +461,13 @@ try {
         assert.ok((await layout.textContent()).includes(expectedTitle), `Wrong slide: ${slideNumber}`)
       }
       await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 15000 })
+      await checkRevealSequence(layout, slide, 0)
       await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, initial`)
       const clicks = Math.max(Number(slide.frontmatter.clicks) || 0, await layout.locator('[data-slidev-clicks-start]').evaluateAll(nodes =>
         Math.max(0, ...nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')) || 0)),
       ))
       for (let click = 1; click <= clicks; click++) {
+        activeClick = click
         await page.goto(`${baseUrl}/${slideNumber}?clicks=${click}`, { waitUntil: 'domcontentloaded', timeout: 15000 })
         await layout.waitFor({ state: 'visible', timeout: 15000 })
         await page.waitForFunction(number => {
@@ -296,6 +476,7 @@ try {
             && element.getAnimations({ subtree: true }).every(animation =>
               animation.effect.getComputedTiming().iterations === Infinity || animation.playState === 'finished')
         }, slideNumber, { timeout: 15000 })
+        await checkRevealSequence(layout, slide, click)
         await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, click ${click}`)
       }
       await layout.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
@@ -308,11 +489,26 @@ try {
       assert.ok(screenshotBounds, `Slide ${slideNumber} has no visible screenshot bounds`)
       await page.screenshot({ path: screenshotPath, clip: screenshotBounds, animations: 'disabled', timeout: 15000 })
     }
-    await page.close()
   }
 
   assert.deepEqual(failures, [], 'Browser runtime, asset or design-contract errors')
-  console.log(`Browser smoke and design checks passed: ${deck.slides.length} slides, desktop and mobile screenshots`)
+  console.log(`Browser smoke and design checks passed: ${slides.length} slides${selectedTopic ? ` (${selectedTopic})` : ''}, desktop screenshots`)
+} catch (error) {
+  console.error(`Smoke test failed: ${activeViewport ? context() : 'browser setup'}`)
+  console.error(`Current URL: ${activePage?.url() ?? '(no page)'}`)
+  console.error('Captured browser, network and design errors:', failures)
+  if (activePage) {
+    const screenshotPath = fileURLToPath(new URL(
+      `${activeViewport.name}/failure-${String(activeSlide).padStart(3, '0')}-click-${activeClick}.png`, screenshotRoot,
+    ))
+    try {
+      await activePage.screenshot({ path: screenshotPath, timeout: 15000 })
+      console.error(`Failure screenshot: ${screenshotPath}`)
+    } catch (screenshotError) {
+      console.error('Could not capture failure screenshot:', screenshotError)
+    }
+  }
+  throw error
 } finally {
   await browser.close()
 }

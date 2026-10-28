@@ -1,8 +1,466 @@
 ---
 layout: default
-class: ot-slide chapter-slide
+class: ot-slide chapter-slide topic-as-agentic-bridge
 ---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
 
 <img class="chapter-image" src="/topics/as-agentic-bridge/chapter.jpg" alt="">
 
 # Automation Studio Agentic Bridge
+
+<!--
+Dopoledne jsme viděli, jak agent pracuje. Teď si ukážeme, co potřebuje, aby dokázal pracovat s Automation Studiem: pracovní postup, odborné znalosti a nástroje pro akci i kontrolu výsledku. To je role Agentic Bridge.
+
+Navázat na předchozí Community blok: informace mají být dostupné nejen člověku, ale také jeho nástrojům. Nevracet se k definici agentního systému.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-needs-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Co musí agent dostat navíc
+
+<p class="bridge-lead">Samotný model ještě není <strong>engineering prostředí.</strong></p>
+
+<div class="bridge-needs-list" aria-label="Co agent potřebuje pro engineering práci">
+	<div class="bridge-need-row" v-click="1"><mdi-source-repository aria-hidden="true" /><strong>Jak má pracovat?</strong><span><b>Instrukce</b> a odborné postupy.</span></div>
+	<div class="bridge-need-row" v-click="2"><mdi-book-search-outline aria-hidden="true" /><strong>O co opře rozhodnutí?</strong><span><b>Dokumentace</b> a fakta konkrétního projektu.</span></div>
+	<div class="bridge-need-row" v-click="3"><mdi-console aria-hidden="true" /><strong>Jak ověří výsledek?</strong><span><b>Nástroje</b> pro změnu, build a test.</span></div>
+</div>
+
+<p class="bridge-takeaway" v-click="4">Nestačí navrhnout kód. <strong>Potřebujeme zpětnou vazbu.</strong></p>
+
+<!--
+Nechceme jen další chatovací okno. Potřebujeme prostředí, které zná pravidla projektu, umí dohledat potřebné informace a dokáže ověřit, co skutečně změnilo.
+
+[CLICK]
+Jak má pracovat? Podle projektových instrukcí a odborného postupu, ne jen podle obecného promptu.
+
+[CLICK]
+O co opře rozhodnutí? O dokumentaci a fakta konkrétního projektu, ne o domněnky modelu.
+
+[CLICK]
+Jak ověří výsledek? Nástroji a testem očekávaného chování. Detaily syntaxe a konfigurace zde neřešit; ty rozvíjí AS Repository.
+
+[CLICK]
+Nestačí navrhnout kód. Potřebujeme zpětnou vazbu.
+
+Přechod: B&R dodává propojení těchto částí, ne náhradu vašeho modelu.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-architecture-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Agentic Bridge: tři propojené části
+
+<div class="bridge-agent"><mdi-robot-outline aria-hidden="true" /><strong>Agent + zvolený model a harness</strong></div>
+<p class="bridge-architecture-note">využívá podle potřeby</p>
+
+<div class="bridge-pillars" aria-label="Tři části Agentic Bridge">
+	<section class="bridge-pillar knowledge-pillar" v-click="1">
+		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-book-search-outline aria-hidden="true" /></span><h2>Knowledge Hub</h2></div>
+		<p>Odborné podklady dohledané pro dotaz, včetně zdrojů.</p>
+	</section>
+	<section class="bridge-pillar workflow-pillar" v-click="2">
+		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-source-repository aria-hidden="true" /></span><h2>AS Repository</h2></div>
+		<p>Instrukce, skills a postup pro práci na projektu.</p>
+	</section>
+	<section class="bridge-pillar execution-pillar" v-click="3">
+		<div class="bridge-pillar-heading"><span class="bridge-pillar-icon"><mdi-console aria-hidden="true" /></span><h2>AS CLI</h2></div>
+		<p>Podporované operace a návrat výsledků nástrojů.</p>
+	</section>
+</div>
+
+<div class="bridge-environment"><mdi-factory aria-hidden="true" /><strong>Automation Studio + konkrétní projekt</strong></div>
+
+<!--
+Počáteční stav: nadpis, agent se zvoleným modelem a harness, popisek a prostředí Automation Studio. Tři části jsou skryté. Skupiny 1–3 odhalují Knowledge Hub, AS Repository a AS CLI. Konečný stav: všechny tři části mezi agentem a konkrétním projektem.
+
+Nahoře zůstává agentní prostředí a model, které si zvolíte. Bridge není další model mezi vámi a Automation Studiem.
+
+[CLICK]
+Knowledge Hub poskytuje dohledané podklady včetně zdrojů. MCP propojí agenta se znalostním nástrojem; podklady se musí vztahovat ke konkrétnímu dotazu a verzi.
+
+[CLICK]
+AS Repository říká, jak postupovat a jaké konvence dodržet. Konkrétní instrukce, skills a pluginy ukáže následující přednáška o AS Repository.
+
+[CLICK]
+AS CLI umožní provést podporované operace a vrátit výsledek. CLI ukáže následující přednáška. Všechny tři části pracují v kontextu Automation Studia a konkrétního projektu.
+
+Agent využívá části podle úkolu. Znalostní služba projekt nesestavuje a úspěšný build ještě nedokazuje správné chování stroje. Bridge není vázán na jednoho poskytovatele modelu, ale konfigurace a nástroje závisejí na konkrétním prostředí; neslibovat stejnou kompatibilitu všech klientů. Náklady a licence diagram neřeší.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-loop-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Jak se z požadavku stane ověřená změna
+
+<p class="bridge-request">„Přidej počítadlo hotových kusů a ověř reset.“</p>
+
+<div class="bridge-loop" aria-label="Plán, implementace, ověření, test a lidská revize">
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 1 }" v-click="1"><span class="bridge-step-number" aria-hidden="true">1</span><h2>Plan</h2><p>Projekt, pravidla a potřebná dokumentace.</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 2 }" v-click="2"><span class="bridge-step-number" aria-hidden="true">2</span><h2>Implement</h2><p>Změna podle zjištěných pravidel.</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 3 }" v-click="3"><span class="bridge-step-number" aria-hidden="true">3</span><h2>Verify</h2><p>Build a kontrola konfigurace.</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 4 }" v-click="4"><span class="bridge-step-number" aria-hidden="true">4</span><h2>Test</h2><p>ARsim: počet se zvýší; po resetu je nula.</p></section>
+	<section class="bridge-loop-review" :class="{ 'is-current': $clicks === 5 }" v-click="5"><mdi-account-check-outline aria-hidden="true" /><h2>Lidská revize</h2><p>Změna i důkazy.</p></section>
+</div>
+
+<div class="bridge-return" v-click="4">
+	<svg viewBox="0 0 900 64" preserveAspectRatio="none" aria-hidden="true"><path d="M888 0V40H12V2M4 10l8-8 8 8" /></svg>
+	<p><strong>Chyba nebo výsledek testu zpět do kontextu agenta</strong></p>
+</div>
+
+<!--
+Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Počáteční stav: nadpis a požadavek. Skupiny 1–3 odhalují Plan, Implement a Verify; právě vysvětlovaný krok má oranžovou linku a číslo. Skupina 4 odhalí Test i návratovou spojnici do plánování. Skupina 5 přidá lidskou revizi. Konečný stav: všech pět kroků a návrat zpětné vazby. Bez dalších interakcí.
+
+[CLICK]
+Plan: agent zjistí, co mění, jaká pravidla platí a kterou dokumentaci potřebuje.
+
+[CLICK]
+Implement: upraví projekt podle zjištěných pravidel.
+
+[CLICK]
+Verify: zkontroluje sestavení a konfiguraci. Sestavitelný projekt ještě nedokazuje správné chování.
+
+[CLICK]
+Test: v ARsim ověří očekávání, že po události se počet zvýší a po resetu bude nulový. Chyba nebo výsledek testu se vrací agentovi.
+
+[CLICK]
+Lidská revize posuzuje změnu i důkazy. Může proběhnout také dříve podle oprávnění. Přenos na fyzický stroj vyžaduje samostatné schválení a validaci; Bridge sám bezpečnost stroje nezaručuje.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-mcp-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# MCP: jak agent používá externí nástroje
+
+<p class="bridge-mcp-lead"><strong>Model Context Protocol</strong> je standard pro propojení AI aplikací s nástroji a daty.</p>
+
+<div class="bridge-mcp-architecture" aria-label="Agentní aplikace s MCP klientem komunikuje přes MCP se serverem, který zpřístupňuje nástroje a data">
+	<section class="bridge-mcp-part"><mdi-robot-outline aria-hidden="true" /><h2>Agentní aplikace</h2><p>Model a harness.<br>MCP klient zajišťuje spojení.</p><span class="bridge-mcp-link" aria-hidden="true"><span>MCP</span><mdi-arrow-left-right /></span></section>
+	<section class="bridge-mcp-part"><mdi-connection aria-hidden="true" /><h2>MCP server</h2><p>Zpřístupní nástroje<br>a zpracuje jejich volání.</p><span class="bridge-mcp-link" aria-hidden="true"><span>API</span><mdi-arrow-left-right /></span></section>
+	<section class="bridge-mcp-part"><mdi-database-outline aria-hidden="true" /><h2>Nástroje a data</h2><p>Vyhledávání, soubory,<br>databáze nebo jiné služby.</p></section>
+</div>
+
+<div class="bridge-mcp-capabilities" aria-label="Co může MCP server zpřístupnit">
+	<span><mdi-wrench-outline aria-hidden="true" /><strong>Tools</strong> akce</span>
+	<span><mdi-file-document-outline aria-hidden="true" /><strong>Resources</strong> data</span>
+	<span><mdi-message-text-outline aria-hidden="true" /><strong>Prompts</strong> šablony</span>
+</div>
+
+<div class="bridge-mcp-exchange" aria-label="Zjednodušený průběh použití MCP nástroje">
+	<div v-click="1"><span>1</span><strong>Nabídka nástrojů</strong><p>Klient získá popisy nástrojů a jejich argumentů.</p><code>tools/list</code></div>
+	<div v-click="2"><span>2</span><strong>Volání</strong><p>Agent vybere nástroj; klient odešle název a argumenty.</p><code>tools/call</code></div>
+	<div v-click="3"><span>3</span><strong>Provedení</strong><p>Server provede operaci nebo zavolá navázanou službu.</p><mdi-cog-outline aria-hidden="true" /></div>
+	<div v-click="4"><span>4</span><strong>Výsledek</strong><p>Výsledek nebo chyba se vrátí agentovi do kontextu.</p><mdi-arrow-u-left-top aria-hidden="true" /></div>
+</div>
+
+<p class="bridge-mcp-takeaway" v-click="4"><strong>MCP propojuje. RAG vyhledává.</strong> Oprávnění určuje aplikace a server.</p>
+
+<!--
+Záměr: vysvětlit MCP před konkrétní ukázkou Knowledge Hubu, přibližně 90 sekund.
+
+Počáteční stav: nadpis, definice, všechny tři role diagramu a řádek Tools / Resources / Prompts jsou viditelné. Skupina 1 odhalí nabídku nástrojů, skupina 2 volání, skupina 3 provedení a skupina 4 návrat výsledku společně se spodním shrnutím. Konečný stav: celý čtyřkrokový průběh i shrnutí. Bez dalších interakcí.
+
+MCP znamená Model Context Protocol. Je to standardizovaný způsob komunikace, nikoli model, znalostní báze nebo vyhledávací algoritmus. Agentní aplikace je host, například vývojové prostředí s asistentem. Obsahuje MCP klienta, který komunikuje se serverem. Model sám neotevírá spojení ani přímo nespouští službu.
+
+[CLICK]
+Klient zjistí, které nástroje server nabízí. Každý nástroj má název, popis a schéma argumentů. Zde ukazujeme větev tools; MCP může zpřístupňovat také resources a prompts. Detail navázání spojení a vyjednání schopností záměrně vynecháváme. Seznam nástrojů se nemusí načítat při každém dotazu.
+
+[CLICK]
+Agent podle úkolu navrhne vhodný nástroj a argumenty. Aplikace uplatní konfiguraci a případné schválení; její klient odešle tools/call na příslušný server. MCP neuděluje automaticky přístup ke všem datům ani oprávnění k libovolné akci.
+
+[CLICK]
+Server požadavek zpracuje. Operaci může implementovat sám nebo ji předat navázané službě či API. MCP server může běžet lokálně i vzdáleně; diagram nepředpokládá cloud ani konkrétní transport.
+
+[CLICK]
+Výsledek nebo chyba se přes klienta vrátí do kontextu agentní aplikace. Model může výsledek použít k odpovědi nebo k dalšímu kroku. Přenos výsledku neznamená automaticky jeho správnost. Oprávnění a přístup se řídí aplikací a serverem, nikoli pouhou přítomností MCP.
+
+Nejprve ukážeme, podle čeho agent vybere nástroj. Potom porovnáme MCP a RAG a přejdeme ke konkrétní znalostní službě přístupné přes MCP.
+
+Zdroj: https://modelcontextprotocol.io/docs/learn/architecture (role host/client/server, tools/list, tools/call a návrat výsledku).
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-mcp-selection-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Podle čeho agent vybere nástroj?
+
+<p class="bridge-mcp-selection-request">„Najdi v dokumentaci podklady k problému po přenosu projektu.“</p>
+
+<div class="bridge-mcp-tool-offer" v-click="1">
+	<p class="bridge-mcp-example-note">Ilustrační nabídka nástrojů, nikoli skutečný výpis serveru.</p>
+	<div class="bridge-mcp-tool-options">
+		<section :class="{ 'is-selected': $clicks >= 2 }"><div class="bridge-mcp-section-heading"><mdi-book-search-outline aria-hidden="true" /><h2>Dokumentace</h2><mdi-check-circle-outline v-if="$clicks >= 2" class="bridge-tool-selected" aria-label="Vybraný nástroj" /></div><dl class="bridge-mcp-tool-metadata"><div><dt>Název</dt><dd><code>search_docs</code></dd></div><div><dt>Popis</dt><dd>Vyhledá odbornou dokumentaci a vrátí pasáže se zdroji.</dd></div><div><dt>Argumenty</dt><dd><code>query: string</code><br><code>version?: string</code></dd></div></dl></section>
+		<section><div class="bridge-mcp-section-heading"><mdi-web aria-hidden="true" /><h2>Prohlížeč</h2></div><dl class="bridge-mcp-tool-metadata"><div><dt>Název</dt><dd><code>browser_snapshot</code></dd></div><div><dt>Popis</dt><dd>Vrátí strukturu aktuálně otevřené webové stránky.</dd></div><div><dt>Argumenty</dt><dd>V této ukázce bez argumentů.</dd></div></dl></section>
+	</div>
+</div>
+
+<div class="bridge-mcp-tool-choice" v-click="2"><mdi-check-circle-outline aria-hidden="true" /><div><p><strong>Hledání dokumentace odpovídá popisu <code>search_docs</code>.</strong></p><p>Agent připraví vyhledávací dotaz do argumentu <code>query</code>.</p></div></div>
+
+<div class="bridge-mcp-tool-routing" v-click="3"><p><strong>Aplikace směruje volání na server, který nástroj nabízí.</strong></p><p>Výběr ovlivňují také instrukce, kontext a povolené nástroje.</p></div>
+
+<!--
+Záměr: ukázat, z jakých informací vzniká návrh volání konkrétního nástroje, přibližně 60 sekund.
+
+Počáteční stav: nadpis a požadavek uživatele jsou viditelné. Skupina 1 odhalí oba nástroje i označení ilustrační nabídky. Skupina 2 zvýrazní Dokumentaci linkou a symbolem výběru a odhalí zdůvodnění shody a přípravu argumentu query. Skupina 3 odhalí směrování aplikací a vliv instrukcí, kontextu i povolených nástrojů. Konečný stav: celá nabídka, shoda i směrování. Bez dalších interakcí.
+
+Přesněji nejde o výběr „nějakého MCP“ podle názvu serveru. Model obvykle navrhuje volání konkrétního dostupného nástroje. Host propojí nástroj se správným klientem a serverem. Způsob pojmenování a vyhledávání nástrojů se liší podle aplikace.
+
+[CLICK]
+Server nabízí názvy nástrojů, jejich popisy a vstupní schémata. Host může nástroje modelu zpřístupnit přímo nebo přes vyhledávání na vyžádání. Na slidu je záměrně zjednodušená ilustrační nabídka: zapsané typy argumentů nejsou úplné JSON Schema a názvy nejsou tvrzením o skutečném rozhraní Knowledge Hubu. Popis vysvětluje účel, schéma říká, jaké argumenty lze předat.
+
+[CLICK]
+Požadavek mluví o vyhledání dokumentace. Tomu v této nabídce odpovídá search_docs, nikoli snímek už otevřené stránky. Agent vytvoří query; nezná-li verzi, nemá si ji vymyslet. Toto je vysvětlení vstupů a vhodnosti nástroje, nikoli záznam skrytého uvažování modelu nebo záruka deterministického výběru.
+
+[CLICK]
+Aplikace směruje navržené volání na server, kterému nástroj patří. Oprávnění a případné schválení se uplatní před provedením; dobrý popis nástroje je nenahrazuje. Výběr může ovlivnit uživatelův výslovný požadavek, projektové instrukce, předchozí výsledky a dostupná nabídka. Při podobných nástrojích více serverů je potřeba rozlišující popis a kontrola skutečného volání. Není správné tvrdit, že rozhoduje jen název nebo že každý nástroj musí být pokaždé celý vložen do kontextu.
+
+Zdroj: https://modelcontextprotocol.io/docs/learn/architecture (metadata nástrojů, vstupní schémata a směrování hostem).
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-rag-comparison-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# MCP propojuje. RAG dohledává podklady.
+
+<p class="bridge-mcp-lead">Protokol komunikace a způsob práce s podklady nejsou totéž.</p>
+
+<div class="bridge-mcp-comparison">
+	<section>
+		<div class="bridge-mcp-section-heading"><mdi-connection aria-hidden="true" /><h2>MCP</h2></div>
+		<p>Jak si aplikace a nástroj předají požadavek a výsledek.</p>
+		<div class="bridge-mcp-example" v-click="1">
+			<h3>Volání API bez RAG</h3>
+			<ol class="bridge-mcp-example-path"><li><mdi-robot-outline aria-hidden="true" /><span>Agent požádá o aktuální data.</span></li><li><mdi-api aria-hidden="true" /><span>MCP server zavolá API.</span></li><li><mdi-message-reply-text-outline aria-hidden="true" /><span>Data z API se vrátí pro odpověď.</span></li></ol>
+			<p class="bridge-mcp-example-note">Není nutné vyhledávat pasáže v dokumentech.</p>
+		</div>
+	</section>
+	<section>
+		<div class="bridge-mcp-section-heading"><mdi-book-search-outline aria-hidden="true" /><h2>RAG</h2></div>
+		<p>Retrieval-Augmented Generation: odpověď s dohledanými podklady v kontextu.</p>
+		<div class="bridge-mcp-example" v-click="2">
+			<h3>Dohledání dokumentace</h3>
+			<ol class="bridge-mcp-example-path"><li><mdi-file-search-outline aria-hidden="true" /><span>Dotaz vyhledá relevantní pasáže.</span></li><li><mdi-file-document-multiple-outline aria-hidden="true" /><span>Pasáže a zdroje vstoupí do kontextu.</span></li><li><mdi-message-text-outline aria-hidden="true" /><span>Model z podkladů sestaví odpověď.</span></li></ol>
+			<p class="bridge-mcp-example-note">Stále je nutné posoudit relevanci a správnost.</p>
+		</div>
+	</section>
+</div>
+
+<div class="bridge-mcp-comparison-takeaway" v-click="3"><p><strong>Nástroj přístupný přes MCP může používat RAG. Nemusí.</strong></p><p>RAG může fungovat i bez MCP.</p></div>
+
+<!--
+Záměr: oddělit protokol od způsobu získávání a použití podkladů, přibližně 60 sekund.
+
+Počáteční stav: nadpis, úvodní věta a definice obou sloupců jsou viditelné. Skupina 1 odhalí celý příklad API bez RAG; skupina 2 celý příklad práce s dokumentací; skupina 3 obě spodní věty. Konečný stav: oba příklady a shrnutí. Bez dalších interakcí.
+
+MCP standardizuje výměnu mezi aplikací a serverem. RAG propojuje dohledání podkladů s generováním odpovědi. Nejsou to soupeřící protokoly ani dvě povinné vrstvy každého nástroje.
+
+[CLICK]
+Příkladem je nástroj pro získání aktuálního stavu objednávky z API. Server provede běžný API dotaz a vrátí data. Nemusí přitom prohledávat dokumenty ani používat RAG. Nejde o živou ukázku ani konkrétní produktovou funkci.
+
+[CLICK]
+U dokumentace nejprve vyhledáme relevantní pasáže, vložíme je do kontextu a model je použije při sestavení odpovědi. Podklady nenahradí model a neodstraní potřebu kontroly. RAG může využívat i jiné zdroje než textové dokumenty; zde je ukazujeme kvůli návaznosti na Knowledge Hub. Nevnucujeme konkrétní vyhledávací algoritmus.
+
+[CLICK]
+MCP nástroj může zpřístupnit službu používající RAG, ale není to požadavek protokolu. Stejně tak RAG může běžet uvnitř aplikace bez MCP. Tímto rozlišením přejdeme ke konkrétní ukázce Knowledge Hubu.
+
+Zdroje: https://modelcontextprotocol.io/docs/learn/architecture a https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-knowledge-slide
+transition: fade-out
+clicks: 7
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
+</script>
+
+# MCP Knowledge Hub: znalosti se zdrojem
+
+<p class="bridge-lead">Online vyhledávací služba napříč technologickými znalostmi B&amp;R.</p>
+
+<KnowledgeFlow />
+
+<div class="bridge-knowledge-details" v-click="6">
+	<section>
+		<h2>Vyhledávané zdroje</h2>
+		<ul><li><mdi-help-circle-outline aria-hidden="true" />Automation Help</li><li><mdi-forum-outline aria-hidden="true" />B&amp;R Community: příspěvky a komentáře</li><li><mdi-tag-multiple-outline aria-hidden="true" />Informace o verzích</li><li><mdi-code-tags aria-hidden="true" />Schválený interní zdrojový kód</li></ul>
+	</section>
+	<section class="bridge-illustrative-query">
+		<mdi-chat-question-outline aria-hidden="true" />
+		<div><h3>Ilustrační dotaz</h3><p>„Po přenosu projektu startuje X20 CPU do SERVICE místo RUN. Jaké mohou být příčiny?“</p><p class="bridge-query-caveat">Příklad dotazu, nikoli živé vyhledávání ani ověřený diagnostický postup.</p></div>
+	</section>
+</div>
+
+<p class="bridge-knowledge-status" v-click="7">V produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
+<p class="bridge-knowledge-limit" v-click="7"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
+
+<!--
+B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
+
+Počáteční stav: nadpis, úvodní věta a označení směru toku. Řádek kroků i plocha detailu mají od začátku vyhrazené místo. Skupiny 1–4 odhalují Dotaz, Agenta, MCP a Knowledge Hub; pod tokem zůstává otázka ze sdílené ukázky. Skupina 5 je nahradí návratovým tokem a shrnutím role podkladů; skupina 6 odhalí zdroje s ilustračním dotazem a skupina 7 provozní údaje. Hover nebo fokus dočasně nahradí shrnutí detailem pod tokem, kliknutí jej připne, Escape nebo Zavřít jej zavře. Konečný stav: návratový tok, shrnutí, zdroje, ilustrační dotaz a provozní údaje, detail zavřený.
+
+[CLICK]
+Dotaz pochází ze sdílené ukázky. Hover nebo fokus otevře vysvětlující kartu, kliknutí ji připne; Escape nebo tlačítko Zavřít ji zavře. Nejde o živé vyhledávání.
+
+[CLICK]
+Agent otázku vyloží a rozhodne, jaké podklady si vyžádat. Jeho karta vysvětluje převod českého dotazu do anglické vyhledávací formulace a práci s výsledkem; neukazuje interní uvažování.
+
+[CLICK]
+MCP předá volání znalostní službě a vrátí její výsledek. Karta ukazuje bnr_knowledge_base_rag a skutečné argumenty z dodaného snímku: query, top_k 5, include_images false. Je to rozhraní a transport, ne vyhledávač ani znalostní báze.
+
+[CLICK]
+Zjednodušeně: RAG vyhledá pasáže v připravených zdrojích a vrátí je i s odkazy. Karta Hubu ukazuje dodané výsledky a jejich relevanci. Source 2 souvisí s transferem, Source 1 je chyba osy, Source 3 je zkrácený. Neznáme přesné interní kroky Hubu, proto netvrdíme, zda používá například embeddingy, vektorové vyhledávání nebo reranking. Vrácený výsledek ještě nemusí být relevantní.
+
+[CLICK]
+Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent z nich sestaví odpověď, kterou posoudí člověk. Karta Odpověď shrnuje sdílený výstup a upozorňuje, že předložený výřez nepodkládá celý seznam příčin.
+
+[CLICK]
+Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód.
+
+[CLICK]
+Provozní údaje: služba je v produkci od červnového vydání Automation Studio Code; čtvrtletní aktualizaci potvrdil vývojář služby. Rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté; schválený interní kód neznamená libovolný interní ani zákaznický kód.
+
+MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
+
+Používáme dodaný snímek volání a zkrácený text výsledků. Odpověď je shrnutí sdílené ukázky, nikoli ověřený diagnostický postup. Neřešit zde diagnostiku ani neimprovizovat chybějící výsledky nebo citace. Při změně klikového kroku se detail zavře, aby nezůstal otevřený nad jinou fází toku.
+
+Dohledaná odpověď se zdrojem je kontrolovatelnější, ne automaticky správná. Je nutné posoudit relevanci, verzi a soulad s projektem. Přístup se konfiguruje v klientovi; školení ukazuje Bearer JWT. Nikdy nezobrazovat reálné přihlašovací údaje a netvrdit anonymní přístup ani dostupnost bez dalších podmínek.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-mcp-connection-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# MCP server: připojit a ověřit
+
+<p class="bridge-mcp-lead">Samotný záznam v konfiguraci ještě nedokazuje funkční připojení.</p>
+
+<div class="bridge-mcp-connection-grid">
+	<section>
+		<div class="bridge-mcp-section-heading"><mdi-server-network aria-hidden="true" /><h2>Server a rozsah nastavení</h2></div>
+		<p class="bridge-mcp-command">Ve VS Code: <code>MCP: Add Server</code></p>
+		<dl class="bridge-mcp-settings">
+			<div v-click="1"><dt>Lokálně</dt><dd>Proces na počítači · stdio</dd></div>
+			<div v-click="1"><dt>Vzdáleně</dt><dd>URL služby · HTTP</dd></div>
+			<div v-click="2"><dt>Uživatel</dt><dd>Osobní nastavení pro více projektů.</dd></div>
+			<div v-click="2"><dt>Projekt</dt><dd>Sdílená konfigurace v Gitu, bez tajných údajů.</dd></div>
+		</dl>
+	</section>
+	<section>
+		<div class="bridge-mcp-section-heading"><mdi-check-network-outline aria-hidden="true" /><h2>Důkaz funkčního připojení</h2></div>
+		<ol class="bridge-mcp-verification" v-click="3"><li><mdi-check-circle-outline aria-hidden="true" /><span>Byl zavolán nástroj správného MCP serveru.</span></li><li><mdi-check-circle-outline aria-hidden="true" /><span>Vrátil očekávaná data bez chyby spojení.</span></li><li><mdi-check-circle-outline aria-hidden="true" /><span>Odpověď agenta vychází z vráceného výsledku.</span></li></ol>
+		<p class="bridge-mcp-example-note" v-click="3">Přesvědčivá odpověď sama o sobě není důkaz.</p>
+	</section>
+</div>
+
+<p class="bridge-mcp-security" v-click="4"><mdi-shield-key-outline aria-hidden="true" /><span><strong>Prověřit server a oprávnění.</strong> Přihlašovací údaje mimo Git i chat.</span></p>
+<p class="bridge-mcp-configuration-note" v-click="4">Formát konfigurace a načítání nástrojů závisí na harnessu a jeho verzi.</p>
+
+<!--
+Záměr: ukázat praktickou cestu od konfigurace k ověřenému použití, přibližně 90 sekund.
+
+Počáteční stav: nadpis, úvodní věta, nadpisy obou sloupců a příkaz MCP: Add Server jsou viditelné. Skupina 1 odhalí společně lokální a vzdálený server, skupina 2 společně uživatelský a projektový rozsah, skupina 3 celé tři důkazy vpravo i upozornění pod nimi, skupina 4 bezpečnostní řádek a poznámku o konfiguraci. Konečný stav: všechny informace. Bez interaktivních ovládacích prvků.
+
+Příkaz MCP: Add Server je konkrétní cesta pro VS Code; ostatní harnessy mají vlastní postupy. Použijeme endpoint nebo spouštěcí příkaz od důvěryhodného vydavatele. Neinstalujeme neznámý server pouze podle přesvědčivého popisu.
+
+[CLICK]
+Lokální server může komunikovat přes standardní vstup a výstup procesu, vzdálená služba přes HTTP. HTTP může používat i server na stejném počítači; jde o běžné příklady nasazení, ne zákaz jiných kombinací. Lokální proces může vykonávat kód a vzdálená služba může získávat přenesená data. Je třeba rozumět oprávněním a přihlašování.
+
+[CLICK]
+Uživatelský rozsah používáme pro osobní servery napříč projekty. Projektový rozsah sdílí konfiguraci s týmem. Neznamená to sdílení tokenů nebo osobních oprávnění. Formát i možnosti konkrétního souboru ověříme v dokumentaci používané verze; nepřenášíme slepě servers a mcpServers mezi prostředími.
+
+[CLICK]
+Zadáme jednoduchý úkol, který server skutečně podporuje a má malý dopad. V záznamu konverzace rozbalíme skutečné volání nástroje: správný server, argumenty, úspěšný návrat dat a návaznost odpovědi na výstup. Samotný běžící server ani obecná odpověď modelu nejsou důkazem integrace. Při potížích kontrolujeme výstup serveru, dostupnost nástrojů, síť a přihlášení.
+
+[CLICK]
+Konfiguraci i vydavatele před spuštěním prověříme. Přihlášení a tajné údaje řešíme mechanismem daného prostředí, nikdy reálným tokenem na slidu, v Gitu nebo v chatu. Nepředpokládáme stejné proměnné a stejnou správu tajemství ve všech formátech.
+
+Definice nástrojů mohou spotřebovávat kontext, ale způsob jejich načítání, vyhledávání a předávání modelu závisí na harnessu a verzi. Netvrdíme, že každý server posílá všechny definice při každém požadavku. Zapínáme jen potřebné nástroje. Plugin může přinést MCP konfiguraci, ale není to univerzální vlastnost všech pluginů a klientů; naváže AS Repository.
+
+Zdroj: https://code.visualstudio.com/docs/copilot/customization/mcp-servers (připojení, rozsah, důvěra a ověření prvního volání).
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-summary-slide
+transition: fade-out
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Co si odnést a co přijde dál
+
+<div class="bridge-summary" aria-label="Tři části Agentic Bridge">
+	<section><h2>Workflow</h2><p>Agent dostane postup a pravidla.</p></section>
+	<section><h2>Knowledge</h2><p>Agent dohledá odborné podklady.</p></section>
+	<section class="summary-execution"><h2>Execution</h2><p>Agent provede akci a získá zpětnou vazbu.</p></section>
+</div>
+
+<p class="bridge-review-takeaway">Člověk posuzuje <strong>změny i důkazy.</strong></p>
+<p class="bridge-next-talk">Teď <strong>AS CLI.</strong> Potom <strong>AS Repository.</strong></p>
+
+<!--
+Bridge je propojení, ne nová inteligence. Potřebujeme všechny tři části a rozumně nastavená oprávnění. Dokumentace nenahrazuje test, úspěšný build nenahrazuje test chování a odpovědnost nezmizí tím, že něco navrhl agent.
+
+Teď se podíváme na Execution: co může agent skutečně provést přes AS CLI. Potom se vrátíme k Workflow a ukážeme, jak AS Repository dodává postupy, instrukce a skills. Znalostní část přes MCP už umíme do celku zařadit.
+
+Při dotazu na produktovou dostupnost nebo cenu nespekulovat. Odkázat na aktuální potvrzené podmínky.
+-->

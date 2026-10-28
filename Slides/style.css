@@ -23,6 +23,7 @@
   --type-caption: 14px;
   --type-note: 12px;
   --type-minor: 10px;
+  --type-slide-number: 14px;
   --type-compact: 14px;
   --type-technical: 10px;
   --space-xs: 4px;
@@ -460,7 +461,8 @@
   margin-top: 30px;
 }
 
-.ot-stack-diagrams figure {
+.ot-stack-diagrams figure,
+.ot-stack-diagram {
   min-width: 0;
   margin: 0;
   padding: 14px;
@@ -471,14 +473,7 @@
 }
 
 .ot-stack-diagram {
-  min-width: 0;
   min-height: 278px;
-  margin: 0;
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-top: 4px solid var(--br-orange);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: inset 0 0 0 1px rgba(255, 122, 0, 0.06);
 }
 
 .ot-stack-diagram h2 {
@@ -1278,7 +1273,7 @@ ul {
   right: 66px;
   bottom: 25px;
   color: var(--muted);
-  font: 500 10px/1 'IBM Plex Mono', monospace;
+  font: 700 14px/1 'IBM Plex Mono', monospace;
 }
 
 .dark-slide {
@@ -2650,7 +2645,9 @@ ul {
 
 .strategy-shift-side.open-platform { border-top-color: var(--br-orange); }
 
-.strategy-shift-label {
+.strategy-shift-label,
+.why-care-label,
+.why-care-list-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2933,16 +2930,6 @@ ul {
   border-top: 4px solid var(--br-orange);
   background: var(--white);
   box-shadow: 0 10px 28px rgba(21, 23, 25, 0.07);
-}
-
-.why-care-label,
-.why-care-list-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 42px;
-  border-bottom: 1px solid var(--line);
-  font: 600 10px/1 'IBM Plex Mono', monospace;
 }
 
 .why-care-label span,
@@ -4309,7 +4296,12 @@ h1 { width: auto; max-width: 100%; font-size: 58px; }
 
 .slidev-layout.cover h1 { max-width: 1140px; }
 
-.slidev-layout .slide-id { --text-leading: 1; }
+.slidev-layout .slide-id {
+  --text-role: minor;
+  --text-size: var(--type-slide-number) !important;
+  --text-leading: 1;
+  --text-font: 'IBM Plex Mono', monospace;
+}
 
 .slidev-layout {
   container-type: inline-size;

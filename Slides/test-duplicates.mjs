@@ -10,17 +10,21 @@ for (const suffix of ['', ':css', ':javascript', ':typescript', ':html', ':scss'
   assert.equal(displayPath(`topics/fixture.vue${suffix}`), 'Slides/topics/fixture.vue')
   assert.equal(displayPath(join(root, `topics/fixture.vue${suffix}`)), 'Slides/topics/fixture.vue')
 }
-assert.equal(displayPath('fixture.css'), 'Slides/topics/fixture.css')
+assert.equal(displayPath('fixture.css'), 'Slides/fixture.css')
+assert.equal(displayPath('style.css'), 'Slides/style.css')
 
 const reportDirectory = await mkdtemp(join(tmpdir(), 'slides-jscpd-'))
 const executable = resolve(root, 'node_modules/jscpd/run-jscpd.js')
 const result = spawnSync(process.execPath, [
   executable,
-  resolve(root, 'topics'),
+  root,
+  '--ignore', '**/node_modules/**,**/dist/**,**/artifacts/**',
   '--min-tokens', '50',
   '--min-lines', '8',
   '--similarity', '0.85',
   '--format', 'javascript,typescript,vue,css',
+  '--formats-exts', 'javascript:js,mjs,cjs',
+  '--fail-on-empty',
   '--reporters', 'json',
   '--output', reportDirectory,
   '--no-colors',
@@ -40,13 +44,13 @@ try {
   }
 
   if (report.duplicates.length > 0) {
-    console.error(`Duplicate code check failed: ${report.duplicates.length} clone(s) found in topic source.`)
+    console.error(`Duplicate code check failed: ${report.duplicates.length} clone(s) found in presentation source.`)
     process.exitCode = 1
   } else if (result.status !== 0) {
     console.error(result.stderr || result.stdout || `jscpd exited with code ${result.status}`)
     process.exitCode = result.status || 1
   } else {
-    console.log('Duplicate code check passed: no substantial clones found in topic source.')
+    console.log('Duplicate code check passed: no substantial clones found in presentation source, shared CSS or tests.')
   }
 } finally {
   await rm(reportDirectory, { recursive: true, force: true })
@@ -56,12 +60,11 @@ function displayPath(file) {
   const sourcePath = file.replace(/(\.vue):[^/\\:]+$/i, '$1')
   const relativePath = isAbsolute(sourcePath) ? relative(root, sourcePath) : sourcePath
   const normalizedPath = relativePath.split(sep).join('/')
-  const topicPath = normalizedPath.startsWith('topics/') ? normalizedPath : `topics/${normalizedPath}`
-  return `Slides/${topicPath}`
+  return `Slides/${normalizedPath}`
 }
 
 function reportLocation(file, line, description, counterpart) {
-  const title = escapeProperty('Possible duplicate topic code')
+  const title = escapeProperty('Possible duplicate presentation code')
   const details = escapeData(`${description}; matching code: ${counterpart}`)
   console.log(`::error file=${escapeProperty(file)},line=${line},title=${title}::${details}`)
 }
