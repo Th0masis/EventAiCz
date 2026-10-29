@@ -163,3 +163,90 @@ Tento podklad popisuje demo, nikoli hotové zákaznické nasazení. Zamýšlený
 
 *Konečný stav: stejný jako počáteční; označení rozpracovaného dema i obrázek zůstávají viditelné.*
 -->
+
+---
+layout: default
+class: ot-slide topic-success-stories success-story-slide
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
+# AI už dnes přináší hodnotu
+
+<div class="success-overview-grid" aria-label="Čtyři příklady přínosu AI">
+	<section>
+		<h2>Quality Check</h2>
+		<div class="success-overview-block">
+			<span class="success-label">Výzva</span>
+			<p>Chyba v Teach/Compare vedla k vyřazování dobrých výrobků; celosvětově se takto zmetkovalo asi 0,2&nbsp;% produkce.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Co odhalila AI</span>
+			<p>Našla chybu v algoritmu a upozornila na zachycení hodnoty integrálu před optimalizací senzorových dat.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Výsledek</span>
+			<p>Problém, který by nejspíš zůstal skrytý, a výrazná příležitost omezit zmetkovitost ve výrobě.</p>
+		</div>
+		<p class="success-overview-proof">Vyšší produktivita, méně odpadu</p>
+	</section>
+	<section>
+		<h2>Wireshark Analysis</h2>
+		<div class="success-overview-block">
+			<span class="success-label">Výzva</span>
+			<p>Rozsáhlé Wireshark záznamy s nejasným chováním protokolu by ručně zabraly celé dny.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Co odhalila AI</span>
+			<p>Porovnala záznamy s dokumentací a našla limit 100 proměnných i chybějící požadavek continue.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Výsledek</span>
+			<p>Příčina byla určena během minut a s technicky správným vysvětlením.</p>
+		</div>
+		<p class="success-overview-proof">Dny analýzy → minuty</p>
+	</section>
+	<section>
+		<h2>AS4 → AS6 Conversion Tool</h2>
+		<div class="success-overview-block">
+			<span class="success-label">Výzva</span>
+			<p>Složitá migrace, informace roztříštěné na různých místech a rozdíly mezi jednotlivými projekty.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Co vytvořila AI</span>
+			<p>Sjednotila podklady a připravila převodní referenci pro konkrétní projekt; vznikl deterministický konverzní nástroj.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Výsledek</span>
+			<p>Opakovatelný převod AS4 → AS6 dostupný týmům po celém světě.</p>
+		</div>
+		<p class="success-overview-proof">Konverze téměř okamžitě</p>
+	</section>
+	<section>
+		<h2>Consulting</h2>
+		<div class="success-overview-block">
+			<span class="success-label">Výzva</span>
+			<p>Zákazníkům často chybí AI zkušenosti; vyčlenění vlastních lidí je nákladné. Potřebují škálovat vývoj a uvolnit R&amp;D od výroby.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Co nabízí B&amp;R</span>
+			<p>Hodinové konzultace, které zákazníky uvedou do nových AI workflow a pomohou jim je zavést.</p>
+		</div>
+		<div class="success-overview-block">
+			<span class="success-label">Výsledek</span>
+			<p>Rychlejší zákaznické workflow, bližší spolupráce a přímá zpětná vazba.</p>
+		</div>
+		<p class="success-overview-proof">Rychlejší zákaznické workflow</p>
+	</section>
+</div>
+
+<!--
+*Záměr a čas: 1:15. Shrnutí čtyř různých způsobů, jak AI pomáhá ve výrobě, analýze, migraci i zákaznickém poradenství.*
+*Počáteční stav: titulek a všechny čtyři příběhy jsou viditelné; slide nemá klikací odhalení ani interaktivní prvky.*
+
+Quality Check ukazuje odhalení chyby Teach/Compare, která vedla ke zmetkovitosti. Wireshark Analysis zkrátil hledání příčiny z dnů na minuty. AS4 → AS6 Conversion Tool převádí roztříštěné znalosti do opakovatelného nástroje. Consulting pomáhá zákazníkům začít s AI workflow bez nutnosti vyčlenit vlastní tým.
+
+*Konečný stav: stejný jako počáteční; všechny čtyři příklady zůstávají viditelné.*
+-->
