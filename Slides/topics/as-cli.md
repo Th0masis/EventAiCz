@@ -743,8 +743,6 @@ import './as-cli/styles.css'
 
 # Dostupné CLI příkazy: Kompletní přehled
 
-<div class="cli-commands-reference" aria-label="Přehled základních AS CLI nástrojů a jejich funkcí">
-
 ## 1) Základní spuštění CLI nástrojů
 
 ### `BR.AS.PrepareBuild.exe`
@@ -858,8 +856,6 @@ import './as-cli/styles.css'
 - [BR Community: Transfer to ARsim via command line Automation Studio 6](https://community.br-automation.com/t/transfer-to-arsim-via-command-line-automation-studio-6/9865)
 - [BR Community: Generate project installation package using command line](https://community.br-automation.com/t/generate-project-installation-package-using-command-line/5778)
 - [BR Community: Automation Studio API](https://community.br-automation.com/t/automation-studio-api/3777)
-
-</div>
 
 <!--
 Čas: 4:00. Referenční slide s kompletním přehledem dostupných AS CLI nástrojů.
