@@ -44,9 +44,10 @@ import './as-agentic-bridge/styles.css'
 	<div class="bridge-need-row" v-click="3"><mdi-console aria-hidden="true" /><strong>Jak ověří výsledek?</strong><span><b>Nástroje</b> pro změnu, build a test.</span></div>
 </div>
 
-<p class="bridge-takeaway" v-click="4">Nestačí navrhnout kód. <strong>Potřebujeme zpětnou vazbu.</strong></p>
-
 <!--
+Mapa odhalování: 0 = nadpis a úvod; 1 = instrukce; 2 = dokumentace;
+3 = nástroje. Finále = všechny tři potřeby. Bez dalších interakcí.
+
 Nechceme jen další chatovací okno. Potřebujeme prostředí, které zná pravidla projektu, umí dohledat potřebné informace a dokáže ověřit, co skutečně změnilo.
 
 [CLICK]
@@ -58,7 +59,6 @@ O co opře rozhodnutí? O dokumentaci a fakta konkrétního projektu, ne o domn�
 [CLICK]
 Jak ověří výsledek? Nástroji a testem očekávaného chování. Detaily syntaxe a konfigurace zde neřešit; ty rozvíjí AS Repository.
 
-[CLICK]
 Nestačí navrhnout kód. Potřebujeme zpětnou vazbu.
 
 Přechod: B&R dodává propojení těchto částí, ne náhradu vašeho modelu.
@@ -313,12 +313,10 @@ import './as-agentic-bridge/styles.css'
 	<div v-click="4"><span>4</span><strong>Vrať výsledek</strong><p>Výsledek se vrátí do AI aplikace jako kontext pro odpověď.</p><mdi-arrow-u-left-top aria-hidden="true" /></div>
 </div>
 
-<p class="bridge-mcp-takeaway" v-click="4"><strong>MCP je společný protokol, ne model ani databáze.</strong> Díky němu mohou MCP-kompatibilní AI aplikace používat stejný server bez zvláštní integrace pro každý nástroj.</p>
-
 <!--
 Záměr: odpovědět kolegovi programátorovi, který se ptá „A co je vlastně MCP?“, přibližně 60–90 sekund.
 
-Počáteční stav: nadpis, definice, všechny tři role diagramu a řádek Tools / Resources / Prompts jsou viditelné. Skupina 1 odhalí nabídku nástrojů, skupina 2 volání, skupina 3 provedení a skupina 4 návrat výsledku společně se spodním shrnutím. Konečný stav: celý čtyřkrokový průběh i shrnutí. Bez dalších interakcí.
+Počáteční stav: nadpis, definice, všechny tři role diagramu a řádek Tools / Resources / Prompts jsou viditelné. Skupina 1 odhalí nabídku nástrojů, skupina 2 volání, skupina 3 provedení a skupina 4 návrat výsledku. Konečný stav: celý čtyřkrokový průběh. Bez dalších interakcí.
 
 „MCP“ znamená Model Context Protocol. Představ si, že chceš, aby AI editor uměl vyhledat dokumentaci nebo spustit nástroj. Bez společné dohody by se integrace musela přizpůsobovat každé aplikaci zvlášť. MCP je společný protokol, kterému rozumí AI aplikace i připojené nástroje. Není to další model, databáze ani kouzelný přístup k počítači.
 
@@ -334,6 +332,8 @@ Když agent potřebuje například vyhledat dokumentaci, navrhne odpovídající
 MCP server je často adaptér: převede standardní požadavek na konkrétní práci. Může zavolat API, spustit CLI, číst soubory nebo použít vlastní kód. API je jen jedna možnost, ne povinná součást MCP serveru. Server vrátí výsledek klientovi a ten jej předá aplikaci, aby z něj agent mohl odpovědět.
 
 [CLICK]
+Výsledek se vrátí přes klienta do AI aplikace a doplní kontext pro odpověď.
+
 Představ si MCP jako společnou zásuvku pro integrace: server nemusí být přepsán pro každý MCP-kompatibilní editor. Přirovnání má hranice: MCP nezaručuje, že každá aplikace podporuje každou schopnost serveru, ani samo neřeší přihlášení či oprávnění. Proto kontrolujeme, který server spouštíme a co mu dovolíme.
 
 Nejprve ukážeme, podle čeho agent vybere nástroj. Potom odlišíme MCP od API a přejdeme ke konkrétní znalostní službě přístupné přes MCP.
@@ -569,12 +569,10 @@ import './as-agentic-bridge/styles.css'
 	<div class="bridge-need-row" v-click="3"><mdi-domain aria-hidden="true" /><strong>Knowledge Hub</strong><span>Oficiální MCP B&amp;R: znalostní služba napříč připravenými zdroji.</span></div>
 </div>
 
-<p class="bridge-takeaway" v-click="4">Oficiální obsah není totéž co <strong>oficiální integrace.</strong></p>
-
 <!--
 Záměr a čas: 60 sekund. Výslovně odlišit komunitní integrace od oficiálního MCP B&R.
 Mapa odhalování: 0 = nadpis a úvod; 1 = MCP Community; 2 = MCP Help;
-3 = Knowledge Hub; 4 = závěr. Finále = všechny tři servery a rozlišení původu. Bez dalších interakcí.
+3 = Knowledge Hub. Finále = všechny tři servery a rozlišení původu. Bez dalších interakcí.
 
 [CLICK]
 Zde označený MCP Community je neoficiální komunitní integrace. Nezaměňovat jeho vydavatele s provozovatelem B&R Community ani s oficiálním Knowledge Hubem.
@@ -585,7 +583,6 @@ Také zde označený MCP Help je neoficiální komunitní integrace. To, že ná
 [CLICK]
 Knowledge Hub je oficiální MCP B&R. Může vyhledávat mimo jiné v Helpu a Community, ale nejde jen o jiné jméno pro dva zmíněné komunitní servery. Nabídka nástrojů, provoz a přístupové podmínky se posuzují samostatně.
 
-[CLICK]
 Protokol MCP sám neříká nic o vydavateli ani garanci podpory. Prověřujeme konkrétní server, jeho původ, verzi a oprávnění. Označení oficiální není záruka správnosti každé vrácené odpovědi.
 
 Zdroj rozlišení vydavatelů: potvrzený požadavek vlastníka prezentace, 30. 10. 2026.
