@@ -51,6 +51,53 @@
   font-weight: 700;
 }
 
+.topic-as-agentic-bridge .bridge-layers-stage {
+  display: grid;
+  gap: 20px;
+}
+
+.topic-as-agentic-bridge .bridge-layers-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.topic-as-agentic-bridge .bridge-layers-table col:nth-child(1) { width: 12%; }
+.topic-as-agentic-bridge .bridge-layers-table col:nth-child(2) { width: 25%; }
+.topic-as-agentic-bridge .bridge-layers-table col:nth-child(3) { width: 30%; }
+.topic-as-agentic-bridge .bridge-layers-table col:nth-child(4) { width: 33%; }
+
+.topic-as-agentic-bridge .bridge-layers-table th,
+.topic-as-agentic-bridge .bridge-layers-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.topic-as-agentic-bridge .bridge-layers-table thead th {
+  border-bottom: 2px solid var(--br-orange);
+  background: color-mix(in srgb, var(--br-orange) 9%, var(--paper));
+}
+
+.topic-as-agentic-bridge .bridge-knowledge-tools-table col:nth-child(1) { width: 42%; }
+.topic-as-agentic-bridge .bridge-knowledge-tools-table col:nth-child(2) { width: 58%; }
+
+.topic-as-agentic-bridge .bridge-knowledge-tools-table tbody tr {
+  height: 72px;
+}
+
+.topic-as-agentic-bridge .bridge-layers-promise {
+  padding: 16px 20px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--br-orange) 11%, var(--paper));
+}
+
+.topic-as-agentic-bridge .bridge-layers-promise p {
+  margin: 4px 0 0;
+}
+
 .topic-as-agentic-bridge .bridge-agent {
   display: flex;
   align-items: center;
