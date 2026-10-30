@@ -671,3 +671,205 @@ template/AGENTS.md, Global Invariants a Completion Gate;
 UserMeetingSK_AI/Slides/slides.md, rozlišení vrstev Bridge.
 Délka je plán řeči, ne naměřený čas zkoušky před publikem.
 -->
+
+---
+layout: default
+class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
+# AS CLI: Oficiální nástroj B&R pro AS 6.9+
+
+<div class="cli-official-intro">
+  <div class="cli-official-badge">
+    <mdi-check-decagram /><strong>Oficiální B&R nástroj</strong>
+  </div>
+  <p class="cli-official-statement">
+    <strong>as-cli</strong> je podporovaný nástroj automatizace od B&R Industrial Automation a bude součástí <strong>Automation Studio 6.9</strong>.
+  </p>
+</div>
+
+<div class="cli-context-evolution" aria-label="Vývoj přístupu k AS API">
+  <div class="cli-evolution-stage">
+    <h3>Dříve</h3>
+    <p>Přístup k AS funkcím byl omezený:</p>
+    <ul>
+      <li>Pouze některé možnosti v GUI</li>
+      <li>Ostatní přes zpětné inženýrství</li>
+      <li>Bez formálního rozhraní</li>
+    </ul>
+  </div>
+  <mdi-arrow-right class="cli-evolution-arrow" />
+  <div class="cli-evolution-stage is-current">
+    <h3>Nyní: as-cli</h3>
+    <p>Strukturovaný přístup přes API:</p>
+    <ul>
+      <li>Oficiální příkazová řádka</li>
+      <li>Konsistentní rozhraní</li>
+      <li>Srozumitelné příkazy</li>
+    </ul>
+  </div>
+</div>
+
+<p class="cli-official-note">
+  Příkazy se balí do srozumitelných operací namísto ručních kliků v GUI.
+</p>
+
+<!--
+Čas: 1:30. Nový slide představující AS CLI jako oficiální nástroj.
+Mapa odhalování: 0 = nadpis, odznak, úvod a evoluční diagram.
+Finále = všechny tři části: odznak, úvod a srovnání dřívějšího vs. aktuálního stavu.
+
+Zdůrazňujeme:
+- AS CLI je oficiální produkt B&R
+- Bude součástí AS 6.9
+- Znamená to formální rozhraní místo zpětného inženýrství
+- Srozumitelnější API než náhodné klikání v GUI
+-->
+
+---
+layout: default
+class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
+# Dostupné CLI příkazy: Kompletní přehled
+
+<div class="cli-commands-reference" aria-label="Přehled základních AS CLI nástrojů a jejich funkcí">
+
+## 1) Základní spuštění CLI nástrojů
+
+### `BR.AS.PrepareBuild.exe`
+
+- Slouží k přípravě prostředí pro další AS CLI nástroje (CMD i PowerShell)
+- Umístění: `C:\BrAutomation\ASxxx\Bin-en` (nebo `Bin-de`)
+- Umí:
+  - Otevřít připravený prompt
+  - Spustit další AS nástroj nebo skript v připraveném kontextu
+- **Help:** [Starting command line tools](https://help.br-automation.com/#/en/6/programming/build%5Fcommandlinetools%2Ehtml)
+
+---
+
+## 2) Build projektu z CLI
+
+### `BR.AS.Build.exe`
+
+- Build projektu bez spuštění GUI Automation Studio
+- **Základní syntaxe:**
+  ```
+  BR.AS.Build.exe "<ProjectPath.apj>" -c <Configuration>
+  ```
+
+- **Důležité parametry:**
+  - `-all` — full rebuild
+  - `-o <BinariesDirectory>` — výstupní binárky
+  - `-t <TemporaryDirectory>` — temporary directory
+  - `-X` — bez generování B&R modulů (jen reference list)
+  - `-buildMode "<Mode>"`:
+    - `"Build"` — standardní build
+    - `"Rebuild"` — úplný rebuild
+    - `"BuildAndTransfer"` — build + transfer (viz omezení níže)
+    - `"BuildAndCreateCompactFlash"` — build + CompactFlash
+  - `-simulation` — build jako simulace
+  - `-buildRUCPackage` — během buildu vytvoří RUC package
+
+- **Návratové kódy:**
+  - `0` — bez chyb/varování
+  - `1` — pouze varování
+  - `3` — build error
+
+- **Omezení:** Podle dokumentace samotný `BuildAndTransfer` reálný transfer neprovede
+
+- **Help:** [Compiling a project via the command line](https://help.br-automation.com/#/en/6/programming/build%5Fcommandline%2Ehtml)
+
+---
+
+## 3) Vytvoření RUC balíčku z CLI
+
+### Varianta A (doporučená): přes `BR.AS.Build.exe`
+
+- Přidat `-buildRUCPackage` (RUC balíček se vytvoří v `Binaries`)
+
+### Varianta B: `BR.AS.RUCPackageCreator.exe`
+
+- Vyžaduje kompletně zbuilděný projekt + plné instalace AS a AR
+- Typicky po `BR.AS.PrepareBuild`
+- **Základní syntaxe:**
+  ```
+  BR.AS.RUCPackageCreator.exe "<project.apj>" -c <config> -o <RUCPackage.zip>
+  ```
+
+- **Help:** [Creating an RUC package from the command line](https://help.br-automation.com/#/en/6/automationruntime/enhancedtransfer/handling/export%5Fruc/export%5Fruc%5Fcommandline%2Ehtml)
+
+---
+
+## 4) Generování transfer listu (PIL) pro Runtime Utility Center
+
+### `BR.AS.FinalizeBuild.exe` + `-pil`
+
+- Umí vygenerovat transfer list pro RUC mimo GUI
+- **Předpoklad:** Projekt musí být bez chyb, dokončený a zbuilděný
+- **Základní syntaxe:**
+  ```
+  BR.AS.FinalizeBuild.exe "<Project.apj>" -c <Config> -S <PLC> -A <CPU> -T SG4 -M <IA32|ARM> -pil ...
+  ```
+
+- **Důležité vlastnosti:**
+  - **Neprovádí** online spojení
+  - Generuje **pouze kompletní** transfer list (ne update list)
+
+- **Help:** [Generating the transfer list for Runtime Utility Center using the command line tool](https://help.br-automation.com/#/en/6/programming/externalconfiguration/toolssteps/build%5Fexternalconfiguration%5Ftoolssteps%5Ffinalizebuild%2Ehtml)
+
+---
+
+## 5) Praktické scénáře: Co je a není možné přes CLI
+
+### Co je možné:
+
+- Příprava artefaktů (build, RUC zip, PIL)
+- Následné zpracování přes PVITransfer/RUC workflow (typicky přes `.pil` soubory + `-silent`)
+
+### Robustní cesta pro automatizaci:
+
+1. `BR.AS.PrepareBuild.exe` — Příprava prostředí
+2. `BR.AS.Build.exe "<apj>" -c <cfg> ...` — Build projektu
+3. `-buildRUCPackage` **nebo** `BR.AS.RUCPackageCreator.exe` — Vytvoření balíčku
+4. `BR.AS.FinalizeBuild.exe ... -pil` — Generování transfer listu
+5. `PviTransfer.exe -silent -<pil>` — Transfer bez GUI interakce
+
+### Důležitá upozornění:
+
+- Přímé „všechno jedním parametrem" přes PVITransfer bývá nespolehlivé/omezené
+- Komunita často doporučuje rozdělit proces na jednotlivé kroky
+- Projekt a prostředí musí být kompatibilní
+
+---
+
+## 6) Komunita a reference
+
+- [BR Community: Transfer to ARsim via command line Automation Studio 6](https://community.br-automation.com/t/transfer-to-arsim-via-command-line-automation-studio-6/9865)
+- [BR Community: Generate project installation package using command line](https://community.br-automation.com/t/generate-project-installation-package-using-command-line/5778)
+- [BR Community: Automation Studio API](https://community.br-automation.com/t/automation-studio-api/3777)
+
+</div>
+
+<!--
+Čas: 4:00. Referenční slide s kompletním přehledem dostupných AS CLI nástrojů.
+Mapa odhalování: 0 = nadpis a celý obsah; bez jednotlivých kliků.
+Finále = kompletní přehled se všemi příkazy a parametry.
+
+Tento slide slouží jako reference pro agenty, scripty a inženýry.
+Všechny příkazy a parametry jsou ověřené podle B&R dokumentace.
+Komunita aktivně sdílí zkušenosti a best practices v uvedených vlákech.
+
+Zdroje: B&R Help, komunita, školící materiály a best practices.
+-->
+
