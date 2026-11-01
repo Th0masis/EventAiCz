@@ -492,7 +492,7 @@ Zdroj: agentic-bridge-training/docs/agentic-bridge/slides/s3/02-mcp/lang.cs.js a
 layout: default
 class: ot-slide topic-as-agentic-bridge bridge-knowledge-slide
 transition: fade-out
-clicks: 7
+clicks: 6
 ---
 
 <script setup>
@@ -517,13 +517,13 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 	</section>
 </div>
 
-<p class="bridge-knowledge-status" v-click="7">V produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
-<p class="bridge-knowledge-limit" v-click="7"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
+<p class="bridge-knowledge-status" v-click="6">V produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
+<p class="bridge-knowledge-limit" v-click="6"><strong>Zatím nezahrnuto:</strong> SAP support tickety</p>
 
 <!--
 B&R MCP Knowledge Hub je online vyhledávací služba pro technologické znalosti B&R. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
-Počáteční stav: nadpis, úvodní věta a označení směru toku. Řádek kroků i plocha detailu mají od začátku vyhrazené místo. Skupiny 1–4 odhalují Dotaz, Agenta, MCP a Knowledge Hub; pod tokem zůstává otázka ze sdílené ukázky. Skupina 5 je nahradí návratovým tokem a shrnutím role podkladů; skupina 6 odhalí zdroje s ilustračním dotazem a skupina 7 provozní údaje. Hover nebo fokus dočasně nahradí shrnutí detailem pod tokem, kliknutí jej připne, Escape nebo Zavřít jej zavře. Konečný stav: návratový tok, shrnutí, zdroje, ilustrační dotaz a provozní údaje, detail zavřený.
+Počáteční stav: nadpis, úvodní věta a označení směru toku. Řádek kroků i plocha detailu mají od začátku vyhrazené místo. Skupiny 1–4 odhalují Dotaz, Agenta, MCP a Knowledge Hub; pod tokem zůstává otázka ze sdílené ukázky. Skupina 5 je nahradí návratovým tokem a shrnutím role podkladů; skupina 6 současně odhalí zdroje, ilustrační dotaz i provozní údaje. Hover nebo fokus dočasně nahradí shrnutí detailem pod tokem, kliknutí jej připne, Escape nebo Zavřít jej zavře. Konečný stav: návratový tok, shrnutí, zdroje, ilustrační dotaz a provozní údaje, detail zavřený.
 
 [CLICK]
 Dotaz pochází ze sdílené ukázky. Hover nebo fokus otevře vysvětlující kartu, kliknutí ji připne; Escape nebo tlačítko Zavřít ji zavře. Nejde o živé vyhledávání.
@@ -541,10 +541,7 @@ Zjednodušeně: RAG vyhledá pasáže v připravených zdrojích a vrátí je i 
 Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí agentovi do kontextu. Agent z nich sestaví odpověď, kterou posoudí člověk. Karta Odpověď shrnuje sdílený výstup a upozorňuje, že předložený výřez nepodkládá celý seznam příčin.
 
 [CLICK]
-Zdroje uvedené na slidu jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód.
-
-[CLICK]
-Provozní údaje: služba je v produkci od červnového vydání Automation Studio Code; čtvrtletní aktualizaci potvrdil vývojář služby. Rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté; schválený interní kód neznamená libovolný interní ani zákaznický kód.
+Zdroje jsou Automation Help, Community, informace o verzích a schválený interní zdrojový kód. Služba je v produkci od červnového vydání Automation Studio Code a aktualizuje se čtvrtletně; rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté a schválený interní kód neznamená libovolný interní ani zákaznický kód.
 
 MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
