@@ -18,16 +18,12 @@ const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
-const asCliRevealSequence = [
-  'BROWSE',
-  'PROJECT STATUS',
-  'SIM ENABLE',
-  'BUILD SIM',
-  'PLC CONNECT',
-  'VAR READ',
-  'VAR WRITE',
-  'LOGBOOK READ',
-  'BUILD PIP',
+const asCliRevealGroups = [
+  ['BROWSE', 'PROJECT STATUS'],
+  ['SIM ENABLE', 'BUILD SIM'],
+  ['PLC CONNECT', 'VAR READ'],
+  ['VAR WRITE', 'LOGBOOK READ'],
+  ['BUILD PIP'],
 ]
 let activePage
 let activeViewport
@@ -290,7 +286,7 @@ async function checkRevealSequence(layout, slide, click) {
   }
   if (classes.includes('as-cli-slide')) {
     const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+    assert.deepEqual(visible, asCliRevealGroups.slice(0, click).flat(),
       `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
   }
   if (classes.includes('bridge-loop-slide')) {
