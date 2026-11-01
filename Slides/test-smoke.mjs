@@ -289,6 +289,33 @@ async function checkRevealSequence(layout, slide, click) {
     assert.deepEqual(visible, asCliRevealGroups.slice(0, click).flat(),
       `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
   }
+  if (await layout.locator('.cli-command-shift').count()) {
+    const oldState = layout.locator('.cli-command-shift-old')
+    const newState = layout.locator('.cli-command-shift-new')
+    assert.equal(await oldState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click === 0,
+      'Original CLI limitations and commands must show before the reveal only')
+    assert.equal(await newState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click >= 1,
+      'Official AS CLI summary and examples must show after the reveal')
+    if (click === 0) {
+      assert.ok((await oldState.first().innerText()).includes('Chybělo formální, jednotné rozhraní'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-old .cli-command-shift-list code').allTextContents(), [
+        'BR.AS.PrepareBuild.exe',
+        'BR.AS.Build.exe <projekt> -c <konfigurace>',
+        'BR.AS.RUCPackageCreator.exe',
+        'BR.AS.FinalizeBuild.exe ... -pil',
+        'PviTransfer.exe -silent <soubor.pil>',
+      ])
+    }
+    if (click === 1) {
+      assert.ok((await newState.first().innerText()).includes('Konzistentní syntaxe'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-new .cli-command-shift-list code').allTextContents(), [
+        'as --help',
+        'as build sim',
+        'as build pip',
+        'as config schema read .axis',
+      ])
+    }
+  }
   if (classes.includes('bridge-loop-slide')) {
     const visible = await layout.locator('.bridge-loop > section:not(.slidev-vclick-hidden) h2').allTextContents()
     assert.deepEqual(visible, ['Plan', 'Implement', 'Verify', 'Test', 'Lidská revize'].slice(0, click),
