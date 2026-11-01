@@ -298,7 +298,24 @@ async function checkRevealSequence(layout, slide, click) {
     assert.deepEqual(visible, ['Plan', 'Implement', 'Verify', 'Test', 'Lidská revize'].slice(0, click),
       `Wrong engineering loop sequence after click ${click}`)
     assert.deepEqual(await layout.locator('.bridge-loop .is-current h2').allTextContents(),
-      click ? [visible.at(-1)] : [], `Wrong active engineering step after click ${click}`)
+      click >= 1 && click <= 5 ? [visible[click - 1]] : [],
+      `Wrong active engineering step after click ${click}`)
+    if (click === 6) {
+      const neutralStyles = await layout.evaluate(element => {
+        const review = element.querySelector('.bridge-loop-review')
+        const plan = element.querySelector('.bridge-loop-step')
+        return {
+          reviewBorder: getComputedStyle(review).borderTopColor,
+          planBorder: getComputedStyle(plan).borderTopColor,
+          reviewIcon: getComputedStyle(review.querySelector('svg')).color,
+          reviewDescription: getComputedStyle(review.querySelector('p')).color,
+        }
+      })
+      assert.equal(neutralStyles.reviewBorder, neutralStyles.planBorder,
+        'The final engineering loop state must return the review card border to neutral')
+      assert.equal(neutralStyles.reviewIcon, neutralStyles.reviewDescription,
+        'The final engineering loop state must return the review icon to neutral')
+    }
     assert.equal(await layout.locator('.bridge-return:not(.slidev-vclick-hidden)').count(), click >= 4 ? 1 : 0,
       'Feedback must appear together with the test step')
   }

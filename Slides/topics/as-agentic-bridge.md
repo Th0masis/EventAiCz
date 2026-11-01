@@ -234,6 +234,7 @@ Agent využívá části podle úkolu. Znalostní služba projekt nesestavuje a 
 ---
 layout: default
 class: ot-slide topic-as-agentic-bridge bridge-loop-slide
+clicks: 6
 transition: fade-out
 ---
 
@@ -259,7 +260,7 @@ import './as-agentic-bridge/styles.css'
 </div>
 
 <!--
-Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Počáteční stav: nadpis a požadavek. Skupiny 1–3 odhalují Plan, Implement a Verify; právě vysvětlovaný krok má oranžovou linku a číslo. Skupina 4 odhalí Test i návratovou spojnici do plánování. Skupina 5 přidá lidskou revizi. Konečný stav: všech pět kroků a návrat zpětné vazby. Bez dalších interakcí.
+Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Počáteční stav: nadpis a požadavek. Skupiny 1–3 odhalují Plan, Implement a Verify; právě vysvětlovaný krok má oranžovou linku a číslo. Skupina 4 odhalí Test i návratovou spojnici do plánování. Skupina 5 přidá lidskou revizi. Skupina 6 stáhne zvýraznění a vrátí všech pět viditelných kroků do neutrálního celku.
 
 [CLICK]
 Plan: agent zjistí, co mění, jaká pravidla platí a kterou dokumentaci potřebuje.
@@ -275,6 +276,9 @@ Test: v ARsim ověří očekávání, že po události se počet zvýší a po r
 
 [CLICK]
 Lidská revize posuzuje změnu i důkazy. Může proběhnout také dříve podle oprávnění. Přenos na fyzický stroj vyžaduje samostatné schválení a validaci; Bridge sám bezpečnost stroje nezaručuje.
+
+[CLICK]
+Po revizi se zvýraznění stáhne: všech pět kroků zůstává viditelných jako neutrální celek.
 -->
 
 ---

@@ -295,8 +295,13 @@
 
 .topic-as-agentic-bridge .bridge-loop-review > svg {
   padding: 8px;
-  color: var(--br-orange);
+  color: var(--steel);
   background: transparent;
+  transition: color 240ms ease;
+}
+
+.topic-as-agentic-bridge .bridge-loop-review.is-current > svg {
+  color: var(--br-orange);
 }
 
 .topic-as-agentic-bridge .bridge-loop-step h2,
@@ -314,7 +319,7 @@
 }
 
 .topic-as-agentic-bridge .bridge-loop-review {
-  border-color: var(--ink);
+  border-color: var(--line);
 }
 
 .topic-as-agentic-bridge .bridge-loop-review h2 {
