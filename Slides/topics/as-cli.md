@@ -430,6 +430,7 @@ Zdroje: vlastní TerminalCli.vue, commands; training s5/15-loop-test
 layout: default
 class: demo-slide dark-slide as-cli-slide topic-as-cli
 transition: fade
+clicks: 5
 ---
 
 <script setup>
@@ -442,29 +443,29 @@ import TerminalCli from './as-cli/components/TerminalCli.vue'
 <p class="cli-demo-label">Ilustrační přepis, nikoli živé připojení k Automation Studiu.</p>
 
 <div class="demo-steps">
-  <div v-click><span>01</span><b>BROWSE</b><small>Dostupné příkazy a parametry</small></div>
-  <div v-click><span>02</span><b>PROJECT STATUS</b><small>Projekt, konfigurace a CPU</small></div>
-  <div v-click><span>03</span><b>SIM ENABLE</b><small>Simulace místo fyzického cíle</small></div>
-  <div v-click><span>04</span><b>BUILD SIM</b><small>Sestavení a instalace do ARsim</small></div>
-  <div v-click><span>05</span><b>PLC CONNECT</b><small>Připojení na 127.0.0.1</small></div>
-  <div v-click><span>06</span><b>VAR READ</b><small>Hodnota počítadla před resetem</small></div>
-  <div v-click><span>07</span><b>VAR WRITE</b><small>Zápis resetovacího příkazu</small></div>
-  <div v-click><span>08</span><b>LOGBOOK READ</b><small>Diagnostika, ne automatický verdikt</small></div>
-  <div v-click><span>09</span><b>BUILD PIP</b><small>Balíček není schválené nasazení</small></div>
+  <div v-click="1"><span>01</span><b>BROWSE</b><small>Dostupné příkazy a parametry</small></div>
+  <div v-click="1"><span>02</span><b>PROJECT STATUS</b><small>Projekt, konfigurace a CPU</small></div>
+  <div v-click="2"><span>03</span><b>SIM ENABLE</b><small>Simulace místo fyzického cíle</small></div>
+  <div v-click="2"><span>04</span><b>BUILD SIM</b><small>Sestavení a instalace do ARsim</small></div>
+  <div v-click="3"><span>05</span><b>PLC CONNECT</b><small>Připojení na 127.0.0.1</small></div>
+  <div v-click="3"><span>06</span><b>VAR READ</b><small>Hodnota počítadla před resetem</small></div>
+  <div v-click="4"><span>07</span><b>VAR WRITE</b><small>Zápis resetovacího příkazu</small></div>
+  <div v-click="4"><span>08</span><b>LOGBOOK READ</b><small>Diagnostika, ne automatický verdikt</small></div>
+  <div v-click="5"><span>09</span><b>BUILD PIP</b><small>Balíček není schválené nasazení</small></div>
 </div>
 
 <TerminalCli />
 
 <!--
 Čas: 3:00. Nepřepisovat příkazy ručně během přednášky; klikací přepis je záloha.
-Mapa odhalování: 0 = nadpis, upozornění a terminál ve stavu čekání;
-1 = BROWSE/as --help; 2 = PROJECT STATUS; 3 = SIM ENABLE; 4 = BUILD SIM;
-5 = PLC CONNECT; 6 = VAR READ; 7 = VAR WRITE; 8 = LOGBOOK READ;
-9 = BUILD PIP. Každá z devíti nečíslovaných direktiv je samostatná skupina.
-TerminalCli sleduje počet kliků: po 900 ms ukáže výsledek aktuálního příkazu,
-předchozí výsledek sbalí, všechny odhalené příkazy ponechá. Návrat zpět
-obnoví příslušný stav; komponenta nespouští žádné externí příkazy.
-Finále = všech devět příkazů a pouze výsledek PIP. Bez dalších interakcí.
+Mapa odhalování: 0 = nadpis, upozornění a čekající terminál;
+1 = BROWSE/as --help + PROJECT STATUS; 2 = SIM ENABLE + BUILD SIM;
+3 = PLC CONNECT + VAR READ; 4 = VAR WRITE + LOGBOOK READ; 5 = BUILD PIP.
+Klik odhalí celou skupinu v levém seznamu. Terminál postupně přehraje
+její příkazy: po 900 ms ukáže výsledek a přejde k dalšímu.
+Historie příkazů zůstává, starší výsledky se sbalí a návrat klikem
+obnoví předchozí stav; terminál nespouští externí příkazy.
+DONE značí konec animace, ne prokázaný engineeringový výsledek.
 
 Od začátku řekněte, že jde o ilustraci z předchozí prezentace, ne záznam
 nově provedeného testu. Výstupy jsou zjednodušené. DONE označuje dokončení
@@ -473,20 +474,14 @@ animace, nikoli prokázaný úspěch engineeringové operace.
 [CLICK]
 Agent si nejprve zjistí příkazy. Zobrazujeme označený výřez help pro project,
 ne celý výpis. Výsledky i nápověda mají stejnou 14px velikost jako příkazy.
-
-[CLICK]
 Status ukazuje modelový DevOpsDemo, Config1, X20CP1686X.
 
 [CLICK]
 Zapneme simulaci CPU. Žádné tvrzení o připojení k fyzickému stroji.
-
-[CLICK]
 Build sim: sestavení a instalace do ARsim. Úspěch tohoto kroku není runtime test.
 
 [CLICK]
 Připojení k lokálnímu cíli. Před živou ukázkou ověřit správný proces a projekt.
-
-[CLICK]
 Přepis vrací gProductionCount = 17 a datový typ UDINT. To je výchozí pozorování.
 
 [CLICK]
@@ -495,8 +490,6 @@ Pro slíbený test je nutné další čtení:
 as var read gProductionCount --task Cyclic
 Očekávaný výsledek za podmínek předchozího slidu je 0, ale přepis ho neobsahuje.
 Pokud jej neprovedeme živě, výsledek resetu zůstává NEOVĚŘENÝ.
-
-[CLICK]
 Logbook má i chybu pohonu. Nezametat ji pod koberec: zjistit čas a souvislost.
 Přepis obsahuje INFO i při filtru error; není důkazem chování filtru.
 Při skutečném testu vycházet z aktuálních dat a vyhodnotit relevantní chyby.
