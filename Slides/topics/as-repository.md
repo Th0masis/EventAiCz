@@ -12,19 +12,7 @@ import './as-repository/styles.css'
 # AS repository: dejte AI<br>kontext automation experta
 
 <!--
-*Záměr a čas: 0:30. Navázat na Agentic Bridge a AS CLI; teď se zaměříme na to, co agentovi říká, jak postupovat.*
-*Počáteční stav: celý titulek a obraz jsou viditelné; slide nemá klikací odhalení.*
-
 AS Repository není nový model. Jde o sdílené postupy, pravidla a nástroje pro práci s konkrétním Automation Studio projektem. Nejdřív si ujasníme tři základní typy přizpůsobení: instrukce, skills a agenty.
-
-Rozšíření podle Webinar Agentic Engineering with B&R, zejména 10:56–11:44
-a 19:45–23:34. Nový příklad ověření instalace přidává přibližně dvě minuty;
-pro zachování původního slotu jej lze vynechat. Zdroje ověřeny v lokálním
-agentic-engineering-in-automation-studio, plugins/as-skills/README.md
-a skills/mappview/SKILL.md. Přepis popisuje tehdejší demo; nejde o
-potvrzení aktuální dostupnosti všech nástrojů či kompatibility všech klientů.
-
-*Konečný stav: stejný jako počáteční; přechod k rozdílům mezi instrukcemi, skills a agenty.*
 -->
 
 ---

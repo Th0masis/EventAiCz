@@ -13,32 +13,11 @@ import './as-cli/styles.css'
 # AS CLI: od zadání k ověřenému výsledku
 
 <!--
-Čas: 0:30. Celý blok: 17:00, sedm obsahových slidů a tento úvod.
-Pro původní 15min slot vynechat dvouminutové rozšíření HMI → PLC → HMI.
-Mapa odhalování: název a obraz viditelné od začátku; bez kliků a interakcí.
-
 Agent může napsat správně vypadající kód. Jak ale pozná, že je změna správně
 zapojená do projektu, sestavitelná a že se chová podle zadání?
 AS CLI je programovatelné rozhraní k Automation Studiu, ne další AI model.
 Ukážeme proč ho potřebujeme, rozsah funkcí a krátký průchod simulací.
-
-Zdroje celého bloku, studováno 28. 10. 2026:
-- agentic-bridge-training/docs/agentic-bridge/slides/s5/07-what-is-as-cli/{page,lang.en}.js
-- s5/08-cli-primer, 09-capabilities, 10-how-agent-learns-as, 14-loop-verify, 15-loop-test.
-- agentic-engineering-in-automation-studio/plugins/as-skills/README.md a template/AGENTS.md.
-- UserMeetingSK_AI/Slides/slides.md, kapitola Agentic Bridge.
-- Webinar Agentic Engineering with B&R, přepis a dodaný screenshot:
-  7:34–9:38 (textové podklady a PVI), 16:33–18:55 (runtime test),
-  26:19–29:26 (HMI a oprávnění), 32:31–33:51 (diagnostika Motion).
-  Původní DOCX zůstává mimo repozitář. Přepis obsahuje chyby rozpoznávání;
-  příkazy a názvy technologií ověřujeme ve školicích a pluginových zdrojích.
-Rozsah je podle lokálních podkladů; přesnou verzi instalovaného CLI nelze
-uvést, protože zde není na PATH. Nejde o potvrzení všeobecné dostupnosti.
-Regrese grafických diagramů a čitelnosti tohoto tématu se ověřuje ze Slides příkazem
-`node topics\as-cli\tests\contrast.test.mjs` proti běžícímu serveru;
-SLIDES_URL mění jeho adresu. Ostatní kontroly a smoke test viz Slides/TESTING.md.
-Test zahrnuje kontrast a minimálně 14px výstupy terminálu ve všech deseti stavech,
-návrat mezi kroky a omezený pohyb. Přechody tématu používají prolínání bez posunu.
+Přesná dostupnost a kompatibilita závisí na instalaci Automation Studia.
 -->
 
 ---
@@ -318,7 +297,7 @@ import './as-cli/styles.css'
 Čas: 2:00.
 Mapa odhalování: 0 = nadpis, lead, uzel Cíl a spodní pravidlo oprávnění;
 1 = uzly Postup a Příkaz s jejich šipkami; 2 = uzel Důkaz, poslední šipka
-a návratová vazba k opravě. Finále = celý čtyřuzlový diagram. Bez dalších interakcí.
+a návratová vazba k opravě. Finále = celý čtyřuzlový diagram.
 
 AS CLI nevybírá cíl za uživatele. Uživatel specifikuje projekt, konfiguraci
 a hranice, agent dodá plán a důkazy. Skill je návod, ne oprávnění.
@@ -393,43 +372,30 @@ import './as-cli/styles.css'
 
 <!--
 Čas: 2:00.
-Mapa odhalování: 0 = zadání a cíl ARsim; 1 = celá trojice Přečíst před →
-Zapsat reset → Přečíst po s hodnotami 17, 1, ? a konkrétními příkazy;
-2 = podmínka očekávané nuly
-a kontrola logbooku. Finále = celý kontrakt testu, ? se nemění na naměřenou 0.
+Mapa odhalování: 0 = zadání a cíl ARsim; 1 = trojice Přečíst před → Zapsat reset → Přečíst po;
+2 = podmínka očekávané nuly a kontrola logbooku. Otazník se nemění na naměřenou 0.
 
-Příklad je záměrně malý. Neřešíme nový pohon ani HMI; ukazujeme vazbu
-akce a pozorování. Projekt a názvy proměnných pocházejí z existujícího
-ilustračního TerminalCli.vue; nejsou zde ověřeny v dostupném AS projektu.
-Požadavek testu a očekávaná nula jsou modelové, ne naměřený výsledek.
+Příklad je modelový, nikoli výsledek skutečného AS projektu. Před spuštěním
+ověřit syntaxi instalované verze a chování resetovací proměnné. Jeden zápis
+nemusí vytvořit resetovací impuls. Uživatel určil simulaci a zakázal fyzický
+transfer; 127.0.0.1 samo o sobě není bezpečnostní izolace.
 
 [CLICK]
-Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako
-jeden řádek. Používají syntaxi stejného ilustračního přepisu jako následující
-terminál. Před skutečným spuštěním ověřit nápovědu instalované verze:
-školení používá také seskupení as plc var. Třetí příkaz je požadované
-doplňující čtení, nikoli výsledek obsažený v původním přepisu.
-Nejdřív si potvrdit, že reset opravdu takto funguje: datový typ, zda je
-gCmdClear jednorázový příkaz či vyžaduje návrat na 0 a zda počítadlo mezitím
-neběží. Agent to musí zjistit z kódu/projektu nebo si vyžádat rozhodnutí.
-Neslibovat, že jediný write vždy vytváří resetovací impuls.
-Uživatel určil simulaci a zákaz fyzického transferu; klient může vyžadovat
-schválení příkazů, zejména zápisu. 127.0.0.1 je zamýšlený cíl ukázky,
-není to samo o sobě bezpečnostní izolace.
+Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako jeden
+řádek. Třetí příkaz je požadované doplňující čtení, nikoli výsledek přepisu.
 
 [CLICK]
 Počítání je v podmínce testu zastavené, jinak by očekávání nuly bylo křehké.
-Na dalším slidu rozlišit, co přepis skutečně ukazuje a co mu k testu chybí.
-Nevymýšlíme úspěšný test: druhé čtení v původním přepisu není.
+Výsledek resetu zůstává neověřený, dokud neproběhne druhé čtení.
 
-Zdroje: vlastní TerminalCli.vue, commands; training s5/15-loop-test
-(princip akce → čtení → porovnání, nikoli syntaxe staršího přepisu).
+Zdroje: TerminalCli.vue a training s5/15-loop-test.
 -->
 
 ---
 layout: default
 class: demo-slide dark-slide as-cli-slide topic-as-cli
 transition: fade
+clicks: 5
 ---
 
 <script setup>
@@ -442,72 +408,53 @@ import TerminalCli from './as-cli/components/TerminalCli.vue'
 <p class="cli-demo-label">Ilustrační přepis, nikoli živé připojení k Automation Studiu.</p>
 
 <div class="demo-steps">
-  <div v-click><span>01</span><b>BROWSE</b><small>Dostupné příkazy a parametry</small></div>
-  <div v-click><span>02</span><b>PROJECT STATUS</b><small>Projekt, konfigurace a CPU</small></div>
-  <div v-click><span>03</span><b>SIM ENABLE</b><small>Simulace místo fyzického cíle</small></div>
-  <div v-click><span>04</span><b>BUILD SIM</b><small>Sestavení a instalace do ARsim</small></div>
-  <div v-click><span>05</span><b>PLC CONNECT</b><small>Připojení na 127.0.0.1</small></div>
-  <div v-click><span>06</span><b>VAR READ</b><small>Hodnota počítadla před resetem</small></div>
-  <div v-click><span>07</span><b>VAR WRITE</b><small>Zápis resetovacího příkazu</small></div>
-  <div v-click><span>08</span><b>LOGBOOK READ</b><small>Diagnostika, ne automatický verdikt</small></div>
-  <div v-click><span>09</span><b>BUILD PIP</b><small>Balíček není schválené nasazení</small></div>
+  <div v-click="1"><span>01</span><b>BROWSE</b><small>Dostupné příkazy a parametry</small></div>
+  <div v-click="1"><span>02</span><b>PROJECT STATUS</b><small>Projekt, konfigurace a CPU</small></div>
+  <div v-click="2"><span>03</span><b>SIM ENABLE</b><small>Simulace místo fyzického cíle</small></div>
+  <div v-click="2"><span>04</span><b>BUILD SIM</b><small>Sestavení a instalace do ARsim</small></div>
+  <div v-click="3"><span>05</span><b>PLC CONNECT</b><small>Připojení na 127.0.0.1</small></div>
+  <div v-click="3"><span>06</span><b>VAR READ</b><small>Hodnota počítadla před resetem</small></div>
+  <div v-click="4"><span>07</span><b>VAR WRITE</b><small>Zápis resetovacího příkazu</small></div>
+  <div v-click="4"><span>08</span><b>LOGBOOK READ</b><small>Diagnostika, ne automatický verdikt</small></div>
+  <div v-click="5"><span>09</span><b>BUILD PIP</b><small>Balíček není schválené nasazení</small></div>
 </div>
 
 <TerminalCli />
 
 <!--
-Čas: 3:00. Nepřepisovat příkazy ručně během přednášky; klikací přepis je záloha.
-Mapa odhalování: 0 = nadpis, upozornění a terminál ve stavu čekání;
-1 = BROWSE/as --help; 2 = PROJECT STATUS; 3 = SIM ENABLE; 4 = BUILD SIM;
-5 = PLC CONNECT; 6 = VAR READ; 7 = VAR WRITE; 8 = LOGBOOK READ;
-9 = BUILD PIP. Každá z devíti nečíslovaných direktiv je samostatná skupina.
-TerminalCli sleduje počet kliků: po 900 ms ukáže výsledek aktuálního příkazu,
-předchozí výsledek sbalí, všechny odhalené příkazy ponechá. Návrat zpět
-obnoví příslušný stav; komponenta nespouští žádné externí příkazy.
-Finále = všech devět příkazů a pouze výsledek PIP. Bez dalších interakcí.
-
-Od začátku řekněte, že jde o ilustraci z předchozí prezentace, ne záznam
-nově provedeného testu. Výstupy jsou zjednodušené. DONE označuje dokončení
-animace, nikoli prokázaný úspěch engineeringové operace.
+Čas: 3:00. Klikací přepis je záloha, ne živé spuštění.
+Mapa odhalování: 0 = čekající terminál; 1 = BROWSE + PROJECT STATUS;
+2 = SIM ENABLE + BUILD SIM; 3 = PLC CONNECT + VAR READ;
+4 = VAR WRITE + LOGBOOK READ; 5 = BUILD PIP.
+Klik odhalí celou skupinu v levém seznamu. Terminál pak postupně přehraje
+každý její příkaz: po 900 ms ukáže výsledek a přejde k dalšímu.
+Historie zůstává viditelná, starší výsledky se sbalí a návrat klikem obnoví
+předchozí stav. Komponenta nespouští externí příkazy. DONE označuje dokončení
+animace, ne úspěšný test.
 
 [CLICK]
-Agent si nejprve zjistí příkazy. Zobrazujeme označený výřez help pro project,
-ne celý výpis. Výsledky i nápověda mají stejnou 14px velikost jako příkazy.
+Nejprve ukázat dostupnou nápovědu a stav otevřeného projektu. Oba příkazy se
+v terminálu přehrají postupně.
 
 [CLICK]
-Status ukazuje modelový DevOpsDemo, Config1, X20CP1686X.
+Přepnout na simulaci a sestavit ji pro ARsim, nikoli pro fyzický cíl.
 
 [CLICK]
-Zapneme simulaci CPU. Žádné tvrzení o připojení k fyzickému stroji.
+Připojit se k lokálnímu PLC a přečíst hodnotu počítadla před zásahem.
 
 [CLICK]
-Build sim: sestavení a instalace do ARsim. Úspěch tohoto kroku není runtime test.
+Zapsat resetovací příkaz a potom přečíst logbook. Zápis sám neprokazuje reset;
+logbook je diagnostický podklad, nikoli automatický verdikt.
 
 [CLICK]
-Připojení k lokálnímu cíli. Před živou ukázkou ověřit správný proces a projekt.
+Ukázat vytvoření PIP balíčku. Jeho vytvoření není schválené nasazení.
 
-[CLICK]
-Přepis vrací gProductionCount = 17 a datový typ UDINT. To je výchozí pozorování.
+Od začátku řekněte, že jde o ilustrativní přepis. Zápis gCmdClear = 1
+neprokazuje reset; chybí následné čtení. Logbook a PIP jsou samostatné ukázky,
+ne automatické schválení testu nebo nasazení.
 
-[CLICK]
-Zápis gCmdClear = 1 vrací written. POZOR: to ještě neukazuje nulu počítadla.
-Pro slíbený test je nutné další čtení:
-as var read gProductionCount --task Cyclic
-Očekávaný výsledek za podmínek předchozího slidu je 0, ale přepis ho neobsahuje.
-Pokud jej neprovedeme živě, výsledek resetu zůstává NEOVĚŘENÝ.
-
-[CLICK]
-Logbook má i chybu pohonu. Nezametat ji pod koberec: zjistit čas a souvislost.
-Přepis obsahuje INFO i při filtru error; není důkazem chování filtru.
-Při skutečném testu vycházet z aktuálních dat a vyhodnotit relevantní chyby.
-
-[CLICK]
-PIP je samostatná ukázka balení. Přepis nemá podmíněný gate po testu, proto
-nevytváříme dojem úspěšné release pipeline. Balíček nenasazovat automaticky.
-
-Zdroje: původní TerminalCli.vue/helpOutput a commands. Training s5/15 má
-novější seskupení plc var/plc logbook. Syntaxi před live demem potvrdit
-v nápovědě nainstalované verze. Zde AS CLI není na PATH a nebylo spuštěno.
+Zdroje: TerminalCli.vue, helpOutput a commands; syntaxi potvrdit v nápovědě
+konkrétní instalace. AS CLI zde nebylo spuštěno.
 -->
 
 ---
@@ -671,3 +618,80 @@ template/AGENTS.md, Global Invariants a Completion Gate;
 UserMeetingSK_AI/Slides/slides.md, rozlišení vrstev Bridge.
 Délka je plán řeči, ne naměřený čas zkoušky před publikem.
 -->
+
+---
+layout: default
+class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
+# Od omezeného přístupu k oficiálnímu AS CLI
+
+<p class="cli-command-shift-lead">Stejné téma, dva přístupy k práci s Automation Studiem.</p>
+
+<div class="cli-command-shift" aria-label="Srovnání původních příkazů a AS CLI">
+  <section class="cli-command-shift-story" aria-label="Vývoj rozhraní">
+    <div class="cli-command-shift-old" v-click-hide="1">
+      <span class="cli-command-shift-label">PŮVODNÍ PŘÍSTUP</span>
+      <h2>Přístup k AS funkcím byl omezený</h2>
+      <ul>
+        <li>Některé možnosti byly dostupné jen v GUI.</li>
+        <li>Jiné vyžadovaly zpětné inženýrství.</li>
+        <li>Chybělo formální, jednotné rozhraní.</li>
+      </ul>
+      <p>Build, balíčky a transfer obsluhovaly samostatné nástroje.</p>
+    </div>
+    <div class="cli-command-shift-new" v-click="1">
+      <span class="cli-command-shift-badge">OFICIÁLNÍ NÁSTROJ B&amp;R</span>
+      <h2>AS CLI přináší jednotné rozhraní</h2>
+      <ul>
+        <li>Konzistentní syntaxe pro operace Automation Studia.</li>
+        <li>Srozumitelné příkazy místo směsi samostatných utilit.</li>
+        <li>Stejné rozhraní pro terminál, skripty i agenty.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cli-command-shift-commands" aria-label="Příklady příkazů">
+    <div class="cli-command-shift-old" v-click-hide="1">
+      <h2>Původní příkazy</h2>
+      <div class="cli-command-shift-list">
+        <div><code>BR.AS.PrepareBuild.exe</code><span>Příprava prostředí</span></div>
+        <div><code>BR.AS.Build.exe &lt;projekt&gt; -c &lt;konfigurace&gt;</code><span>Build projektu</span></div>
+        <div><code>BR.AS.RUCPackageCreator.exe</code><span>RUC balíček</span></div>
+        <div><code>BR.AS.FinalizeBuild.exe ... -pil</code><span>Příprava transfer listu</span></div>
+        <div><code>PviTransfer.exe -silent &lt;soubor.pil&gt;</code><span>Transfer podle PIL</span></div>
+      </div>
+      <p class="cli-command-shift-footnote">FinalizeBuild vytvoří kompletní PIL, ne online spojení s cílem.</p>
+    </div>
+    <div class="cli-command-shift-new" v-click="1">
+      <h2>Ukázky AS CLI</h2>
+      <div class="cli-command-shift-list">
+        <div><code>as --help</code><span>Nápověda</span></div>
+        <div><code>as build sim</code><span>Build a simulace</span></div>
+        <div><code>as build pip</code><span>Instalační balíček</span></div>
+        <div><code>as config schema read .axis</code><span>Čtení schématu</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Zdroje: B&R Help, Starting command line tools; Compiling a project via the command line; Creating an RUC package from the command line; Generating the transfer list for Runtime Utility Center; AS CLI příklady v podkladech tohoto decku. -->
+
+<!--
+Čas: 1:30. Začněte původním stavem a klikem přepněte na nový nástroj.
+
+Starší cesta nabízela jen část funkcí v GUI, bez formálního rozhraní pro další
+operace. Vpravo jsou příklady příkazů používaných pro přípravu prostředí,
+build, balíček a transfer.
+
+[CLICK]
+AS CLI je oficiální produkt B&R s konzistentním rozhraním a srozumitelnými
+příkazy. Vpravo jsou ukázky: nápověda, build simulace, balíček a čtení schématu.
+Přesný rozsah a syntaxe závisí na instalované verzi.
+-->
+
