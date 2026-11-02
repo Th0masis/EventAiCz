@@ -105,7 +105,10 @@ a nový stav.
 
 Pro `as-agentic-bridge` smoke test kontroluje také aktuální krok engineering
 smyčky, výběr nástroje, návratový tok Knowledge Hubu a omezení pohybu při
-`prefers-reduced-motion`. Textové důrazy na bílém pozadí musí mít kontrast alespoň
+`prefers-reduced-motion`. Zachovává kontrolu původních pěti kroků smyčky;
+pokud slide přidá šestý krok, ověří návrat do neutrálního stavu bez aktivní
+karty a bez zvýrazněného okraje či ikony lidské revize.
+Textové důrazy na bílém pozadí musí mít kontrast alespoň
 4,5 : 1. Přechody mezi slidy ověřte i běžnou navigací vpřed a zpět.
 
 Před PR ručně projděte všechny změněné slidy: ověřte odhalování obsahu,
