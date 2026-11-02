@@ -83,3 +83,56 @@ Ručně jsem prohlédl finální stavy všech 43 slidů a vybrané detaily ve v�
 5. **41:** jeden konkrétní průchod skillem.
 
 Tato pětice přinese **pět odlišných způsobů vysvětlení**, ne dalších pět podobných diagramů.
+
+## Realizace po zpětné vazbě autora
+
+Původní návrh výše je archivovaný beze změny. Autor odmítl provedení s dalšími
+textovými panely a schválil grafický vzorek slidu 15 jako směr pro celou pětici.
+Výsledkem proto nejsou přidané terminály ani další bloky textu:
+
+| Slide | Výsledná grafika | Odhalování |
+|---|---|---|
+| 15 | Pět velkých symbolů, směrové šipky, návratová smyčka a oddělená lidská brána. | Kliky 1–5 zvýrazní ikonu, kruh, číslo a název oranžově; klik 6 vrátí neutrální celek. |
+| 19 | Dokumenty → vybraná pasáž → odpověď s citací S1. | Původní čtyři skupiny; kliky 1–3 mají oranžový symbol i nadpis, klik 4 neutrální diagram a závěr. |
+| 41 | Kniha postupu → soubor změny → kontrolní seznam build + test. | Statický přehled; čekající lidské review zůstává viditelné. |
+| 44 | Šest symbolů propojených mezi drahami člověk/agent; dvě lidské brány. | Statický přehled, bez nových kliků. Validate zůstává jen čtení. |
+| 48 | Symbol se větví ke generované deklaraci se zámkem a dvěma ST použitím. | Statický graf; nejde o tok vykonávání programu. |
+
+Technické podrobnosti jsou v poznámkách řečníka. Zůstává označení ilustrace;
+grafika neprokazuje skutečný build, test, nález souboru ani schválení nasazení.
+
+### Ověření výsledné podoby
+
+Příkazy byly spuštěny z `Slides/` na obou oddělených tematických větvích:
+
+- `npm.cmd run test:content` — PASS.
+- `npm.cmd run test:topic-styles` — PASS.
+- `npm.cmd run test:topic-code` — PASS.
+- `npm.cmd run test:duplicates` — PASS.
+- `npm.cmd run build` — PASS.
+- `node topics\as-repository\tests\artifacts.test.mjs` — PASS na větvi Repository.
+- `node topics\as-agentic-bridge\tests\artifacts.test.mjs` — PASS na větvi Bridge.
+- `$env:SLIDES_URL = 'http://localhost:3030'; npm.cmd run test:smoke` — PASS,
+  všech 79 slidů na větvi Repository.
+- `$env:SLIDES_URL = 'http://localhost:3031'; npm.cmd run test:smoke` — PASS,
+  všech 79 slidů na větvi Bridge.
+
+Vizuálně byly zkontrolovány slide 15 v klicích 0–6, slide 19 v klicích 0–4,
+statické slidy 41/44/48 i Presenter Mode všech pěti. Obsah se vejde do plátna
+1280 × 720, text není oříznutý. Skutečný projektor ani délka přednesu ověřeny nebyly.
+
+Smoke odhalil nesprávnou typografickou roli a řádkování cest a symbolu;
+zdroj byl opraven bez oslabení testu. Jeden další běh skončil timeoutem načítání
+písem na nezměněném slidu 74 (desktop 1280 × 720, klik 0, exit 1;
+`Slides/artifacts/slides/desktop/failure-074-click-0.png`). Izolovaný opakovaný
+běh prošel. Po studeném startu Bridge jednou vypršel `page.goto` na slidu 15
+(exit 1, screenshot se neukládal); ověření dostupnosti, úplný smoke a opakovaný
+cílený test poté prošly.
+
+### Oddělení změn
+
+- `topic/as-repository`: `db5f73c` a následná grafická revize `39c1b04`.
+- `topic/as-agentic-bridge`: `c93c6c2`.
+- `coord/slide-artifact-review`: pouze tento archiv a záznam realizace.
+
+Žádný sdílený styl, komponenta ani chování tématu AS CLI nebyly změněny.
