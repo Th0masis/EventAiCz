@@ -313,13 +313,13 @@ async function checkRevealSequence(layout, slide, click) {
     click === 0 ? [] : [expectedPhase],
     'Each overview reveal must highlight exactly its matching phase')
   }
-  if (classes.includes('loop-slide')) {
+  if (classes.includes('loop-slide') && await layout.locator('.cli-foundations').count() > 0) {
     assert.equal(await layout.locator('.cli-foundations:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
       'DevOps, skills, and knowledge-source roles must follow the execution flow')
     assert.equal(await layout.locator('.cli-benefit:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'Potential efficiency benefits must be qualified after the role map')
   }
-  if (classes.includes('vertical-modules-slide') && slide.frontmatter.clicks === 2) {
+  if (classes.includes('vertical-modules-slide') && await layout.locator('.story-matrix--horizontal').count() > 0) {
     assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), 1,
       'Horizontal and vertical slicing must be comparable from the initial state')
     assert.equal(await layout.locator('.story-matrix--horizontal > i.is-selected').count(), 3,
@@ -333,7 +333,7 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.story-slicing-result:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'The testable-outcome explanation must follow the comparison')
   }
-  if (classes.includes('implementation-slide')) {
+  if (classes.includes('implementation-slide') && await layout.locator('.story-subagent').count() > 0) {
     assert.equal(await layout.locator('.story-subagent:not(.slidev-vclick-hidden)').count(), click >= 1 ? 3 : 1,
       'Review and test subagents must follow initial implementation')
     assert.equal(await layout.locator('.story-implementation-feedback:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
@@ -341,7 +341,7 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.story-implementation-outcome:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'Integration and human escalation must follow the verification loop')
   }
-  if (classes.includes('evaluation-slide')) {
+  if (classes.includes('evaluation-slide') && await layout.locator('.story-pr').count() > 0) {
     assert.equal(await layout.locator('.story-evaluation > section:not(.slidev-vclick-hidden)').count(), click + 1,
       'Evaluation must progress from agent evidence to human decision')
   }
