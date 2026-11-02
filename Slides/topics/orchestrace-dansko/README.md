@@ -10,17 +10,26 @@ Slide numbers depend on the composed deck. Identify slides by their classes.
 
 | Class | Initial content | Click groups |
 | --- | --- | --- |
+| `loop-slide` | Human gate and Agent / Script / CI → AS CLI → Automation Studio → CI checks | 1: DevOps, skills, and knowledge-source roles; 2: potential time/token benefit, explicitly unmeasured |
 | `feature-request-slide` | Full request and illustrative machine at 42/100 | 1: fault and stop; 2: two uncapped example bottles rejected; 3: recovery, then the next good bottle advances 42 to 43 |
-| `specification-slide` | Human/agent clarification flow and two open questions | 1: three proposed tickets and acceptance examples; 2: human approval and dependencies |
-| `vertical-modules-slide` | Horizontal tasks by layer | 1: vertical outcome and illustrative Kanban; 2: ticket scope, not board orientation |
-| `implementation-slide` | Plan and smallest implementation | 1: review and test; 2: retry or integration into the feature branch |
-| `evaluation-slide` | Check evidence against the original intent | 1: operator scenario; 2: human PR decision |
+| `workflow-overview-slide` | Icon roadmap of three phases (Specifikace, Implementace, Ověření) with human/agent owners, roles, and handoffs | 1: clarification dialog and T1–T3; 2: simplified work graph with a failed test and retry; 3: PR waiting for human approval. Each click spotlights its phase |
+| `specification-slide` | Human/agent flow, an illustrative clarification dialog (agent asks with options A–C, human chooses A), and a three-phase progress map | 1: proposed tickets T1–T3 with acceptance examples; 2: human approval and explicit dependencies |
+| `vertical-modules-slide` | Two matching matrices; the horizontal row shows one ticket by layer | 1: highlight the vertical column across layers; 2: same T1–T3 on Kanban, with dependencies |
+| `implementation-slide` | Ready ticket, orchestrator, and implementation subagent with an illustrative ST diff | 1: review and test subagents, failing acceptance test, and retry path; 2: passing test, integration evidence, or human escalation |
+| `evaluation-slide` | Agent's test and risk evidence beside an illustrative PR card | 1: compare with the operator scenario; 2: human approves PR, returns work, or clarifies intent; the PR approval gate is highlighted |
+| `hmi-testing-slide` | Operator confirms axis alarm | 1: HMI alarm and count 42; 2: reject uncapped bottles; 3: same batch resumes at 43; 4: human reviews status and remaining risk |
 
-Speaker notes use one `[click]` marker per reveal group. All interactions work
+Speaker notes use one `[click]` marker per reveal group. The overview is a
+roadmap inspired by the original AgentWorkflow: three stations with owner
+icons, human/agent handoffs, and static mini artifacts (dialog, work graph, PR)
+instead of interactive modals. The full roadmap is visible from the start; each
+click adds one artifact and spotlights its phase. All artifacts are illustrative. All interactions work
 with presentation navigation; no hover or mouse-only tabs are required.
-The existing chapter, DevOps loop, HMI verification, and getting-started slides
-remain in the topic. The five-slide walkthrough is intended for roughly six
-minutes of spoken explanation, excluding the existing surrounding slides.
+The topic contains the chapter opener, a DevOps/AS CLI diagram, the feature
+request, a workflow overview, four detail slides, HMI verification, and the
+getting-started slide. The six-slide walkthrough from the feature request
+through evaluation is intended for roughly seven minutes, excluding the
+surrounding slides.
 
 ## Interpretation boundaries
 
@@ -29,8 +38,18 @@ minutes of spoken explanation, excluding the existing surrounding slides.
 - Crossed-out empty outlines show rejected bottle positions; they are not
   bottles left on the conveyor after clearing.
 - The count excludes rejected bottles. Recovery does not reset the batch.
-- Ticket dependencies are explicit. Vertical slicing does not eliminate
-  integration tests and is equally applicable to humans and agents.
+- T1 → T2 → T3 dependencies are explicit; the Kanban is illustrative, not a
+  real board. Vertical slicing does not eliminate integration tests and is
+  equally applicable to humans and agents.
+- Horizontal slicing is a ticket across one layer; vertical slicing is one
+  observable behavior across the layers it needs. Kanban columns still show
+  work state, not slicing direction.
+- The documented `BR.AS.Build.exe` command-line tool builds an Automation
+  Studio project. A simulation build is not the same as running a simulator;
+  command-line environment setup (including `BR.AS.PrepareBuild.exe`) and
+  test/deployment steps depend on the installed version and project tooling.
+- Potential time or token savings from reusable CLI workflows, skills, and
+  project context are not measured guarantees. Measure them on the target task.
 - Axis fault recovery is not an emergency stop or safety-function validation.
   Real motion permissions and recovery sequencing require machine-specific design.
 - Passing checks permits integration into a feature branch, not automatic human
@@ -68,4 +87,10 @@ the topic PR so its final diff contains only this topic's sources.
 
 Content references:
 [feature request](https://th0masis.github.io/EventAiAndDevOps/#/16?clicks=1),
-[three workflows](https://th0masis.github.io/EventAiAndDevOps/#/32).
+[three workflows](https://th0masis.github.io/EventAiAndDevOps/#/32),
+[AS CLI build documentation](https://help.br-automation.com/#/en/6/programming/build_commandline.html),
+[CLI environment setup](https://help.br-automation.com/#/en/6/programming/build_commandlinetools.html).
+
+The test prerequisite is maintained on
+`coord/orchestrace-story-validation`; merge it to `main` before preparing the
+topic PR so the PR diff can remain limited to the topic sources.
