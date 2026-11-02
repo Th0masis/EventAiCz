@@ -310,8 +310,17 @@ async function checkRevealSequence(layout, slide, click) {
       `Bridge emphasis must remain readable on white: ${item.text} (${item.contrast.toFixed(2)}:1)`)
   }
   if (classes.includes('as-cli-slide')) {
+    assert.ok(slide.frontmatter.clicks === undefined || slide.frontmatter.clicks === 5,
+      'AS CLI must use the legacy sequence or the five-group reveal map')
+    const groups = slide.frontmatter.clicks === 5
+      ? asCliRevealGroups
+      : asCliRevealGroups.flat().map(command => [command])
+    assert.deepEqual(await layout.locator('.demo-steps > div').evaluateAll(nodes =>
+      nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')))),
+    groups.flatMap((group, index) => group.map(() => index + 1)),
+    'AS CLI reveal directives must match the declared map')
     const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-    assert.deepEqual(visible, asCliRevealGroups.slice(0, click).flat(),
+    assert.deepEqual(visible, groups.slice(0, click).flat(),
       `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
   }
   if (await layout.locator('.cli-command-shift').count()) {

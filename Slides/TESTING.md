@@ -97,6 +97,12 @@ Tento režim nenahrazuje úplný smoke test před PR ani v CI. Používejte ho p
 iteraci nad izolovaným tématem; změny sdílených stylů, layoutů, slidů nebo
 komponent vyžadují úplný smoke test.
 
+Při migraci AS CLI smoke test ověřuje původních devět jednotlivých odhalení
+i novou mapu pěti skupin deklarovanou pomocí `clicks: 5`. Kontroluje přesné
+pořadí příkazů i jejich přiřazení ke klikům; libovolné přeskupení není povoleno.
+Pokud je přítomen porovnávací slide rozhraní, ověřuje také jeho původní
+a nový stav.
+
 Pro `as-agentic-bridge` smoke test kontroluje také aktuální krok engineering
 smyčky, výběr nástroje, návratový tok Knowledge Hubu a omezení pohybu při
 `prefers-reduced-motion`. Textové důrazy na bílém pozadí musí mít kontrast alespoň
