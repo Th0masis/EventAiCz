@@ -90,10 +90,27 @@ const featureOrchestraceSlides = [
   'hmi-testing-slide',
   'devops-mountain-slide',
 ]
+const workflowOrchestraceSlides = [
+  'chapter-slide',
+  'loop-slide',
+  'machine-demo-slide',
+  'workflow-overview-slide',
+  'specification-slide',
+  'vertical-modules-slide',
+  'implementation-slide',
+  'evaluation-slide',
+  'hmi-testing-slide',
+  'devops-mountain-slide',
+]
 const hasFeatureStory = orchestraceSlides.some(slide =>
   String(slide.frontmatter.class).split(/\s+/).includes('feature-request-slide'),
 )
-const expectedOrchestraceSlides = hasFeatureStory ? featureOrchestraceSlides : legacyOrchestraceSlides
+const hasWorkflowOverview = orchestraceSlides.some(slide =>
+  String(slide.frontmatter.class).split(/\s+/).includes('workflow-overview-slide'),
+)
+const expectedOrchestraceSlides = hasWorkflowOverview
+  ? workflowOrchestraceSlides
+  : hasFeatureStory ? featureOrchestraceSlides : legacyOrchestraceSlides
 const actualOrchestraceSlides = orchestraceSlides.map(slide =>
   String(slide.frontmatter.class).split(/\s+/).find(className => expectedOrchestraceSlides.includes(className)),
 )
@@ -110,6 +127,7 @@ if (hasFeatureStory) {
     ['implementation-slide', 2],
     ['evaluation-slide', 2],
   ])
+  if (hasWorkflowOverview) revealCounts.set('workflow-overview-slide', 3)
   for (const [className, clicks] of revealCounts) {
     const slide = orchestraceSlides.find(slide => String(slide.frontmatter.class).split(/\s+/).includes(className))
     assert.equal(slide.frontmatter.clicks, clicks, `${className}: wrong reveal count`)
@@ -119,6 +137,19 @@ if (hasFeatureStory) {
   const request = orchestraceSlides[machineDemoIndex].content
   for (const requirement of ['100', 'neuzavřené', 'počet', 'poruše']) {
     assert.ok(request.includes(requirement), `Feature request must preserve requirement: ${requirement}`)
+  }
+  if (hasWorkflowOverview) {
+    const overview = orchestraceSlides.find(slide => slide.frontmatter.class?.includes('workflow-overview-slide'))
+    for (const phase of ['SPECIFIKACE', 'IMPLEMENTACE', 'VYHODNOCENÍ']) {
+      assert.ok(overview.content.includes(phase), `Workflow overview must show the ${phase.toLowerCase()} phase`)
+    }
+    for (const role of ['Člověk', 'Agent', 'Orchestrátor', 'Subagent']) {
+      assert.ok(overview.content.includes(role), `Workflow overview must distinguish ${role}`)
+    }
+    const specification = orchestraceSlides.find(slide => slide.frontmatter.class?.includes('specification-slide'))
+    for (const ticket of ['T1', 'T2', 'T3']) {
+      assert.ok(specification.content.includes(ticket), `Specification must label ticket ${ticket}`)
+    }
   }
 }
 

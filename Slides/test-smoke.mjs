@@ -293,6 +293,17 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.story-human-gate:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'Human approval must follow ticket preparation')
   }
+  if (classes.includes('workflow-overview-slide')) {
+    const phases = layout.locator('.workflow-overview-stage')
+    assert.deepEqual(await phases.evaluateAll(nodes => nodes.map(node => node.getAttribute('data-phase'))),
+      ['specification', 'implementation', 'evaluation'],
+      'Workflow overview must present specification, implementation, and evaluation in order')
+    assert.ok(await layout.locator('.workflow-human-intervention').count() >= 3,
+      'Each workflow phase must identify where a human intervenes')
+    const expectedPhase = ['specification', 'implementation', 'evaluation'][Math.min(click, 2)]
+    assert.equal(await layout.locator(`.workflow-overview-stage[data-phase="${expectedPhase}"]`).count(), 1,
+      'The workflow overview must retain each phase at every reveal')
+  }
   if (classes.includes('vertical-modules-slide') && slide.frontmatter.clicks === 2) {
     assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
       'Vertical slicing must follow the horizontal example')
