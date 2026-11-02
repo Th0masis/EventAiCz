@@ -173,6 +173,42 @@ class: ot-slide topic-success-stories success-story-slide
 import './success-stories/styles.css'
 </script>
 
+# Commissioning: z MQTT dat do historického trendu
+
+<p class="success-category">MQTT / ověřování dat při uvádění do provozu</p>
+
+<div class="success-demo-grid">
+	<figure class="success-demo-image">
+		<img src="/topics/success-stories/mqtt-commissioning-trend.png" alt="Webová aplikace zobrazuje historický trend napětí a polohy klapek z načtených JSONL záznamů, včetně výběru časového okna">
+		<figcaption>Historický trend vybraných signálů z JSONL záznamů</figcaption>
+	</figure>
+	<section class="success-demo-copy">
+		<h2>Ověřit komunikaci i předávaná data</h2>
+		<p>Kolega při commissioning potřeboval ověřit MQTT komunikaci s cloudovým serverem a obsah předávaných dat. Data se ukládala do JSON záznamů.</p>
+		<h2>Vlastní webová aplikace místo čtení logů</h2>
+		<p>Aplikace záznamy rozparsuje a zobrazí vybrané signály v historickém trendu. Umožňuje zvolit časové okno a porovnat průběhy hodnot.</p>
+	</section>
+</div>
+
+<p class="success-outcome"><strong>Přínos:</strong> Přehledná kontrola vývoje zaznamenaných hodnot jako podklad pro ověřování dat při commissioning.</p>
+
+<!--
+Při uvádění do provozu kolega potřeboval ověřit MQTT komunikaci s cloudovým serverem a data, která si systémy předávají. K dispozici měl data logovaná do JSON.
+
+Vytvořil si proto webovou aplikaci, která záznamy rozparsuje a umožní vybrané signály zobrazit v historickém trendu. Ukázka pracuje se soubory JSONL a nabízí výběr signálů, časového okna i normalizaci průběhů pro jejich porovnání.
+
+Místo procházení jednotlivých záznamů lze sledovat, jak se hodnoty vyvíjely v čase. Trend pomáhá ověřit obsah zaznamenaných dat; sám o sobě ale nedokazuje správné doručení všech MQTT zpráv ani správnost celé komunikace.
+-->
+
+---
+layout: default
+class: ot-slide topic-success-stories success-story-slide
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
 # Prediktivní údržba Mdoctor
 
 <p class="success-category">AI / diagnostika strojů</p>
