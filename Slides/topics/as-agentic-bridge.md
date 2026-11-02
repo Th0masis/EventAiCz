@@ -13,15 +13,6 @@ import './as-agentic-bridge/styles.css'
 
 <!--
 Dopoledne jsme viděli, jak agent pracuje. Teď si ukážeme, co potřebuje, aby dokázal pracovat s Automation Studiem: pracovní postup, odborné znalosti a nástroje pro akci i kontrolu výsledku. To je role Agentic Bridge.
-
-Navázat na předchozí Community blok: informace mají být dostupné nejen člověku, ale také jeho nástrojům. Nevracet se k definici agentního systému.
-
-Rozšíření podle Webinar Agentic Engineering with B&R, 7:34–12:12,
-a dodaného slidu „Why B&R offers an ideal environment“; ověřeno vůči
-agentic-bridge-training/docs/agentic-bridge/slides/s5 a
-agentic-engineering-in-automation-studio/{README.md,plugins/as-skills/README.md}.
-Nový slide o textovém základu přidává přibližně 90 sekund.
-Původní DOCX ani screenshot nekopírujeme do repozitáře.
 -->
 
 ---
