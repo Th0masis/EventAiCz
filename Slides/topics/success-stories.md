@@ -173,6 +173,47 @@ class: ot-slide topic-success-stories success-story-slide
 import './success-stories/styles.css'
 </script>
 
+# Prediktivní údržba Mdoctor
+
+<p class="success-category">AI / diagnostika strojů</p>
+
+<div class="success-three-columns">
+	<section>
+		<span class="success-label">Sběr dat</span>
+		<h2>Provozní signály místo odhadů</h2>
+		<p>MDoctor pracuje s vibracemi, teplotou, hlukem a proudem. Senzory a měřicí moduly dodávají data pro sledování stavu stroje na platformě B&amp;R.</p>
+	</section>
+	<section>
+		<span class="success-label">Vyhodnocení</span>
+		<h2>AI rozpoznává poruchové stavy</h2>
+		<p>Modely se trénují na označených měřeních. Ukázky testů zahrnují rozpoznávání nesouososti pohonu a uvolněného uchycení stroje.</p>
+	</section>
+	<section>
+		<span class="success-label">Údržba</span>
+		<h2>Z diagnostiky k rozhodnutí</h2>
+		<p>Diagnostické výsledky pomáhají posoudit stav zařízení a plánovat servis. Řešení podporuje průběžný monitoring i diagnostiku na vyžádání.</p>
+	</section>
+</div>
+
+<p class="success-outcome"><strong>Cíl:</strong> Včas odhalit vznikající problémy a omezit neplánované odstávky.</p>
+
+<!--
+MDoctor je platforma pro prediktivní údržbu na technologii B&R. Základem nejsou odhady, ale měření provozních signálů: vibrací, teploty, hluku a proudu.
+
+AI modely se učí z označených měření a poskytují diagnostické výsledky. Prezentované testy ukazují například rozpoznávání nesouososti pohonu a uvolněného uchycení stroje. Jde o konkrétní testovací scénáře, nikoli o záruku rozpoznání každé poruchy na libovolném stroji.
+
+Výsledky slouží jako podklad pro posouzení stavu zařízení a plánování údržby. MDoctor může být součástí průběžného monitoringu nebo diagnostické služby na vyžádání. Cílem je odhalit problémy dříve a omezit neplánované odstávky; neuvádíme zde garantovanou úsporu ani přesnost.
+-->
+
+---
+layout: default
+class: ot-slide topic-success-stories success-story-slide
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
 # AI už dnes přináší hodnotu
 
 <div class="success-overview-grid" aria-label="Čtyři příklady přínosu AI">
