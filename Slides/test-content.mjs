@@ -139,7 +139,11 @@ if (hasFeatureStory) {
     ['implementation-slide', 2],
     ['evaluation-slide', 2],
   ])
-  if (hasWorkflowOverview) revealCounts.set('workflow-overview-slide', 3)
+  if (hasWorkflowOverview) {
+    revealCounts.set('loop-slide', 2)
+    revealCounts.set('workflow-overview-slide', 3)
+    revealCounts.set('hmi-testing-slide', 4)
+  }
   for (const [className, clicks] of revealCounts) {
     const slide = orchestraceSlides.find(slide => String(slide.frontmatter.class).split(/\s+/).includes(className))
     assert.equal(slide.frontmatter.clicks, clicks, `${className}: wrong reveal count`)
@@ -152,11 +156,14 @@ if (hasFeatureStory) {
   }
   if (hasWorkflowOverview) {
     const overview = orchestraceSlides.find(slide => slide.frontmatter.class?.includes('workflow-overview-slide'))
-    for (const phase of ['SPECIFIKACE', 'IMPLEMENTACE', 'VYHODNOCENÍ']) {
+    for (const phase of ['SPECIFIKACE', 'IMPLEMENTACE', 'OVĚŘENÍ']) {
       assert.ok(overview.content.includes(phase), `Workflow overview must show the ${phase.toLowerCase()} phase`)
     }
-    for (const role of ['Člověk', 'Agent', 'Orchestrátor', 'Subagent']) {
-      assert.ok(overview.content.includes(role), `Workflow overview must distinguish ${role}`)
+    for (const owner of ['ČLOVĚK + AGENT', 'AGENT BEZ DOZORU', 'ČLOVĚK ROZHODNE']) {
+      assert.ok(overview.content.includes(owner), `Workflow overview must show the ${owner} phase owner`)
+    }
+    for (const handoff of ['schválené tickety', 'jen při riziku', 'Porovná s cílem', 'Test selhal', 'Schválení člověkem']) {
+      assert.ok(overview.content.includes(handoff), `Workflow overview must show the ${handoff} handoff`)
     }
     const specification = orchestraceSlides.find(slide => slide.frontmatter.class?.includes('specification-slide'))
     for (const ticket of ['T1', 'T2', 'T3']) {
