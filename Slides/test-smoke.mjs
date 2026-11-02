@@ -274,6 +274,31 @@ async function checkDesign(layout, label) {
 
 async function checkRevealSequence(layout, slide, click) {
   const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('feature-request-slide')) {
+    const machine = layout.locator('.recovery-machine')
+    assert.equal(await machine.getAttribute('data-recovery-phase'),
+      ['running', 'fault', 'cleared', 'resumed'][click], 'Machine state must follow the reveal map')
+    assert.equal(await machine.locator('.recovery-count').textContent(), click === 3 ? '043 / 100' : '042 / 100',
+      'Fault recovery must preserve batch progress')
+    assert.equal(await machine.locator('.recovery-bottle.is-rejected').count(), click >= 2 ? 2 : 0,
+      'Only the two uncapped example bottles must be rejected')
+    assert.equal(await machine.locator('.recovery-bottle.is-capped.is-rejected').count(), 0,
+      'Capped bottles must not be rejected')
+    assert.equal(await machine.getAttribute('data-batch'), 'same-batch',
+      'Recovery must not start a new batch')
+  }
+  if (classes.includes('specification-slide')) {
+    assert.equal(await layout.locator('.story-tickets:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Tickets must follow clarification')
+    assert.equal(await layout.locator('.story-human-gate:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'Human approval must follow ticket preparation')
+  }
+  if (classes.includes('vertical-modules-slide') && slide.frontmatter.clicks === 2) {
+    assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Vertical slicing must follow the horizontal example')
+    assert.equal(await layout.locator('.story-slicing-result:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'The testable-outcome explanation must follow the comparison')
+  }
   if (classes.includes('topic-as-agentic-bridge')) {
     const emphasis = await layout.locator('.bridge-lead strong, .bridge-need-row b, .bridge-takeaway strong, .bridge-review-takeaway strong, .bridge-next-talk strong')
       .evaluateAll(nodes => nodes.map(node => {

@@ -70,7 +70,7 @@ for (const slide of deck.slides) {
 const orchestraceSlides = deck.slides.filter(slide =>
   resolve(slide.source.filepath) === resolve(root, 'topics/orchestrace-dansko.md'),
 )
-const expectedOrchestraceSlides = [
+const legacyOrchestraceSlides = [
   'chapter-slide',
   'loop-slide',
   'vertical-modules-slide',
@@ -79,6 +79,21 @@ const expectedOrchestraceSlides = [
   'hmi-testing-slide',
   'devops-mountain-slide',
 ]
+const featureOrchestraceSlides = [
+  'chapter-slide',
+  'loop-slide',
+  'machine-demo-slide',
+  'specification-slide',
+  'vertical-modules-slide',
+  'implementation-slide',
+  'evaluation-slide',
+  'hmi-testing-slide',
+  'devops-mountain-slide',
+]
+const hasFeatureStory = orchestraceSlides.some(slide =>
+  String(slide.frontmatter.class).split(/\s+/).includes('feature-request-slide'),
+)
+const expectedOrchestraceSlides = hasFeatureStory ? featureOrchestraceSlides : legacyOrchestraceSlides
 const actualOrchestraceSlides = orchestraceSlides.map(slide =>
   String(slide.frontmatter.class).split(/\s+/).find(className => expectedOrchestraceSlides.includes(className)),
 )
@@ -86,6 +101,26 @@ assert.deepEqual(actualOrchestraceSlides, expectedOrchestraceSlides, 'Orchestrac
 const machineDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('machine-demo-slide'))
 const hmiDemoIndex = orchestraceSlides.findIndex(slide => slide.frontmatter.class?.includes('hmi-testing-slide'))
 assert.ok(machineDemoIndex >= 0 && hmiDemoIndex > machineDemoIndex, 'Orange machine demo must precede HMI verification')
+
+if (hasFeatureStory) {
+  const revealCounts = new Map([
+    ['machine-demo-slide', 3],
+    ['specification-slide', 2],
+    ['vertical-modules-slide', 2],
+    ['implementation-slide', 2],
+    ['evaluation-slide', 2],
+  ])
+  for (const [className, clicks] of revealCounts) {
+    const slide = orchestraceSlides.find(slide => String(slide.frontmatter.class).split(/\s+/).includes(className))
+    assert.equal(slide.frontmatter.clicks, clicks, `${className}: wrong reveal count`)
+    assert.equal((slide.note?.match(/\[click\]/g) ?? []).length, clicks,
+      `${className}: speaker notes must describe each reveal group`)
+  }
+  const request = orchestraceSlides[machineDemoIndex].content
+  for (const requirement of ['100', 'neuzavřené', 'počet', 'poruše']) {
+    assert.ok(request.includes(requirement), `Feature request must preserve requirement: ${requirement}`)
+  }
+}
 
 const pendingTopics = topicFiles.length - importedTopicFiles.length
 console.log(
