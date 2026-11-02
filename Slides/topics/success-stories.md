@@ -137,6 +137,78 @@ class: ot-slide topic-success-stories success-story-slide
 import './success-stories/styles.css'
 </script>
 
+# Support Agent: návrh náhrady HW sestavy
+
+<p class="success-category">HW konfigurace / podpora návrhu</p>
+
+<div class="success-demo-grid">
+	<figure class="success-demo-image success-hw-image">
+		<img src="/topics/success-stories/support-agent-hw.png" alt="Support Agent navrhuje variantu ACOPOS P3 a doptává se na společný DC bus nebo samostatné moduly">
+		<figcaption>Pracovní návrh a upřesnění požadavků v dialogu</figcaption>
+	</figure>
+	<section class="success-demo-copy">
+		<h2>Výchozí sestava a vybrané varianty</h2>
+		<p>Kolega zadal stávající ACOPOSmulti sestavu a požádal o náhradu ve variantách ACOPOS P3 a ACOPOS M4.</p>
+		<h2>Upřesňující dotazy místo hádání</h2>
+		<p>Agent se doptával na požadovanou topologii a společný DC bus. Po upřesnění požadavků navrhl náhradu z předvybraných možností.</p>
+	</section>
+</div>
+
+<p class="success-outcome"><strong>Přínos:</strong> Konkrétní podklad pro další technické ověření místo ručního porovnávání všech variant.</p>
+
+<!--
+Kolega potřeboval pomoc s návrhem náhrady hardwarové sestavy. Agent dostal seznam stávajících modulů a předvybrané cílové varianty ACOPOS P3 a ACOPOS M4.
+
+Dialog nejprve zpřesnil zadání: zda mají osy zůstat na společném DC busu, nebo mají být použity samostatné moduly. Agent upozornil, že zachování počtu os neznamená nutně stejný počet modulů a že je potřeba posuzovat požadované proudy a výkony.
+
+Výsledkem byl návrh náhrady jako podklad pro práci technika. Nejde o potvrzení kompatibility ani o schválený objednací kusovník; před realizací je třeba ověřit konkrétní moduly, napájení, dimenzování a bezpečnostní požadavky.
+-->
+
+---
+layout: default
+class: ot-slide topic-success-stories success-story-slide
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
+# Support Agent: od mechanismu k návrhu pohonu
+
+<p class="success-category">Diplomová práce na ČVUT · autor Tomáš Bejček</p>
+
+<div class="success-demo-grid">
+	<figure class="success-demo-image">
+		<img src="/topics/success-stories/support-agent-mechanism.png" alt="Mechanismus z diplomové práce s agentem vyznačeným hřebenem a pastorkem">
+		<figcaption>Agent rozpoznal a označil hřeben a pastorek</figcaption>
+	</figure>
+	<section class="success-demo-copy">
+		<h2>Nejprve porozumět obrázku</h2>
+		<p>Obchodník předal agentovi obrázek mechanismu. Agent rozpoznal jeho části a vyznačil hřeben a pastorek přímo v obrázku.</p>
+		<h2>Potom doplnit parametry pohybu</h2>
+		<p>Z rozměrů, materiálu, hmotnosti a požadovaného pohybu připravil orientační výpočet dynamiky a návrh motoru.</p>
+	</section>
+</div>
+
+<p class="success-outcome"><strong>Přínos:</strong> Podklad pro dimenzování pohonu — nikoli náhrada ověření v ServoSoftu.</p>
+
+<!--
+Příkladem je mechanismus z diplomové práce na ČVUT, jejímž autorem je Tomáš Bejček. Obchodník předal agentovi obrázek a agent nejprve identifikoval hřeben a pastorek a označil je v obrázku.
+
+V dalších krocích dostal rozměry a materiál pastorku, hmotnost pohybující se části a požadavky na pohyb. Na jejich základě připravil orientační výpočty zrychlení, otáček, momentu setrvačnosti a potřebného momentu a navrhl kandidáty motorů.
+
+Jde o předběžnou podporu podobného typu úlohy, jakou řeší dimenzování v ServoSoftu, nikoli o prokázanou ekvivalenci výsledků. Zjednodušený model a porovnání maximálních momentů nestačí pro konečný výběr. Technik musí ověřit celý pohybový cyklus, momentově-otáčkovou charakteristiku, efektivní zatížení, ztráty i rezervy ve vhodném dimenzačním nástroji.
+-->
+
+---
+layout: default
+class: ot-slide topic-success-stories success-story-slide
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
 # MCP v terénu: technik řeší stroj přes chat
 
 <p class="success-category">MCP / servis v terénu</p>

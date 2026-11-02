@@ -208,6 +208,11 @@
   gap: 12px;
 }
 
+.topic-success-stories .success-hw-image img {
+  max-height: 340px;
+  object-fit: contain;
+}
+
 .topic-success-stories .success-demo-copy h2 {
   margin: 0;
 }
