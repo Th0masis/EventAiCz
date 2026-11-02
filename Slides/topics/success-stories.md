@@ -302,21 +302,18 @@ import './success-stories/styles.css'
 
 <p class="success-category">AI / diagnostika strojů</p>
 
-<div class="success-three-columns">
-	<section>
-		<span class="success-label">Sběr dat</span>
+<div class="success-demo-grid">
+	<figure class="success-demo-image">
+		<img src="/topics/success-stories/mdoctor-motor-test.jpg" alt="Motorová zkušební platforma s krytovaným pohonem a měřicí technikou pro sběr vibračních dat">
+		<figcaption>Motorová zkušební platforma — sběr vibračních dat</figcaption>
+	</figure>
+	<section class="success-demo-copy">
 		<h2>Provozní signály místo odhadů</h2>
-		<p>MDoctor pracuje s vibracemi, teplotou, hlukem a proudem. Senzory a měřicí moduly dodávají data pro sledování stavu stroje na platformě B&amp;R.</p>
-	</section>
-	<section>
-		<span class="success-label">Vyhodnocení</span>
+		<p>Vibrace, teplota, hluk a proud poskytují data pro sledování stavu stroje na platformě B&amp;R.</p>
 		<h2>AI rozpoznává poruchové stavy</h2>
-		<p>Modely se trénují na označených měřeních. Ukázky testů zahrnují rozpoznávání nesouososti pohonu a uvolněného uchycení stroje.</p>
-	</section>
-	<section>
-		<span class="success-label">Údržba</span>
+		<p>Modely trénované na označených měřeních rozpoznávaly v testech nesouosost pohonu i uvolněné uchycení.</p>
 		<h2>Z diagnostiky k rozhodnutí</h2>
-		<p>Diagnostické výsledky pomáhají posoudit stav zařízení a plánovat servis. Řešení podporuje průběžný monitoring i diagnostiku na vyžádání.</p>
+		<p>Výsledky pomáhají plánovat servis — při průběžném monitoringu i diagnostice na vyžádání.</p>
 	</section>
 </div>
 
@@ -324,6 +321,8 @@ import './success-stories/styles.css'
 
 <!--
 MDoctor je platforma pro prediktivní údržbu na technologii B&R. Základem nejsou odhady, ale měření provozních signálů: vibrací, teploty, hluku a proudu.
+
+Fotografie ukazuje motorovou zkušební platformu pro sběr vibračních dat.
 
 AI modely se učí z označených měření a poskytují diagnostické výsledky. Prezentované testy ukazují například rozpoznávání nesouososti pohonu a uvolněného uchycení stroje. Jde o konkrétní testovací scénáře, nikoli o záruku rozpoznání každé poruchy na libovolném stroji.
 
