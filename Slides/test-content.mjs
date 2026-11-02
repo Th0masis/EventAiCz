@@ -67,6 +67,18 @@ for (const slide of deck.slides) {
   assert.ok(slide.content.trim(), `Empty slide: ${slide.index + 1}`)
 }
 
+const chapterNotes = new Map(
+  deck.slides
+    .filter(slide => slide.frontmatter.class?.includes('chapter-slide'))
+    .map(slide => [basename(slide.source.filepath, '.md'), slide.note ?? '']),
+)
+for (const topic of ['as-agentic-bridge', 'as-cli', 'as-repository']) {
+  const note = chapterNotes.get(topic)
+  assert.ok(note, `Missing presenter notes for ${topic} chapter slide`)
+  assert.doesNotMatch(note, /(?:\b(?:Zdroje?|Čas):|Mapa odhalování|Počáteční stav|Konečný stav|agentic-bridge-training|plugins\/as-skills)/i,
+    `${topic}: presenter notes must not contain authoring instructions or source references`)
+}
+
 const orchestraceSlides = deck.slides.filter(slide =>
   resolve(slide.source.filepath) === resolve(root, 'topics/orchestrace-dansko.md'),
 )
