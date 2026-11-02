@@ -289,11 +289,69 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.story-human-gate:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'Human approval must follow ticket preparation')
   }
-  if (classes.includes('vertical-modules-slide') && slide.frontmatter.clicks === 2) {
-    assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
-      'Vertical slicing must follow the horizontal example')
+  if (classes.includes('workflow-overview-slide')) {
+    const phases = layout.locator('.roadmap-stage')
+    assert.deepEqual(await phases.evaluateAll(nodes => nodes.map(node => node.getAttribute('data-phase'))),
+      ['specification', 'implementation', 'evaluation'],
+      'Workflow overview must present specification, implementation, and evaluation in order')
+    for (const owner of ['is-human', 'is-agent']) {
+      assert.equal(await layout.locator(`.roadmap-stage > .roadmap-role.${owner}`).count(), 3,
+        `Each workflow phase must state the ${owner === 'is-human' ? 'human' : 'agent'} role`)
+    }
+    assert.deepEqual(await layout.locator('.roadmap-handoff').evaluateAll(nodes =>
+      nodes.map(node => node.classList.contains('is-human') ? 'human' : 'agent')), ['human', 'agent'],
+    'Ticket approval must be a human handoff and evidence delivery an agent handoff')
+    assert.equal(await layout.locator('.roadmap-artifact:not(.slidev-vclick-hidden)').count(), click,
+      'Each overview reveal must add exactly one phase artifact')
+    if (click >= 2) {
+      assert.equal(await layout.locator('.roadmap-graph .graph-node.is-failed').count(), 1,
+        'The work graph must show a failed check returning to repair')
+    }
+    const expectedPhase = ['specification', 'implementation', 'evaluation'][Math.max(0, click - 1)]
+    assert.deepEqual(await phases.evaluateAll(nodes =>
+      nodes.filter(node => node.classList.contains('is-current')).map(node => node.getAttribute('data-phase'))),
+    click === 0 ? [] : [expectedPhase],
+    'Each overview reveal must highlight exactly its matching phase')
+  }
+  if (classes.includes('loop-slide') && await layout.locator('.cli-foundations').count() > 0) {
+    assert.equal(await layout.locator('.cli-foundations:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'DevOps, skills, and knowledge-source roles must follow the execution flow')
+    assert.equal(await layout.locator('.cli-benefit:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'Potential efficiency benefits must be qualified after the role map')
+  }
+  if (classes.includes('vertical-modules-slide') && await layout.locator('.story-matrix--horizontal').count() > 0) {
+    assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), 1,
+      'Horizontal and vertical slicing must be comparable from the initial state')
+    assert.equal(await layout.locator('.story-matrix--horizontal > i.is-selected').count(), 3,
+      'Horizontal slicing must highlight one layer across all three behaviors')
+    assert.equal(await layout.locator('.story-matrix--vertical > i.is-selected').count(), click >= 1 ? 3 : 0,
+      'The vertical behavior must highlight all three required layers after its reveal')
+    assert.equal(await layout.locator('.story-board:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'The same ticket IDs must move to the Kanban only after the slicing comparison')
+    assert.deepEqual(await layout.locator('.story-board span strong').allTextContents(), ['T1', 'T2', 'T3'],
+      'The Kanban must preserve the specification ticket IDs')
     assert.equal(await layout.locator('.story-slicing-result:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
       'The testable-outcome explanation must follow the comparison')
+  }
+  if (classes.includes('implementation-slide') && await layout.locator('.story-subagent').count() > 0) {
+    assert.equal(await layout.locator('.story-subagent:not(.slidev-vclick-hidden)').count(), click >= 1 ? 3 : 1,
+      'Review and test subagents must follow initial implementation')
+    assert.equal(await layout.locator('.story-implementation-feedback:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'A failed review or test must return work to implementation')
+    assert.equal(await layout.locator('.story-implementation-outcome:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'Integration and human escalation must follow the verification loop')
+  }
+  if (classes.includes('evaluation-slide') && await layout.locator('.story-pr').count() > 0) {
+    assert.equal(await layout.locator('.story-evaluation > section:not(.slidev-vclick-hidden)').count(), click + 1,
+      'Evaluation must progress from agent evidence to human decision')
+  }
+  if (classes.includes('hmi-testing-slide')) {
+    for (const [selector, reveal] of [['.is-hmi', 1], ['.is-plc', 2], ['.is-result', 3]]) {
+      assert.equal(await layout.locator(`.hmi-testing-card${selector}:not(.slidev-vclick-hidden)`).count(), click >= reveal ? 1 : 0,
+        `${selector} must appear at its matching operator scenario step`)
+    }
+    assert.equal(await layout.locator('.hmi-testing-takeaway:not(.slidev-vclick-hidden)').count(), click >= 4 ? 1 : 0,
+      'Human review must follow the automated operator scenario')
   }
   if (classes.includes('topic-as-agentic-bridge')) {
     const emphasis = await layout.locator('.bridge-lead strong, .bridge-need-row b, .bridge-takeaway strong, .bridge-review-takeaway strong, .bridge-next-talk strong')
