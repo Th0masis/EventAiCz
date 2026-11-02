@@ -18,16 +18,12 @@ const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
-const asCliRevealSequence = [
-  'BROWSE',
-  'PROJECT STATUS',
-  'SIM ENABLE',
-  'BUILD SIM',
-  'PLC CONNECT',
-  'VAR READ',
-  'VAR WRITE',
-  'LOGBOOK READ',
-  'BUILD PIP',
+const asCliRevealGroups = [
+  ['BROWSE', 'PROJECT STATUS'],
+  ['SIM ENABLE', 'BUILD SIM'],
+  ['PLC CONNECT', 'VAR READ'],
+  ['VAR WRITE', 'LOGBOOK READ'],
+  ['BUILD PIP'],
 ]
 let activePage
 let activeViewport
@@ -325,16 +321,69 @@ async function checkRevealSequence(layout, slide, click) {
       `Bridge emphasis must remain readable on white: ${item.text} (${item.contrast.toFixed(2)}:1)`)
   }
   if (classes.includes('as-cli-slide')) {
+    assert.ok(slide.frontmatter.clicks === undefined || slide.frontmatter.clicks === 5,
+      'AS CLI must use the legacy sequence or the five-group reveal map')
+    const groups = slide.frontmatter.clicks === 5
+      ? asCliRevealGroups
+      : asCliRevealGroups.flat().map(command => [command])
+    assert.deepEqual(await layout.locator('.demo-steps > div').evaluateAll(nodes =>
+      nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')))),
+    groups.flatMap((group, index) => group.map(() => index + 1)),
+    'AS CLI reveal directives must match the declared map')
     const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+    assert.deepEqual(visible, groups.slice(0, click).flat(),
       `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  }
+  if (await layout.locator('.cli-command-shift').count()) {
+    const oldState = layout.locator('.cli-command-shift-old')
+    const newState = layout.locator('.cli-command-shift-new')
+    assert.equal(await oldState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click === 0,
+      'Original CLI limitations and commands must show before the reveal only')
+    assert.equal(await newState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click >= 1,
+      'Official AS CLI summary and examples must show after the reveal')
+    if (click === 0) {
+      assert.ok((await oldState.first().innerText()).includes('Chybělo formální, jednotné rozhraní'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-old .cli-command-shift-list code').allTextContents(), [
+        'BR.AS.PrepareBuild.exe',
+        'BR.AS.Build.exe <projekt> -c <konfigurace>',
+        'BR.AS.RUCPackageCreator.exe',
+        'BR.AS.FinalizeBuild.exe ... -pil',
+        'PviTransfer.exe -silent <soubor.pil>',
+      ])
+    }
+    if (click === 1) {
+      assert.ok((await newState.first().innerText()).includes('Konzistentní syntaxe'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-new .cli-command-shift-list code').allTextContents(), [
+        'as --help',
+        'as build sim',
+        'as build pip',
+        'as config schema read .axis',
+      ])
+    }
   }
   if (classes.includes('bridge-loop-slide')) {
     const visible = await layout.locator('.bridge-loop > section:not(.slidev-vclick-hidden) h2').allTextContents()
     assert.deepEqual(visible, ['Plan', 'Implement', 'Verify', 'Test', 'Lidská revize'].slice(0, click),
       `Wrong engineering loop sequence after click ${click}`)
     assert.deepEqual(await layout.locator('.bridge-loop .is-current h2').allTextContents(),
-      click ? [visible.at(-1)] : [], `Wrong active engineering step after click ${click}`)
+      click >= 1 && click <= 5 ? [visible[click - 1]] : [],
+      `Wrong active engineering step after click ${click}`)
+    if (click === 6) {
+      const neutralStyles = await layout.evaluate(element => {
+        const review = element.querySelector('.bridge-loop-review')
+        const plan = element.querySelector('.bridge-loop-step')
+        return {
+          reviewBorder: getComputedStyle(review).borderTopColor,
+          planBorder: getComputedStyle(plan).borderTopColor,
+          reviewIcon: getComputedStyle(review.querySelector('svg')).color,
+          reviewDescription: getComputedStyle(review.querySelector('p')).color,
+        }
+      })
+      assert.equal(neutralStyles.reviewBorder, neutralStyles.planBorder,
+        'The final engineering loop state must return the review card border to neutral')
+      assert.equal(neutralStyles.reviewIcon, neutralStyles.reviewDescription,
+        'The final engineering loop state must return the review icon to neutral')
+    }
     assert.equal(await layout.locator('.bridge-return:not(.slidev-vclick-hidden)').count(), click >= 4 ? 1 : 0,
       'Feedback must appear together with the test step')
   }

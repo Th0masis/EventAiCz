@@ -93,179 +93,207 @@ import './orchestrace-dansko/styles.css'
 
 ---
 layout: default
-class: ot-slide vertical-modules-slide dark-slide topic-orchestrace-dansko
+class: ot-slide machine-demo-slide feature-request-slide dark-slide topic-orchestrace-dansko
+clicks: 3
+transition: fade-out
 ---
 
 <script setup>
 import './orchestrace-dansko/styles.css'
 </script>
 
-<div class="kicker">AGENTIC METHOD · VERTICAL SLICES</div>
+# Porucha osy nesmí znamenat<br><span class="accent">nový začátek dávky.</span>
 
-# Build features <span class="accent">through the stack</span>
-
-<p class="vertical-modules-lead">Humans optimize for focus. Agents can optimize for feedback.</p>
-
-<div class="kanban-compare">
-  <section class="kanban-panel horizontal-panel">
-    <div class="kanban-panel-head"><div><span>HUMAN DEFAULT</span><b>Discipline lanes</b></div><mdi-view-column-outline /></div>
-    <p class="kanban-panel-note">Specialists stay focused. The feature waits at the integration boundary.</p>
-    <div class="kanban-board category-board">
-      <div class="kanban-columns"><span></span><b>BACKLOG</b><b>IN PROGRESS</b><b>PROVEN</b></div>
-      <div class="kanban-lanes">
-        <div class="kanban-lane category-lane"><span class="kanban-lane-label">HMI</span><div class="kanban-cell"><span class="kanban-card">fault + reset screen</span></div><div class="kanban-cell"><span class="kanban-card muted-card">needs state names</span></div><div class="kanban-cell"></div></div>
-        <div class="kanban-lane category-lane"><span class="kanban-lane-label">SAFETY</span><div class="kanban-cell"><span class="kanban-card amber-card">safe stop on fault</span></div><div class="kanban-cell"><span class="kanban-card muted-card">needs reset rule</span></div><div class="kanban-cell"></div></div>
-        <div class="kanban-lane category-lane"><span class="kanban-lane-label">CONTROL</span><div class="kanban-cell"><span class="kanban-card">abort + clear states</span></div><div class="kanban-cell"><span class="kanban-card muted-card">needs reject logic</span></div><div class="kanban-cell"></div></div>
-        <div class="kanban-lane category-lane"><span class="kanban-lane-label">I/O + HW</span><div class="kanban-cell"><span class="kanban-card">axis error handling</span></div><div class="kanban-cell"><span class="kanban-card muted-card">needs sim rig</span></div><div class="kanban-cell"></div></div>
-      </div>
+<div class="story-request-layout">
+  <section class="story-request">
+    <h2>Nová funkce pro Orange Juice</h2>
+    <p>Při poruše dopravníkové osy zastav stroj, odstraň <strong>neuzavřené lahve jako zmetky</strong>, zachovej <strong>počet vyrobených kusů</strong> a umožni pokračovat ve stejné dávce <strong>100 lahví</strong>.</p>
+    <p class="story-secondary">Zadáváme požadované chování,<br>ne konkrétní implementaci.</p>
+  </section>
+  <div class="recovery-machine" data-batch="same-batch" :data-recovery-phase="['running', 'fault', 'cleared', 'resumed'][Math.min($clicks, 3)]" role="group" aria-label="Ilustrační stavy obnovy plnicí linky">
+    <div class="recovery-topline"><span>Orange Juice · dopravníková osa</span><strong>{{ ['V PROVOZU', 'PORUCHA OSY', 'VYČIŠTĚNO', 'POKRAČUJEME'][Math.min($clicks, 3)] }}</strong></div>
+    <div class="recovery-stations"><span>Plnění</span><span>Uzavírání</span></div>
+    <div class="recovery-conveyor" aria-label="Dvě neuzavřené a tři uzavřené lahve">
+      <span class="recovery-bottle" :class="{ 'is-rejected': $clicks >= 2 }"><i></i></span>
+      <span class="recovery-bottle" :class="{ 'is-rejected': $clicks >= 2 }"><i></i></span>
+      <span class="recovery-bottle is-capped"><i></i></span>
+      <span class="recovery-bottle is-capped"><i></i></span>
+      <span class="recovery-bottle is-capped"><i></i></span>
     </div>
-    <div class="kanban-result blocked"><mdi-clock-alert-outline /><div><span>INTEGRATION DAY</span><b>No complete feature to test</b></div></div>
-  </section>
-  <div class="kanban-contrast" v-click="1"><span>SAME BOARD<br><strong>NEW UNIT</strong></span><mdi-arrow-right /></div>
-  <section class="kanban-panel vertical-panel" v-click="1">
-    <div class="kanban-panel-head"><div><span>AGENT + TDD</span><b>Feature lanes</b></div><mdi-view-column-outline /></div>
-    <p class="kanban-panel-note">Keep one behavior in context. Cross every boundary, then prove it.</p>
-    <div class="kanban-board feature-board">
-      <div class="kanban-columns"><span></span><b>BACKLOG</b><b>IN PROGRESS</b><b>PROVEN</b></div>
-      <div class="kanban-lanes">
-        <div class="kanban-lane feature-lane"><span class="kanban-lane-label">OBSERVE<br>FAULT</span><div class="kanban-cell"><span class="kanban-card red-card">abort is visible</span></div><div class="kanban-cell"><span class="kanban-card">HMI + state + axis</span></div><div class="kanban-cell"><span class="kanban-card done-card">count holds</span></div></div>
-        <div class="kanban-lane feature-lane"><span class="kanban-lane-label">CLEAR<br>CONVEYOR</span><div class="kanban-cell"><span class="kanban-card red-card">uncapped stay on</span></div><div class="kanban-cell"><span class="kanban-card">reject logic + safety</span></div><div class="kanban-cell"><span class="kanban-card done-card">conveyor empty</span></div></div>
-        <div class="kanban-lane feature-lane"><span class="kanban-lane-label">RESUME<br>BATCH</span><div class="kanban-cell"><span class="kanban-card red-card">restart resets count</span></div><div class="kanban-cell"><span class="kanban-card">reset + sequence</span></div><div class="kanban-cell"><span class="kanban-card done-card">continues from held</span></div></div>
-        <div class="kanban-lane feature-lane"><span class="kanban-lane-label">PROVE<br>100 BATCH</span><div class="kanban-cell"><span class="kanban-card red-card">no evidence</span></div><div class="kanban-cell"><span class="kanban-card">sim run + logbook</span></div><div class="kanban-cell"><span class="kanban-card done-card">100 bottles done</span></div></div>
-      </div>
-    </div>
-    <div class="kanban-result ready"><mdi-test-tube /><div><span>EVERY MOVE HAS A SIGNAL</span><b>A working feature at every step</b></div></div>
-  </section>
-</div>
-
-<div class="tdd-loop" v-click="2">
-  <div class="tdd-loop-label"><span>THE AGENT'S RHYTHM</span><b>One slice at a time</b></div>
-  <div class="tdd-step red"><span>01</span><strong>RED</strong><small>write failing test</small></div>
-  <mdi-arrow-right />
-  <div class="tdd-step green"><span>02</span><strong>GREEN</strong><small>make the smallest change</small></div>
-  <mdi-arrow-right />
-  <div class="tdd-step refactor"><span>03</span><strong>REFACTOR</strong><small>review, then repeat</small></div>
-</div>
-
-<div class="vertical-modules-takeaway" v-click="3"><span>THINK IN BEHAVIORS, NOT LAYERS</span><strong>One narrow outcome. One fast feedback loop.</strong></div>
-<div class="slide-id">23</div>
-
-<!--
-[CLICK]
-Lidé se často organizují do kanban tabulkách podle odborné disciplíny: HMI, safety, control a hardware. <b>horizontal slices</b> To je racionální způsob práce, když je zaměření omezené a když různí lidé mají různé odborné znalosti. Je to omezení, které máme jako lidé. Máme malou krátkodobou paměť a jsme špatní v multitaskingu / přepínání kontextu. Jako lidé proto typicky děláme jednu disciplínu po druhé. Tam jsme nejproduktivnější, ale to vytváří problémy při testování. Jak otestujete HMI bez logiky? Není tam žádná zpětná vazba!
-
-[CLICK]
-Agent tato omezení nemá a může jednoduše spustit subagenty, kteří se postarají o jiné odbornosti, nebo aby izoloval a delegoval kontext. Proto může pracovat vertikálně (<b>vertical slices</b>): feature swimlanes s HMI stavem, safety kontraktem, control logikou, I/O nebo simulací a akceptačním testem ve stejné krátké smyčce. To je obrovská výhoda z hlediska testování. Každou funkci lze testovat nezávisle, protože obsahuje všechny prvky.
-
-[CLICK]
-Matt Pocockův TDD skill popisuje horizontal slicing jako anti-pattern: nepiš nejdřív všechny testy a veškerou implementaci až potom. Pracuj ve vertical slices: jeden test, jedna minimální implementace, opakuj. Každý test je tracer bullet, který využívá zpětnou vazbu z předchozího cyklu. Červená před zelenou; refaktorování patří do fáze kontroly.
-
-Zdroj: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
--->
-
----
-layout: default
-class: ot-slide planning-slide dark-slide topic-orchestrace-dansko
----
-
-<script setup>
-import './orchestrace-dansko/styles.css'
-</script>
-
-<div class="kicker">WORKFLOWS · 04 MIN</div>
-
-# Three workflows<br><span class="accent">everyone needs</span>
-
-<div class="workflow-triad" aria-label="Three accountable agent workflows">
-  <section class="workflow-lane">
-    <div class="workflow-lane-head"><span>01 · HITL</span><strong>Specify the work</strong></div>
-    <p>Turn intent into a shared, reviewable change.</p>
-    <ol><li>Clarify unknowns</li><li>Write acceptance criteria</li><li>Review and split into tickets</li></ol>
-    <div class="workflow-output"><span>HUMAN GATE</span><b>Approve intent before implementation</b></div>
-  </section>
-  <section class="workflow-lane" v-click="1">
-    <div class="workflow-lane-head"><span>02 · AFK</span><strong>Implement in a loop</strong></div>
-    <p>Keep each issue bounded and independently testable.</p>
-    <ol><li>Plan dependencies and branch</li><li>Implement with fast feedback</li><li>Review, test, repeat</li></ol>
-    <div class="workflow-output"><span>DETERMINISTIC GATES</span><b>Changes return until checks pass</b></div>
-  </section>
-  <section class="workflow-lane" v-click="2">
-    <div class="workflow-lane-head"><span>03 · RELEASE</span><strong>Validate the system</strong></div>
-    <p>Prove integrated behavior before a release decision.</p>
-    <ol><li>Build a traceable artifact</li><li>Run simulator and operator tests</li><li>Review evidence and approve</li></ol>
-    <div class="workflow-output"><span>HUMAN GATE</span><b>Release only the verified artifact</b></div>
-  </section>
-</div>
-
-<div class="slide-id">24</div>
-
-<!--
-"Zotavení po chybě osy" zní jako úkol, ale není to specifikace. Agent může prozkoumat existující kód a vyhledat znalosti. Ale záměr a kompromisy se musí vrátit k nám, abychom mohli zaujmout stanovisko.
-
-Zde je příklad, jak by mohl vypadat úplný workflow, který vede přímo k tomu, o čem bude Mads vyprávět po přestávce:
-
-První workflow se zabývá tím, aby byl správně popsán zadaný úkol.
-
-Druhý může být plně automatický, jakmile je ohraničený, izolovaný a získal si naši důvěru.
-
-Poslední se zabývá validací a optimalizací systému.
-
-přechod: OTÁZKY
--->
-
----
-layout: default
-class: ot-slide machine-demo-slide dark-slide topic-orchestrace-dansko
----
-
-<script setup>
-import './orchestrace-dansko/styles.css'
-</script>
-
-<div class="status-badge demonstrator">DEMO 2 / 3</div>
-<div class="kicker">FULL CI/CD PIPELINE · TEST PROJECT</div>
-
-# The <span class="accent">orange</span> juice machine
-
-<div class="machine-demo-subtitle">A GitHub workflow builds, tests, packages, and deploys this demonstration project.</div>
-
-<div class="machine-demo-meta"><span>PROJECT IN GITHUB</span><span class="machine-demo-path">.\EventAiAndDevOps\DevOps\DevOpsDemo</span></div>
-
-<div class="machine-demo-machine">
-  <div class="machine-line" role="img" aria-label="Juice filling and capping conveyor, running at bottle 42 of 100">
-    <div class="machine-line-head"><span>CONVEYOR / 04</span><b>RUNNING</b></div>
-    <div class="machine-line-stations"><span>FILLER <b>FILL</b></span><span>CAPPER <b>CAP</b></span></div>
-    <div class="machine-line-belt"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="machine-line-footer"><span>PRODUCTION</span><strong>042 <small>/ 100</small></strong><span>CI · BUILD · TEST · RELEASE</span></div>
+    <div class="recovery-production"><span>Vyrobeno · stejná dávka</span><strong class="recovery-count">{{ $clicks >= 3 ? '043 / 100' : '042 / 100' }}</strong></div>
+    <p class="recovery-caption">{{ ['Ilustrace požadavku, nikoli živá simulace.', 'Osa stojí. Počet zůstává 42.', 'Dvě neuzavřené lahve vyřazeny. Počet drží.', 'Po obnově 42 → 43. Žádné nulování dávky.'][Math.min($clicks, 3)] }}</p>
   </div>
 </div>
 
-<div class="slide-id">37</div>
+<div class="story-request-steps">
+  <div v-click="1"><b>Zastavit</b><span>Porucha je viditelná.</span></div>
+  <div v-click="2"><b>Vyřadit</b><span>Neuzavřené lahve pryč.</span></div>
+  <div v-click="3"><b>Pokračovat</b><span>Stejná dávka, zachovaný počet.</span></div>
+</div>
 
 <!--
-Zatím jsme se na as CLI dívali jako na softwarový projekt.
-Ale přesuňme pozornost k něčemu, co víc připomíná to, s čím mnozí z nás pracují každý den.
+Tady je konkrétní zadání nové funkce pro náš demonstrační stroj. Ve stejné dávce chceme dokončit sto lahví i po poruše dopravníkové osy. Číslo 42 je ilustrační stav, ne údaj z připojeného PLC.
 
-Toto je náš stroj na pomerančový džus. Je to samozřejmě demo projekt. Ale myšlenka je přesně stejná jako u skutečného stroje. Máme projekt Automation Studio. Máme software. Máme HMI. A máme přání být schopni dodávat změny reprodukovatelným způsobem. Místo abychom o tom mluvili, zkusme to udělat.
+[click]
+Osa ohlásila poruchu. Stroj zastaví a operátor poruchu vidí. Vyrobený počet zůstává 42. Nezaměňujeme poruchu osy s nouzovým zastavením ani s validací bezpečnostní funkce.
 
-[přepnout na GitHub]
-Teď vytvořím release. Jediné, co udělám, je vytvoření tagu a jeho push na GitHub. A všimněte si, co se stane potom. Protože teď to přebírá pipeline. Ne já.
+[click]
+Po odstranění příčiny potřebujeme vyřadit všechny neuzavřené lahve. V nákresu jsou dvě. Přesná sekvence pohybů a podmínky povolení obnovy musí vycházet z návrhu konkrétního stroje.
 
-[vytvořit tag a pushnout]
-Teď se spouští GitHub workflow. Pokud otevřeme záložku Actions, můžeme to sledovat naživo. Toto je náš digitalizovaný proces. Všechny manuální kroky, o kterých jsme dřív mluvili... jsou teď popsané jako workflow.
+[click]
+Po splnění podmínek obnovy pokračuje stejná dávka. Další dobrý kus posune počet ze 42 na 43, ne z nuly na jednu. Teď máme srozumitelný záměr. Ještě ale nemáme dostatečnou specifikaci pro implementaci.
+-->
 
-[ukázat workflow]
-V praxi se teď děje víc věcí najednou. Projekt se sestavuje. Spouštějí se automatické testy. Vytváří se release. Generují se artefakty. A nakonec se výsledek publikuje. Všechno bez toho, abych se musel přihlašovat na build stroj nebo si pamatovat, jaké kroky se mají spustit.
+---
+layout: default
+class: ot-slide specification-slide dark-slide topic-orchestrace-dansko
+clicks: 2
+transition: fade-out
+---
 
-[ukázat .github/workflows]
-Zajímavý ve skutečnosti není GitHub. GitHub by stejně dobře mohl být Gitlab, Azure DevOps, Jenkins nebo něco úplně jiného. Zajímavé je, že proces je teď popsaný jako kód. Pokud si kolega naklonuje projekt, dostane přesně stejný proces. Pokud ho spustíme zítra nebo za šest měsíců, pořád dostaneme přesně stejný proces. Právě to ho dělá reprodukovatelným.
+<script setup>
+import './orchestrace-dansko/styles.css'
+</script>
 
-[ukázat jednotlivé kroky během běhu workflow]
-Všimněte si, že produkujeme víc než jen software. Produkujeme také evidence (důkazy). Vidíme, co se sestavilo, jaké testy se spustily a zda prošly. Přesně to nám dává CI/CD. Nejen automatizaci, ale i sledovatelnost. Když je workflow hotový, výsledek je připravený na release serveru. Odtud si target může stáhnout přesně tu verzi, kterou jsme právě sestavili. Zvlášť zajímavé je to, když máte hodně identických instalací nebo potřebujete přesně vědět, jaká verze byla nainstalovaná kde.
+# Nejdřív ujasnit chování.<br><span class="accent">Potom rozdělit práci.</span>
 
-Existuje jeden build. Jeden artefakt. Jedna verze. A všichni vědí, odkud pochází.
+<div class="story-flow" aria-label="Specifikace: spolupráce člověka a agenta">
+  <div><strong>Člověk</strong><span>Zadá záměr</span></div>
+  <mdi-arrow-right aria-hidden="true" />
+  <div><strong>Agent</strong><span>Otevře otázky</span></div>
+  <mdi-arrow-right aria-hidden="true" />
+  <div><strong>Člověk</strong><span>Rozhodne chování</span></div>
+  <mdi-arrow-right aria-hidden="true" />
+  <div><strong>Agent</strong><span>Navrhne tickety</span></div>
+</div>
+<p class="story-question">Co se započítává jako dobrý kus? Kdy je dovoleno obnovit chod?</p>
 
-Přechod: Teď jsme automatizovali build, test a release. Ale co samotný uživatelský zážitek? Jak vlastně otestujeme, že HMI stále funguje tak, jak operátor očekává?
+<div class="story-tickets" v-click="1" aria-label="Ilustrační návrh ticketů a akceptačních podmínek">
+  <section><h2>Zobrazit poruchu</h2><p>Osa stojí, alarm je vidět.<br>Počet zůstává 42.</p></section>
+  <section><h2>Vyřadit lahve</h2><p>Na dopravníku nezůstane<br>žádná neuzavřená lahev.</p></section>
+  <section><h2>Obnovit dávku</h2><p>Po obnově další dobrý kus<br>zvýší počet na 43, ne na 1.</p></section>
+</div>
+<div class="story-human-gate story-rule" v-click="2"><mdi-account-check-outline /><p><strong>Člověk schválí záměr i tickety.</strong><span>Návrh závislostí: porucha → vyřazení → obnova. Blokovaný ticket ještě není připravený.</span></p></div>
+
+<!--
+První workflow je specifikace s člověkem ve smyčce. Agent má záměr zpochybnit a otevřít nejasnosti, ne je tiše rozhodnout. Třeba co přesně započítáváme jako dobrý kus a kdo smí obnovit chod. Odpovědi musí dodat vlastník zadání.
+
+[click]
+Teprve potom dává smysl navrhnout tickety. Tady jsou tři ilustrační výsledky, každý s pozorovatelnou akceptační podmínkou. Nejsou to skutečně založené GitHub issues. Úplná specifikace musí doplnit chybové scénáře a povolené podmínky pohybu.
+
+[click]
+Člověk zkontroluje, zda se původní záměr při rozpadu neztratil. Návrh má závislosti: obnova navazuje na vyřazení a vyřazení na stav po poruše. Nezávislost nevznikne tím, že práci rozdělíme na tři kartičky. A teď je otázka, co přesně bude uvnitř jedné takové kartičky.
+-->
+
+---
+layout: default
+class: ot-slide vertical-modules-slide dark-slide topic-orchestrace-dansko
+clicks: 2
+transition: fade-out
+---
+
+<script setup>
+import './orchestrace-dansko/styles.css'
+</script>
+
+# Hotová vrstva ještě není<br><span class="accent">otestovatelná funkce.</span>
+
+<div class="story-slicing">
+  <section class="story-horizontal">
+    <h2>Horizontal · podle vrstev</h2>
+    <div class="story-layer"><b>HMI</b><span>Obrazovka poruchy</span></div>
+    <div class="story-layer"><b>Řízení</b><span>Logika obnovy</span></div>
+    <div class="story-layer"><b>I/O a simulace</b><span>Signály osy</span></div>
+    <p class="story-secondary">Samostatné úkoly. Celé chování<br>ověříme až po propojení.</p>
+  </section>
+  <section class="story-vertical" v-click="1">
+    <h2>Vertical · podle výsledku</h2>
+    <div class="story-feature"><strong>„Porucha je vidět a počet drží.“</strong><span>HMI + řízení + simulace + test</span></div>
+    <div class="story-board" aria-label="Ilustrační Kanban se stejnými stavy pro různé rozsahy ticketů">
+      <div><b>Připraveno</b><span>Obnovit dávku</span></div>
+      <div><b>Rozpracováno</b><span>Vyřadit lahve</span></div>
+      <div><b>Ověřeno</b><span>Porucha a počet</span></div>
+    </div>
+    <p class="story-secondary">Jeden úzký výsledek přes potřebné vrstvy.<br>Má vlastní akceptační test.</p>
+  </section>
+</div>
+<div class="story-slicing-result story-rule" v-click="2"><mdi-test-tube /><p><strong>Měníme rozsah ticketu, ne orientaci tabule.</strong><span>Vertical slicing může používat člověk i agent. Závislosti a integrační testy zůstávají.</span></p></div>
+
+<!--
+Na levé straně dělíme stejnou práci podle disciplín: někdo vytvoří HMI, jiný logiku a další simulaci osy. Specializace je užitečná. Dokončená obrazovka ale sama neprokazuje, že stroj po poruše správně pokračuje. Jednotlivé vrstvy samozřejmě mohou mít své vlastní testy.
+
+[click]
+Vpravo je jednotkou práce pozorovatelné chování. Ticket pro zobrazení poruchy a zachování počtu zahrne potřebnou část HMI, řízení, simulace i test. Kanban je pouze ilustrační momentka: první výsledek ověřený, druhý rozpracovaný, třetí čeká. Nejde o skutečný stav projektu.
+
+[click]
+Horizontal a vertical neznamená otočit řádky a sloupce tabule. Měníme hranici jednoho ticketu. Je to metoda pro lidi i agenty, ne důkaz, že agent nemá omezený kontext. Každý výsledek má vlastní test a současně musíme ověřit, že výsledky fungují dohromady.
+-->
+
+---
+layout: default
+class: ot-slide implementation-slide dark-slide topic-orchestrace-dansko
+clicks: 2
+transition: fade-out
+---
+
+<script setup>
+import './orchestrace-dansko/styles.css'
+</script>
+
+# Jeden ticket.<br><span class="accent">Krátká implementační smyčka.</span>
+
+<p class="story-intro">Agent pracuje v dohodnutém rozsahu. Kontroly rozhodují, zda může dál.</p>
+<div class="story-implementation">
+  <section><h2>Naplánovat</h2><p>Ověřit závislosti.<br>Připravit větev a test.</p></section>
+  <mdi-arrow-right aria-hidden="true" />
+  <section><h2>Implementovat</h2><p>Nejmenší změna<br>pro jeden výsledek.</p></section>
+  <mdi-arrow-right v-click="1" aria-hidden="true" />
+  <section v-click="1"><h2>Review a test</h2><p>Ověřit kód i chování.<br>Nestačí úspěšný build.</p></section>
+</div>
+<div class="story-implementation-outcome" v-click="2">
+  <p><mdi-arrow-u-left-top /><span><strong>Kontrola selhala?</strong> Vrátit se k implementaci.</span></p>
+  <p><mdi-check-circle-outline /><span><strong>Kontroly prošly?</strong> Integrovat do pracovní větve funkce.</span></p>
+</div>
+<div class="story-rule"><mdi-source-branch /><p><strong>Ověřený ticket ještě není schválené PR.</strong><span>Například: porucha je vidět, počet zůstává 42 a test to prokazuje.</span></p></div>
+
+<!--
+Druhé workflow začíná až připraveným ticketem. Agent ověří závislosti a omezení, připraví větev a naplánuje test pozorovatelného chování. Potom implementuje nejmenší změnu v dohodnutém rozsahu.
+
+[click]
+Následuje review a test. Test může začít jako červený akceptační scénář, potom se změní implementace tak, aby prošel. Build potvrzuje sestavitelnost, nikoli správné zachování počtu při poruše.
+
+[click]
+Neúspěšná kontrola vrací práci do implementace. Úspěšné kontroly dovolí integraci do pracovní větve funkce, ne automatické schválení zákaznického záměru. Při nejasném zadání nebo opakovaném selhání se agent musí vrátit k člověku, ne neomezeně opakovat stejný pokus. Schválení PR přijde až po vyhodnocení celku.
+-->
+
+---
+layout: default
+class: ot-slide evaluation-slide dark-slide topic-orchestrace-dansko
+clicks: 2
+transition: fade-out
+---
+
+<script setup>
+import './orchestrace-dansko/styles.css'
+</script>
+
+# Zelené testy ještě nepotvrzují<br><span class="accent">správné zadání.</span>
+
+<div class="story-evaluation">
+  <section><span class="story-evaluation-index">1</span><div><h2>Ověřujeme původní záměr?</h2><p>Stejná dávka, správné zmetky, zachovaný počet.</p></div></section>
+  <section v-click="1"><span class="story-evaluation-index">2</span><div><h2>Funguje to pro operátora?</h2><p>Porucha → vyřazení → obnova. Ověřit i přes HMI.</p></div></section>
+  <section v-click="2"><span class="story-evaluation-index">3</span><div><h2>Máme důkazy pro schválení PR?</h2><p>Člověk posoudí testy, nálezy a zbývající rizika.</p></div></section>
+</div>
+<div class="story-rule"><mdi-account-check-outline /><p><strong>Agent připraví změnu a důkazy. Člověk rozhodne.</strong><span>Schválení PR není totéž co povolení nasazení na skutečný stroj.</span></p></div>
+
+<!--
+Třetí workflow je lidské vyhodnocení integrované funkce. Nejprve se vrátíme k původnímu zadání. Test, který očekává nesprávné chování, může být zelený. Proto kontrolujeme i význam testů, nejen jejich návratový kód.
+
+[click]
+Dalším důkazem je operátorský scénář. Operátor vidí poruchu, systém vyřadí neuzavřené lahve a po splnění podmínek obnovy pokračuje stejná dávka. Na následujícím slidu si ukážeme, jak do důkazů zapojit i HMI.
+
+[click]
+Člověk posoudí report, zkušenost operátora a zbývající mezery. Rozhodne, zda je změna připravená na schválení PR, nebo se vrací k opravě či upřesnění zadání. Samostatné release a provozní podmínky tím nezanikají. Ani automatický test HMI nenahrazuje bezpečnostní validaci stroje.
 -->
 
 ---
