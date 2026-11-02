@@ -243,6 +243,7 @@
 }
 
 .topic-as-agentic-bridge .bridge-loop {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 24px;
@@ -252,39 +253,70 @@
 .topic-as-agentic-bridge .bridge-loop-step,
 .topic-as-agentic-bridge .bridge-loop-review {
   position: relative;
-  min-height: 208px;
-  padding-top: 16px;
-  border-top: 3px solid var(--line);
-  transition: border-color 240ms ease;
+  min-width: 0;
+  border-color: var(--line);
+  text-align: center;
 }
 
-.topic-as-agentic-bridge .bridge-loop-step::after {
+.topic-as-agentic-bridge .bridge-forward {
   position: absolute;
-  top: 68px;
-  right: -19px;
-  color: var(--steel);
-  content: '›';
-  font-size: 28px;
-  line-height: 1;
+  inset: 0;
+  width: 100%;
+  height: 160px;
+  fill: none;
+  stroke: var(--steel);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.topic-as-agentic-bridge .bridge-loop .is-current {
-  border-color: var(--br-orange);
-}
-
-.topic-as-agentic-bridge .bridge-step-number,
-.topic-as-agentic-bridge .bridge-loop-review > svg {
+.topic-as-agentic-bridge .bridge-loop-visual {
+  position: relative;
   display: grid;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 16px;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+  transition: border-color 240ms ease, color 240ms ease;
+}
+
+.topic-as-agentic-bridge .bridge-loop-visual > svg {
+  width: 88px;
+  height: 88px;
+}
+
+.topic-as-agentic-bridge .bridge-loop-review .bridge-loop-visual {
+  color: var(--steel);
+}
+
+.topic-as-agentic-bridge .bridge-loop .is-current .bridge-loop-visual {
+  border-color: var(--br-orange);
+  color: var(--br-orange);
+}
+
+.topic-as-agentic-bridge .bridge-loop .is-current h2,
+.topic-as-agentic-bridge .bridge-rag-example .is-current h2,
+.topic-as-agentic-bridge .bridge-rag-example .is-current > div > svg {
+  color: var(--br-orange);
+}
+
+.topic-as-agentic-bridge .bridge-step-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 32px;
+  height: 32px;
   place-items: center;
   color: var(--ink);
-  background: color-mix(in srgb, var(--line) 32%, var(--paper));
+  background: var(--line);
   border-radius: 50%;
-  --text-role: block;
-  --text-size: var(--type-block);
-  --text-leading: 1.2;
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
   font-weight: 700;
   transition: background-color 240ms ease;
 }
@@ -293,20 +325,45 @@
   background: var(--br-orange);
 }
 
-.topic-as-agentic-bridge .bridge-loop-review > svg {
-  padding: 8px;
-  color: var(--steel);
-  background: transparent;
-  transition: color 240ms ease;
+.topic-as-agentic-bridge .bridge-loop-visual > .bridge-approval-lock {
+  position: absolute;
+  right: -4px;
+  bottom: 4px;
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  color: var(--br-orange);
+  background: var(--paper);
 }
 
-.topic-as-agentic-bridge .bridge-loop-review.is-current > svg {
-  color: var(--br-orange);
+.topic-as-agentic-bridge .bridge-test-signal {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.topic-as-agentic-bridge .bridge-test-signal .bridge-test-axis {
+  stroke: var(--line);
+  stroke-width: 2;
+}
+
+.topic-as-agentic-bridge .bridge-test-signal circle {
+  fill: var(--paper);
+}
+
+.topic-as-agentic-bridge .bridge-human-boundary {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(80% + 7px);
+  border-left: 1px dashed var(--br-orange);
 }
 
 .topic-as-agentic-bridge .bridge-loop-step h2,
 .topic-as-agentic-bridge .bridge-loop-review h2 {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   --text-role: block;
   --text-size: var(--type-block);
   --text-leading: 1.2;
@@ -316,6 +373,99 @@
 .topic-as-agentic-bridge .bridge-loop-review p {
   margin: 0;
   color: var(--steel);
+}
+
+.topic-as-agentic-bridge .bridge-artifact-note {
+  margin: 12px 0 0;
+  color: var(--steel);
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-as-agentic-bridge .bridge-rag-question {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+}
+
+.topic-as-agentic-bridge .bridge-rag-question > svg {
+  width: 28px;
+  height: 28px;
+  color: var(--br-orange);
+}
+
+.topic-as-agentic-bridge .bridge-rag-example {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 64px;
+  margin-top: 32px;
+}
+
+.topic-as-agentic-bridge .bridge-rag-example h2 {
+  margin: 0 0 24px;
+  color: var(--ink);
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+}
+
+.topic-as-agentic-bridge .bridge-rag-document,
+.topic-as-agentic-bridge .bridge-rag-passage,
+.topic-as-agentic-bridge .bridge-rag-answer {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 8px;
+}
+
+.topic-as-agentic-bridge .bridge-rag-document > svg,
+.topic-as-agentic-bridge .bridge-rag-passage > svg,
+.topic-as-agentic-bridge .bridge-rag-answer > svg {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 8px;
+  color: var(--steel);
+}
+
+.topic-as-agentic-bridge .bridge-rag-document > span,
+.topic-as-agentic-bridge .bridge-rag-answer > span,
+.topic-as-agentic-bridge .bridge-rag-passage > span {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.topic-as-agentic-bridge .bridge-rag-example strong {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+}
+
+.topic-as-agentic-bridge .bridge-rag-link {
+  position: absolute;
+  top: 96px;
+  width: 48px;
+  height: 48px;
+  color: var(--steel);
+}
+
+.topic-as-agentic-bridge .bridge-rag-link.at-context {
+  left: calc(33.333% - 24px);
+}
+
+.topic-as-agentic-bridge .bridge-rag-link.at-answer {
+  left: calc(66.666% - 4px);
 }
 
 .topic-as-agentic-bridge .bridge-loop-review {
@@ -328,14 +478,14 @@
 
 .topic-as-agentic-bridge .bridge-return {
   width: calc(80% - 5px);
-  margin: 16px 0 0;
+  margin: 24px 0 0;
   text-align: center;
 }
 
 .topic-as-agentic-bridge .bridge-return svg {
   display: block;
   width: 100%;
-  height: 64px;
+  height: 72px;
   fill: none;
   stroke: var(--br-orange);
   stroke-width: 2;
@@ -353,6 +503,10 @@
 
 .topic-as-agentic-bridge .bridge-return p {
   margin: 0;
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
 }
 
 .topic-as-agentic-bridge .bridge-mcp-lead {

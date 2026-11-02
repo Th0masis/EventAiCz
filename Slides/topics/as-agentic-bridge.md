@@ -237,36 +237,45 @@ import './as-agentic-bridge/styles.css'
 
 <p class="bridge-request">„Přidej počítadlo hotových kusů a ověř reset.“</p>
 
-<div class="bridge-loop" aria-label="Plán, implementace, ověření, test a lidská revize">
-	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 1 }" v-click="1"><span class="bridge-step-number" aria-hidden="true">1</span><h2>Plan</h2><p>Projekt, pravidla a potřebná dokumentace.</p></section>
-	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 2 }" v-click="2"><span class="bridge-step-number" aria-hidden="true">2</span><h2>Implement</h2><p>Změna podle zjištěných pravidel.</p></section>
-	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 3 }" v-click="3"><span class="bridge-step-number" aria-hidden="true">3</span><h2>Verify</h2><p>Build a kontrola konfigurace.</p></section>
-	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 4 }" v-click="4"><span class="bridge-step-number" aria-hidden="true">4</span><h2>Test</h2><p>ARsim: počet se zvýší; po resetu je nula.</p></section>
-	<section class="bridge-loop-review" :class="{ 'is-current': $clicks === 5 }" v-click="5"><mdi-account-check-outline aria-hidden="true" /><h2>Lidská revize</h2><p>Změna i důkazy.</p></section>
+<div class="bridge-loop" aria-label="Ilustrační procesní smyčka: plán, implementace, sestavení, test a lidské schválení">
+	<svg class="bridge-forward" viewBox="0 0 1140 160" aria-hidden="true">
+		<path v-click="2" d="M194 80H246m-9-7 9 7-9 7" />
+		<path v-click="3" d="M427 80H479m-9-7 9 7-9 7" />
+		<path v-click="4" d="M660 80H712m-9-7 9 7-9 7" />
+		<path v-click="5" d="M893 80H945m-9-7 9 7-9 7" />
+	</svg>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 1 }" v-click="1"><div class="bridge-loop-visual"><span class="bridge-step-number" aria-hidden="true">1</span><mdi-clipboard-text-outline aria-hidden="true" /></div><h2>Plan</h2><p>Pravidla a kontext</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 2 }" v-click="2"><div class="bridge-loop-visual"><span class="bridge-step-number" aria-hidden="true">2</span><mdi-file-code-outline aria-hidden="true" /></div><h2>Implement</h2><p>Úprava projektu</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 3 }" v-click="3"><div class="bridge-loop-visual"><span class="bridge-step-number" aria-hidden="true">3</span><mdi-cog-outline aria-hidden="true" /></div><h2>Verify</h2><p>Sestavení</p></section>
+	<section class="bridge-loop-step" :class="{ 'is-current': $clicks === 4 }" v-click="4"><div class="bridge-loop-visual"><span class="bridge-step-number" aria-hidden="true">4</span><svg class="bridge-test-signal" viewBox="0 0 104 88" aria-hidden="true"><path class="bridge-test-axis" d="M8 8V76H100" /><path d="M14 64H36V26H67V64H96" /><circle cx="36" cy="26" r="4" /><circle cx="67" cy="64" r="4" /></svg></div><h2>Test</h2><p>Chování v ARsim</p></section>
+	<section class="bridge-loop-review" :class="{ 'is-current': $clicks === 5 }" v-click="5"><div class="bridge-loop-visual"><span class="bridge-step-number" aria-hidden="true">5</span><mdi-account-outline aria-hidden="true" /><mdi-lock-outline class="bridge-approval-lock" aria-hidden="true" /></div><h2>Lidská revize</h2><p>Čeká na schválení</p></section>
+	<span class="bridge-human-boundary" v-click="5" aria-hidden="true"></span>
 </div>
 
 <div class="bridge-return" v-click="4">
-	<svg viewBox="0 0 900 64" preserveAspectRatio="none" aria-hidden="true"><path d="M888 0V40H12V2M4 10l8-8 8 8" /></svg>
-	<p><strong>Chyba nebo výsledek testu zpět do kontextu agenta</strong></p>
+	<svg viewBox="0 0 900 72" preserveAspectRatio="none" aria-hidden="true"><path d="M797 0V48H104V2M96 10l8-8 8 8" /></svg>
+	<p>Zpětná vazba → nový plán</p>
 </div>
 
+<p class="bridge-artifact-note" role="note">Ilustrační postup. Build není test; nasazení vyžaduje souhlas.</p>
+
 <!--
-Jde o ilustrační scénář, nikoli tvrzení o právě předvedeném úspěšném demu. Počáteční stav: nadpis a požadavek. Skupiny 1–3 odhalují Plan, Implement a Verify; právě vysvětlovaný krok má oranžovou linku a číslo. Skupina 4 odhalí Test i návratovou spojnici do plánování. Skupina 5 přidá lidskou revizi. Skupina 6 stáhne zvýraznění a vrátí všech pět viditelných kroků do neutrálního celku.
+Tento postup je ilustrační; nejde o právě provedené demo.
 
 [CLICK]
-Plan: agent zjistí, co mění, jaká pravidla platí a kterou dokumentaci potřebuje.
+Plan: dokument s pravidly představuje projektový kontext. Agent zjistí, co mění, jaká pravidla platí a kterou dokumentaci potřebuje.
 
 [CLICK]
-Implement: upraví projekt podle zjištěných pravidel.
+Implement: soubor s kódem představuje změnu projektu podle zjištěných pravidel. V příkladu jde o počítadlo a jeho reset.
 
 [CLICK]
-Verify: zkontroluje sestavení a konfiguraci. Sestavitelný projekt ještě nedokazuje správné chování.
+Verify: ozubené kolo představuje sestavení a kontrolu konfigurace. Úspěšný build ještě nedokazuje správné chování.
 
 [CLICK]
-Test: v ARsim ověří očekávání, že po události se počet zvýší a po resetu bude nulový. Chyba nebo výsledek testu se vrací agentovi.
+Test: průběh ukazuje očekávané zvýšení počtu a návrat na nulu při resetu v ARsim. Křivka je schéma chování, nikoli naměřený signál ani doplnění chybějícího čtení v přepisu AS CLI. Návratová šipka ukazuje, že chyby i výsledky testů vstupují do dalšího plánování.
 
 [CLICK]
-Lidská revize posuzuje změnu i důkazy. Může proběhnout také dříve podle oprávnění. Přenos na fyzický stroj vyžaduje samostatné schválení a validaci; Bridge sám bezpečnost stroje nezaručuje.
+Lidská revize je za přerušovanou hranicí automatizované práce. Postava a zámek označují povinné lidské rozhodnutí, ne automatické schválení. Člověk posoudí změnu i důkazy. Revize může proběhnout také dříve podle oprávnění. Přenos na fyzický stroj vyžaduje samostatné schválení a validaci; Bridge sám bezpečnost stroje nezaručuje.
 
 [CLICK]
 Po revizi se zvýraznění stáhne: všech pět kroků zůstává viditelných jako neutrální celek.
@@ -451,27 +460,41 @@ import './as-agentic-bridge/styles.css'
 
 <p class="bridge-lead">Retrieval-Augmented Generation: <strong>nejprve dohledat, potom odpovědět.</strong></p>
 
-<div class="bridge-needs-list" aria-label="Tři kroky RAG">
-	<div class="bridge-need-row" v-click="1"><mdi-database-search-outline aria-hidden="true" /><strong>Vyhledat</strong><span>Podle dotazu najít relevantní pasáže v připravených zdrojích.</span></div>
-	<div class="bridge-need-row" v-click="2"><mdi-file-document-multiple-outline aria-hidden="true" /><strong>Dodat kontext</strong><span>Předat modelu nalezené podklady spolu s odkazy na zdroje.</span></div>
-	<div class="bridge-need-row" v-click="3"><mdi-message-text-outline aria-hidden="true" /><strong>Sestavit odpověď</strong><span>Model využije podklady; člověk ověří relevanci, verzi a závěr.</span></div>
+<p class="bridge-rag-question"><mdi-account-outline aria-hidden="true" />„Jak se má počítadlo chovat po resetu?“</p>
+
+<div class="bridge-rag-example" aria-label="Ilustrační RAG nad modelovou projektovou specifikací, nikoli skutečná citace dokumentace B&R">
+	<section :class="{ 'is-current': $clicks === 1 }" v-click="1">
+		<h2>1 · Vyhledat</h2>
+		<div class="bridge-rag-document" aria-label="Modelová specifikace S1, revize 3"><mdi-file-document-multiple-outline aria-hidden="true" /><strong>Specifikace</strong><span>S1 · revize 3</span></div>
+	</section>
+	<section :class="{ 'is-current': $clicks === 2 }" v-click="2">
+		<h2>2 · Dodat kontext</h2>
+		<div class="bridge-rag-passage" aria-label="Modelová pasáž S1, revize 3, paragraf 2: při resetu nastav gProductionCount na nulu"><mdi-file-search-outline aria-hidden="true" /><strong>Reset → 0</strong><span>S1 · § 2</span></div>
+	</section>
+	<section :class="{ 'is-current': $clicks === 3 }" v-click="3">
+		<h2>3 · Sestavit odpověď</h2>
+		<div class="bridge-rag-answer"><mdi-comment-quote-outline aria-hidden="true" /><strong>„Očekávej nulu.“</strong><span>Opora: [S1, § 2]</span></div>
+	</section>
+	<mdi-arrow-right class="bridge-rag-link at-context" v-click="2" aria-hidden="true" />
+	<mdi-arrow-right class="bridge-rag-link at-answer" v-click="3" aria-hidden="true" />
 </div>
 
 <p class="bridge-takeaway" v-click="4">RAG není trénování modelu.<br><strong>Dohledaný zdroj ještě nezaručuje správnou odpověď.</strong></p>
+<p class="bridge-artifact-note" role="note">Ilustrační dokument i odpověď, ne živé vyhledávání. Člověk ověří zdroj, verzi i závěr.</p>
 
 <!--
 Záměr a čas: 60 sekund. Vysvětlit RAG ve třech bodech a odlišit jej od trénování i od MCP.
-Mapa odhalování: 0 = nadpis a definice; 1 = Vyhledat; 2 = Dodat kontext;
-3 = Sestavit odpověď; 4 = celý závěr. Finále = všechny tři kroky a omezení. Bez dalších interakcí.
+Mapa odhalování: 0 = nadpis, definice, otázka a označení ilustrace; 1 = stoh dokumentů S1; 2 = dokument s lupou, Reset → 0 a první šipka;
+3 = odpověď s citací a druhá šipka; 4 = závěr a neutrální diagram. Kliky 1–3 zvýrazňují právě vysvětlovaný symbol a nadpis oranžově. Bez dalších interakcí.
 
 [CLICK]
-Retrieval je dohledání pasáží v připravených zdrojích. Záleží na pokrytí znalostní báze a na formulaci dotazu. Nejde automaticky o živé hledání na celém internetu.
+Stoh dokumentů představuje projektové podklady. Retrieval je dohledání pasáží v připravených zdrojích. Artefakt je ilustrační: S1 je modelová projektová specifikace počítadla, revize 3, nikoli existující citace B&R Help. Záleží na pokrytí znalostní báze a na formulaci dotazu. Nejde automaticky o živé hledání na celém internetu.
 
 [CLICK]
-Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Odkazy umožní otevřít zdroj a ověřit, zda skutečně podpírá tvrzení. Podklady se tím nezapisují natrvalo do vah modelu.
+Dokument s lupou představuje vybranou pasáž, ne druhé hledání na internetu. Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Modelová pasáž S1 revize 3 § 2 říká: při resetu nastav gProductionCount na 0, počet zvyšuj jen při dokončení kusu. Revize a paragraf cestují s pasáží. Ve skutečné odpovědi odkazy umožní otevřít zdroj a ověřit, zda podpírá tvrzení; zde není vymyšlená URL. Podklady se nezapisují natrvalo do vah modelu.
 
 [CLICK]
-Generation je vytvoření odpovědi modelem s využitím těchto podkladů. Špatně dohledanou nebo nesprávně vyloženou pasáž může model stále proměnit v chybný závěr. Kontrolujeme i verzi Automation Studia a soulad s projektem.
+Bublina s citací představuje odpověď odvozenou z podkladu. Generation je vytvoření odpovědi modelem s využitím těchto podkladů. Modelová odpověď odkazuje na [S1, § 2]; očekávanou nulu ověřte čtením hodnoty při zastaveném počítání. Nejde o naměřený výsledek. Špatně dohledanou nebo nesprávně vyloženou pasáž může model stále proměnit v chybný závěr. Kontrolujeme i verzi Automation Studia a soulad s projektem.
 
 [CLICK]
 MCP propojuje aplikaci s nástrojem; RAG je postup dohledání podkladů pro generování. MCP nástroj nemusí používat RAG. U Knowledge Hubu nepředpokládáme nedoložené interní detaily, například konkrétní embeddingy nebo reranking.
