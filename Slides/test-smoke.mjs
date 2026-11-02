@@ -18,16 +18,12 @@ const notes = await readFile(new URL('../docs/graphic-notes.md', import.meta.url
 const contract = JSON.parse(notes.match(/```json\s*([\s\S]*?)```/)[1])
 const browser = await chromium.launch({ headless: true })
 const failures = []
-const asCliRevealSequence = [
-  'BROWSE',
-  'PROJECT STATUS',
-  'SIM ENABLE',
-  'BUILD SIM',
-  'PLC CONNECT',
-  'VAR READ',
-  'VAR WRITE',
-  'LOGBOOK READ',
-  'BUILD PIP',
+const asCliRevealGroups = [
+  ['BROWSE', 'PROJECT STATUS'],
+  ['SIM ENABLE', 'BUILD SIM'],
+  ['PLC CONNECT', 'VAR READ'],
+  ['VAR WRITE', 'LOGBOOK READ'],
+  ['BUILD PIP'],
 ]
 let activePage
 let activeViewport
@@ -274,6 +270,31 @@ async function checkDesign(layout, label) {
 
 async function checkRevealSequence(layout, slide, click) {
   const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('feature-request-slide')) {
+    const machine = layout.locator('.recovery-machine')
+    assert.equal(await machine.getAttribute('data-recovery-phase'),
+      ['running', 'fault', 'cleared', 'resumed'][click], 'Machine state must follow the reveal map')
+    assert.equal(await machine.locator('.recovery-count').textContent(), click === 3 ? '043 / 100' : '042 / 100',
+      'Fault recovery must preserve batch progress')
+    assert.equal(await machine.locator('.recovery-bottle.is-rejected').count(), click >= 2 ? 2 : 0,
+      'Only the two uncapped example bottles must be rejected')
+    assert.equal(await machine.locator('.recovery-bottle.is-capped.is-rejected').count(), 0,
+      'Capped bottles must not be rejected')
+    assert.equal(await machine.getAttribute('data-batch'), 'same-batch',
+      'Recovery must not start a new batch')
+  }
+  if (classes.includes('specification-slide')) {
+    assert.equal(await layout.locator('.story-tickets:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Tickets must follow clarification')
+    assert.equal(await layout.locator('.story-human-gate:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'Human approval must follow ticket preparation')
+  }
+  if (classes.includes('vertical-modules-slide') && slide.frontmatter.clicks === 2) {
+    assert.equal(await layout.locator('.story-vertical:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Vertical slicing must follow the horizontal example')
+    assert.equal(await layout.locator('.story-slicing-result:not(.slidev-vclick-hidden)').count(), click >= 2 ? 1 : 0,
+      'The testable-outcome explanation must follow the comparison')
+  }
   if (classes.includes('topic-as-agentic-bridge')) {
     const emphasis = await layout.locator('.bridge-lead strong, .bridge-need-row b, .bridge-takeaway strong, .bridge-review-takeaway strong, .bridge-next-talk strong')
       .evaluateAll(nodes => nodes.map(node => {
@@ -289,9 +310,45 @@ async function checkRevealSequence(layout, slide, click) {
       `Bridge emphasis must remain readable on white: ${item.text} (${item.contrast.toFixed(2)}:1)`)
   }
   if (classes.includes('as-cli-slide')) {
+    assert.ok(slide.frontmatter.clicks === undefined || slide.frontmatter.clicks === 5,
+      'AS CLI must use the legacy sequence or the five-group reveal map')
+    const groups = slide.frontmatter.clicks === 5
+      ? asCliRevealGroups
+      : asCliRevealGroups.flat().map(command => [command])
+    assert.deepEqual(await layout.locator('.demo-steps > div').evaluateAll(nodes =>
+      nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')))),
+    groups.flatMap((group, index) => group.map(() => index + 1)),
+    'AS CLI reveal directives must match the declared map')
     const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
-    assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
+    assert.deepEqual(visible, groups.slice(0, click).flat(),
       `Wrong reveal sequence on slide ${slide.index + 1} after click ${click}`)
+  }
+  if (await layout.locator('.cli-command-shift').count()) {
+    const oldState = layout.locator('.cli-command-shift-old')
+    const newState = layout.locator('.cli-command-shift-new')
+    assert.equal(await oldState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click === 0,
+      'Original CLI limitations and commands must show before the reveal only')
+    assert.equal(await newState.first().evaluate(element => element.checkVisibility({ checkOpacity: true })), click >= 1,
+      'Official AS CLI summary and examples must show after the reveal')
+    if (click === 0) {
+      assert.ok((await oldState.first().innerText()).includes('Chybělo formální, jednotné rozhraní'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-old .cli-command-shift-list code').allTextContents(), [
+        'BR.AS.PrepareBuild.exe',
+        'BR.AS.Build.exe <projekt> -c <konfigurace>',
+        'BR.AS.RUCPackageCreator.exe',
+        'BR.AS.FinalizeBuild.exe ... -pil',
+        'PviTransfer.exe -silent <soubor.pil>',
+      ])
+    }
+    if (click === 1) {
+      assert.ok((await newState.first().innerText()).includes('Konzistentní syntaxe'))
+      assert.deepEqual(await layout.locator('.cli-command-shift-new .cli-command-shift-list code').allTextContents(), [
+        'as --help',
+        'as build sim',
+        'as build pip',
+        'as config schema read .axis',
+      ])
+    }
   }
   if (classes.includes('bridge-loop-slide')) {
     const visible = await layout.locator('.bridge-loop > section:not(.slidev-vclick-hidden) h2').allTextContents()

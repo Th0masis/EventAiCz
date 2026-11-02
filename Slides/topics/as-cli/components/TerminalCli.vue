@@ -12,6 +12,7 @@ type TerminalCommand = {
   time: string
   command: string
   result: string
+  group: number
   logMessages?: LogMessage[]
   multiline?: boolean
 }
@@ -192,24 +193,25 @@ AI/AGENT USAGE
 Run 'as help <command> [subcommand...]' for details on a specific command.`
 
 const commands: TerminalCommand[] = [
-  { time: '09:40:59', command: 'as --help', result: helpOutput, multiline: true },
-  { time: '09:41:02', command: 'as project status', result: 'name=DevOpsDemo · config=Config1 · cpu=X20CP1686X' },
-  { time: '09:41:09', command: 'as sim enable', result: 'simulation=enabled · cpu=X20CP1686X' },
-  { time: '09:41:18', command: 'as build sim', result: 'success=true · 0 errors · 5 warnings · installed to ARsim' },
-  { time: '09:41:29', command: 'as plc connect --ip 127.0.0.1', result: 'connected=true · target=127.0.0.1' },
-  { time: '09:41:46', command: 'as var read gProductionCount --task Cyclic', result: 'name=gProductionCount · value=17 · typeName=UDINT' },
-  { time: '09:42:05', command: 'as var write gCmdClear --task Cyclic --value 1', result: 'name=gCmdClear · written=true · value=1' },
+  { time: '09:40:59', command: 'as --help', result: helpOutput, group: 1, multiline: true },
+  { time: '09:41:02', command: 'as project status', result: 'name=DevOpsDemo · config=Config1 · cpu=X20CP1686X', group: 1 },
+  { time: '09:41:09', command: 'as sim enable', result: 'simulation=enabled · cpu=X20CP1686X', group: 2 },
+  { time: '09:41:18', command: 'as build sim', result: 'success=true · 0 errors · 5 warnings · installed to ARsim', group: 2 },
+  { time: '09:41:29', command: 'as plc connect --ip 127.0.0.1', result: 'connected=true · target=127.0.0.1', group: 3 },
+  { time: '09:41:46', command: 'as var read gProductionCount --task Cyclic', result: 'name=gProductionCount · value=17 · typeName=UDINT', group: 3 },
+  { time: '09:42:05', command: 'as var write gCmdClear --task Cyclic --value 1', result: 'name=gCmdClear · written=true · value=1', group: 4 },
   {
     time: '09:42:21',
     command: 'as logbook read --count 20 --level error',
     result: 'logbook=$arlogsys · entries=3',
+    group: 4,
     logMessages: [
       { dateTime: '09:41:48', level: 'INFO', errorText: 'download to ArSim' },
       { dateTime: '09:41:52', level: 'INFO', errorText: 'Opcua server ready' },
       { dateTime: '09:42:03', level: 'ERROR', errorText: 'MpAxis gAxisConveyor · # -1067378809 [6023]: Voltage sag at controller enable input' },
     ],
   },
-  { time: '09:42:37', command: 'as build pip', result: 'pip created · ReleaseCandidate/' },
+  { time: '09:42:37', command: 'as build pip', result: 'pip created · ReleaseCandidate/', group: 5 },
 ]
 
 // Section headings in the help text (PROJECT, BUILD & RUN, ...) are highlighted.
@@ -219,24 +221,35 @@ const helpLines = helpOutput.split('\n').slice(0, 12).map(text => ({
 }))
 
 const { $clicks } = useSlideContext()
-const currentStep = computed(() => Math.min(Math.max($clicks.value - 1, -1), commands.length - 1))
+const targetCommand = computed(() => {
+  const nextGroup = commands.findIndex(command => command.group > $clicks.value)
+  return nextGroup < 0 ? commands.length - 1 : nextGroup - 1
+})
 const readyThrough = ref(-1)
 let resultTimer: ReturnType<typeof setTimeout> | undefined
 
-watch(currentStep, (step) => {
+watch(targetCommand, (target) => {
   if (resultTimer)
     clearTimeout(resultTimer)
 
-  if (step < 0) {
-    readyThrough.value = -1
+  if (target < readyThrough.value) {
+    readyThrough.value = target
     return
   }
 
-  readyThrough.value = step - 1
-  resultTimer = setTimeout(() => {
-    if (currentStep.value === step)
-      readyThrough.value = step
-  }, 900)
+  const revealNextCommand = () => {
+    if (readyThrough.value >= target)
+      return
+
+    resultTimer = setTimeout(() => {
+      if (targetCommand.value !== target)
+        return
+
+      readyThrough.value++
+      revealNextCommand()
+    }, 900)
+  }
+  revealNextCommand()
 }, { immediate: true })
 
 onBeforeUnmount(() => {
@@ -245,7 +258,7 @@ onBeforeUnmount(() => {
 })
 
 const visibleCommands = computed(() => commands
-  .slice(0, currentStep.value + 1)
+  .slice(0, Math.min(targetCommand.value, readyThrough.value + 1) + 1)
   .map((entry, index) => ({ entry, index })))
 </script>
 
@@ -253,7 +266,7 @@ const visibleCommands = computed(() => commands
   <div class="evidence-terminal">
     <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>ILUSTRAČNÍ PŘEPIS</small></div>
     <div class="terminal-body">
-      <div v-if="currentStep < 0" class="terminal-idle">
+      <div v-if="targetCommand < 0" class="terminal-idle">
         <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
         <div>[as-cli] Waiting for daemon to initialize (this may take up to 2 minutes)...</div>
       </div>
@@ -264,7 +277,7 @@ const visibleCommands = computed(() => commands
           <b>{{ item.entry.command }}</b>
           <em :class="item.index <= readyThrough ? 'ok' : 'pending'">{{ item.index <= readyThrough ? 'DONE' : '...' }}</em>
         </div>
-        <div v-if="item.index === currentStep && item.index <= readyThrough" class="terminal-output">
+        <div v-if="item.index === readyThrough" class="terminal-output">
           <span class="output-label">OUT</span>
           <div v-if="item.entry.logMessages" class="logbook-output">
             <strong>{{ item.entry.result }}</strong>
