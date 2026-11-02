@@ -96,260 +96,229 @@
   border-bottom: 1px solid var(--line);
 }
 
-.topic-as-repository .repo-task-request > code {
-  margin-left: auto;
-}
-
 .topic-as-repository .repo-task-story {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-2xl);
-  margin-top: var(--space-xl);
+  gap: 64px;
+  margin-top: var(--space-2xl);
 }
 
 .topic-as-repository .repo-task-story h2 {
-  margin-bottom: var(--space-md);
+  margin: var(--space-md) 0 0;
   --text-role: block;
   --text-size: var(--type-block);
   --text-leading: 1.2;
   --text-font: var(--br-font);
 }
 
-.topic-as-repository .repo-task-story > section {
-  min-width: 0;
-}
-
-.topic-as-repository .repo-task-story > section > p {
-  min-height: 74px;
-}
-
 .topic-as-repository .repo-task-route,
-.topic-as-repository .repo-artifact-code,
+.topic-as-repository .repo-task-change,
 .topic-as-repository .repo-task-evidence {
   display: grid;
-  align-content: start;
+  justify-items: start;
   gap: var(--space-sm);
-  min-height: 174px;
-  margin-top: var(--space-lg);
-  padding: var(--space-lg);
-  border: 1px solid #3c454a;
-  color: #c5cdd1;
-  background: #262626;
 }
 
-.topic-as-repository .repo-task-route > svg {
-  width: 24px;
-  height: 24px;
-  color: #bdaaff;
+.topic-as-repository .repo-task-story section > div > svg {
+  width: 112px;
+  height: 112px;
+  color: var(--ink);
 }
 
-.topic-as-repository .repo-task-route > svg:nth-of-type(2) {
-  height: 16px;
+.topic-as-repository .repo-story-link {
+  position: absolute;
+  top: 40px;
+  width: 48px;
+  height: 48px;
+  color: var(--steel);
 }
 
-.topic-as-repository .repo-task-route > strong {
-  color: #bdaaff;
+.topic-as-repository .repo-story-link.at-change {
+  left: calc(33.333% - 24px);
 }
 
-.topic-as-repository .repo-task-evidence > p,
-.topic-as-repository .repo-symbol-query > p,
-.topic-as-repository .repo-symbol-results > p {
+.topic-as-repository .repo-story-link.at-evidence {
+  left: calc(66.666% - 4px);
+}
+
+.topic-as-repository .repo-human-gate {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-}
-
-.topic-as-repository .repo-task-evidence > p {
-  color: #7fd394;
-}
-
-.topic-as-repository .repo-task-evidence > .repo-human-gate {
-  margin-top: var(--space-sm);
   color: var(--br-orange);
 }
 
 .topic-as-repository .repo-task-request > svg,
-.topic-as-repository .repo-task-evidence svg,
-.topic-as-repository .repo-handoff svg,
-.topic-as-repository .repo-symbol-view svg {
+.topic-as-repository .repo-human-gate > svg {
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
 }
 
 .topic-as-repository .repo-task-request > svg,
-.topic-as-repository .repo-handoff .is-human svg {
+.topic-as-repository .repo-handoff .is-human svg,
+.topic-as-repository .repo-handoff .is-human strong,
+.topic-as-repository .repo-symbol-reference.is-generated > svg {
   color: var(--br-orange);
 }
 
-.topic-as-repository .repo-artifact-code > code,
-.topic-as-repository .repo-task-route > code,
-.topic-as-repository .repo-task-evidence > code,
-.topic-as-repository .repo-symbol-view code {
+.topic-as-repository .repo-task-story code,
+.topic-as-repository .repo-symbol-reference code {
+  display: block;
   padding: 0;
-  color: inherit;
+  color: var(--steel);
   background: transparent;
   white-space: pre;
   overflow-wrap: normal;
-  --text-role: code;
-  --text-size: var(--type-note);
+  --text-role: command;
+  --text-size: var(--type-caption);
   --text-leading: 1.35;
   --text-font: 'IBM Plex Mono', monospace;
 }
 
-.topic-as-repository .repo-artifact-code > .is-removed {
-  color: #ff8a7a;
-}
-
-.topic-as-repository .repo-artifact-code > .is-added {
-  color: #7fd394;
-}
-
-.topic-as-repository .repo-task-route > span,
-.topic-as-repository .repo-task-evidence span,
-.topic-as-repository .repo-handoff-head > span,
-.topic-as-repository .repo-handoff-event > p,
-.topic-as-repository .repo-handoff-event > span,
-.topic-as-repository .repo-symbol-view p,
-.topic-as-repository .repo-symbol-view span {
-  --text-role: caption;
-  --text-size: var(--type-caption);
-  --text-leading: 1.3;
-  --text-font: var(--br-font);
-}
-
 .topic-as-repository .repo-handoff {
-  display: grid;
-  gap: var(--space-md);
+  position: relative;
+  height: 300px;
   margin-top: var(--space-2xl);
 }
 
-.topic-as-repository .repo-handoff-head,
-.topic-as-repository .repo-handoff-lane {
-  display: grid;
-  grid-template-columns: 100px repeat(6, minmax(0, 1fr));
-  gap: var(--space-sm);
+.topic-as-repository .repo-handoff-path,
+.topic-as-repository .repo-symbol-branches {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 300px;
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
 }
 
-.topic-as-repository .repo-handoff-head {
-  padding-left: 108px;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+.topic-as-repository .repo-handoff-lane {
+  position: absolute;
+  inset-inline: 0;
+  height: 140px;
 }
 
-.topic-as-repository .repo-handoff-lane {
-  align-items: start;
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--line);
+.topic-as-repository .repo-handoff-lane.is-human {
+  top: 0;
+}
+
+.topic-as-repository .repo-handoff-lane.is-agent {
+  top: 160px;
+}
+
+.topic-as-repository .repo-handoff .is-agent svg {
+  color: var(--steel);
 }
 
 .topic-as-repository .repo-handoff-lane > h2 {
   display: grid;
   gap: var(--space-sm);
   margin: 0;
+  width: 80px;
+  padding-top: 24px;
   --text-role: body;
   --text-size: var(--type-body);
   --text-leading: 1.35;
-  --text-font: var(--br-font);
 }
 
-.topic-as-repository .repo-handoff .is-agent svg {
-  color: #bdaaff;
+.topic-as-repository .repo-handoff-lane > h2 > svg {
+  width: 32px;
+  height: 32px;
 }
 
 .topic-as-repository .repo-handoff-event {
+  position: absolute;
+  top: 0;
   display: grid;
+  justify-items: center;
   gap: var(--space-sm);
-  min-height: 126px;
-  padding: var(--space-md);
+  width: 140px;
+  text-align: center;
 }
 
-.topic-as-repository .repo-handoff-event > strong {
+.topic-as-repository .repo-handoff-event > svg {
+  box-sizing: content-box;
+  width: 56px;
+  height: 56px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.topic-as-repository .repo-handoff-event > span {
   --text-role: caption;
   --text-size: var(--type-caption);
   --text-leading: 1.3;
   --text-font: var(--br-font);
 }
 
-.topic-as-repository .repo-handoff .at-start { grid-column: 2; }
-.topic-as-repository .repo-handoff .at-design { grid-column: 3; }
-.topic-as-repository .repo-handoff .at-design-gate { grid-column: 4; }
-.topic-as-repository .repo-handoff .at-convert { grid-column: 5; }
-.topic-as-repository .repo-handoff .at-deploy-gate { grid-column: 6; }
-.topic-as-repository .repo-handoff .at-validate { grid-column: 7; }
+.topic-as-repository .repo-handoff .at-start { left: 100px; }
+.topic-as-repository .repo-handoff .at-design { left: 280px; }
+.topic-as-repository .repo-handoff .at-design-gate { left: 460px; }
+.topic-as-repository .repo-handoff .at-convert { left: 640px; }
+.topic-as-repository .repo-handoff .at-deploy-gate { left: 820px; }
+.topic-as-repository .repo-handoff .at-validate { left: 1000px; }
 
-.topic-as-repository .repo-handoff .is-gate {
+.topic-as-repository .repo-handoff .is-gate > svg {
   border: 1px dashed var(--br-orange);
 }
 
 .topic-as-repository .repo-symbol-view {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: var(--space-2xl);
-  margin-top: var(--space-xl);
-  padding: var(--space-xl);
-  border: 1px solid #3c454a;
-  color: #c5cdd1;
-  background: #262626;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 220px;
+  margin-top: var(--space-2xl);
 }
 
-.topic-as-repository .repo-symbol-view h2 {
-  display: flex;
-  align-items: center;
+.topic-as-repository .repo-symbol-query {
+  display: grid;
+  align-content: center;
+  justify-items: start;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-  color: var(--white);
+}
+
+.topic-as-repository .repo-symbol-query > svg {
+  width: 112px;
+  height: 112px;
+}
+
+.topic-as-repository .repo-symbol-query > .repo-symbol-selection {
   --text-role: block;
   --text-size: var(--type-block);
   --text-leading: 1.2;
   --text-font: var(--br-font);
 }
 
-.topic-as-repository .repo-symbol-query > .repo-symbol-selection {
-  display: inline-block;
-  margin-bottom: var(--space-lg);
-  padding: var(--space-sm) var(--space-md);
-  color: #bdaaff;
-  background: #3c3547;
-  --text-role: command;
-  --text-size: var(--type-caption);
-}
-
-.topic-as-repository .repo-symbol-query > p + p {
-  margin-top: var(--space-md);
-}
-
-.topic-as-repository .repo-symbol-generated {
-  display: grid;
-  grid-template-columns: 22px minmax(0, 1fr);
-  gap: var(--space-sm);
-  margin-top: var(--space-xl);
-  padding-top: var(--space-lg);
-  border-top: 1px solid #3c454a;
-}
-
-.topic-as-repository .repo-symbol-generated > code,
-.topic-as-repository .repo-symbol-generated > span {
-  grid-column: 2;
-}
-
-.topic-as-repository .repo-symbol-generated > svg,
-.topic-as-repository .repo-symbol-generated > strong,
-.topic-as-repository .repo-symbol-reference.is-generated > svg {
-  color: var(--br-orange);
-}
-
 .topic-as-repository .repo-symbol-reference {
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) 76px;
+  grid-template-columns: 64px minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid #3c454a;
+  gap: var(--space-xl);
+  height: 100px;
 }
 
-.topic-as-repository .repo-symbol-results > .repo-symbol-limit {
-  display: block;
-  margin-top: var(--space-lg);
+.topic-as-repository .repo-symbol-reference > svg {
+  width: 64px;
+  height: 64px;
+}
+
+.topic-as-repository .repo-symbol-reference > div {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.topic-as-repository .repo-symbol-reference span {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+}
+
+.topic-as-repository .repo-symbol-branches circle {
+  fill: var(--steel);
 }
 
 .topic-as-repository .repo-glossary {

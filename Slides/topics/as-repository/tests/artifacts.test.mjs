@@ -20,24 +20,32 @@ import { chromium } from 'playwright-chromium'
       assert.match(await layout.locator(selector).getAttribute('aria-label'), /^Ilustrační/)
       assert.equal(await layout.locator('[data-slidev-clicks-start]').count(), 0, 'No new reveal steps')
       assert.match(await layout.locator('[role="note"]').innerText(), /Ilustrační/)
+      assert.equal(await layout.locator(`${selector} pre`).count(), 0, 'No extra technical text panels')
+      assert.ok((await layout.innerText()).split(/\s+/).length <= 85, 'Keep the graphical slide to 85 words')
       if (selector === '.repo-task-story') {
-        assert.deepEqual(await layout.locator('.repo-artifact-code code').allTextContents(),
-          ['IF gCmdClear THEN', '- gProductionCount := 1;', '+ gProductionCount := 0;'])
+        assert.equal(await layout.locator('.repo-artifact-code').count(), 0)
+        assert.equal(await layout.locator('.repo-task-story section > div > svg').count(), 3)
+        assert.equal(await layout.locator('.repo-story-link').count(), 2)
         assert.match(await layout.locator('.repo-task-route').innerText(), /structured-text/)
-        assert.match(await layout.locator('.repo-task-evidence').innerText(), /Modelový build: PASS/)
+        assert.match(await layout.locator('.repo-task-change').innerText(), /Reset → 0/)
+        assert.match(await layout.locator('.repo-task-evidence').innerText(), /Build \+ test/)
         assert.match(await layout.locator('.repo-human-gate').innerText(), /čeká/)
       } else if (selector === '.repo-handoff') {
         assert.equal(await layout.locator('.repo-handoff-lane').count(), 2)
         assert.equal(await layout.locator('.is-human .is-gate').count(), 2)
-        assert.match(await layout.locator('.at-design-gate').innerText(), /Bez souhlasu se nepřevádí/)
-        assert.match(await layout.locator('.at-deploy-gate').innerText(), /URL i verzi/)
-        assert.match(await layout.locator('.at-validate').innerText(), /Read-only nálezy[\s\S]*Nové schválení/)
+        assert.equal(await layout.locator('.repo-handoff-event > svg').count(), 6)
+        assert.equal(await layout.locator('.repo-handoff-path path').count(), 1)
+        assert.match(await layout.locator('.at-design-gate').innerText(), /Bez souhlasu STOP/)
+        assert.match(await layout.locator('.at-deploy-gate').innerText(), /URL a verzi/)
+        assert.match(await layout.locator('.at-validate').innerText(), /Jen čtení/)
+        assert.match(await layout.locator('.repo-takeaway').innerText(), /Nový požadavek či schválení/)
       } else {
         assert.equal(await layout.locator('.repo-symbol-reference').count(), 3)
         assert.equal(await layout.locator('.repo-symbol-reference.is-generated').count(), 1)
-        assert.match(await layout.locator('.repo-symbol-generated').innerText(), /Neupravovat přímo/)
-        assert.match(await layout.locator('.repo-symbol-query').innerText(), /typ z deklarace projektu/)
-        assert.match(await layout.locator('.repo-symbol-limit').innerText(), /reference nejsou test/)
+        assert.equal(await layout.locator('.repo-symbol-branches path').count(), 1)
+        assert.match(await layout.locator('.is-generated').innerText(), /Neupravovat přímo/)
+        assert.match(await layout.locator('.repo-symbol-query').innerText(), /Typ z deklarace projektu/)
+        assert.match(await layout.locator('[role="note"]').innerText(), /Reference nejsou test/)
       }
     }
   } finally {
