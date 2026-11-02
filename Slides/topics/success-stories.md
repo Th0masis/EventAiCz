@@ -15,7 +15,7 @@ import './success-stories/styles.css'
 	<section>
 		<span class="success-label">Výzva</span>
 		<h2>Jeden projekt, různé platformy</h2>
-		<p>Dvě ARM PLC doplnilo x86 PLC 3100. Při výměně dat přes UDP přestaly po přidání struktur s hodnotami LREAL správně sedět jejich bajtová zarovnání.</p>
+		<p>Nejprve spolu přes UDP komunikovala dvě ARM PLC. Po přidání PLC 3100 s x86 procesorem se data ve strukturách s hodnotami LREAL přestala přenášet správně kvůli rozdílnému bajtovému zarovnání.</p>
 	</section>
 	<section>
 		<span class="success-label">Postup</span>
@@ -29,13 +29,13 @@ import './success-stories/styles.css'
 	</section>
 </div>
 
-<p class="success-outcome"><strong>Výsledek:</strong> Po lidské revizi a přenosu změn komunikace fungovala.</p>
+<p class="success-outcome"><strong>Výsledek:</strong> Po kontrole navržených úprav struktur a jejich přenosu do projektu komunikace mezi PLC fungovala správně.</p>
 
 <!--
 *Záměr a čas: 1:00. Ukázat konkrétní, malý úkol, na kterém AI ušetřila ruční práci bez vynechání kontroly.*
 *Počáteční stav: celý titulek i tři obsahové sloupce jsou viditelné; slide nemá klikací odhalení ani interaktivní prvky.*
 
-V projektu komunikovala dvě ARM PLC a nově přidané x86 PLC 3100 přes UDP. Problém se projevil u struktur s LREAL. Po určení příčiny v zarovnání bajtů požádal autor Copilot o návrh úpravy struktur. Výsledek následně zkontroloval a přenesl do projektu; komunikace pak fungovala.
+Nejprve spolu přes UDP komunikovala dvě ARM PLC. Po přidání PLC 3100 s x86 procesorem se data ze struktur s LREAL nepřenášela správně kvůli odlišnému bajtovému zarovnání. Copilot navrhl upravit rozmístění polí a doplnit výplňové bajty. Autor návrh zkontroloval, přenesl změny do projektu a komunikace pak fungovala správně.
 
 *Konečný stav: stejný jako počáteční; všechny tři části příběhu zůstávají viditelné.*
 -->
