@@ -329,21 +329,31 @@ import './as-repository/styles.css'
 
 # as-skills:<br><span class="accent">od zadání k ověřenému výsledku</span>
 
-<div class="repo-example">
-	<div><span class="repo-step">1</span><h3>Vyberte roli</h3><p>Agent AS-Project-Agent načte projektové <code>AGENTS.md</code>, pokud je přítomné.</p></div>
-	<div><span class="repo-step">2</span><h3>Určete vlastníka</h3><p>Podle souborů a úlohy vybere jednu z 15 doménových skills.</p></div>
-	<div><span class="repo-step">3</span><h3>Proveďte postup</h3><p><code>SKILL.md</code> směruje reference, <code>as</code> CLI, MCP nebo účelový skript.</p></div>
-	<div><span class="repo-step">4</span><h3>Ověřte změnu</h3><p>Build, test či cílená kontrola podle skillu; člověk reviewuje důkazy.</p></div>
+<div class="repo-task-request" aria-label="Ilustrační zadání pro AS-Project-Agent"><mdi-account-outline aria-hidden="true" /><p>„Oprav reset počítadla. Po resetu očekávám nulu.“</p></div>
+
+<div class="repo-task-story" aria-label="Ilustrační průchod skillem structured-text, nikoli provedená změna">
+	<mdi-arrow-right class="repo-story-link at-change" aria-hidden="true" />
+	<mdi-arrow-right class="repo-story-link at-evidence" aria-hidden="true" />
+	<section>
+		<div class="repo-task-route"><mdi-book-open-page-variant-outline aria-hidden="true" /><h2>Vybrat postup</h2><strong>structured-text</strong><span>AGENTS.md → SKILL.md</span></div>
+	</section>
+	<section>
+		<div class="repo-task-change"><mdi-file-code-outline aria-hidden="true" /><h2>Provést změnu</h2><strong>Reset → 0</strong><code>Logical/Counter/Main.st</code></div>
+	</section>
+	<section>
+		<div class="repo-task-evidence"><mdi-clipboard-check-outline aria-hidden="true" /><h2>Předložit důkaz</h2><strong>Build + test</strong><span class="repo-human-gate"><mdi-account-outline aria-hidden="true" />Review: čeká</span></div>
+	</section>
 </div>
 
 <p class="repo-takeaway">Skill není nástroj. <strong>Popisuje, kdy a jak použít nástroje.</strong></p>
-<p class="repo-note">Skripty jsou jen v některých skills; CLI, MCP servery i runtime jsou samostatné závislosti.</p>
+<p class="repo-note" role="note">Ilustrační postup, ne provedený build ani test. CLI, MCP i runtime jsou samostatné závislosti.</p>
 
 <!--
 *Záměr a čas: 2:00. Ukázat skutečný postup as-skills včetně rozdílu mezi instrukcí, procedurou, nástrojem a ověřením.*
-*Počáteční stav: všechny čtyři kroky jsou viditelné; bez kliků. Konečný stav: stejný.*
+*Počáteční i konečný stav: zadání resetu a tři propojené symboly — kniha postupu, soubor změny a kontrolní seznam důkazů. Bez kliků a dalších interakcí.*
 
 Uživatel vybere AS-Project-Agent pro práci v Automation Studio projektu. Agent nejprve čte kořenový AGENTS.md, pokud existuje; šablona repozitáře ho do AS projektu dodává. Tato instrukce popisuje architekturu, invarianty a směrování.
+Ukázka je ilustrační: kniha představuje postup structured-text pro soubor Logical/Counter/Main.st, soubor s kódem změnu resetu a kontrolní seznam požadované důkazy. Reset má nastavit gProductionCount na nulu; build a test jsou oddělené podklady pro čekající lidské review. Nejde o naměřené výsledky ani provedenou změnu.
 Podle přesných cest a typu úlohy agent zvolí vlastnící skill, například structured-text pro Logical/*.st nebo as-physical-config pro Hardware.hw. SKILL.md je vstupní bod; delší references se načítají jen při odpovídajícím triggeru.
 Nástroje jsou další vrstva: as-cli provádí podporované změny, čte metadata a spouští build; MCP se připojuje ke zdrojům/nástrojům; specifické skripty běží jen když je daný postup vyžaduje. Příklad: mapprobotics má volitelný PowerShell capture-scene-viewer.ps1. Ne každá skill má skript.
 Ověření určuje vlastní skill a riziko úlohy. Build není runtime test; předání nasazení nebo test na PLC zůstává samostatný krok s lidským rozhodnutím. Branch-code-review je oddělený příkaz, ne automatická součást každého requestu.
@@ -467,23 +477,33 @@ import './as-repository/styles.css'
 
 # mappView HMI:<br><span class="accent">návrh, převod a read-only ověření</span>
 
-<p class="repo-lead">Uživatel vybere specialistu a zůstává součástí rozhodování na každém kontrolním bodě.</p>
+<p class="repo-lead">Člověk rozhoduje. Agent navrhuje, převádí a kontroluje.</p>
 
-<div class="repo-binding-steps">
-	<div><span class="repo-step">1</span><h3>Příprava zadání</h3><p>Uživatel vybere agenta, projekt a vymezí cíl i rozsah změny.</p></div>
-	<div><span class="repo-step">2</span><h3>Design</h3><p>Agent připraví anotované HTML; uživatel návrh zkontroluje a schválí.</p></div>
-	<div><span class="repo-step">3</span><h3>Convert + build</h3><p>Agent převede schválený návrh do mappView a spustí <code>as build</code>.</p></div>
-	<div><span class="repo-step">4</span><h3>Validate</h3><p>Uživatel nasadí; agent s potvrzenou URL provede read-only kontrolu.</p></div>
+<div class="repo-handoff" aria-label="Ilustrační předávání práce mezi člověkem a agentem se schvalovacími branami">
+	<svg class="repo-handoff-path" viewBox="0 0 1140 300" aria-hidden="true"><path d="M170 58L350 218L530 58L710 218L890 58L1070 218" /></svg>
+	<div class="repo-handoff-lane is-human">
+		<h2><mdi-account-outline aria-hidden="true" />Člověk</h2>
+		<div class="repo-handoff-event at-start"><mdi-clipboard-text-outline aria-hidden="true" /><strong>1 · Zadání</strong><span>Vybere specialistu</span></div>
+		<div class="repo-handoff-event is-gate at-design-gate"><mdi-account-check-outline aria-hidden="true" /><strong>3 · Schválí návrh</strong><span>Bez souhlasu STOP</span></div>
+		<div class="repo-handoff-event is-gate at-deploy-gate"><mdi-upload-network-outline aria-hidden="true" /><strong>5 · Sám nasadí</strong><span>Potvrdí URL a verzi</span></div>
+	</div>
+	<div class="repo-handoff-lane is-agent">
+		<h2><mdi-robot-outline aria-hidden="true" />Agent</h2>
+		<div class="repo-handoff-event at-design"><mdi-monitor-dashboard aria-hidden="true" /><strong>2 · Design</strong><span>Anotované HTML</span></div>
+		<div class="repo-handoff-event at-convert"><mdi-file-code-outline aria-hidden="true" /><strong>4 · Convert</strong><span>mappView + build</span></div>
+		<div class="repo-handoff-event at-validate"><mdi-magnify aria-hidden="true" /><strong>6 · Validate</strong><span>Jen čtení</span></div>
+	</div>
 </div>
 
-<p class="repo-takeaway">Návrh schvaluje uživatel. <strong>Nasazení i případnou opravu potvrzuje také uživatel.</strong></p>
-<p class="repo-note">Plugin je potřeba výslovně vybrat; převod vyžaduje <code>as</code>. Validace sama nic nemění ani nenasazuje.</p>
+<p class="repo-takeaway"><strong>Oprava po validaci? Nový požadavek či schválení.</strong></p>
+<p class="repo-note" role="note">Ilustrační tok. Validace sama nic nemění ani nenasazuje.</p>
 
 <!--
 *Záměr a čas: 2:30. Projít spolupráci uživatele a agenta od zadání až po bezpečné ověření.*
-*Počáteční i konečný stav: celý čtyřkrokový přehled a závěrečné sdělení jsou viditelné; slide nemá interaktivní detaily ani klikací odhalení.*
+*Počáteční i konečný stav: šest velkých symbolů na lomené trase mezi člověkem a agentem. Dvě lidské brány jsou označeny přerušovaným kruhem. Bez kliků a dalších interakcí.*
 
 Uživatel ve svém prostředí výslovně vybere agenta MappView HMI Designer and Converter a otevře správný projekt Automation Studio 6. Agent načte svůj interní skill a zvolí trasu Design, Convert, Validate nebo Complete.
+Diagram je ilustrační. Čtěte fáze zleva doprava, ne nejprve celou horní dráhu: člověk zadá práci, agent dodá HTML, člověk schválí, agent převede a sestaví, člověk nasadí a teprve potom agent vrátí read-only nálezy. TemperatureValue.value navazuje na příklad teploty na následujícím slidu.
 Na začátku uživatel dodá cíl, panel a relevantní podklady. Agent se doptá na chybějící rozhodnutí, například na zamýšlené chování nebo rozhraní PLC; při nevyřešeném předpokladu nepokračuje potichu.
 V Design vznikne anotované HTML, které uživatel může prohlédnout a schválit. Teprve schválený kontrakt a jasný rozsah otevřou Convert. U změny existující vizualizace agent předem zmapuje relevantní stránky a artefakty; chrání nesouvisející práci.
 V Convert agent upraví existující projekt pomocí dostupného `as` CLI a spustí povinný `as build`. Při chybě nebo nejasném PLC rozhraní sdělí stav a požádá o potřebný vstup; build bez chyb dokazuje pouze sestavení.
@@ -615,23 +635,31 @@ import './as-repository/styles.css'
 
 # Situace: <span class="accent">kde se používá gAlarmXCore?</span>
 
-<p class="repo-lead">Modelový příklad: před úpravou alarmové logiky potřebuji znát typ a všechna použití symbolu.</p>
+<p class="repo-lead">Před změnou zjisti původ, typ a rozsah použití.</p>
 
-<div class="repo-example">
-	<div><span class="repo-step">1</span><h3>Ověřit symbol</h3><p>Agent použije <code>hover</code> a <code>goToDefinition</code>; ověří typ a původ <code>gAlarmXCore</code>.</p></div>
-	<div><span class="repo-step">2</span><h3>Zmapovat dopad</h3><p><code>findReferences</code> vrátí deklaraci i místa použití, která má uživatel před změnou posoudit.</p></div>
-	<div><span class="repo-step">3</span><h3>Rozlišit generovaný kód</h3><p>Pokud deklarace leží v <code>Temp/Includes/AS_TempDecl/</code>, nepřejmenovávat ji; vzniká z konfigurace.</p></div>
-	<div><span class="repo-step">4</span><h3>Ověřit sestavení</h3><p>Chybí-li deklarace, spusťte <code>as build</code> a obnovte LSP. Po změně znovu sestavte projekt.</p></div>
+<div class="repo-symbol-view" aria-label="Ilustrační graf symbolu gAlarmXCore, generované deklarace a dvou ST použití; nejde o skutečné nálezy">
+	<svg class="repo-symbol-branches" viewBox="0 0 1140 300" aria-hidden="true"><path d="M360 150H510M510 50V250M510 50H600M510 150H600M510 250H600" /><circle cx="510" cy="150" r="5" /></svg>
+	<section class="repo-symbol-query">
+		<mdi-code-braces aria-hidden="true" />
+		<strong class="repo-symbol-selection">gAlarmXCore</strong>
+		<p>Typ z deklarace projektu</p>
+	</section>
+	<section class="repo-symbol-results">
+		<div class="repo-symbol-reference is-generated"><mdi-file-lock-outline aria-hidden="true" /><div><strong>Generovaná deklarace</strong><code>Temp/Includes/AS_TempDecl/…</code><span>Neupravovat přímo</span></div></div>
+		<div class="repo-symbol-reference"><mdi-file-code-outline aria-hidden="true" /><div><strong>Použití v alarmu</strong><code>Logical/Alarm/Main.st</code></div></div>
+		<div class="repo-symbol-reference"><mdi-file-code-outline aria-hidden="true" /><div><strong>Použití v servisu</strong><code>Logical/Service/Main.st</code></div></div>
+	</section>
 </div>
 
-<p class="repo-takeaway">Výsledek: <strong>agent ukáže typ a rozsah použití; inženýr rozhodne o změně.</strong></p>
-<p class="repo-note">Příklad ilustruje situaci popsanou v dokumentaci pluginu; nalezené soubory a použití vždy ověřte ve vlastním projektu.</p>
+<p class="repo-takeaway">LSP ukáže souvislosti. <strong>Inženýr rozhodne o změně.</strong></p>
+<p class="repo-note" role="note">Ilustrační graf; soubory i počet použití jsou modelové. Reference nejsou test.</p>
 
 <!--
 *Záměr a čas: 1:30. Uzavřít AS-LSP krátkým modelovým průchodem od otázky k důkazu a bezpečné hranici.*
-*Počáteční i konečný stav: všechny čtyři kroky a upozornění na modelový příklad jsou viditelné; bez kliků.*
+*Počáteční i konečný stav: velký symbol vlevo se větví ke třem souborům vpravo; generovaná deklarace má zámek a varování. Bez kliků a dalších interakcí.*
 
 Zeptejte se: „Kde se používá gAlarmXCore a jaký má typ?“ Agent nejprve ověří symbol přes hover/definici, pak vyhledá reference. Pokud definici najde v Temp/Includes/AS_TempDecl/, jde o generovanou deklaraci komponenty; nepřejmenovávat ji, změnit zdroj konfigurace a ST použití pouze podle záměru projektu. Pokud globální symbol chybí, ověřit, zda už proběhl as build a zda je aktivní konfigurace dostupná launcheru; pak LSP reloadnout a dotaz zopakovat.
+Graf je ilustrační: dvě ST cesty a jedna zkrácená cesta deklarace ukazují souvislosti symbolu, nikoli skutečně nalezené soubory. Spoje ukazují původ a reference, ne tok vykonávání programu. Typ je záměrně ponechán k ověření v projektu; z názvu symbolu jej neodvozujeme.
 Názvy a očekávaný výsledek jsou modelový scénář vycházející z README pluginu, nikoli výsledek skutečně otevřeného zákaznického projektu. findReferences není kompilace. Po úpravě as build ověřuje sestavení, ne běh systému.
 Zdroje: plugins/as-lsp/README.md (generated declarations, Troubleshooting); plugins/as-lsp/skills/as-lsp/SKILL.md (Workflow, Limits).
 -->
