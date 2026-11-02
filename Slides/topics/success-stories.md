@@ -1,5 +1,22 @@
 ---
 layout: default
+class: ot-slide chapter-slide topic-success-stories
+---
+
+<script setup>
+import './success-stories/styles.css'
+</script>
+
+<img class="chapter-image" src="/topics/success-stories/chapter.jpg" alt="">
+
+# Příklady z praxe: praktický přínos AI
+
+<!--
+Ukážeme konkrétní příklady využití AI při vývoji, návrhu hardwaru, diagnostice a uvádění do provozu. U každého odlišíme přínos agenta od toho, co stále musí ověřit člověk.
+-->
+
+---
+layout: default
 class: ot-slide topic-success-stories success-story-slide
 ---
 
