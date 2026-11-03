@@ -5,16 +5,18 @@
 .topic-orchestrace-dansko .workflow-progress {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 20px 0 18px;
+  gap: 18px;
+  margin: 24px 0 50px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #68747b;
   color: #c5cdd1;
 }
 
 .topic-orchestrace-dansko .workflow-progress span,
 .topic-orchestrace-dansko .workflow-progress-separator {
-  --text-role: caption;
-  --text-size: var(--type-caption);
-  --text-leading: 1.3;
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
   --text-font: var(--br-font);
   font-style: normal;
 }
@@ -22,6 +24,20 @@
 .topic-orchestrace-dansko .workflow-progress .is-current {
   color: var(--br-orange);
   font-weight: 700;
+}
+
+.topic-orchestrace-dansko.workflow-overview-slide {
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-orchestrace-dansko.workflow-overview-slide .roadmap {
+  margin-top: auto;
+}
+
+.topic-orchestrace-dansko .workflow-progress + div,
+.topic-orchestrace-dansko .workflow-progress + p {
+  margin-top: 0;
 }
 
 .topic-orchestrace-dansko .story-subagent > span,
@@ -60,7 +76,8 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr) 96px minmax(0, 1fr);
-  align-items: start;
+  grid-template-rows: repeat(4, auto);
+  align-items: stretch;
   margin-top: 28px;
 }
 
@@ -76,6 +93,9 @@
 
 .topic-orchestrace-dansko .roadmap-stage {
   position: relative;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / span 4;
   min-width: 0;
   transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -183,6 +203,8 @@
 
 .topic-orchestrace-dansko .roadmap-handoff {
   display: grid;
+  grid-row: 1 / span 4;
+  align-self: start;
   justify-items: center;
   gap: 8px;
   padding-top: 13px;
@@ -574,6 +596,7 @@
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 48px;
   margin-top: 32px;
+  align-items: flex-end;
 }
 
 .topic-orchestrace-dansko .story-request h2,
@@ -771,6 +794,24 @@
   color: var(--br-orange);
 }
 
+.topic-orchestrace-dansko .story-flow > div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: center;
+}
+
+.topic-orchestrace-dansko .story-flow > div > svg {
+  grid-row: span 2;
+  width: 28px;
+  height: 28px;
+}
+
+.topic-orchestrace-dansko .story-flow .is-agent > svg,
+.topic-orchestrace-dansko .story-flow .is-agent > strong {
+  color: #bdaaff;
+}
+
 .topic-orchestrace-dansko .story-dialog {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 1fr);
@@ -789,7 +830,8 @@
   margin: 0;
 }
 
-.topic-orchestrace-dansko .story-dialog p > span {
+.topic-orchestrace-dansko .story-dialog p > span,
+.topic-orchestrace-dansko .story-ai-feedback span {
   --text-role: body;
   --text-size: var(--type-body);
   --text-leading: 1.35;
@@ -888,6 +930,10 @@
   gap: 28px;
 }
 
+.topic-orchestrace-dansko .story-slicing h2 {
+  margin-bottom: 8px;
+}
+
 .topic-orchestrace-dansko .story-slicing > section > p {
   --text-role: body;
   --text-size: var(--type-body);
@@ -895,6 +941,57 @@
   --text-font: var(--br-font);
   margin: 0 0 12px;
   color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .story-slicing .story-secondary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.topic-orchestrace-dansko .story-slicing .story-secondary svg,
+.topic-orchestrace-dansko .story-slicing-result svg {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: #7fd394;
+}
+
+.topic-orchestrace-dansko .story-horizontal .story-secondary svg {
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .story-slicing-result {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #68747b;
+}
+
+.topic-orchestrace-dansko .story-slicing-result > strong {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #bdaaff;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.topic-orchestrace-dansko .story-slicing-result > strong svg {
+  color: #bdaaff;
+}
+
+.topic-orchestrace-dansko .story-ai-feedback {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr 24px 1fr;
+  align-items: center;
+  gap: 18px;
 }
 
 .topic-orchestrace-dansko .story-matrix {
@@ -950,7 +1047,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .topic-orchestrace-dansko .story-board section {
@@ -989,13 +1086,129 @@
   opacity: 1;
 }
 
-.topic-orchestrace-dansko .story-implementation {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr) 22px minmax(0, 1fr);
-  align-items: stretch;
-  gap: 14px;
-  margin-top: 12px;
+.topic-orchestrace-dansko .agent-lanes {
+  position: relative;
+  border: 1px solid #3c454a;
 }
+
+.topic-orchestrace-dansko .agent-lanes-head,
+.topic-orchestrace-dansko .agent-lane {
+  display: grid;
+  grid-template-columns: 210px repeat(5, minmax(0, 1fr));
+  align-items: center;
+}
+
+.topic-orchestrace-dansko .agent-lanes-head {
+  height: 44px;
+  background: #25292c;
+  text-align: center;
+}
+
+.topic-orchestrace-dansko .agent-lanes-head > *,
+.topic-orchestrace-dansko .agent-lane-role,
+.topic-orchestrace-dansko .agent-lane-node span,
+.topic-orchestrace-dansko .lane-retry-label,
+.topic-orchestrace-dansko.implementation-slide .story-implementation-outcome p {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+}
+
+.topic-orchestrace-dansko .agent-lane {
+  position: relative;
+  height: 56px;
+  border-top: 1px solid #3c454a;
+}
+
+.topic-orchestrace-dansko .agent-lane-role,
+.topic-orchestrace-dansko .agent-lane-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topic-orchestrace-dansko .agent-lane-role {
+  padding-left: 12px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.topic-orchestrace-dansko .agent-lane-role > svg {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  color: #bdaaff;
+}
+
+.topic-orchestrace-dansko .agent-lane-node {
+  position: relative;
+  grid-row: 1;
+  justify-content: center;
+  color: #bdaaff;
+}
+
+.topic-orchestrace-dansko .agent-lane-node > svg {
+  width: 42px;
+  height: 42px;
+  padding: 5px;
+  border: 3px solid currentColor;
+  border-radius: 6px;
+  background: #1c1f21;
+  flex: none;
+}
+
+.topic-orchestrace-dansko .agent-lane-node span {
+  position: absolute;
+  top: -10px;
+  left: calc(50% + 30px);
+  width: 154px;
+  color: #fff;
+}
+
+.topic-orchestrace-dansko .lane-plan { grid-column: 2; color: var(--br-orange); }
+.topic-orchestrace-dansko .lane-implement { grid-column: 3; }
+.topic-orchestrace-dansko .lane-review { grid-column: 4; }
+.topic-orchestrace-dansko .lane-test { grid-column: 5; }
+.topic-orchestrace-dansko .lane-merge { grid-column: 6; color: #7fd394; }
+
+.topic-orchestrace-dansko .lane-merge span {
+  right: calc(50% + 30px);
+  left: auto;
+  text-align: right;
+}
+
+.topic-orchestrace-dansko .agent-lanes-links {
+  position: absolute;
+  top: 44px;
+  left: 210px;
+  width: calc(100% - 210px);
+  height: 280px;
+  overflow: visible;
+  fill: none;
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.topic-orchestrace-dansko .lane-forward { stroke: #bdaaff; }
+.topic-orchestrace-dansko .lane-forward.is-pass { stroke: #7fd394; }
+.topic-orchestrace-dansko .agent-lane-node .is-pass { color: #7fd394; }
+
+.topic-orchestrace-dansko .lane-return {
+  stroke: var(--br-orange);
+  stroke-dasharray: 10 8;
+}
+
+.topic-orchestrace-dansko .lane-retry-label {
+  position: absolute;
+  bottom: 8px;
+  z-index: 1;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .retry-review { left: 19%; }
+.topic-orchestrace-dansko .retry-test { left: 48%; }
 
 .topic-orchestrace-dansko .story-implementation-entry {
   display: flex;
@@ -1046,23 +1259,22 @@
 }
 
 .topic-orchestrace-dansko .story-implementation-feedback {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: grid;
+  gap: 4px;
   margin-top: 10px;
-  padding: 8px 12px;
-  border-left: 2px solid var(--br-orange);
-  background: rgba(255, 255, 255, 0.045);
+  text-align: center;
 }
 
-.topic-orchestrace-dansko .story-implementation-feedback svg {
-  width: 23px;
-  height: 23px;
-  flex: none;
-  color: var(--br-orange);
+.topic-orchestrace-dansko .story-implementation-feedback .story-retry-line {
+  width: 100%;
+  height: 26px;
+  fill: none;
+  stroke: #ff8a7a;
+  stroke-width: 2;
 }
 
 .topic-orchestrace-dansko .story-implementation-feedback p {
+  margin: 0;
   --text-role: compact;
   --text-size: var(--type-compact);
   --text-leading: 1.3;
@@ -1081,6 +1293,7 @@
 }
 
 .topic-orchestrace-dansko .story-implementation-outcome p {
+  margin: 0;
   display: flex;
   gap: 12px;
   align-items: flex-start;
@@ -1113,6 +1326,48 @@
 
 .topic-orchestrace-dansko .story-evaluation-index {
   color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .story-evaluation-index {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.topic-orchestrace-dansko .story-evaluation-index svg {
+  width: 32px;
+  height: 32px;
+}
+
+.topic-orchestrace-dansko .story-evaluation .is-agent .story-evaluation-index {
+  color: #bdaaff;
+}
+
+.topic-orchestrace-dansko .story-decisions {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+}
+
+.topic-orchestrace-dansko .story-decisions span {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  color: #fff;
+}
+
+.topic-orchestrace-dansko .story-decisions svg {
+  width: 28px;
+  height: 28px;
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .story-decisions span:first-child svg {
+  color: #7fd394;
 }
 
 .topic-orchestrace-dansko .story-diff,
@@ -1802,4 +2057,182 @@
 
   .topic-orchestrace-dansko .mountain-footer { bottom: 48px; }
   .topic-orchestrace-dansko .mountain-footer b { max-width: 310px; }
+}
+
+/* Board-style lane tables */
+
+.topic-orchestrace-dansko .story-slicing .story-lane-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.topic-orchestrace-dansko .story-lane-label {
+  --text-role: note;
+  --text-size: var(--type-note);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  color: #9aa5ab;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.topic-orchestrace-dansko .story-horizontal .story-lane-label {
+  color: #8a9299;
+}
+
+.topic-orchestrace-dansko .story-vertical .story-lane-label {
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .story-lane-icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: #4a545a;
+}
+
+.topic-orchestrace-dansko .story-board-table {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.8fr) repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: #3c454a;
+  margin-top: 12px;
+  border: 1px solid #3c454a;
+}
+
+.topic-orchestrace-dansko .story-horizontal .story-board-table {
+  --lane-accent: #8a9299;
+}
+
+.topic-orchestrace-dansko .story-vertical .story-board-table {
+  --lane-accent: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .story-board-header {
+  display: contents;
+}
+
+.topic-orchestrace-dansko .story-board-header span,
+.topic-orchestrace-dansko .story-board-header b {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+  padding: 10px 12px;
+  background: #202326;
+  color: #8a9299;
+  text-align: center;
+  font-weight: 400;
+  border-bottom: 2px solid var(--lane-accent);
+  min-height: 44px;
+  max-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topic-orchestrace-dansko .story-board-header span {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.topic-orchestrace-dansko .story-board-row {
+  display: contents;
+}
+
+.topic-orchestrace-dansko .story-board-row strong,
+.topic-orchestrace-dansko .story-board-cell {
+  padding: 10px 12px;
+  background: #1c1f21;
+  color: #e4e9ec;
+  min-height: 44px;
+  max-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #3c454a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topic-orchestrace-dansko .story-board-row strong {
+  --text-role: compact;
+  --text-size: var(--type-compact);
+  --text-leading: 1.3;
+  --text-font: var(--br-font);
+  color: #fff;
+  font-weight: 600;
+  border-right: 2px solid var(--lane-accent);
+  white-space: normal;
+}
+
+.topic-orchestrace-dansko .story-board-cell {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+  color: #e4e9ec;
+  text-align: center;
+}
+
+.topic-orchestrace-dansko .story-board-cell:last-child {
+  border-right: none;
+}
+
+.topic-orchestrace-dansko .story-horizontal .story-board-cell:last-child {
+  background: rgba(138, 146, 153, 0.1);
+  color: #7a8a94;
+}
+
+.topic-orchestrace-dansko .story-vertical .story-board-cell:last-child {
+  background: rgba(255, 122, 0, 0.1);
+}
+
+.topic-orchestrace-dansko .story-board-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #68747b;
+}
+
+.topic-orchestrace-dansko .story-board-footer svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: #c5cdd1;
+}
+
+.topic-orchestrace-dansko .story-horizontal .story-board-footer svg {
+  color: #8a9299;
+}
+
+.topic-orchestrace-dansko .story-vertical .story-board-footer svg {
+  color: var(--br-orange);
+}
+
+.topic-orchestrace-dansko .story-board-footer strong {
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: var(--br-font);
+  display: block;
+  color: #fff;
+  font-weight: 600;
+}
+
+.topic-orchestrace-dansko .story-board-footer span:last-child {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+  color: #c5cdd1;
 }
