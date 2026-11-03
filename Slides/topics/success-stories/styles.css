@@ -300,9 +300,7 @@
 
 @media (max-width: 800px) {
   .topic-success-stories .success-three-columns,
-  .topic-success-stories .success-migration-grid,
-  .topic-success-stories .success-ua-grid,
-  .topic-success-stories .success-demo-grid {
+  .topic-success-stories .success-migration-grid {
     grid-template-columns: 1fr;
   }
 
