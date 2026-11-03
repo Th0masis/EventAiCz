@@ -226,13 +226,13 @@ import './orchestrace-dansko/styles.css'
 <div class="workflow-progress" aria-label="Fáze workflow"><span class="is-current">01 Specifikace</span><span class="workflow-progress-separator">→</span><span>02 Implementace</span><span class="workflow-progress-separator">→</span><span>03 Ověření</span></div>
 
 <div class="story-flow" aria-label="Specifikace: spolupráce člověka a agenta">
-  <div><strong>Člověk</strong><span>Zadá záměr</span></div>
+  <div class="is-human"><mdi-account-outline aria-hidden="true" /><strong>Člověk</strong><span>Záměr</span></div>
   <mdi-arrow-right aria-hidden="true" />
-  <div><strong>Agent</strong><span>Otevře otázky</span></div>
+  <div class="is-agent"><mdi-robot-outline aria-hidden="true" /><strong>Agent</strong><span>Otázky</span></div>
   <mdi-arrow-right aria-hidden="true" />
-  <div><strong>Člověk</strong><span>Rozhodne chování</span></div>
+  <div class="is-human"><mdi-account-check-outline aria-hidden="true" /><strong>Člověk</strong><span>Rozhodnutí</span></div>
   <mdi-arrow-right aria-hidden="true" />
-  <div><strong>Agent</strong><span>Navrhne tickety</span></div>
+  <div class="is-agent"><mdi-format-list-checks aria-hidden="true" /><strong>Agent</strong><span>Tickety</span></div>
 </div>
 <div class="story-dialog" aria-label="Ilustrační upřesnění chování mezi agentem a člověkem">
   <p class="is-agent"><mdi-robot-outline aria-hidden="true" /><span><strong>Agent se doptá</strong>Co s neuzavřenými lahvemi po poruše?</span></p>
@@ -245,7 +245,7 @@ import './orchestrace-dansko/styles.css'
   <section><span class="story-ticket-id">T2 · VYŘAZENÍ</span><h2>Vyřadit lahve</h2><p>Neuzavřené lahve jsou zmetky.<br>Závisí na T1.</p></section>
   <section><span class="story-ticket-id">T3 · OBNOVA</span><h2>Obnovit dávku</h2><p>Další dobrý kus zvýší počet<br>na 43, ne na 1. Závisí na T2.</p></section>
 </div>
-<div class="story-human-gate story-rule" v-click="2"><mdi-account-check-outline /><p><strong>Člověk schválí záměr i návrh ticketů.</strong><span>T1 → T2 → T3. Blokovaný ticket není připravený k paralelní realizaci.</span></p></div>
+<div class="story-human-gate story-rule" v-click="2"><mdi-account-check-outline /><p><strong>Člověk schválí záměr i tickety T1 → T2 → T3.</strong></p></div>
 
 <!--
 První workflow je specifikace s člověkem ve smyčce. Agent má záměr zpochybnit a otevřít nejasnosti, ne je tiše rozhodnout. Tady se ptá, co s neuzavřenými lahvemi po poruše, a nabídne varianty. Rozhodnutí — vyřadit je jako zmetky — musí dodat vlastník zadání, ne agent. Dialog je ilustrační.
@@ -273,26 +273,88 @@ import './orchestrace-dansko/styles.css'
 
 <div class="story-slicing">
   <section class="story-horizontal">
-    <h2>Horizontal · ticket = vrstva</h2>
-    <p>Například T-HMI pokryje všechna tři chování v HMI.</p>
-    <div class="story-matrix story-matrix--horizontal" aria-label="Horizontal slicing: jeden ticket pokrývá jednu vrstvu napříč chováním">
-      <span class="story-matrix-corner">VRSTVA</span><b>PORUCHA</b><b>VYŘAZENÍ</b><b>OBNOVA</b>
-      <strong>HMI</strong><i class="is-selected"></i><i class="is-selected"></i><i class="is-selected"></i>
-      <strong>Řízení</strong><i></i><i></i><i></i>
-      <strong>Simulace</strong><i></i><i></i><i></i>
+    <div class="story-lane-header">
+      <span class="story-lane-label">HUMAN DEFAULT</span>
+      <h2>DISCIPLINE LANES</h2>
+      <mdi-layers-outline aria-hidden="true" class="story-lane-icon" />
     </div>
-    <p class="story-secondary">Celé chování ověříme až po propojení vrstev.</p>
+    <p>Specialisté zůstávají zaměření. Funkce čeká na integrační hranici.</p>
+    <div class="story-board-table" aria-label="Horizontal slicing: specialist lanes with work-in-progress columns">
+      <div class="story-board-header">
+        <span>VRSTVA</span><b>BACKLOG</b><b>ROZPRACOVANÉ</b><b>OVĚŘENO</b>
+      </div>
+      <div class="story-board-row">
+        <strong>HMI</strong>
+        <span class="story-board-cell">chyba + reset displej</span>
+        <span class="story-board-cell">potřeba názvů stavů</span>
+        <span class="story-board-cell"></span>
+      </div>
+      <div class="story-board-row">
+        <strong>BEZPEČNOST</strong>
+        <span class="story-board-cell">bezpečný stop</span>
+        <span class="story-board-cell">potřeba pravidla resetů</span>
+        <span class="story-board-cell"></span>
+      </div>
+      <div class="story-board-row">
+        <strong>ŘÍZENÍ</strong>
+        <span class="story-board-cell">přerušení + vyčistit</span>
+        <span class="story-board-cell">potřeba logiky zamítnutí</span>
+        <span class="story-board-cell"></span>
+      </div>
+      <div class="story-board-row">
+        <strong>V/V + HW</strong>
+        <span class="story-board-cell">zpracování chyb osy</span>
+        <span class="story-board-cell">potřeba sim zařízení</span>
+        <span class="story-board-cell"></span>
+      </div>
+    </div>
+    <div class="story-board-footer">
+      <mdi-clock-outline aria-hidden="true" />
+      <span><strong>DEN INTEGRACE</strong></span>
+      <span>Žádná kompletní funkce k testování</span>
+    </div>
   </section>
   <section class="story-vertical">
-    <h2>Vertical · ticket = chování</h2>
-    <p>T1 = porucha napříč potřebnými vrstvami.</p>
-    <div class="story-matrix story-matrix--vertical" aria-label="Vertical slicing: jeden ticket pokrývá jedno chování napříč vrstvami">
-      <span class="story-matrix-corner">VRSTVA</span><b>PORUCHA · T1</b><b>VYŘAZENÍ</b><b>OBNOVA</b>
-      <strong>HMI</strong><i :class="{ 'is-selected': $clicks >= 1 }"></i><i></i><i></i>
-      <strong>Řízení</strong><i :class="{ 'is-selected': $clicks >= 1 }"></i><i></i><i></i>
-      <strong>Simulace</strong><i :class="{ 'is-selected': $clicks >= 1 }"></i><i></i><i></i>
+    <div class="story-lane-header">
+      <span class="story-lane-label">AGENT + TDD</span>
+      <h2>FEATURE LANES</h2>
+      <mdi-layers-outline aria-hidden="true" class="story-lane-icon" />
     </div>
-    <p class="story-secondary" v-click="1">T1 má vlastní akceptační test.</p>
+    <p>Udržovat jedno chování v kontextu. Překročit každou hranici, pak to ověřit.</p>
+    <div class="story-board-table" aria-label="Vertical slicing: feature lanes with work-in-progress columns">
+      <div class="story-board-header">
+        <span></span><b>BACKLOG</b><b>ROZPRACOVANÉ</b><b>OVĚŘENO</b>
+      </div>
+      <div class="story-board-row">
+        <strong>DETEKCE CHYBY</strong>
+        <span class="story-board-cell">přerušení viditelné</span>
+        <span class="story-board-cell">HMI + stav + osa</span>
+        <span class="story-board-cell">počet platný</span>
+      </div>
+      <div class="story-board-row" v-click="1">
+        <strong>VYMAZAT PŘÍKAZ</strong>
+        <span class="story-board-cell">nekryté zůstávání</span>
+        <span class="story-board-cell">logika zamítnutí + bezpečnost</span>
+        <span class="story-board-cell">přepravník prázdný</span>
+      </div>
+      <div class="story-board-row" v-click="1">
+        <strong>OBNOVIT DÁVKU</strong>
+        <span class="story-board-cell">restart počtu dávky</span>
+        <span class="story-board-cell">reset + sekvence</span>
+        <span class="story-board-cell">pokračuje ze zastavení</span>
+      </div>
+      <div class="story-board-row" v-click="1">
+        <strong>OVĚŘIT 100 DÁVKU</strong>
+        <span class="story-board-cell">žádný důkaz</span>
+        <span class="story-board-cell">sim spuštění + log</span>
+        <span class="story-board-cell">100 lahví hotovo</span>
+      </div>
+    </div>
+    <div class="story-board-footer" v-click="1">
+      <mdi-beaker-outline aria-hidden="true" />
+      <span><strong>SAME BOARD NEW UNIT</strong></span>
+      <span>A working feature at every step</span>
+    </div>
   </section>
 </div>
 <div class="story-board" v-click="2" aria-label="Ilustrační Kanban stejných ticketů">
@@ -300,16 +362,33 @@ import './orchestrace-dansko/styles.css'
   <section><b>ROZPRACOVÁNO</b><span><strong>T2</strong> Vyřadit lahve</span></section>
   <section><b>ČEKÁ NA T2</b><span><strong>T3</strong> Obnovit dávku</span></section>
 </div>
-<div class="story-slicing-result story-rule" v-click="2"><mdi-test-tube /><p><strong>Vertical slicing mění obsah ticketu, ne orientaci Kanbanu.</strong><span>Stejné T1–T3; závislosti, akceptační i integrační testy zůstávají.</span></p></div>
+<div class="story-slicing-result" v-click="2" aria-label="Ilustrační zpětná vazba pro AI při vertikálním řezu">
+  <strong><mdi-robot-outline aria-hidden="true" /> Pro AI: jeden ověřitelný výsledek</strong>
+  <div class="story-ai-feedback"><span>Menší kontext</span><mdi-arrow-right aria-hidden="true" /><span>Akceptační test</span><mdi-arrow-right aria-hidden="true" /><span>Cílená oprava</span></div>
+</div>
 
 <!--
-Vlevo je horizontal slicing. Ticket T-HMI pokrývá jednu vrstvu napříč poruchou, vyřazením i obnovou. Je to legitimní způsob práce, ale samotné hotové HMI ještě neprokazuje celé chování. Každá vrstva může mít vlastní testy; celek ověříme po integraci.
+## Horizontální slicing — první přístup, často nevhodný
+
+Vlevo je horizontal slicing. Ticket T-HMI pokrývá jednu vrstvu (HMI) napříč všemi chováními: porucha, vyřazení, obnova. Týmy si to často vybírají, protože odpovídá tomu, jak vývojáři přirozeně rozdělují práci — podle disciplín, dovedností a vlastnictví kódu. Problém: hotové HMI samo neprokazuje funkci. Funkce žije až po integraci všech vrstev. Každá vrstva se testuje zvlášť; celek ověříme později. Cena za integraci je vysoká — dlouhý feedback cyklus, opravné smyčky na konci.
+
+## Vertikální slicing — měníme směr, zachováme stack
 
 [click]
-Vpravo je vertical slicing. Ticket T1 je jedno pozorovatelné chování napříč HMI, řízením a simulací; jeho akceptační test ověří, že porucha je vidět a počet zůstává zachovaný.
+Vpravo je vertical slicing. Architektonický stack zůstává stejný; měníme směr řezu. Ticket T1 je jedno pozorovatelné chování (porucha) napříč všemi vrstvami: HMI, řízení, simulací. Akceptační test ověří funkci na konci — vidět alarm a zachovat počet. Nemusíš měnit každou vrstvu v každém ticketu, jen ty potřebné. Zpětná vazba přichází okamžitě. Cena: řezání ticketů je intelektuálně náročnější a odhady jsou nejisté. Stejný princip má Pocock v TDD: jeden test (červeno), jedna implementace (zeleno), opakovat. Refaktoring (modrá fáze) patří do review, ne do smyčky.
+
+## Proč vertical pro lidi?
+
+Feedback a testovatelnost. Zákazník vidí hodnotu na konci jednoho ticketu, ne na konci projektu. Integrace není šok.
+
+## Proč vertical pro agenty?
 
 [click]
-Teď se nemění tabule, jen rozsah ticketu. T1, T2 a T3 jsou stejné ve specifikaci i na Kanbanu. T3 čeká na T2; rozdělení práce ani přidání agentů závislost neodstraní. Jde o ilustrační stav, ne o skutečný board.
+Vertical je standard pro lidi i agenty. Agent má dvě omezení: krátkodobou paměť (kontext) a sklonění dělat příliš mnoho najednou. Malý ticket s konkrétní podmínkou dokončení a testem ho udržuje na jedné linii. Akceptační test mu řekne, co konkrétně opravit — vyhne se označení „hotovo bez testů". Každý slice jde delegovat subagentovi s čerstvým kontextem, bez zbytečného kontextu z jiných ticketů. Výhoda: menší kontext, izolované selhání, cílená zpětná vazba. Nevýhoda: závisí na opravdu malém rozsahu a dostupných akceptačních testech — není to magické řešení na ušetření tokenů. V Kanbanu T1, T2, T3 zůstávají stejné. T3 čeká na T2; vertikální řez neruší závislosti ani integrační testy.
+
+## Výjimka: horizontal jako kontrakt
+
+Horizontální řezy znovu mají smysl jako první ticket, když musíš definovat rozhraní (API, schema) pro paralelní práci. Předem dohodnutý kontrakt snižuje konflikty v kódu — 57 % konfliktů v jednom datasetu tvoří úpravy stejného místa v souboru.
 -->
 
 ---
@@ -326,34 +405,31 @@ import './orchestrace-dansko/styles.css'
 
 <div class="workflow-progress" aria-label="Fáze workflow"><span>01 Specifikace</span><span class="workflow-progress-separator">→</span><span class="is-current">02 Implementace</span><span class="workflow-progress-separator">→</span><span>03 Ověření</span></div>
 
-<div class="story-implementation-entry">
-  <span>VSTUP</span><strong>Schválený T1 · závislosti splněny</strong><mdi-arrow-right aria-hidden="true" /><b>Orchestrátor vybere ticket a rozdělí práci</b>
-</div>
-<div class="story-implementation">
-  <section class="story-subagent"><span>SUBAGENT · IMPLEMENTACE</span><h2>Nejmenší změna</h2><p>Pro jeden ověřitelný výsledek.</p>
-    <div class="story-diff" aria-label="Ilustrační diff v jazyce ST"><span>IF AxisFault THEN</span><span class="is-removed">-  GoodCount := 0;</span><span class="is-added">+  State := HOLD;</span></div>
-  </section>
-  <mdi-arrow-right v-click="1" aria-hidden="true" />
-  <section class="story-subagent" v-click="1"><span>SUBAGENT · REVIEW</span><h2>Kontrola změny</h2><p>Kód, rozsah a bezpečné hranice.</p></section>
-  <mdi-arrow-right v-click="1" aria-hidden="true" />
-  <section class="story-subagent" v-click="1"><span>SUBAGENT · TEST</span><h2>Ověření chování</h2><p>Akceptační scénář, ne jen build.</p>
-    <div class="story-testrun" aria-label="Ilustrační běh akceptačního testu T1"><p class="is-fail"><mdi-close-circle-outline aria-hidden="true" /><span>FAIL · po poruše počet 0</span></p><p class="is-pass" v-click="2"><mdi-check-circle-outline aria-hidden="true" /><span>PASS · po poruše počet 42</span></p></div>
-  </section>
-</div>
-<div class="story-implementation-feedback" v-click="1">
-  <mdi-arrow-u-left-top aria-hidden="true" />
-  <p><strong>Review nebo test selže?</strong><span>Nález se vrátí implementačnímu subagentovi. Opravit → znovu ověřit.</span></p>
+<div class="agent-lanes" role="group" aria-label="Ilustrační workflow ticketu T1: plán, implementace, review, test a integrace s návraty k opravě">
+  <div class="agent-lanes-head"><strong>T1 · PORUCHA</strong><span>Plán</span><span>Implementace</span><span>Review</span><span>Test</span><span>Integrace</span></div>
+  <svg class="agent-lanes-links" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
+    <path class="lane-forward" d="M100 24 H300 V72" />
+    <path class="lane-forward" v-click="1" d="M300 72 H500 V120 H700 V168" />
+    <path class="lane-return" data-return="review" v-click="1" d="M500 132 V144 H300 V88 M292 98 L300 88 L308 98" />
+    <path class="lane-return" data-return="test" v-click="1" d="M700 180 V192 H300 V88" />
+    <path class="lane-forward is-pass" v-click="2" d="M700 168 H900 V216" />
+  </svg>
+  <div class="agent-lane"><strong class="agent-lane-role"><mdi-robot-outline aria-hidden="true" />Orchestrátor</strong><div class="agent-lane-node lane-plan"><mdi-robot-outline aria-hidden="true" /><span>Schválený T1</span></div></div>
+  <div class="agent-lane"><strong class="agent-lane-role"><mdi-robot-outline aria-hidden="true" />Implementátor</strong><div class="agent-lane-node lane-implement"><mdi-robot-outline aria-hidden="true" /><span>Malá změna</span></div></div>
+  <div class="agent-lane"><strong class="agent-lane-role"><mdi-robot-outline aria-hidden="true" />Reviewer</strong><div class="agent-lane-node lane-review" v-click="1"><mdi-robot-outline aria-hidden="true" /><span>Kontrola diffu</span></div><span class="lane-retry-label retry-review" v-click="1">Nález → opravit</span></div>
+  <div class="agent-lane"><strong class="agent-lane-role"><mdi-robot-outline aria-hidden="true" />Tester</strong><div class="agent-lane-node lane-test" v-click="1"><mdi-robot-outline aria-hidden="true" /><span :class="{ 'is-pass': $clicks >= 2 }">{{ $clicks >= 2 ? 'PASS · 42' : 'FAIL · 0' }}</span></div><span class="lane-retry-label retry-test" v-click="1">FAIL → opravit</span></div>
+  <div class="agent-lane"><strong class="agent-lane-role"><mdi-source-merge aria-hidden="true" />Integrátor</strong><div class="agent-lane-node lane-merge" v-click="2"><mdi-source-merge aria-hidden="true" /><span>Důkazy k PR</span></div></div>
 </div>
 <div class="story-implementation-outcome" v-click="2">
-  <p><mdi-check-circle-outline /><span><strong>Kontroly prošly?</strong> Orchestrátor integruje změnu a přiloží důkazy. Člověk posoudí PR až při ověření.</span></p>
-  <p class="story-human-gate"><mdi-account-alert-outline /><span><strong>Člověk při nejasnosti, riziku nebo opakovaném selhání.</strong> Žádné nekonečné retry.</span></p>
+  <p><mdi-check-circle-outline /><span><strong>PASS → integrace → důkazy pro člověka</strong></span></p>
+  <p class="story-human-gate"><mdi-account-alert-outline /><span><strong>Nejasnost · riziko · opakované selhání → člověk</strong></span></p>
 </div>
 
 <!--
-Druhé workflow začíná až připraveným ticketem. Orchestrátor ověří závislosti a přidělí práci. Implementační subagent dělá nejmenší změnu v dohodnutém rozsahu — v ilustračním diffu porucha osy už nenuluje počet, ale převede stroj do stavu HOLD.
+Druhé workflow začíná až připraveným ticketem. Graf je ilustrační: řádky rozlišují role agentů, sloupce kroky práce. Orchestrátor ověří závislosti T1 a přidělí práci. Implementační subagent dělá nejmenší změnu v dohodnutém rozsahu: porucha osy nesmí vynulovat vyrobený počet.
 
 [click]
-Pak vstupuje review subagent a testovací subagent. Review ověřuje změnu a její rozsah; test dokládá chování. První běh akceptačního testu tu selže: po poruše je počet nula. Úspěšný build sám nepotvrzuje zachování počtu při poruše.
+Fialová spojnice předává práci review a testovacímu subagentovi. Review ověřuje změnu a její rozsah; test dokládá chování. Oranžové přerušované větve ukazují dva možné návraty k implementátorovi: nález v review nebo selhání testu. Neznamenají, že obě chyby musí nastat. Ilustrační první test ukazuje počet nula. Úspěšný build sám nepotvrzuje zachování počtu při poruše.
 
 [click]
 Neúspěšná kontrola vrací práci k implementaci; po opravě test projde a počet zůstává 42. Úspěšné kontroly dovolí integraci do pracovní větve a předání důkazů. Nejasný záměr, riziková operace nebo opakované selhání vyžadují člověka. Paralelně pracují jen nezávislé úkoly; samotné rozdělení mezi agenty závislosti T1 → T2 → T3 nemaže.
@@ -375,9 +451,9 @@ import './orchestrace-dansko/styles.css'
 
 <div class="story-evaluation-layout">
 <div class="story-evaluation">
-  <section><span class="story-evaluation-index">AGENT</span><div><h2>Předloží důkazy</h2><p>Výsledky testů, změněné soubory, nálezy a zbývající rizika.</p></div></section>
-  <section v-click="1"><span class="story-evaluation-index">OVĚŘIT</span><div><h2>Vrátit se k původnímu záměru</h2><p>Porucha → vyřazení → obnova. Stejná dávka a správný počet.</p></div></section>
-  <section v-click="2"><span class="story-evaluation-index">ČLOVĚK</span><div><h2>Rozhodne o dalším kroku</h2><p>Schválit PR · vrátit k opravě · upřesnit zadání.</p></div></section>
+  <section class="is-agent"><span class="story-evaluation-index"><mdi-robot-outline aria-hidden="true" />AGENT</span><div><h2>Důkazy k posouzení</h2><p>Diff · testy · logy · rizika</p></div></section>
+  <section v-click="1"><span class="story-evaluation-index"><mdi-target aria-hidden="true" />ZÁMĚR</span><div><h2>Stejná dávka, správný počet</h2><p>Porucha → vyřazení → obnova · 42 → 43</p></div></section>
+  <section v-click="2"><span class="story-evaluation-index"><mdi-account-check-outline aria-hidden="true" />ČLOVĚK</span><div><h2>Rozhodnutí</h2><div class="story-decisions" aria-label="Ilustrační výstupy lidského rozhodnutí"><span><mdi-check-circle-outline aria-hidden="true" />Schválit PR</span><span><mdi-arrow-u-left-top aria-hidden="true" />Opravit</span><span><mdi-comment-question-outline aria-hidden="true" />Upřesnit</span></div></div></section>
 </div>
 <aside class="story-pr" aria-label="Ilustrační pull request čekající na lidské schválení">
   <div class="story-pr-head"><mdi-source-pull aria-hidden="true" /><span>PULL REQUEST</span></div>
@@ -388,7 +464,7 @@ import './orchestrace-dansko/styles.css'
   <p class="is-required" :class="{ 'is-current': $clicks >= 2 }"><mdi-account-check-outline aria-hidden="true" /><span>Schválení člověkem: povinné</span></p>
 </aside>
 </div>
-<div class="story-rule"><mdi-account-check-outline /><p><strong>Agent připraví změnu a důkazy. Člověk rozhodne.</strong><span>Schválení PR není povolení k nasazení ani validace bezpečnostní funkce.</span></p></div>
+<div class="story-rule"><mdi-account-check-outline /><p><strong>Schválení PR ≠ povolení k nasazení.</strong></p></div>
 
 <!--
 Třetí workflow začíná výsledkovým balíčkem od agenta: pull request se změnou, testy, nálezy a riziky. Zelený build není důkaz, že funkce odpovídá původnímu požadavku. PR je ilustrační.
@@ -397,7 +473,7 @@ Třetí workflow začíná výsledkovým balíčkem od agenta: pull request se z
 Vraťme se k původnímu záměru: obsluha vidí poruchu, systém vyřadí neuzavřené lahve a po splnění podmínek obnovy pokračuje stejná dávka.
 
 [click]
-Člověk porovná důkazy s cílem a zvolí další krok: schválit PR, vrátit implementaci, nebo upřesnit zadání. Bez jeho schválení se PR nesloučí. Schválení PR není povolení k nasazení ani bezpečnostní validace stroje.
+Člověk porovná důkazy s cílem a zvolí další krok: schválit PR, vrátit implementaci, nebo upřesnit zadání. Tři výstupy v diagramu jsou ilustrační: oprava se vrací do implementace, upřesnění do specifikace. Bez jeho schválení se PR nesloučí. Schválení PR není povolení k nasazení ani bezpečnostní validace stroje.
 -->
 
 ---
