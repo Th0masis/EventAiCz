@@ -38,6 +38,22 @@ Kliky 1–3 zvýrazňují právě vysvětlovanou ikonu a nadpis oranžově.
 Bez dalších interakcí. S1 není citace B&R Help ani skutečný dohledaný dokument;
 nepřidáváme vymyšlenou URL. Reference je uvnitř modelového příkladu.
 
+## Výběr nástroje — skrytý záložní slide (`hide: true`)
+
+Sdělení: model navrhuje konkrétní dostupný nástroj podle požadavku, popisu,
+kontextu a povolení; host směruje volání na odpovídající server.
+
+| Klik | Nově viditelný obsah |
+|---|---|
+| 0 | Nadpis a požadavek uživatele. |
+| 1 | Ilustrační nabídka nástrojů Dokumentace a Prohlížeč. |
+| 2 | Vybraná Dokumentace, zdůvodnění shody a příprava argumentu `query`. |
+| 3 | Směrování aplikací a další vlivy na výběr. |
+
+Tři markery `[CLICK]` odpovídají skupinám 1–3. Nabídka je ilustrační, nikoli
+skutečný výpis Knowledge Hubu; slide nezobrazuje skryté uvažování modelu ani
+nezaručuje deterministický výběr.
+
 ## Regrese
 
 Z `Slides/` proti běžícímu serveru:
