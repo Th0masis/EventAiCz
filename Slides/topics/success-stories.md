@@ -194,25 +194,33 @@ import './success-stories/styles.css'
 
 <p class="success-category">Diplomová práce na ČVUT · autor Tomáš Bejček</p>
 
-<div class="success-demo-grid">
-	<figure class="success-demo-image">
-		<img src="/topics/success-stories/support-agent-mechanism.png" alt="Mechanismus z diplomové práce s agentem vyznačeným hřebenem a pastorkem">
-		<figcaption>Agent rozpoznal a označil hřeben a pastorek</figcaption>
+<div class="success-demo-grid success-sizing-grid">
+	<div class="success-sizing-context">
+		<figure class="success-demo-image">
+			<img src="/topics/success-stories/support-agent-mechanism.png" alt="Mechanismus z diplomové práce s agentem vyznačeným hřebenem a pastorkem">
+			<figcaption>Agent rozpoznal a označil hřeben a pastorek</figcaption>
+		</figure>
+		<section class="success-demo-copy">
+			<h2>Od obrázku k orientačnímu výpočtu</h2>
+			<p>Po rozpoznání mechanismu agent doplnil rozměry, materiál, hmotnost a požadavky na pohyb. Připravil výpočet dynamiky a kandidáty motorů.</p>
+		</section>
+	</div>
+	<figure v-click="1" class="success-demo-image success-sizing-result">
+		<img src="/topics/success-stories/2026-11-02_08-49-19.png" alt="Odpověď Support Agenta s orientačním výpočtem otáček, síly a momentu a porovnáním kandidátů motorů">
+		<figcaption>Výpočet a předběžný návrh pohonu v dialogu</figcaption>
 	</figure>
-	<section class="success-demo-copy">
-		<h2>Nejprve porozumět obrázku</h2>
-		<p>Obchodník předal agentovi obrázek mechanismu. Agent rozpoznal jeho části a vyznačil hřeben a pastorek přímo v obrázku.</p>
-		<h2>Potom doplnit parametry pohybu</h2>
-		<p>Z rozměrů, materiálu, hmotnosti a požadovaného pohybu připravil orientační výpočet dynamiky a návrh motoru.</p>
-	</section>
 </div>
 
-<p class="success-outcome"><strong>Přínos:</strong> Podklad pro dimenzování pohonu — nikoli náhrada ověření v ServoSoftu.</p>
+<p v-click="1" class="success-outcome"><strong>Přínos:</strong> Podklad pro dimenzování pohonu — nikoli náhrada ověření v ServoSoftu.</p>
 
 <!--
+Počáteční stav: mechanismus a shrnutí zadání jsou viditelné. Jediná skupina odhalení na kliku 1 zobrazí odpověď agenta i upozornění na ověření. Konečný stav: oba obrázky, shrnutí a upozornění jsou viditelné současně. Slide nemá jiné interaktivní prvky.
+
 Příkladem je mechanismus z diplomové práce na ČVUT, jejímž autorem je Tomáš Bejček. Obchodník předal agentovi obrázek a agent nejprve identifikoval hřeben a pastorek a označil je v obrázku.
 
-V dalších krocích dostal rozměry a materiál pastorku, hmotnost pohybující se části a požadavky na pohyb. Na jejich základě připravil orientační výpočty zrychlení, otáček, momentu setrvačnosti a potřebného momentu a navrhl kandidáty motorů.
+[click]
+
+V dalších krocích dostal rozměry a materiál pastorku, hmotnost pohybující se části a požadavky na pohyb. Na jejich základě připravil orientační výpočty zrychlení, otáček, momentu setrvačnosti a potřebného momentu a navrhl kandidáty motorů. Druhý obrázek ukazuje tuto odpověď agenta, nikoli nezávisle ověřené výsledky dimenzování.
 
 Jde o předběžnou podporu podobného typu úlohy, jakou řeší dimenzování v ServoSoftu, nikoli o prokázanou ekvivalenci výsledků. Zjednodušený model a porovnání maximálních momentů nestačí pro konečný výběr. Technik musí ověřit celý pohybový cyklus, momentově-otáčkovou charakteristiku, efektivní zatížení, ztráty i rezervy ve vhodném dimenzačním nástroji.
 -->
@@ -312,14 +320,18 @@ import './success-stories/styles.css'
 		<p>Vibrace, teplota, hluk a proud poskytují data pro sledování stavu stroje na platformě B&amp;R.</p>
 		<h2>AI rozpoznává poruchové stavy</h2>
 		<p>Modely trénované na označených měřeních rozpoznávaly v testech nesouosost pohonu i uvolněné uchycení.</p>
-		<h2>Z diagnostiky k rozhodnutí</h2>
-		<p>Výsledky pomáhají plánovat servis — při průběžném monitoringu i diagnostice na vyžádání.</p>
+		<h2>Podobné téma řešíme i v Česku</h2>
+		<p>Diplomová práce Matěje Goněce na VUT vznikla ve spolupráci s B&amp;R. Výsledkem je PulseGuard pro vibrodiagnostiku ložisek pomocí strojového učení. <a href="https://www.fme.vutbr.cz/etc/soubor/p/10622" target="_blank" rel="noopener noreferrer">Poster práce ↗</a></p>
 	</section>
 </div>
 
 <p class="success-outcome"><strong>Cíl:</strong> Včas odhalit vznikající problémy a omezit neplánované odstávky.</p>
 
+<!-- Zdroj českého příkladu: https://www.fme.vutbr.cz/etc/soubor/p/10622 — Matěj Goněc, Návrh vibrodiagnostického systému s využitím strojového učení. -->
+
 <!--
+Počáteční i konečný stav: fotografie, popis MDoctoru, český příklad s odkazem a cíl jsou viditelné současně. Slide nemá klikací odhalení ani interaktivní komponenty; odkaz otevírá poster práce.
+
 MDoctor je platforma pro prediktivní údržbu na technologii B&R. Základem nejsou odhady, ale měření provozních signálů: vibrací, teploty, hluku a proudu.
 
 Fotografie ukazuje motorovou zkušební platformu pro sběr vibračních dat.
@@ -327,6 +339,8 @@ Fotografie ukazuje motorovou zkušební platformu pro sběr vibračních dat.
 AI modely se učí z označených měření a poskytují diagnostické výsledky. Prezentované testy ukazují například rozpoznávání nesouososti pohonu a uvolněného uchycení stroje. Jde o konkrétní testovací scénáře, nikoli o záruku rozpoznání každé poruchy na libovolném stroji.
 
 Výsledky slouží jako podklad pro posouzení stavu zařízení a plánování údržby. MDoctor může být součástí průběžného monitoringu nebo diagnostické služby na vyžádání. Cílem je odhalit problémy dříve a omezit neplánované odstávky; neuvádíme zde garantovanou úsporu ani přesnost.
+
+Podobnému tématu jsme se věnovali i v Česku. Diplomová práce Matěje Goněce na VUT, Návrh vibrodiagnostického systému s využitím strojového učení, vznikla ve spolupráci s B&R Automatizace. Jejím výstupem je aplikace PulseGuard. Práce řeší detekci anomálií, klasifikaci poruch ložisek a predikci zbývající životnosti. Jde o samostatný český příklad, nikoli o tvrzení, že PulseGuard je součást MDoctoru. Modely z veřejných datasetů jsou výchozí základ a vyžadují dotrénování pro konkrétní provozní podmínky.
 -->
 
 ---

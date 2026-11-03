@@ -208,6 +208,25 @@
   gap: 12px;
 }
 
+.topic-success-stories .success-sizing-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.topic-success-stories .success-sizing-context {
+  display: grid;
+  gap: 24px;
+}
+
+.topic-success-stories .success-sizing-result img {
+  height: 380px;
+  object-fit: contain;
+}
+
+.topic-success-stories .success-sizing-grid + .success-outcome {
+  margin-top: 18px;
+}
+
 .topic-success-stories .success-hw-image img {
   max-height: 340px;
   object-fit: contain;
