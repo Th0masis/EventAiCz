@@ -56,11 +56,15 @@ nezaručuje deterministický výběr.
 
 ## Knowledge Hub — viditelný slide o připojení
 
-Všechny informace jsou na slidu viditelné bez klikání: možnost připojit Hub vedle
-`as-help` a `br-community`, doplňkové ukázkové projekty z R&D, rozdíl mezi MCP
-nástrojem a trénováním modelu, původ v ASCopilotu z ASCode, dva konfigurační
-údaje (URL a JWL token), uživatelská složka VS Code, měsíční kvóta s místem
-kontroly a upozornění na neověřenou volbu nástroje/modelu.
+Hlavní část vlevo ukazuje přidání přes URL a JWL token do uživatelského
+`mcp.json`. Doplňková část vpravo vysvětluje, jak může Hub spolupracovat s
+`as-help` a `br-community`, doplnění zdrojů a ověření na typických dotazech.
+Měsíční kvóta je samostatný doplněk zarovnaný ke spodnímu okraji obsahu.
+
+## Shrnutí — skrytý záložní slide (`hide: true`)
+
+Slide „Co si odnést a co přijde dál“ zůstává připravený jako záloha, ale není
+součástí běžného průchodu.
 
 ## Regrese
 

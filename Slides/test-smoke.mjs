@@ -445,23 +445,31 @@ async function checkRevealSequence(layout, slide, click) {
     for (const required of [
       'as-help',
       'br-community',
-      'ukázkových projektech',
+      'ukázkové projekty',
       'URL endpointu',
       'JWL token',
       '%APPDATA%\\Code\\User',
       '200',
       'bnr_rate_limit_info',
-      'nezaručí správný výběr',
-      'nepřeučí',
+      'nezaručí, že agent vybere nejlepší zdroj',
       'GPT-5',
       'ASCopilot z ASCode',
     ]) {
       assert.ok(text.includes(required), `Knowledge Hub setup slide must visibly include: ${required}`)
     }
+    assert.doesNotMatch(text, /nepřeučí|trénované znalosti/i,
+      'Knowledge Hub setup must not claim to retrain the model')
     assert.equal(await layout.locator('.bridge-hub-setup-grid section').count(), 2,
       'Knowledge Hub setup must show source and configuration sections')
     assert.equal(await layout.locator('.bridge-hub-model-note').isVisible(), true,
       'The model-selection caveat must remain visible')
+    const quotaBottomOffset = await layout.evaluate(element => {
+      const quota = element.querySelector('.bridge-hub-operations')
+      return element.getBoundingClientRect().bottom - parseFloat(getComputedStyle(element).paddingBottom)
+        - quota.getBoundingClientRect().bottom
+    })
+    assert.ok(Math.abs(quotaBottomOffset) <= 2,
+      'The monthly quota must align with the bottom of the slide content')
   }
   if (classes.includes('bridge-knowledge-slide')) {
     const geometry = await layout.evaluate(element => {
