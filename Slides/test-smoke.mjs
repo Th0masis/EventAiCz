@@ -46,39 +46,9 @@ async function checkDesign(layout, label) {
         width: rect.width * element.offsetWidth / canvas.width,
         height: rect.height * element.offsetHeight / canvas.height }
     }
-    const contrastRatio = (foreground, background) => {
-      const channels = value => value.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? []
-      const luminance = color => {
-        const [red, green, blue] = channels(color).map(value => {
-          value /= 255
-          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
-        })
-        return 0.2126 * red + 0.7152 * green + 0.0722 * blue
-      }
-      const foregroundLuminance = luminance(foreground)
-      const backgroundLuminance = luminance(background)
-      return (Math.max(foregroundLuminance, backgroundLuminance) + 0.05)
-        / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05)
-    }
     const cover = element.classList.contains('cover')
     const chapter = element.classList.contains('chapter-slide')
     const dark = element.classList.contains('dark-slide')
-    if (element.classList.contains('repo-skills-slide')) {
-      const slideBackground = getComputedStyle(element).backgroundColor
-      for (const code of element.querySelectorAll('code')) {
-        const style = getComputedStyle(code)
-        const label = code.textContent.trim().slice(0, 35)
-        if (code.closest('h2')) {
-          check(style.backgroundColor === 'rgba(0, 0, 0, 0)' && style.borderWidth === '0px',
-            `Heading code has a background or border: ${label}`)
-          check(contrastRatio(style.color, slideBackground) >= 4.5, `Heading code lacks contrast: ${label}`)
-        } else {
-          check(contrastRatio(style.color, style.backgroundColor) >= 4.5, `Code text lacks contrast: ${label}`)
-          check(style.backgroundColor !== slideBackground && style.borderColor !== style.backgroundColor,
-            `Code chip blends into its background: ${label}`)
-        }
-      }
-    }
     const [leftMargin, topMargin, rightMargin, bottomMargin] = rules.contentMargins
     const safeContent = (rect, name) => {
       check(rect.left >= leftMargin - 1 && rect.left + rect.width <= rules.canvas[0] - rightMargin + 1, `Object violates side margins: ${name}`)

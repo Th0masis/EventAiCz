@@ -188,7 +188,6 @@ line-height of 1.
       "caption": [14, 1.3, "brand"],
       "note": [12, 1.35, "brand"],
       "code": [12, 1.35, "mono"],
-      "code-emphasis": [16, 1.35, "mono"],
       "minor": [10, 1.2, "mono"],
       "compact": [14, 1.3, "brand"],
       "technical": [10, 1.35, "mono"],
