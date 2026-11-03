@@ -976,9 +976,11 @@
   --text-leading: 1.35;
   --text-font: var(--br-font);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   color: #bdaaff;
+  max-width: 100%;
 }
 
 .topic-orchestrace-dansko .story-slicing-result > strong svg {
