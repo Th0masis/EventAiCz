@@ -390,7 +390,7 @@
   --text-size: 14px;
   --text-leading: 1.35;
   font-weight: 500;
-  background-color: #e6e6e6;
+  background-color: var(--slidev-code-background);
   border: 1px solid #bdbdbd;
 }
 
