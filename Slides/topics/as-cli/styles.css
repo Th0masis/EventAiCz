@@ -1732,9 +1732,10 @@
   padding-top: calc(var(--space-2xl) + var(--space-sm));
 }
 
-.topic-as-cli .cli-command-shift-story h2,
-.topic-as-cli .cli-command-shift-commands h2 {
-  margin: 12px 0 18px;
+.topic-as-cli.cli-story .cli-command-shift-story h2,
+.topic-as-cli.cli-story .cli-command-shift-commands h2 {
+  margin: 0 0 var(--space-lg);
+  padding-top: 70px;
   --text-role: section;
   --text-size: var(--type-section);
   --text-leading: 1.15;
