@@ -2062,11 +2062,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr) 48px minmax(0, 1fr);
   gap: var(--space-xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-cli .cli-reset-flow + .cli-feedback {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-cli .cli-reset-step {
@@ -2112,7 +2112,9 @@
 }
 
 .topic-as-cli .cli-reset-step > svg {
-  margin-bottom: var(--space-sm);
+  width: 32px;
+  height: 32px;
+  margin-bottom: var(--space-xs);
 }
 
 .topic-as-cli .cli-audience-strip {

@@ -267,7 +267,7 @@ const visibleCommands = computed(() => commands
     <div class="terminal-title"><i></i><i></i><i></i><span>AS CLI</span><small>ILUSTRAČNÍ PŘEPIS</small></div>
     <div class="terminal-body">
       <div v-if="targetCommand < 0" class="terminal-idle">
-        <div>[AsBackend] Spawned daemon PID &lt;pid&gt; for &lt;absolute path&gt;\DevOpsDemo.apj</div>
+        <div>[AsBackend] Spawned daemon PID 18432 for C:\Projects\DevOpsDemo\DevOpsDemo.apj</div>
         <div>[as-cli] Waiting for daemon to initialize (this may take up to 2 minutes)...</div>
       </div>
       <div v-for="item in visibleCommands" :key="item.entry.command" class="terminal-entry">
