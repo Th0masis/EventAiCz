@@ -473,11 +473,11 @@ import './as-agentic-bridge/styles.css'
 	<mdi-arrow-right class="bridge-rag-link at-answer" v-click="3" aria-hidden="true" />
 </div>
 
-<p class="bridge-takeaway" v-click="4">RAG není trénování modelu.<br><strong>Dohledaný zdroj ještě nezaručuje správnou odpověď.</strong></p>
+<p class="bridge-takeaway" v-click="4"><strong>Dohledaný zdroj ještě nezaručuje správnou odpověď.</strong></p>
 <p class="bridge-artifact-note" role="note">Ilustrační dokument i odpověď, ne živé vyhledávání. Člověk ověří zdroj, verzi i závěr.</p>
 
 <!--
-Záměr a čas: 60 sekund. Vysvětlit RAG ve třech bodech a odlišit jej od trénování i od MCP.
+Záměr a čas: 60 sekund. Vysvětlit RAG ve třech bodech a odlišit jej od MCP.
 Mapa odhalování: 0 = nadpis, definice, otázka a označení ilustrace; 1 = stoh dokumentů S1; 2 = dokument s lupou, Reset → 0 a první šipka;
 3 = odpověď s citací a druhá šipka; 4 = závěr a neutrální diagram. Kliky 1–3 zvýrazňují právě vysvětlovaný symbol a nadpis oranžově. Bez dalších interakcí.
 
@@ -485,7 +485,7 @@ Mapa odhalování: 0 = nadpis, definice, otázka a označení ilustrace; 1 = sto
 Stoh dokumentů představuje projektové podklady. Retrieval je dohledání pasáží v připravených zdrojích. Artefakt je ilustrační: S1 je modelová projektová specifikace počítadla, revize 3, nikoli existující citace B&R Help. Záleží na pokrytí znalostní báze a na formulaci dotazu. Nejde automaticky o živé hledání na celém internetu.
 
 [CLICK]
-Dokument s lupou představuje vybranou pasáž, ne druhé hledání na internetu. Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Modelová pasáž S1 revize 3 § 2 říká: při resetu nastav gProductionCount na 0, počet zvyšuj jen při dokončení kusu. Revize a paragraf cestují s pasáží. Ve skutečné odpovědi odkazy umožní otevřít zdroj a ověřit, zda podpírá tvrzení; zde není vymyšlená URL. Podklady se nezapisují natrvalo do vah modelu.
+Dokument s lupou představuje vybranou pasáž, ne druhé hledání na internetu. Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Modelová pasáž S1 revize 3 § 2 říká: při resetu nastav gProductionCount na 0, počet zvyšuj jen při dokončení kusu. Revize a paragraf cestují s pasáží. Ve skutečné odpovědi odkazy umožní otevřít zdroj a ověřit, zda podpírá tvrzení; zde není vymyšlená URL.
 
 [CLICK]
 Bublina s citací představuje odpověď odvozenou z podkladu. Generation je vytvoření odpovědi modelem s využitím těchto podkladů. Modelová odpověď odkazuje na [S1, § 2]; očekávanou nulu ověřte čtením hodnoty při zastaveném počítání. Nejde o naměřený výsledek. Špatně dohledanou nebo nesprávně vyloženou pasáž může model stále proměnit v chybný závěr. Kontrolujeme i verzi Automation Studia a soulad s projektem.
@@ -509,7 +509,7 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 
 # MCP Knowledge Hub: znalosti se zdrojem
 
-<p class="bridge-lead">Oficiální MCP B&amp;R zpřístupní vyhledávání podkladů; model nepřeučuje.</p>
+<p class="bridge-lead">Oficiální MCP B&amp;R pro dohledávání technologických podkladů.</p>
 
 <KnowledgeFlow />
 
@@ -521,7 +521,7 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 </div>
 
 <!--
-B&R MCP Knowledge Hub je cloudový RAG-style MCP server B&R R&D s jedním vstupním bodem pro dotaz. Instalace agentovi zpřístupní nástroj k dohledání podkladů pro konkrétní dotaz; trénované znalosti modelu nemění. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
+B&R MCP Knowledge Hub je cloudový RAG-style MCP server B&R R&D s jedním vstupním bodem pro dotaz. Instalace agentovi zpřístupní nástroj k dohledání podkladů pro konkrétní dotaz. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 Počáteční stav: nadpis, úvodní věta a označení směru toku. Řádek kroků i plocha detailu mají od začátku vyhrazené místo. Skupiny 1–4 odhalují Dotaz, Agenta, MCP a Knowledge Hub; pod tokem zůstává otázka ze sdílené ukázky. Skupina 5 je nahradí návratovým tokem a shrnutím role podkladů; skupina 6 odhalí vyhledávané zdroje; provozní údaje říká řečník. Hover nebo fokus dočasně nahradí shrnutí detailem pod tokem, kliknutí jej připne, Escape nebo Zavřít jej zavře. Konečný stav: návratový tok, shrnutí a zdroje, detail zavřený.
 
@@ -543,7 +543,7 @@ Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí
 [CLICK]
 Zdroje zahrnují Automation Help, Community, informace o verzích, ukázkové projekty zaslané týmu R&D a schválený interní zdrojový kód. Údaj o ukázkových projektech pochází ze sdílené konverzace. Služba je v produkci od červnového vydání Automation Studio Code a aktualizuje se čtvrtletně; rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté a schválený interní kód neznamená libovolný interní ani zákaznický kód.
 
-MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
+MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
 Podle sdílené konverzace jde o samostatný externí endpoint staršího ASCopilotu z ASCode, upraveného pro použití jako MCP server, nikoli stejné řešení jako implementace dánských kolegů. Knowledge Hub lze připojit vedle as-help a br-community; vedle překrývajících se zdrojů nabízí také ukázkové projekty. Více serverů samo nezaručuje, že agent vybere nejlepší zdroj nebo odpověď, proto výběr ověřte na typických dotazech.
 
@@ -552,6 +552,51 @@ Provozní údaje podle konverzace: limit 200 požadavků měsíčně lze zkontro
 Používáme dodaný snímek volání a zkrácený text výsledků. Odpověď je shrnutí sdílené ukázky, nikoli ověřený diagnostický postup. Neřešit zde diagnostiku ani neimprovizovat chybějící výsledky nebo citace. Při změně klikového kroku se detail zavře, aby nezůstal otevřený nad jinou fází toku.
 
 Dohledaná odpověď se zdrojem je kontrolovatelnější, ne automaticky správná. Je nutné posoudit relevanci, verzi a soulad s projektem. Přístup se konfiguruje v klientovi; školení ukazuje Bearer JWT. Nikdy nezobrazovat reálné přihlašovací údaje a netvrdit anonymní přístup ani dostupnost bez dalších podmínek.
+-->
+
+---
+layout: default
+class: ot-slide topic-as-agentic-bridge bridge-knowledge-setup-slide
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Připojení Knowledge Hubu
+
+<p class="bridge-lead">Přepracovaný ASCopilot z ASCode: cloudový RAG MCP B&amp;R R&amp;D, ne dánské řešení.</p>
+
+<div class="bridge-hub-setup-grid">
+	<section>
+		<p class="bridge-hub-eyebrow">PŘIDÁNÍ · 2 KROKY</p>
+		<h2>Uživatelský <code>mcp.json</code></h2>
+		<p class="bridge-hub-config-location">Uživatelská složka: <code>%APPDATA%\Code\User</code></p>
+		<ol>
+			<li><span>01</span><div><strong>URL endpointu</strong><p>adresa Knowledge Hubu</p></div></li>
+			<li><span>02</span><div><strong>Vlastní JWL token</strong><p>tajný přístupový údaj</p></div></li>
+		</ol>
+		<p class="bridge-hub-secret">Token patří do osobní konfigurace, ne do repozitáře.</p>
+	</section>
+	<section>
+		<p class="bridge-hub-eyebrow">DOPLNĚK · DALŠÍ MCP</p>
+		<h2>Mohou se vzájemně doplnit</h2>
+		<p>Hub může fungovat vedle <code>as-help</code> a <code>br-community</code>. Zdroje se mohou překrývat; Hub navíc přináší ukázkové projekty zaslané týmu R&amp;D.</p>
+		<p class="bridge-hub-verify"><strong>Ověř na typických dotazech:</strong> více serverů samo nezaručí, že agent vybere nejlepší zdroj.</p>
+		<p class="bridge-hub-model-note">Serverní model GPT-5; lepší výsledky s levnějšími modely jsou jen anekdotická zkušenost.</p>
+	</section>
+</div>
+
+<div class="bridge-hub-operations">
+	<p class="bridge-hub-quota"><strong>200</strong><span>požadavků / měsíc</span></p>
+	<p>Aktuální kvótu ověř přes <code>bnr_rate_limit_info</code> nebo v ASCode.</p>
+</div>
+
+<!--
+Sdělení: Připojení má dva údaje. Hub může fungovat spolu s dalšími MCP servery a doplňovat jejich zdroje.
+Veškerý obsah je viditelný bez klikání. Hlavní část vlevo ukazuje URL a osobní JWL token; doplněk vpravo souběh a ověření na typických dotazech.
+Údaj o 200 požadavcích za měsíc, kontrole přes bnr_rate_limit_info/ASCode, endpointu B&R R&D a ukázkových projektech vychází ze sdílené konverzace; aktuální limit i návod ověřit v ASCode/Community.
+Tvrzení o lepším výsledku s levnějšími modely je anekdotická zkušenost, nikoli doporučení či garance. Serverní model je podle sdílené konverzace GPT-5. Více připojených serverů samo nezaručí výběr nejlepšího zdroje.
 -->
 
 ---
@@ -645,6 +690,7 @@ Zdroj: uživatelem dodaný screenshot „BnR AI Companion / B&R MCP Server“ a 
 ---
 layout: default
 class: ot-slide topic-as-agentic-bridge bridge-summary-slide
+hide: true
 ---
 
 <script setup>
