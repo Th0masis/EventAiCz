@@ -340,7 +340,7 @@ import './success-stories/styles.css'
 
 # AI už dnes přináší hodnotu
 
-<div class="success-overview-grid" aria-label="Čtyři příklady přínosu AI">
+<div class="success-overview-grid" aria-label="Tři příklady přínosu AI">
 	<section>
 		<h2>Quality Check</h2>
 		<div class="success-overview-block">
@@ -389,29 +389,13 @@ import './success-stories/styles.css'
 		</div>
 		<p class="success-overview-proof">Konverze téměř okamžitě</p>
 	</section>
-	<section>
-		<h2>Consulting</h2>
-		<div class="success-overview-block">
-			<span class="success-label">Výzva</span>
-			<p>Zákazníkům často chybí AI zkušenosti; vyčlenění vlastních lidí je nákladné. Potřebují škálovat vývoj a uvolnit R&amp;D od výroby.</p>
-		</div>
-		<div class="success-overview-block">
-			<span class="success-label">Co nabízí B&amp;R</span>
-			<p>Hodinové konzultace, které zákazníky uvedou do nových AI workflow a pomohou jim je zavést.</p>
-		</div>
-		<div class="success-overview-block">
-			<span class="success-label">Výsledek</span>
-			<p>Rychlejší zákaznické workflow, bližší spolupráce a přímá zpětná vazba.</p>
-		</div>
-		<p class="success-overview-proof">Rychlejší zákaznické workflow</p>
-	</section>
 </div>
 
 <!--
-*Záměr a čas: 1:15. Shrnutí čtyř různých způsobů, jak AI pomáhá ve výrobě, analýze, migraci i zákaznickém poradenství.*
-*Počáteční stav: titulek a všechny čtyři příběhy jsou viditelné; slide nemá klikací odhalení ani interaktivní prvky.*
+*Záměr a čas: 1:15. Shrnutí tří různých způsobů, jak AI pomáhá ve výrobě, analýze a migraci.*
+*Počáteční stav: titulek a všechny tři příběhy jsou viditelné; slide nemá klikací odhalení ani interaktivní prvky.*
 
-Quality Check ukazuje odhalení chyby Teach/Compare, která vedla ke zmetkovitosti. Wireshark Analysis zkrátil hledání příčiny z dnů na minuty. AS4 → AS6 Conversion Tool převádí roztříštěné znalosti do opakovatelného nástroje. Consulting pomáhá zákazníkům začít s AI workflow bez nutnosti vyčlenit vlastní tým.
+Quality Check ukazuje odhalení chyby Teach/Compare, která vedla ke zmetkovitosti. Wireshark Analysis zkrátil hledání příčiny z dnů na minuty. AS4 → AS6 Conversion Tool převádí roztříštěné znalosti do opakovatelného nástroje.
 
-*Konečný stav: stejný jako počáteční; všechny čtyři příklady zůstávají viditelné.*
+*Konečný stav: stejný jako počáteční; všechny tři příklady zůstávají viditelné.*
 -->

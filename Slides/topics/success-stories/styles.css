@@ -125,7 +125,7 @@
 
 .topic-success-stories .success-project-map code {
   --text-role: code;
-  --text-size: 12px;
+  --text-size: var(--type-note);
   --text-leading: 1.35;
   --text-font: 'IBM Plex Mono', monospace;
   color: var(--ink);
@@ -230,8 +230,8 @@
 
 .topic-success-stories .success-overview-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
   margin-top: 30px;
 }
 
