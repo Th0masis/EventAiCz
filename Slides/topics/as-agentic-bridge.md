@@ -473,11 +473,11 @@ import './as-agentic-bridge/styles.css'
 	<mdi-arrow-right class="bridge-rag-link at-answer" v-click="3" aria-hidden="true" />
 </div>
 
-<p class="bridge-takeaway" v-click="4">RAG není trénování modelu.<br><strong>Dohledaný zdroj ještě nezaručuje správnou odpověď.</strong></p>
+<p class="bridge-takeaway" v-click="4"><strong>Dohledaný zdroj ještě nezaručuje správnou odpověď.</strong></p>
 <p class="bridge-artifact-note" role="note">Ilustrační dokument i odpověď, ne živé vyhledávání. Člověk ověří zdroj, verzi i závěr.</p>
 
 <!--
-Záměr a čas: 60 sekund. Vysvětlit RAG ve třech bodech a odlišit jej od trénování i od MCP.
+Záměr a čas: 60 sekund. Vysvětlit RAG ve třech bodech a odlišit jej od MCP.
 Mapa odhalování: 0 = nadpis, definice, otázka a označení ilustrace; 1 = stoh dokumentů S1; 2 = dokument s lupou, Reset → 0 a první šipka;
 3 = odpověď s citací a druhá šipka; 4 = závěr a neutrální diagram. Kliky 1–3 zvýrazňují právě vysvětlovaný symbol a nadpis oranžově. Bez dalších interakcí.
 
@@ -485,7 +485,7 @@ Mapa odhalování: 0 = nadpis, definice, otázka a označení ilustrace; 1 = sto
 Stoh dokumentů představuje projektové podklady. Retrieval je dohledání pasáží v připravených zdrojích. Artefakt je ilustrační: S1 je modelová projektová specifikace počítadla, revize 3, nikoli existující citace B&R Help. Záleží na pokrytí znalostní báze a na formulaci dotazu. Nejde automaticky o živé hledání na celém internetu.
 
 [CLICK]
-Dokument s lupou představuje vybranou pasáž, ne druhé hledání na internetu. Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Modelová pasáž S1 revize 3 § 2 říká: při resetu nastav gProductionCount na 0, počet zvyšuj jen při dokončení kusu. Revize a paragraf cestují s pasáží. Ve skutečné odpovědi odkazy umožní otevřít zdroj a ověřit, zda podpírá tvrzení; zde není vymyšlená URL. Podklady se nezapisují natrvalo do vah modelu.
+Dokument s lupou představuje vybranou pasáž, ne druhé hledání na internetu. Augmented znamená, že nalezené podklady rozšíří kontext pro odpověď. Modelová pasáž S1 revize 3 § 2 říká: při resetu nastav gProductionCount na 0, počet zvyšuj jen při dokončení kusu. Revize a paragraf cestují s pasáží. Ve skutečné odpovědi odkazy umožní otevřít zdroj a ověřit, zda podpírá tvrzení; zde není vymyšlená URL.
 
 [CLICK]
 Bublina s citací představuje odpověď odvozenou z podkladu. Generation je vytvoření odpovědi modelem s využitím těchto podkladů. Modelová odpověď odkazuje na [S1, § 2]; očekávanou nulu ověřte čtením hodnoty při zastaveném počítání. Nejde o naměřený výsledek. Špatně dohledanou nebo nesprávně vyloženou pasáž může model stále proměnit v chybný závěr. Kontrolujeme i verzi Automation Studia a soulad s projektem.
@@ -543,7 +543,7 @@ Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí
 [CLICK]
 Zdroje zahrnují Automation Help, Community, informace o verzích, ukázkové projekty zaslané týmu R&D a schválený interní zdrojový kód. Údaj o ukázkových projektech pochází ze sdílené konverzace. Služba je v produkci od červnového vydání Automation Studio Code a aktualizuje se čtvrtletně; rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté a schválený interní kód neznamená libovolný interní ani zákaznický kód.
 
-MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
+MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
 Podle sdílené konverzace jde o samostatný externí endpoint staršího ASCopilotu z ASCode, upraveného pro použití jako MCP server, nikoli stejné řešení jako implementace dánských kolegů. Knowledge Hub lze připojit vedle as-help a br-community; vedle překrývajících se zdrojů nabízí také ukázkové projekty. Více serverů samo nezaručuje, že agent vybere nejlepší zdroj nebo odpověď, proto výběr ověřte na typických dotazech.
 

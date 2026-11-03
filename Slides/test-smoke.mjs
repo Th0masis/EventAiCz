@@ -470,6 +470,16 @@ async function checkRevealSequence(layout, slide, click) {
     })
     assert.ok(Math.abs(quotaBottomOffset) <= 2,
       'The monthly quota must align with the bottom of the slide content')
+    const quotaContentBottomOffset = await layout.evaluate(element => {
+      const operations = element.querySelector('.bridge-hub-operations')
+      const paragraphs = [...operations.querySelectorAll(':scope > p')]
+      const contentBottom = Math.max(...paragraphs.map(paragraph => paragraph.getBoundingClientRect().bottom))
+      return operations.getBoundingClientRect().bottom
+        - parseFloat(getComputedStyle(operations).borderBottomWidth)
+        - contentBottom
+    })
+    assert.ok(Math.abs(quotaContentBottomOffset) <= 2,
+      'The monthly quota content must sit against the slide bottom edge')
   }
   if (classes.includes('bridge-knowledge-slide')) {
     const geometry = await layout.evaluate(element => {
