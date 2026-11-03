@@ -1727,6 +1727,11 @@
   inset: 0;
 }
 
+.topic-as-cli .cli-command-shift-commands .cli-command-shift-old,
+.topic-as-cli .cli-command-shift-commands .cli-command-shift-new {
+  padding-top: calc(var(--space-2xl) + var(--space-sm));
+}
+
 .topic-as-cli .cli-command-shift-story h2,
 .topic-as-cli .cli-command-shift-commands h2 {
   margin: 12px 0 18px;
@@ -1760,7 +1765,9 @@
 
 .topic-as-cli .cli-command-shift-label,
 .topic-as-cli .cli-command-shift-badge {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin-bottom: var(--space-sm);
   padding: 6px 9px;
   border-left: 3px solid var(--br-orange);
   color: var(--br-orange-hot);
@@ -1780,8 +1787,8 @@
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
   align-items: center;
   gap: 16px;
-  min-height: 56px;
-  padding: 8px 0;
+  min-height: 44px;
+  padding: 4px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -2062,11 +2069,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr) 48px minmax(0, 1fr);
   gap: var(--space-xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-cli .cli-reset-flow + .cli-feedback {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-cli .cli-reset-step {
@@ -2112,7 +2119,9 @@
 }
 
 .topic-as-cli .cli-reset-step > svg {
-  margin-bottom: var(--space-sm);
+  width: 32px;
+  height: 32px;
+  margin-bottom: var(--space-xs);
 }
 
 .topic-as-cli .cli-audience-strip {
