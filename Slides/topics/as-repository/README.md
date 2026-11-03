@@ -14,6 +14,14 @@ artefakt neprokazuje existenci skutečných souborů, buildu, testu ani nasazen�
 Technické detaily zůstávají v poznámkách, ne v přidaných textových blocích.
 Každý přehled má nejvýše 85 viditelných slov; validace zůstává read-only.
 
+## Mapa odhalování: Skills (slide 32)
+
+- Stav 0: zadání, soubor `Logical/Counter/Main.st` a výběr `structured-text`.
+- Klik 1: vlevo „Co do skillu patří“ (SKILL.md, reference, volitelné podklady),
+  vpravo konkrétní routing, tools, dokumentace a pravidla.
+- Klik 2: závěr „Ne celý katalog“. Konečný stav ukazuje všechny části.
+- Poznámky obsahují dva odpovídající `[CLICK]` markery; bez dalších interakcí.
+
 ## Ověření
 
 Z `Slides/` spusťte standardní kontroly a build podle

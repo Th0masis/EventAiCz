@@ -406,6 +406,18 @@
   --text-leading: 1.3;
 }
 
+.topic-as-repository .repo-skill-contents {
+  margin-top: var(--space-xl);
+}
+
+.topic-as-repository.repo-skills-slide .repo-lines {
+  gap: var(--space-xl);
+}
+
+.topic-as-repository .repo-skill-contents p + p {
+  margin-top: var(--space-md);
+}
+
 .topic-as-repository .repo-skill-anatomy {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);

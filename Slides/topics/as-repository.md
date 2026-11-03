@@ -125,6 +125,12 @@ import './as-repository/styles.css'
 			<div><mdi-book-open-page-variant-outline /><span>Načte jeho <code>SKILL.md</code>.</span></div>
 		</div>
 		<p class="repo-note">Ilustrační výběr; příkazy se zde nespouštějí.</p>
+		<div class="repo-skill-contents" v-click="1">
+			<h2>Co do skillu patří</h2>
+			<p><strong>SKILL.md:</strong> účel, kdy skill použít, postup a pravidla.</p>
+			<p><strong>Reference:</strong> dokumentace, příklady a typické chyby.</p>
+			<p><strong>Volitelně:</strong> skripty, šablony a další podklady.</p>
+		</div>
 	</section>
 	<section v-click="1">
 		<h2>Co skill <code>structured-text</code> definuje</h2>
@@ -144,10 +150,11 @@ import './as-repository/styles.css'
 
 <!--
 *Záměr a čas: 3:00. Ukázat výběr konkrétního skillu a to, jak jeho SKILL.md směruje práci.*
-*Počáteční stav: zadání, cesta k souboru a výběr structured-text. Skupina 1 odhalí routing, required tools, dokumentaci a další specifikace; skupina 2 takeaway. Konečný stav: celý obsah.*
+*Počáteční stav: zadání, cesta k souboru a výběr structured-text. Skupina 1 odhalí obecný obsah skillu vlevo a routing, required tools, dokumentaci a další specifikace vpravo; skupina 2 takeaway. Konečný stav: celý obsah.*
 
 Začněte konkrétním zadáním: agent má upravit PLC program `Logical/Counter/Main.st`. Protože jde o `.st` soubor ve složce `Logical/`, vybere skill `structured-text` a načte jeho `SKILL.md`. Příklad je ilustrační; příkazy se nespouštějí.
 [CLICK]
+Do skillu patří povinný SKILL.md s účelem, popisem, kdy jej použít, odborným postupem a pravidly. Podle potřeby ho doplňují reference s dokumentací, příklady a typickými chybami, případně skripty, šablony a další podklady. Ne každý skill potřebuje všechny tyto složky.
 Skill směruje `.st`, `.var` a `.typ` soubory v `Logical/`; práci se symboly deleguje na `as-lsp`, pokud je dostupný. ANSI C předává `ansi-c`, MotionST `mapprobotics`; fyzickou konfiguraci, plánování tasků a I/O řeší `as-physical-config`. Pro nový ST task uvádí příkaz `as logical add StProgram <Name> --parent <Pkg>`; `as build` ověřuje sestavení. Reference `project-structure.md` a `example-task.md` se načítají jen při odpovídajícím úkolu. Další pravidla pokrývají hardwarově nezávislý rozsah `Logical/`, názvy, popisné komentáře, jednotky a životní cyklus tasku.
 [CLICK]
 Skill dodá odborný postup; není to nástroj. Nečte se celý katalog ani všechny reference — jen postup a podklady potřebné pro aktuální úlohu.
