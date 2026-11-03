@@ -54,6 +54,14 @@ Tři markery `[CLICK]` odpovídají skupinám 1–3. Nabídka je ilustrační, n
 skutečný výpis Knowledge Hubu; slide nezobrazuje skryté uvažování modelu ani
 nezaručuje deterministický výběr.
 
+## Knowledge Hub — viditelný slide o připojení
+
+Všechny informace jsou na slidu viditelné bez klikání: možnost připojit Hub vedle
+`as-help` a `br-community`, doplňkové ukázkové projekty z R&D, rozdíl mezi MCP
+nástrojem a trénováním modelu, původ v ASCopilotu z ASCode, dva konfigurační
+údaje (URL a JWL token), uživatelská složka VS Code, měsíční kvóta s místem
+kontroly a upozornění na neověřenou volbu nástroje/modelu.
+
 ## Regrese
 
 Z `Slides/` proti běžícímu serveru:

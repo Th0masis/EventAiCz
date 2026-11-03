@@ -556,6 +556,53 @@ Dohledaná odpověď se zdrojem je kontrolovatelnější, ne automaticky správn
 
 ---
 layout: default
+class: ot-slide topic-as-agentic-bridge bridge-knowledge-setup-slide
+---
+
+<script setup>
+import './as-agentic-bridge/styles.css'
+</script>
+
+# Hub přidá zdroj, ne trénované znalosti
+
+<p class="bridge-lead">Přepracovaný ASCopilot z ASCode: cloudový RAG MCP B&amp;R R&amp;D, ne dánské řešení.</p>
+
+<div class="bridge-hub-setup-grid">
+	<section>
+		<p class="bridge-hub-eyebrow">CO PŘINÁŠÍ NAVÍC</p>
+		<h2>Vedle <code>as-help</code> a <code>br-community</code></h2>
+		<p>Zdroje se mohou překrývat. Hub navíc hledá i v ukázkových projektech zaslaných týmu R&amp;D.</p>
+		<p class="bridge-hub-caveat">Další server model nepřeučí — jen zpřístupní další nástroj.</p>
+	</section>
+	<section>
+		<p class="bridge-hub-eyebrow">NASTAVENÍ VE VS CODE</p>
+		<h2>Dva údaje v uživatelském <code>mcp.json</code></h2>
+		<p class="bridge-hub-config-location">Uživatelská složka: <code>%APPDATA%\Code\User</code></p>
+		<ol>
+			<li><span>01</span><div><strong>URL endpointu</strong><p>adresa Knowledge Hubu</p></div></li>
+			<li><span>02</span><div><strong>Vlastní JWL token</strong><p>tajný přístupový údaj</p></div></li>
+		</ol>
+		<p class="bridge-hub-secret">Token patří do osobní konfigurace, ne do repozitáře.</p>
+	</section>
+</div>
+
+<div class="bridge-hub-operations">
+	<p class="bridge-hub-quota"><strong>200</strong><span>požadavků / měsíc</span></p>
+	<p>Aktuální kvótu ověř přes <code>bnr_rate_limit_info</code> nebo v ASCode.</p>
+	<p>Více serverů nezaručí správný výběr. Ověř typické dotazy.</p>
+</div>
+
+<p class="bridge-hub-model-note">Serverní model GPT-5; lepší výsledky s levnějšími modely jsou jen anekdotická zkušenost.</p>
+
+<!--
+Sdělení: Knowledge Hub lze přidat vedle as-help a br-community; MCP přidá nástroj, ne trénované znalosti.
+Veškerý obsah je viditelný bez klikání. Konfigurace má dva údaje: URL a osobní JWL token.
+Údaj o 200 požadavcích za měsíc, kontrole přes bnr_rate_limit_info/ASCode, endpointu B&R R&D a ukázkových projektech vychází ze sdílené konverzace; aktuální limit i návod ověřit v ASCode/Community.
+Tvrzení o lepším výsledku s levnějšími modely je anekdotická zkušenost, nikoli doporučení či garance. Více připojených serverů samo nezaručí výběr nejlepšího zdroje.
+-->
+
+---
+layout: default
 class: ot-slide topic-as-agentic-bridge bridge-mcp-publishers-slide
 ---
 

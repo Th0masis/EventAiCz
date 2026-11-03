@@ -440,6 +440,29 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.bridge-tool-selected').count(), click >= 2 ? 1 : 0,
       'Tool selection must not rely on color alone')
   }
+  if (classes.includes('bridge-knowledge-setup-slide')) {
+    const text = (await layout.innerText()).replace(/\s+/g, ' ')
+    for (const required of [
+      'as-help',
+      'br-community',
+      'ukázkových projektech',
+      'URL endpointu',
+      'JWL token',
+      '%APPDATA%\\Code\\User',
+      '200',
+      'bnr_rate_limit_info',
+      'nezaručí správný výběr',
+      'nepřeučí',
+      'GPT-5',
+      'ASCopilot z ASCode',
+    ]) {
+      assert.ok(text.includes(required), `Knowledge Hub setup slide must visibly include: ${required}`)
+    }
+    assert.equal(await layout.locator('.bridge-hub-setup-grid section').count(), 2,
+      'Knowledge Hub setup must show source and configuration sections')
+    assert.equal(await layout.locator('.bridge-hub-model-note').isVisible(), true,
+      'The model-selection caveat must remain visible')
+  }
   if (classes.includes('bridge-knowledge-slide')) {
     const geometry = await layout.evaluate(element => {
       const flow = element.querySelector('.bridge-knowledge-flow')
