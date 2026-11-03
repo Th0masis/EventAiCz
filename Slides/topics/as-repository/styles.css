@@ -416,6 +416,10 @@
   border-top: 1px solid var(--line);
 }
 
+.topic-as-repository .repo-skill-resources > div > code {
+  font-weight: 600;
+}
+
 .topic-as-repository .repo-skill-resources > div > span {
   --text-role: note;
   --text-size: var(--type-note);
@@ -656,7 +660,7 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: start;
   gap: var(--space-md) var(--space-2xl);
-  margin-top: var(--space-2xl);
+  margin-top: 50px;
 }
 
 .topic-as-repository .repo-skill-routing-lead {
@@ -942,7 +946,7 @@
 .topic-as-repository.repo-binding-slide .repo-hmi-workflow {
   grid-template-rows: auto minmax(78px, auto);
   gap: var(--space-xs);
-  margin-top: var(--space-sm);
+  margin-top: 70px;
 }
 
 .topic-as-repository.repo-binding-slide .repo-hmi-step {
