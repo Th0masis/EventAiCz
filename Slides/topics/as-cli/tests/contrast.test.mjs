@@ -1,19 +1,11 @@
 import assert from 'assert/strict'
-import { fileURLToPath } from 'url'
-import { load } from '@slidev/parser/fs'
-import { chromium } from 'playwright-chromium'
+import { asCliSlides, base, withDesktopPage } from './deck.mjs'
 
-const root = fileURLToPath(new URL('../../../', import.meta.url))
-const deck = await load({ roots: [root], userRoot: root, allowedRoots: [root] },
-  fileURLToPath(new URL('../../../slides.md', import.meta.url)))
-const browser = await chromium.launch()
-try {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
-  const base = process.env.SLIDES_URL || 'http://localhost:3030'
+await withDesktopPage(async page => {
   let checked = 0
   let diagrams = 0
   let terminalSlide
-  for (const slide of deck.slides.filter(slide => slide.source.filepath.endsWith('as-cli.md'))) {
+  for (const slide of asCliSlides) {
     const number = slide.index + 1
     assert.equal(slide.frontmatter.transition, 'fade', `Slide ${number}: use non-spatial topic transitions`)
     await page.goto(`${base}/${number}?clicks=99`)
@@ -172,6 +164,4 @@ try {
   assert.ok(checked >= 20, `Expected AS CLI text coverage, checked only ${checked} elements`)
   assert.equal(diagrams, 6, 'The six AS CLI explanation diagrams must not regress to text-only slides')
   console.log(`AS CLI readability and motion checks passed: ${diagrams} diagrams, ${checked} text elements, 10 terminal states.`)
-} finally {
-  await browser.close()
-}
+})

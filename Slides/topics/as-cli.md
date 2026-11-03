@@ -201,74 +201,6 @@ distribuce ani konkrétní číslo AS verze. Instalaci ověřit před živou uk�
 
 ---
 layout: default
-class: ot-slide dark-slide topic-as-cli cli-story
-transition: fade
----
-
-<script setup>
-import './as-cli/styles.css'
-</script>
-
-# Příklad: ověřit reset počítadla
-
-<p class="cli-lead">Modelové zadání nad demonstračním přepisem, pouze v lokální simulaci.</p>
-
-<div class="cli-test-context">
-  <mdi-robot-outline />
-  <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
-  <div class="cli-target"><mdi-desktop-classic /><strong>ARsim</strong><code>DevOpsDemo / Cyclic</code><small>127.0.0.1</small></div>
-</div>
-<div class="cli-reset-flow" v-click="1" aria-label="Přečíst hodnotu, zapsat reset a znovu přečíst">
-  <section class="cli-reset-step">
-    <mdi-eye-outline />
-    <h2>Přečíst před</h2>
-    <div class="cli-counter">17 <small>UDINT</small></div>
-    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
-    <p>Výchozí hodnota v přepisu</p>
-  </section>
-  <mdi-arrow-right class="cli-flow-arrow" />
-  <section class="cli-reset-step cli-reset-action">
-    <mdi-restart />
-    <h2>Zapsat reset</h2>
-    <div class="cli-counter">1</div>
-    <code class="cli-reset-command">as var write gCmdClear<br>--task Cyclic<br>--value 1</code>
-    <p>Potvrzený zápis ≠ ověřený reset</p>
-  </section>
-  <mdi-arrow-right class="cli-flow-arrow" />
-  <section class="cli-reset-step cli-reset-observe">
-    <mdi-magnify />
-    <h2>Přečíst po</h2>
-    <div class="cli-counter">?</div>
-    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
-    <p>V přepisu chybí měření</p>
-  </section>
-</div>
-
-<div class="cli-feedback" v-click="2"><mdi-check-decagram-outline /><span>Při zastaveném počítání očekáváme 0. Ověřit čtením a zkontrolovat logbook.</span></div>
-
-<!--
-Čas: 2:00.
-Mapa odhalování: 0 = zadání a cíl ARsim; 1 = trojice Přečíst před → Zapsat reset → Přečíst po;
-2 = podmínka očekávané nuly a kontrola logbooku. Otazník se nemění na naměřenou 0.
-
-Příklad je modelový, nikoli výsledek skutečného AS projektu. Před spuštěním
-ověřit syntaxi instalované verze a chování resetovací proměnné. Jeden zápis
-nemusí vytvořit resetovací impuls. Uživatel určil simulaci a zakázal fyzický
-transfer; 127.0.0.1 samo o sobě není bezpečnostní izolace.
-
-[CLICK]
-Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako jeden
-řádek. Třetí příkaz je požadované doplňující čtení, nikoli výsledek přepisu.
-
-[CLICK]
-Počítání je v podmínce testu zastavené, jinak by očekávání nuly bylo křehké.
-Výsledek resetu zůstává neověřený, dokud neproběhne druhé čtení.
-
-Zdroje: TerminalCli.vue a training s5/15-loop-test.
--->
-
----
-layout: default
 class: demo-slide dark-slide as-cli-slide topic-as-cli
 transition: fade
 clicks: 5
@@ -498,6 +430,74 @@ Délka je plán řeči, ne naměřený čas zkoušky před publikem.
 
 ---
 layout: default
+class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
+# Příklad: ověřit reset počítadla
+
+<p class="cli-lead">Modelové zadání nad demonstračním přepisem, pouze v lokální simulaci.</p>
+
+<div class="cli-test-context">
+  <mdi-robot-outline />
+  <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
+  <div class="cli-target"><mdi-desktop-classic /><strong>ARsim</strong><code>DevOpsDemo / Cyclic</code><small>127.0.0.1</small></div>
+</div>
+<div class="cli-reset-flow" v-click="1" aria-label="Přečíst hodnotu, zapsat reset a znovu přečíst">
+  <section class="cli-reset-step">
+    <mdi-eye-outline />
+    <h2>Přečíst před</h2>
+    <div class="cli-counter">17 <small>UDINT</small></div>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
+    <p>Výchozí hodnota v přepisu</p>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-action">
+    <mdi-restart />
+    <h2>Zapsat reset</h2>
+    <div class="cli-counter">1</div>
+    <code class="cli-reset-command">as var write gCmdClear<br>--task Cyclic<br>--value 1</code>
+    <p>Potvrzený zápis ≠ ověřený reset</p>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-observe">
+    <mdi-magnify />
+    <h2>Přečíst po</h2>
+    <div class="cli-counter">?</div>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
+    <p>V přepisu chybí měření</p>
+  </section>
+</div>
+
+<div class="cli-feedback" v-click="2"><mdi-check-decagram-outline /><span>Při zastaveném počítání očekáváme 0. Ověřit čtením a zkontrolovat logbook.</span></div>
+
+<!--
+Čas: 2:00.
+Mapa odhalování: 0 = zadání a cíl ARsim; 1 = trojice Přečíst před → Zapsat reset → Přečíst po;
+2 = podmínka očekávané nuly a kontrola logbooku. Otazník se nemění na naměřenou 0.
+
+Příklad je modelový, nikoli výsledek skutečného AS projektu. Před spuštěním
+ověřit syntaxi instalované verze a chování resetovací proměnné. Jeden zápis
+nemusí vytvořit resetovací impuls. Uživatel určil simulaci a zakázal fyzický
+transfer; 127.0.0.1 samo o sobě není bezpečnostní izolace.
+
+[CLICK]
+Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako jeden
+řádek. Třetí příkaz je požadované doplňující čtení, nikoli výsledek přepisu.
+
+[CLICK]
+Počítání je v podmínce testu zastavené, jinak by očekávání nuly bylo křehké.
+Výsledek resetu zůstává neověřený, dokud neproběhne druhé čtení.
+
+Zdroje: TerminalCli.vue a training s5/15-loop-test.
+-->
+
+---
+layout: default
 class: ot-slide dark-slide as-cli-intro-slide topic-as-cli cli-story
 transition: fade
 ---
@@ -685,6 +685,10 @@ import './as-cli/styles.css'
 
 <!--
 Čas: 1:30. Začněte původním stavem a klikem přepněte na nový nástroj.
+Mapa odhalování: 0 = původní přístup a původní příkazy; 1 = oficiální
+AS CLI a nové příkazy v obou sloupcích. Nadpisy h2 i navazující obsah
+mají v obou stavech dodatečné horní odsazení 70 px; štítky zůstávají nahoře.
+Konečný stav = nový přístup. Bez dalších interaktivních komponent.
 
 Starší cesta nabízela jen část funkcí v GUI, bez formálního rozhraní pro další
 operace. Vpravo jsou příklady příkazů používaných pro přípravu prostředí,
