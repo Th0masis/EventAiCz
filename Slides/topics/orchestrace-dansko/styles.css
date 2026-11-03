@@ -1063,6 +1063,7 @@
 }
 
 .topic-orchestrace-dansko .story-implementation-feedback p {
+  margin: 0;
   --text-role: compact;
   --text-size: var(--type-compact);
   --text-leading: 1.3;
@@ -1081,6 +1082,7 @@
 }
 
 .topic-orchestrace-dansko .story-implementation-outcome p {
+  margin: 0;
   display: flex;
   gap: 12px;
   align-items: flex-start;

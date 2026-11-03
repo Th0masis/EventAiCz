@@ -9,13 +9,12 @@ import './orchestrace-dansko/styles.css'
 
 <img class="chapter-image" src="/topics/orchestrace-dansko/chapter.jpg" alt="">
 
-# Kompletní orchestrace? Příklad z Dánska
+# Case study z Dánska
 
 ---
 layout: default
 class: ot-slide dark-slide loop-slide topic-orchestrace-dansko
 clicks: 2
-transition: fade-out
 ---
 
 <script setup>
@@ -24,64 +23,70 @@ import './orchestrace-dansko/styles.css'
 
 <div class="kicker">DEVOPS × AGENTIC ENGINEERING</div>
 
-# AS CLI spojuje agenty<br><span class="accent">se skutečným engineeringem.</span>
+# DevOps + Agentic<br><span class="accent">Engineering</span>
 
-<div class="cli-human-gate">
-  <mdi-account-check-outline aria-hidden="true" />
-  <p><strong>Člověk</strong><span>určí cíl, rozsah a oprávnění; posoudí důkazy a rizikové kroky.</span></p>
+<div class="loop-compare">
+  <div class="loop-linear">
+    <div class="loop-bars">
+      <span>Plan</span><i></i>
+      <span>Design</span><i></i>
+      <span>Build</span><i></i>
+      <span>Test</span><i></i>
+      <span>Deploy</span><i></i>
+      <span>Maintain</span>
+    </div>
+    <p><b>Traditional DevOps stages.</b> Every step is handled manually</p>
+  </div>
+  <div class="loop-cycle" v-click="1">
+    <svg viewBox="0 0 300 300">
+      <defs>
+        <marker id="loopArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--br-orange)" />
+        </marker>
+      </defs>
+      <g class="loop-arrows" fill="none" stroke="var(--br-orange)" stroke-width="3" stroke-linecap="round" marker-end="url(#loopArrow)">
+        <path d="M189.3 41.9 A115 115 0 0 1 223.9 61.9" />
+        <path d="M263.2 130 A115 115 0 0 1 263.2 170" />
+        <path d="M223.9 238.1 A115 115 0 0 1 189.3 258.1" />
+        <path d="M110.7 258.1 A115 115 0 0 1 76.1 238.1" />
+        <path d="M36.7 170 A115 115 0 0 1 36.7 130" />
+        <path d="M76.1 61.9 A115 115 0 0 1 110.7 41.9" />
+      </g>
+      <circle class="loop-hub" cx="150" cy="150" r="56" />
+      <text class="loop-hub-label" x="150" y="145">Agent</text>
+      <text class="loop-hub-sub" x="150" y="166">Workflows</text>
+      <g class="loop-node">
+        <circle cx="150" cy="35" r="31" /><text x="150" y="39">Plan</text>
+        <circle cx="249.6" cy="92.5" r="31" /><text x="249.6" y="96.5">Design</text>
+        <circle cx="249.6" cy="207.5" r="31" /><text x="249.6" y="211.5">Build</text>
+        <circle cx="150" cy="265" r="31" /><text x="150" y="269">Test</text>
+        <circle cx="50.4" cy="207.5" r="31" /><text x="50.4" y="211.5">Deploy</text>
+        <circle cx="50.4" cy="92.5" r="31" /><text x="50.4" y="96.5">Maintain</text>
+      </g>
+    </svg>
+    <p><b>AI-native DevOps.</b> Humans above the loop instigating, directing and governing.</p>
+  </div>
 </div>
 
-<div class="cli-execution-flow" aria-label="Agentic engineering, DevOps a AS CLI">
-  <section class="cli-caller">
-    <h2>Agent · skript · CI</h2>
-    <p>stejný verzovaný projekt</p>
-    <span class="cli-flow-arrow" aria-hidden="true">→</span>
-  </section>
-  <section class="cli-engine">
-    <span class="cli-engine-label">VYKONÁVACÍ ROZHRANÍ</span>
-    <strong>AS CLI</strong>
-    <span>BR.AS.Build.exe</span>
-  </section>
-  <section class="cli-target">
-    <h2>Automation Studio</h2>
-    <p>Sestavení projektu<br>a výstupní artefakty</p>
-    <span class="cli-flow-arrow" aria-hidden="true">→</span>
-  </section>
-  <section class="cli-evidence">
-    <h2>CI · kontroly</h2>
-    <p>Testy a důkazy<br>podle projektu</p>
-  </section>
+<div class="signal-callout" v-click="2">
+  <div class="signal-pulse"></div>
+  <p><strong>AS CLI</strong> spojuje agenty se skutečným engineeringem.</p>
 </div>
-<div class="cli-result-return"><span aria-hidden="true">←</span><strong>Build status a artefakt zpět do workflow agenta / CI</strong></div>
-
-<div class="cli-foundations" v-click="1">
-  <section><strong>DevOps</strong><span>Git · CI · kontrolní brány · dohledatelnost</span></section>
-  <section><strong>Skills</strong><span>postup, který agent opakuje</span></section>
-  <section><strong>Znalosti</strong><span>struktura projektu a doménový kontext</span></section>
-</div>
-
-<div class="cli-benefit" v-click="2">
-  <mdi-lightning-bolt-outline aria-hidden="true" />
-  <p><strong>Méně ručního předávání, hledání a opravných pokusů.</strong><span>Možná úspora času i tokenů závisí na projektu — ověřit měřením, ne slibovat procenta.</span></p>
-</div>
-
-<div class="slide-id">04</div>
 
 <!--
-Na obrázku jsou tři různé role. Agent, skript i CI mohou volat stejné rozhraní Automation Studia. Oficiální nástroj BR.AS.Build.exe sestavuje projekt z příkazové řádky; parametry a příprava prostředí závisejí na instalované verzi. Netvrdíme, že AS CLI samo nahrazuje testy, simulátor nebo lidské schválení.
+<b>DevOps je postup sestávající z různých fází</b>, kterými musí software projít. Každá fáze nastavuje požadavky, které zajišťují, že další fáze bude úspěšná. Musí se <b>buď provádět ručně, nebo se ručně předávat dál</b>. Pokud nejsou požadavky splněny dostatečně důkladně, nemá workflow žádnou skutečnou hodnotu.
 
 [click]
-DevOps dodává verzování, automatizaci, kontrolní brány a dohledatelné výstupy. Skill dává agentovi pracovní postup a znalostní zdroje poskytují kontext projektu a domény. Agent tedy nemusí znovu odvozovat každý krok od nuly, ale informace má stále ověřovat.
+<b>Zavedením AI agentů do DevOps procesu</b> se DevOps stává rámcem pro AI, který zajišťuje kvalitu a předvídatelnost. Agenti dodržují své pokyny, velkou část procesů lze automatizovat a znalosti se ukládají do pracovních postupů, nikoli do jednotlivců. Člověk zůstává nad smyčkou: určuje cíl, rozsah a oprávnění a posuzuje výsledek.
 
 [click]
-Opakovatelný build a dostupný kontext mohou zkrátit čekání, hledání i opravné pokusy. To může snížit čas i spotřebu tokenů, ale větší orchestrace naopak přidává práci agentů. Skutečný přínos měřte na konkrétní úloze; nevydávejte ho za garantované zrychlení.
+Agent, skript i CI mohou volat stejné rozhraní Automation Studia. AS CLI (BR.AS.Build.exe) sestavuje projekt z příkazové řádky a vrací build status a artefakty zpět do workflow agenta nebo CI. Netvrdíme, že AS CLI samo nahrazuje testy, simulátor nebo lidské schválení.
 -->
 
 ---
 layout: default
 class: ot-slide machine-demo-slide feature-request-slide dark-slide topic-orchestrace-dansko
 clicks: 3
-transition: fade-out
 ---
 
 <script setup>
@@ -134,7 +139,6 @@ Po splnění podmínek obnovy pokračuje stejná dávka. Další dobrý kus posu
 layout: default
 class: ot-slide workflow-overview-slide dark-slide topic-orchestrace-dansko
 clicks: 3
-transition: fade-out
 ---
 
 <script setup>
@@ -211,7 +215,6 @@ Ověření: agent připraví pull request s diffem, testy a logy. Zelené testy 
 layout: default
 class: ot-slide specification-slide dark-slide topic-orchestrace-dansko
 clicks: 2
-transition: fade-out
 ---
 
 <script setup>
@@ -258,7 +261,6 @@ Teprve potom dává smysl navrhnout tickety. Tady jsou tři ilustrační výsled
 layout: default
 class: ot-slide vertical-modules-slide dark-slide topic-orchestrace-dansko
 clicks: 2
-transition: fade-out
 ---
 
 <script setup>
@@ -314,7 +316,6 @@ Teď se nemění tabule, jen rozsah ticketu. T1, T2 a T3 jsou stejné ve specifi
 layout: default
 class: ot-slide implementation-slide dark-slide topic-orchestrace-dansko
 clicks: 2
-transition: fade-out
 ---
 
 <script setup>
@@ -362,7 +363,6 @@ Neúspěšná kontrola vrací práci k implementaci; po opravě test projde a po
 layout: default
 class: ot-slide evaluation-slide dark-slide topic-orchestrace-dansko
 clicks: 2
-transition: fade-out
 ---
 
 <script setup>
@@ -404,7 +404,6 @@ Vraťme se k původnímu záměru: obsluha vidí poruchu, systém vyřadí neuza
 layout: default
 class: ot-slide hmi-testing-slide dark-slide topic-orchestrace-dansko
 clicks: 4
-transition: fade-out
 ---
 
 <script setup>
@@ -430,7 +429,6 @@ import './orchestrace-dansko/styles.css'
 </div>
 
 <div class="hmi-testing-takeaway" v-click="4"><mdi-account-check-outline /><strong>Automatický test doloží scénář. Člověk posoudí indikaci, podmínky obnovy i zbývající riziko.</strong></div>
-<div class="slide-id">38</div>
 
 <!--
 Ověření doplníme pohledem obsluhy. Nejde o živé HMI ani simulaci připojeného stroje; ověřovací scénář je ilustrace.
@@ -479,7 +477,6 @@ import './orchestrace-dansko/styles.css'
 </section>
 
 <div class="mountain-footer"><span>AS CLI dává agentovi i CI opakovatelnou cestu k sestavení projektu.</span><b>Skills a projektový kontext omezují hledání a opravy. Úsporu času i tokenů ověřte měřením na vlastní úloze.</b></div>
-<div class="slide-id">39</div>
 
 <!--
 Cílem není vybudovat kompletní CI/CD přes noc. Začněte verzováním projektu, potom přidejte opakovatelný build přes podporované AS CLI, jeden test, dohledatelné výstupy a další automatizační krok.
