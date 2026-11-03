@@ -107,7 +107,7 @@ Přechod: Co když kromě pravidel potřebujeme opakovatelný odborný postup?
 
 ---
 layout: default
-class: ot-slide topic-as-repository
+class: ot-slide topic-as-repository repo-skills-slide
 ---
 
 <script setup>
@@ -116,21 +116,32 @@ import './as-repository/styles.css'
 
 # Skills:<br><span class="accent">odborný postup pro daný úkol</span>
 
-<div class="repo-columns">
+<div class="repo-columns" aria-label="Ilustrační výběr skillu structured-text a obsah jeho SKILL.md">
 	<section>
-		<h2>Skill obsahuje</h2>
+		<h2>Příklad: agent vybere skill</h2>
 		<div class="repo-lines">
-			<div><mdi-book-open-page-variant-outline /><span><code>SKILL.md</code>: účel, spouštěcí popis a postup</span></div>
-			<div><mdi-alert-circle-outline /><span>Pravidla technologie a typické chyby</span></div>
-			<div><mdi-folder-multiple-outline /><span>Podle potřeby reference, skripty a šablony</span></div>
+			<div><mdi-account-outline /><span>Zadání: „Oprav reset počítadla.“</span></div>
+			<div><mdi-file-code-outline /><span><code>Logical/Counter/Main.st</code> → <code>structured-text</code></span></div>
+			<div><mdi-book-open-page-variant-outline /><span>Načte jeho <code>SKILL.md</code>.</span></div>
+		</div>
+		<p class="repo-note">Ilustrační výběr; příkazy se zde nespouštějí.</p>
+		<div class="repo-skill-contents" v-click="1">
+			<h2>Co do skillu patří</h2>
+			<p><strong>SKILL.md:</strong> účel, kdy skill použít, postup a pravidla.</p>
+			<p><strong>Reference:</strong> dokumentace, příklady a typické chyby.</p>
+			<p><strong>Volitelně:</strong> skripty, šablony a další podklady.</p>
 		</div>
 	</section>
 	<section v-click="1">
-		<h2>Příklady podle zadání</h2>
+		<h2>Co skill <code>structured-text</code> definuje</h2>
 		<div class="repo-skill-matches">
-			<div><p>„Přidej stavový automat.“</p><code>structured-text</code></div>
-			<div><p>„Zobraz teplotu na HMI.“</p><code>mappview</code></div>
-			<div><p>„Zastav shuttle ve stanici.“</p><code>mapptrak</code></div>
+			<div class="repo-skill-details">
+				<p><strong>Routing:</strong> <code>.st</code>, <code>.var</code>, <code>.typ</code> v <code>Logical/</code> → <code>structured-text</code>. Symboly → <code>as-lsp</code>, je-li dostupný.</p>
+				<p><strong>Další skills:</strong> ANSI C → <code>ansi-c</code>; MotionST → <code>mapprobotics</code>.</p>
+			</div>
+			<div><p><strong>Required tools:</strong> nový task: <code>as logical add StProgram &lt;Name&gt; --parent &lt;Pkg&gt;</code>; build: <code>as build</code>.</p></div>
+			<div><p><strong>Dokumentace:</strong> <code>project-structure.md</code> pro soubory, balíčky a tasky; <code>example-task.md</code> pro jejich kostry. Načítá se podle potřeby.</p></div>
+			<div><p><strong>Další specifikace:</strong> hardwarově nezávislý <code>Logical/</code>, názvy, popisy, jednotky i životní cyklus; Physical konfiguraci řeší <code>as-physical-config</code>.</p></div>
 		</div>
 	</section>
 </div>
@@ -138,14 +149,15 @@ import './as-repository/styles.css'
 <p class="repo-takeaway" v-click="2">Načti relevantní postup a reference. <strong>Ne celý katalog.</strong></p>
 
 <!--
-*Záměr a čas: 3:00. Vysvětlit obsah skillu, jeho objevování a postupné načítání.*
-*Počáteční stav: nadpis a levý sloupec. Skupina 1 odhalí příklady úloh; skupina 2 takeaway. Konečný stav: celý obsah.*
+*Záměr a čas: 3:00. Ukázat výběr konkrétního skillu a to, jak jeho SKILL.md směruje práci.*
+*Počáteční stav: zadání, cesta k souboru a výběr structured-text. Skupina 1 odhalí obecný obsah skillu vlevo a routing, required tools, dokumentaci a další specifikace vpravo; skupina 2 takeaway. Konečný stav: celý obsah.*
 
-Skill je složka s povinným SKILL.md; další materiály mohou být v references, scripts nebo assets. Popis v hlavičce pomáhá kompatibilnímu prostředí rozpoznat, kdy se skill hodí. Model může načíst skill podle relevance, člověk ho může vyvolat přímo. Samotné zobrazení skillu v seznamu ale nezaručuje jeho použití.
+Začněte konkrétním zadáním: agent má upravit PLC program `Logical/Counter/Main.st`. Protože jde o `.st` soubor ve složce `Logical/`, vybere skill `structured-text` a načte jeho `SKILL.md`. Příklad je ilustrační; příkazy se nespouštějí.
 [CLICK]
-Příklady propojují záměr uživatele s konkrétním postupem. V B&R repozitáři jsou specializované skills oddělené podle technologií a vlastnictví souborů.
+Do skillu patří povinný SKILL.md s účelem, popisem, kdy jej použít, odborným postupem a pravidly. Podle potřeby ho doplňují reference s dokumentací, příklady a typickými chybami, případně skripty, šablony a další podklady. Ne každý skill potřebuje všechny tyto složky.
+Skill směruje `.st`, `.var` a `.typ` soubory v `Logical/`; práci se symboly deleguje na `as-lsp`, pokud je dostupný. ANSI C předává `ansi-c`, MotionST `mapprobotics`; fyzickou konfiguraci, plánování tasků a I/O řeší `as-physical-config`. Pro nový ST task uvádí příkaz `as logical add StProgram <Name> --parent <Pkg>`; `as build` ověřuje sestavení. Reference `project-structure.md` a `example-task.md` se načítají jen při odpovídajícím úkolu. Další pravidla pokrývají hardwarově nezávislý rozsah `Logical/`, názvy, popisné komentáře, jednotky a životní cyklus tasku.
 [CLICK]
-Detailní reference se načítají podle potřeby; skill nepřetrénuje model. Je to kontext pro aktuální práci. Chování i umístění skillů závisí na harnessu.
+Skill dodá odborný postup; není to nástroj. Nečte se celý katalog ani všechny reference — jen postup a podklady potřebné pro aktuální úlohu.
 -->
 
 ---
@@ -349,9 +361,9 @@ import './as-repository/styles.css'
 <p class="repo-note" role="note">Ilustrační postup, ne provedený build ani test. CLI, MCP i runtime jsou samostatné závislosti.</p>
 
 <!--
-*Záměr a čas: 2:00. Ukázat skutečný postup as-skills včetně rozdílu mezi instrukcí, procedurou, nástrojem a ověřením.*
-*Počáteční i konečný stav: zadání resetu a tři propojené symboly — kniha postupu, soubor změny a kontrolní seznam důkazů. Bez kliků a dalších interakcí.*
-
+Režie: 2:00. Bez Slidev kliků; zadání, tři fáze i závěrečné sdělení jsou viditelné od začátku.
+-->
+<!--
 Uživatel vybere AS-Project-Agent pro práci v Automation Studio projektu. Agent nejprve čte kořenový AGENTS.md, pokud existuje; šablona repozitáře ho do AS projektu dodává. Tato instrukce popisuje architekturu, invarianty a směrování.
 Ukázka je ilustrační: kniha představuje postup structured-text pro soubor Logical/Counter/Main.st, soubor s kódem změnu resetu a kontrolní seznam požadované důkazy. Reset má nastavit gProductionCount na nulu; build a test jsou oddělené podklady pro čekající lidské review. Nejde o naměřené výsledky ani provedenou změnu.
 Podle přesných cest a typu úlohy agent zvolí vlastnící skill, například structured-text pro Logical/*.st nebo as-physical-config pro Hardware.hw. SKILL.md je vstupní bod; delší references se načítají jen při odpovídajícím triggeru.
@@ -409,10 +421,11 @@ metadata:
 <p class="repo-takeaway"><code>agents/as-project.agent.md</code> potřebuje zapnutý plugin a <code>as</code> na PATH; směruje práci na skill podle vlastnictví souborů.</p>
 
 <!--
-*Záměr a čas: 1:30. Ukázat konkrétní tvar skillu a rozlišit jeho obsah od závislostí agenta.*
-*Počáteční stav: celý příklad je viditelný; slide nemá klikací odhalení. Konečný stav je stejný.*
-
-Jde o konkrétní výřez z plugins/as-skills/skills/mapprobotics/SKILL.md. Hlavička obsahuje název a argument-hint; úplný soubor navíc popisuje spouštěcí situace, nepodporované oblasti a kompatibilitu s Automation Studio 6 a mapp Motion 6.x.
+Režie: 1:30. Bez Slidev kliků; celý příklad skillu zůstává viditelný.
+Zdroj: plugins/as-skills/skills/mapprobotics/SKILL.md.
+-->
+<!--
+Jde o konkrétní výřez z hlavičky skillu mapprobotics. Hlavička obsahuje název a argument-hint; úplný soubor navíc popisuje spouštěcí situace, nepodporované oblasti a kompatibilitu s Automation Studio 6 a mapp Motion 6.x.
 Reference se načítá jen při práci s generovanou scénou. capture-scene-viewer.ps1 je volitelný, připojuje se k již otevřenému Scene Vieweru a vyžaduje Windows PowerShell 5.1+. robot-motion-program.st je pojmenovaný příkladový asset, nikoli hotový produkční program.
 Ukázka <code>#pragma LOAD 'robot-motion-interface.typ'</code> je převzatá z tohoto assetu a pouze načte typovou definici; nejde o příkaz pro pohyb.
 mapprobotics očekává as-cli a B&R AS Help MCP. as config schema list mappMotion pomáhá ověřit povolené prvky a přípony podle instalované verze; po změně následuje as build. AS 4 cesty a dostupnost funkcí se mohou lišit. Build sám nepotvrzuje inicializaci runtime ani bezpečný pohyb.
@@ -458,9 +471,9 @@ import './as-repository/styles.css'
 <p class="repo-takeaway">Návrh, sestavení a chování za běhu jsou <strong>samostatné výsledky s vlastními důkazy.</strong></p>
 
 <!--
-*Záměr a čas: 1:30. Představit hlavní schopnosti HMI pluginu bez dojmu, že samotný návrh dokazuje funkční runtime.*
-*Počáteční stav: všech pět schopností a závěrečné sdělení jsou viditelné; bez kliků. Konečný stav je stejný.*
-
+Režie: 1:30. Bez Slidev kliků; všech pět schopností a závěr jsou viditelné.
+-->
+<!--
 Plugin pokrývá návrh průmyslového rozhraní s ohledem na úkoly obsluhy, stav stroje, zpětnou vazbu, alarmy a bezpečnostně významné ovládací prvky. Návrh může předat jako browser-previewable HTML s výslovnými anotacemi pro převod.
 V Convert mapuje schválený kontrakt do existující vizualizace mappView a zachovává nesouvisející části projektu. Povinný build diagnostikuje chyby, ale neprokazuje funkční vazby na nasazeném stroji.
 Samostatná trasa Validate prohlíží potvrzené nasazení pouze read-only a vrací nálezy. Neprovádí nasazení, nezapisuje do PLC a sama neopravuje projekt.
@@ -499,9 +512,9 @@ import './as-repository/styles.css'
 <p class="repo-note" role="note">Ilustrační tok. Validace sama nic nemění ani nenasazuje.</p>
 
 <!--
-*Záměr a čas: 2:30. Projít spolupráci uživatele a agenta od zadání až po bezpečné ověření.*
-*Počáteční i konečný stav: šest velkých symbolů na lomené trase mezi člověkem a agentem. Dvě lidské brány jsou označeny přerušovaným kruhem. Bez kliků a dalších interakcí.*
-
+Režie: 2:30. Bez Slidev kliků; šest fází číst zleva doprava, dvě lidské brány jsou označené přerušovaným kruhem.
+-->
+<!--
 Uživatel ve svém prostředí výslovně vybere agenta MappView HMI Designer and Converter a otevře správný projekt Automation Studio 6. Agent načte svůj interní skill a zvolí trasu Design, Convert, Validate nebo Complete.
 Diagram je ilustrační. Čtěte fáze zleva doprava, ne nejprve celou horní dráhu: člověk zadá práci, agent dodá HTML, člověk schválí, agent převede a sestaví, člověk nasadí a teprve potom agent vrátí read-only nálezy. TemperatureValue.value navazuje na příklad teploty na následujícím slidu.
 Na začátku uživatel dodá cíl, panel a relevantní podklady. Agent se doptá na chybějící rozhodnutí, například na zamýšlené chování nebo rozhraní PLC; při nevyřešeném předpokladu nepokračuje potichu.
@@ -514,6 +527,7 @@ Plugin nedodává testovací server a nevykonává strojové příkazy. Speciali
 ---
 layout: default
 class: ot-slide topic-as-repository repo-binding-slide
+clicks: 4
 ---
 
 <script setup>
@@ -550,13 +564,20 @@ import './as-repository/styles.css'
 
 <!--
 *Záměr a čas: 2:30. Projít příklad od výběru pluginu až k bezpečnému ověření nasazené teploty.*
-*Počáteční stav: datový tok a čtyři kroky jsou viditelné. Hover nebo fokus na kroku zobrazí podrobnosti; kliknutí detail připne; Escape nebo Zavřít detail jej zavře. Nejde o Slidev klikací odhalení. Konečný stav po zavření: datový tok a kroky zůstávají viditelné.*
-
+*Počáteční stav: datový tok a čtyři kroky jsou viditelné, detail je zavřený. Kliky 1–4 postupně zobrazí detail příslušného kroku; hover nebo fokus detail pouze zobrazí a kliknutí jej připne. Escape nebo Zavřít detail jej zavře. Konečný stav po čtvrtém kliku: otevřený detail kroku 4; po zavření zůstává přehled.*
+-->
+<!--
 Uživatel otevře svůj projekt AS6, výslovně spustí MappView HMI Designer and Converter a požádá o doplnění aktuální teploty do existující vizualizace. Agent načte vlastní skill, který rozdělí práci na Design, Convert, Validate, případně úplnou trasu Complete. AGENTS.md a další projektové instrukce dodají pravidla a rozsah práce; nejde o součást HMI pluginu.
+
+[click]
 Design vytvoří náhledové anotované HTML s číselným widgetem, jednotkou °C a deklarovanou vazbou na PLC rozhraní. Uživatel zkontroluje a schválí tento kontrakt před převodem. Pokud projekt neobsahuje ověřitelný zdroj teploty nebo je třeba doplnit PLC logiku, agent se zastaví a vyžádá si rozhodnutí; PLC logiku si nevymýšlí.
+
+[click]
 V Convert agent použije dostupné `as` CLI, najde existující proměnnou a strukturu vizualizace a schválený návrh promítne do mappView artefaktů včetně vazby. `gTemperature`, cesta `::AsGlobalPV:gTemperature` a `TemperatureValue` jsou pouze názorné; konkrétní identifikátory musí odpovídat projektu. Následuje povinný `as build`; nula chyb potvrzuje build, nikoli to, že HMI zobrazuje živou hodnotu.
+
+[click]
 Po úspěšném buildu nasadí změnu člověk. Pro Validate předá agentovi runtime URL a potvrdí, že obsahuje právě tuto verzi. Agent přes Playwright ověří zobrazení a bezpečné read-only cesty a vrátí nálezy. Hodnoty neposílá, příkazy stroje neaktivuje a případné opravy provede až po samostatném schválení.
-Při hoveru nebo klávesnicovém fokusu ukažte nejdřív uživatelské zadání, pak anotovaný HTML kontrakt, převod do artefaktů mappView a nakonec handoff s read-only kontrolou. Kliknutím detail připnete; Escape nebo tlačítkem Zavřít detail se vraťte k přehledu. Hodnoty v anotaci jsou ilustrativní, identifikátory je nutné potvrdit v projektu.
+Hodnoty v anotaci jsou ilustrativní, identifikátory je nutné potvrdit v projektu.
 -->
 
 ---
@@ -570,7 +591,7 @@ import './as-repository/styles.css'
 
 # as-lsp:<br><span class="accent">co agent zjistí o Structured Textu</span>
 
-<p class="repo-lead">B&amp;R language server propojí dotaz na symbol se strukturou projektu — ne jen s výskytem textu.</p>
+<p class="repo-lead">LSP (Language Server Protocol) standardizuje komunikaci editoru či AI harnessu s jazykovým serverem; jeden server tak může sloužit více nástrojům.</p>
 
 <div class="repo-hmi-capabilities">
 	<section><h3>Najde definici</h3><p><code>goToDefinition</code> vede k deklaraci, i do generovaných deklarací komponentů.</p></section>
@@ -585,12 +606,12 @@ import './as-repository/styles.css'
 <p class="repo-note">Harness spusťte v kořeni jednoho projektu s <code>*.apj</code>; projekt předtím alespoň jednou sestavte příkazem <code>as build</code>.</p>
 
 <!--
-*Záměr a čas: 2:00. Ukázat konkrétní symbolové operace AS-LSP, rozdíly v možnostech zápisu a ověřovací hranice.*
-*Počáteční i konečný stav: všech šest schopností a požadavky jsou viditelné; bez kliků.*
-
-Plugin nedodává vlastní language server. Přes skill popisuje agentovi, kdy a jak použít nástroj klienta; schopnosti dostupné agentovi závisí na LSP rozhraní jeho harnessu. Server umí definici, reference, hover, rename, document/workspace symbols a další operace. Claude Code má LSP nástroj read-only; Copilot CLI může rename aplikovat. Rename zasahuje jen ST, ne konfiguraci, mappView bindings ani I/O/PV mapy. Generované deklarace v Temp se nepřejmenovávají.
+Režie: 2:00. Bez Slidev kliků; všech šest schopností i požadavky jsou viditelné. Definice LSP vychází z https://microsoft.github.io/language-server-protocol/.
+Zdroje rozsahu pluginu: plugins/as-lsp/README.md (Requirements, Harness support, Limitations); plugins/as-lsp/skills/as-lsp/SKILL.md (description, Operations, Limits); plugins/as-lsp/plugin.json.
+-->
+<!--
+LSP znamená Language Server Protocol: standardizovaný protokol, kterým si vývojový nástroj a jazykový server předávají dotazy a odpovědi. Plugin nedodává vlastní language server. Přes skill popisuje agentovi, kdy a jak použít nástroj klienta; schopnosti dostupné agentovi závisí na LSP rozhraní jeho harnessu. Server umí definici, reference, hover, rename, document/workspace symbols a další operace. Claude Code má LSP nástroj read-only; Copilot CLI může rename aplikovat. Rename zasahuje jen ST, ne konfiguraci, mappView bindings ani I/O/PV mapy. Generované deklarace v Temp se nepřejmenovávají.
 Windows, Node.js 18+, instalované rozšíření br-automation.st-lsp, jeden projekt v kořeni workspace a předchozí as build jsou požadavky podle README. Některé knihovní typy mohou zůstat unresolved; LSP nehlásí chyby buildu a nepotvrzuje běhové chování.
-Zdroje: plugins/as-lsp/README.md (Requirements, Harness support, Limitations); plugins/as-lsp/skills/as-lsp/SKILL.md (description, Operations, Limits); plugins/as-lsp/plugin.json.
 -->
 
 ---
@@ -615,13 +636,13 @@ import './as-repository/styles.css'
 <p class="repo-note">Server pochází z VS Code rozšíření — plugin ho nespouští bez instalace. Kořen projektu musí obsahovat <code>*.apj</code>; bez předchozího <code>as build</code> nemusí být dostupné generované deklarace.</p>
 
 <!--
-*Záměr a čas: 2:00. Vysvětlit, která vrstva zpracovává symbolový dotaz a co musí připravit uživatel.*
-*Počáteční i konečný stav: celý čtyřkrokový tok, odpovědnosti i požadavky jsou viditelné; bez kliků.*
-
+Režie: 2:00. Bez Slidev kliků; celý čtyřkrokový tok i požadavky jsou viditelné.
+Zdroje: plugins/as-lsp/README.md (Requirements, Harness support, How the launcher works, Troubleshooting); plugins/as-lsp/lsp.json; plugins/as-lsp/.lsp.json; plugins/as-lsp/scripts/st-lsp-launcher.js.
+-->
+<!--
 Agent nezačíná s univerzální registrací LSP. Konkrétní klient načte svou konfiguraci: Copilot CLI používá lsp.json a Claude Code .lsp.json; ostatní harnessy mohou potřebovat vlastní konfiguraci nebo nemusí LSP podporovat. Skill nese instrukce pro práci se symboly, server poskytuje dotazy.
 Node.js launcher spouští language-server.js z nainstalovaného rozšíření br-automation.st-lsp, přeposílá zprávy přes stdio a po inicializaci posílá cestu ke generovaným AS deklaracím podle aktivní konfigurace. Plugin samotný server neobsahuje.
 Server má jeden projekt v kořeni workspace; projekt musí být sestaven alespoň jednou. Pokud globální symboly nejsou rozpoznané, ověřte aktivní konfiguraci a vygenerované deklarace; po as build obnovte/reloadujte LSP.
-Zdroje: plugins/as-lsp/README.md (Requirements, Harness support, How the launcher works, Troubleshooting); plugins/as-lsp/lsp.json; plugins/as-lsp/.lsp.json; plugins/as-lsp/scripts/st-lsp-launcher.js.
 -->
 
 ---
@@ -655,13 +676,13 @@ import './as-repository/styles.css'
 <p class="repo-note" role="note">Ilustrační graf; soubory i počet použití jsou modelové. Reference nejsou test.</p>
 
 <!--
-*Záměr a čas: 1:30. Uzavřít AS-LSP krátkým modelovým průchodem od otázky k důkazu a bezpečné hranici.*
-*Počáteční i konečný stav: velký symbol vlevo se větví ke třem souborům vpravo; generovaná deklarace má zámek a varování. Bez kliků a dalších interakcí.*
-
+Režie: 1:30. Bez Slidev kliků; symbol se větví ke třem modelovým souborům, generovaná deklarace je označená jako needitovatelná.
+Zdroje: plugins/as-lsp/README.md (generated declarations, Troubleshooting); plugins/as-lsp/skills/as-lsp/SKILL.md (Workflow, Limits).
+-->
+<!--
 Zeptejte se: „Kde se používá gAlarmXCore a jaký má typ?“ Agent nejprve ověří symbol přes hover/definici, pak vyhledá reference. Pokud definici najde v Temp/Includes/AS_TempDecl/, jde o generovanou deklaraci komponenty; nepřejmenovávat ji, změnit zdroj konfigurace a ST použití pouze podle záměru projektu. Pokud globální symbol chybí, ověřit, zda už proběhl as build a zda je aktivní konfigurace dostupná launcheru; pak LSP reloadnout a dotaz zopakovat.
 Graf je ilustrační: dvě ST cesty a jedna zkrácená cesta deklarace ukazují souvislosti symbolu, nikoli skutečně nalezené soubory. Spoje ukazují původ a reference, ne tok vykonávání programu. Typ je záměrně ponechán k ověření v projektu; z názvu symbolu jej neodvozujeme.
 Názvy a očekávaný výsledek jsou modelový scénář vycházející z README pluginu, nikoli výsledek skutečně otevřeného zákaznického projektu. findReferences není kompilace. Po úpravě as build ověřuje sestavení, ne běh systému.
-Zdroje: plugins/as-lsp/README.md (generated declarations, Troubleshooting); plugins/as-lsp/skills/as-lsp/SKILL.md (Workflow, Limits).
 -->
 
 ---
