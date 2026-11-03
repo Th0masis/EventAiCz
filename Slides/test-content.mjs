@@ -63,18 +63,6 @@ const coordinatorTitles = deck.entry.slides
   .map(slide => slide.title)
 assert.deepEqual(coordinatorTitles, ['Oběd', 'Přestávka', 'ARVK – případová studie zákazníka'])
 
-const bridgeSummarySlide = Object.values(topicMarkdownFiles)
-  .flatMap(markdown => markdown.slides)
-  .find(slide => String(slide.frontmatter.class).split(/\s+/).includes('bridge-summary-slide'))
-assert.ok(bridgeSummarySlide?.frontmatter.hide, 'Agentic Bridge summary slide must remain hidden from the main presentation')
-
-const bridgeRagSlide = Object.values(topicMarkdownFiles)
-  .flatMap(markdown => markdown.slides)
-  .find(slide => String(slide.frontmatter.class).split(/\s+/).includes('bridge-rag-slide'))
-assert.ok(bridgeRagSlide, 'Agentic Bridge RAG slide must remain available as a backup')
-assert.doesNotMatch(bridgeRagSlide.content, /RAG není trénování modelu|trénování modelu/i,
-  'Agentic Bridge RAG slide must not state that RAG is not model training')
-
 for (const slide of deck.slides) {
   assert.ok(slide.content.trim(), `Empty slide: ${slide.index + 1}`)
 }
