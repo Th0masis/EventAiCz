@@ -509,7 +509,7 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 
 # MCP Knowledge Hub: znalosti se zdrojem
 
-<p class="bridge-lead">Oficiální MCP B&amp;R pro dohledávání technologických podkladů.</p>
+<p class="bridge-lead">Oficiální MCP B&amp;R pro dohledávání technologických podkladů; instalace model nepřeučuje.</p>
 
 <KnowledgeFlow />
 
@@ -521,7 +521,7 @@ import KnowledgeFlow from './as-agentic-bridge/components/KnowledgeFlow.vue'
 </div>
 
 <!--
-B&R MCP Knowledge Hub je cloudový RAG-style MCP server B&R R&D s jedním vstupním bodem pro dotaz. Instalace agentovi zpřístupní nástroj k dohledání podkladů pro konkrétní dotaz. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
+B&R MCP Knowledge Hub je cloudový RAG-style MCP server B&R R&D s jedním vstupním bodem pro dotaz. Instalace agentovi zpřístupní nástroj k dohledání podkladů pro konkrétní dotaz; nemění trénované znalosti modelu. Nejprve postupně odhalíme dotazovací cestu. Po vyhledání ji ve stejném prostoru nahradí návrat podkladů přes MCP k agentovi; obsah zdrojů a provozní údaje vycházejí z podkladů k tomuto školení.
 
 Počáteční stav: nadpis, úvodní věta a označení směru toku. Řádek kroků i plocha detailu mají od začátku vyhrazené místo. Skupiny 1–4 odhalují Dotaz, Agenta, MCP a Knowledge Hub; pod tokem zůstává otázka ze sdílené ukázky. Skupina 5 je nahradí návratovým tokem a shrnutím role podkladů; skupina 6 odhalí vyhledávané zdroje; provozní údaje říká řečník. Hover nebo fokus dočasně nahradí shrnutí detailem pod tokem, kliknutí jej připne, Escape nebo Zavřít jej zavře. Konečný stav: návratový tok, shrnutí a zdroje, detail zavřený.
 
@@ -543,11 +543,11 @@ Dotazovací cesta se nahradí návratem: podklady se zdroji se přes MCP vrátí
 [CLICK]
 Zdroje zahrnují Automation Help, Community, informace o verzích, ukázkové projekty zaslané týmu R&D a schválený interní zdrojový kód. Údaj o ukázkových projektech pochází ze sdílené konverzace. Služba je v produkci od červnového vydání Automation Studio Code a aktualizuje se čtvrtletně; rok vydání zde není uveden a aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté a schválený interní kód neznamená libovolný interní ani zákaznický kód.
 
-MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Ukazujeme znalostní službu, nikoli ovládání PLC.
+MCP (Model Context Protocol) zpřístupňuje nástroje a zdroje; RAG (Retrieval-Augmented Generation) dohledává podklady před generováním odpovědi. MCP propojuje, RAG vyhledává. Podklady vstupují do kontextu, ne natrvalo do modelu. Ukazujeme znalostní službu, nikoli ovládání PLC.
 
 Podle sdílené konverzace jde o samostatný externí endpoint staršího ASCopilotu z ASCode, upraveného pro použití jako MCP server, nikoli stejné řešení jako implementace dánských kolegů. Knowledge Hub lze připojit vedle as-help a br-community; vedle překrývajících se zdrojů nabízí také ukázkové projekty. Více serverů samo nezaručuje, že agent vybere nejlepší zdroj nebo odpověď, proto výběr ověřte na typických dotazech.
 
-Provozní údaje podle konverzace: limit 200 požadavků měsíčně lze zkontrolovat nástrojem `bnr_rate_limit_info` nebo v ASCode. Komunitní návod popisuje dva kroky pro uživatelský `mcp.json` (například `C:\Users\<UserName>\AppData\Roaming\Code\User`): doplnit URL endpointu a vlastní JWL token. Hodnoty vezměte z aktuálního návodu a token nikdy neukládejte do repozitáře. Uvedená zkušenost, že server fungoval lépe s levnějšími modely a používá GPT-5, je anekdotická, nikoli garance kvality či kompatibility.
+Provozní údaje z konverzace nejsou ověřené jako trvalé produktové podmínky: limit 200 požadavků měsíčně lze zkontrolovat nástrojem `bnr_rate_limit_info` nebo v ASCode. Komunitní návod popisuje dva kroky pro uživatelský `mcp.json` (například `C:\Users\<UserName>\AppData\Roaming\Code\User`): doplnit URL endpointu a vlastní JWL token. Hodnoty vezměte z aktuálního návodu a token nikdy neukládejte do repozitáře ani sdílené konfigurace. Uvedená zkušenost, že server fungoval lépe s levnějšími modely a používá GPT-5, je anekdotická, nikoli garance kvality či kompatibility.
 
 Používáme dodaný snímek volání a zkrácený text výsledků. Odpověď je shrnutí sdílené ukázky, nikoli ověřený diagnostický postup. Neřešit zde diagnostiku ani neimprovizovat chybějící výsledky nebo citace. Při změně klikového kroku se detail zavře, aby nezůstal otevřený nad jinou fází toku.
 
@@ -565,7 +565,7 @@ import './as-agentic-bridge/styles.css'
 
 # Připojení Knowledge Hubu
 
-<p class="bridge-lead">Přepracovaný ASCopilot z ASCode: cloudový RAG MCP B&amp;R R&amp;D, ne dánské řešení.</p>
+<p class="bridge-lead">Cloudový RAG MCP B&amp;R</p>
 
 <div class="bridge-hub-setup-grid">
 	<section>
