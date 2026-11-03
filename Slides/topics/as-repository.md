@@ -514,6 +514,7 @@ Plugin nedodává testovací server a nevykonává strojové příkazy. Speciali
 ---
 layout: default
 class: ot-slide topic-as-repository repo-binding-slide
+clicks: 4
 ---
 
 <script setup>
@@ -550,13 +551,20 @@ import './as-repository/styles.css'
 
 <!--
 *Záměr a čas: 2:30. Projít příklad od výběru pluginu až k bezpečnému ověření nasazené teploty.*
-*Počáteční stav: datový tok a čtyři kroky jsou viditelné. Hover nebo fokus na kroku zobrazí podrobnosti; kliknutí detail připne; Escape nebo Zavřít detail jej zavře. Nejde o Slidev klikací odhalení. Konečný stav po zavření: datový tok a kroky zůstávají viditelné.*
+*Počáteční stav: datový tok a čtyři kroky jsou viditelné, detail je zavřený. Kliky 1–4 otevřou detail kroků Uživatel upřesní, Společný návrh, Agent převede a Uživatel nasadí. Konečný stav: otevřený detail kroku 4.*
 
+[click]
 Uživatel otevře svůj projekt AS6, výslovně spustí MappView HMI Designer and Converter a požádá o doplnění aktuální teploty do existující vizualizace. Agent načte vlastní skill, který rozdělí práci na Design, Convert, Validate, případně úplnou trasu Complete. AGENTS.md a další projektové instrukce dodají pravidla a rozsah práce; nejde o součást HMI pluginu.
+
+[click]
 Design vytvoří náhledové anotované HTML s číselným widgetem, jednotkou °C a deklarovanou vazbou na PLC rozhraní. Uživatel zkontroluje a schválí tento kontrakt před převodem. Pokud projekt neobsahuje ověřitelný zdroj teploty nebo je třeba doplnit PLC logiku, agent se zastaví a vyžádá si rozhodnutí; PLC logiku si nevymýšlí.
+
+[click]
 V Convert agent použije dostupné `as` CLI, najde existující proměnnou a strukturu vizualizace a schválený návrh promítne do mappView artefaktů včetně vazby. `gTemperature`, cesta `::AsGlobalPV:gTemperature` a `TemperatureValue` jsou pouze názorné; konkrétní identifikátory musí odpovídat projektu. Následuje povinný `as build`; nula chyb potvrzuje build, nikoli to, že HMI zobrazuje živou hodnotu.
+
+[click]
 Po úspěšném buildu nasadí změnu člověk. Pro Validate předá agentovi runtime URL a potvrdí, že obsahuje právě tuto verzi. Agent přes Playwright ověří zobrazení a bezpečné read-only cesty a vrátí nálezy. Hodnoty neposílá, příkazy stroje neaktivuje a případné opravy provede až po samostatném schválení.
-Při hoveru nebo klávesnicovém fokusu ukažte nejdřív uživatelské zadání, pak anotovaný HTML kontrakt, převod do artefaktů mappView a nakonec handoff s read-only kontrolou. Kliknutím detail připnete; Escape nebo tlačítkem Zavřít detail se vraťte k přehledu. Hodnoty v anotaci jsou ilustrativní, identifikátory je nutné potvrdit v projektu.
+Hodnoty v anotaci jsou ilustrativní, identifikátory je nutné potvrdit v projektu.
 -->
 
 ---
