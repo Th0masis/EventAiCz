@@ -125,7 +125,7 @@
 
 .topic-success-stories .success-project-map code {
   --text-role: code;
-  --text-size: 12px;
+  --text-size: var(--type-note);
   --text-leading: 1.35;
   --text-font: 'IBM Plex Mono', monospace;
   color: var(--ink);
@@ -208,6 +208,25 @@
   gap: 12px;
 }
 
+.topic-success-stories .success-sizing-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  margin-top: 20px;
+}
+
+.topic-success-stories .success-sizing-context {
+  display: grid;
+  gap: 24px;
+}
+
+.topic-success-stories .success-sizing-result img {
+  height: 380px;
+  object-fit: contain;
+}
+
+.topic-success-stories .success-sizing-grid + .success-outcome {
+  margin-top: 18px;
+}
+
 .topic-success-stories .success-hw-image img {
   max-height: 340px;
   object-fit: contain;
@@ -230,8 +249,8 @@
 
 .topic-success-stories .success-overview-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
   margin-top: 30px;
 }
 
@@ -281,9 +300,7 @@
 
 @media (max-width: 800px) {
   .topic-success-stories .success-three-columns,
-  .topic-success-stories .success-migration-grid,
-  .topic-success-stories .success-ua-grid,
-  .topic-success-stories .success-demo-grid {
+  .topic-success-stories .success-migration-grid {
     grid-template-columns: 1fr;
   }
 
