@@ -21,7 +21,7 @@ Viditelný text má nejvýše 55 slov; technické detaily patří do poznámek.
 Průběh testu je schéma, nikoli měření. Test ani build nebyly provedeny proti
 Automation Studiu. Ukázka nedoplňuje chybějící čtení po resetu v přepisu AS CLI.
 
-## RAG — slide 10 v tématu (19 v decku)
+## RAG — slide 10 v tématu (skrytý záložní slide, `hide: true`)
 
 Sdělení: odpověď musí být dohledatelná ke konkrétní pasáži a její revizi.
 
