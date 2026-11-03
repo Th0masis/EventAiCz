@@ -20,7 +20,7 @@
 
 .topic-as-repository code {
   --text-role: code;
-  --text-size: 12px;
+  --text-size: var(--type-note);
   --text-leading: 1.35;
   --text-font: 'IBM Plex Mono', monospace;
   white-space: normal;
@@ -46,12 +46,12 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3xl);
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-3xl);
 }
 
 .topic-as-repository .repo-lines {
   display: grid;
-  gap: var(--space-xl);
+  gap: var(--space-3xl);
 }
 
 .topic-as-repository .repo-lines > div {
@@ -328,10 +328,10 @@
 
 .topic-as-repository .repo-glossary > div {
   display: grid;
-  grid-template-columns: 32px 160px 1fr 150px;
+  grid-template-columns: 32px 160px 1fr 200px;
   align-items: center;
   gap: var(--space-xl);
-  padding: var(--space-lg) 0;
+  padding: var(--space-xl) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -373,7 +373,7 @@
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: var(--space-3xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-repository .repo-skill-anatomy > section,
@@ -416,6 +416,10 @@
   border-top: 1px solid var(--line);
 }
 
+.topic-as-repository .repo-skill-resources > div > code {
+  font-weight: 600;
+}
+
 .topic-as-repository .repo-skill-resources > div > span {
   --text-role: note;
   --text-size: var(--type-note);
@@ -427,7 +431,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .topic-as-repository .repo-skill-ops h3 {
@@ -439,7 +443,8 @@
 }
 
 .topic-as-repository .repo-skill-anatomy + .repo-skill-ops + .repo-takeaway {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
 }
 
 .topic-as-repository .repo-process {
@@ -656,7 +661,7 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: start;
   gap: var(--space-md) var(--space-2xl);
-  margin-top: var(--space-2xl);
+  margin-top: 50px;
 }
 
 .topic-as-repository .repo-skill-routing-lead {
@@ -844,14 +849,6 @@
   border-top: 1px solid var(--line);
 }
 
-.topic-as-repository .repo-hmi-prompt {
-  max-width: 65ch;
-  color: var(--steel);
-  --text-role: caption;
-  --text-size: var(--type-caption);
-  --text-leading: 1.3;
-}
-
 .topic-as-repository .repo-hmi-popup header {
   display: flex;
   align-items: flex-start;
@@ -942,7 +939,7 @@
 .topic-as-repository.repo-binding-slide .repo-hmi-workflow {
   grid-template-rows: auto minmax(78px, auto);
   gap: var(--space-xs);
-  margin-top: var(--space-sm);
+  margin-top: 70px;
 }
 
 .topic-as-repository.repo-binding-slide .repo-hmi-step {
