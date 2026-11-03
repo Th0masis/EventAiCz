@@ -14,6 +14,12 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
   for (const [slideClass, max] of [['bridge-loop-slide', 6], ['bridge-rag-slide', 4]]) {
     const slide = parsed.slides.find(entry => String(entry.frontmatter.class).includes(slideClass))
+    const hidden = Object.values(parsed.markdownFiles).flatMap(markdown => markdown.slides)
+      .some(entry => entry.frontmatter.hide && String(entry.frontmatter.class).includes(slideClass))
+    if (!slide && hidden) {
+      console.log(`Skipping ${slideClass}: hidden backup slide`)
+      continue
+    }
     assert.ok(slide, `Missing ${slideClass}`)
     assert.equal((slide.note.match(/\[click\]/gi) || []).length, max, 'Keep the speaker-note reveal map')
     for (let click = 0; click <= max; click++) {
