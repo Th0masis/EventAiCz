@@ -276,6 +276,15 @@ async function checkDesign(layout, label) {
 
 async function checkRevealSequence(layout, slide, click) {
   const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('topic-success-stories') && await layout.locator('.success-sizing-grid').count()) {
+    assert.equal(await layout.locator('.success-sizing-result:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Support Agent sizing output must appear on the first click')
+    assert.equal(await layout.locator('.success-outcome:not(.slidev-vclick-hidden)').count(), click >= 1 ? 1 : 0,
+      'Sizing verification warning must appear with the agent output')
+    assert.deepEqual(await layout.locator('[data-slidev-clicks-start]').evaluateAll(nodes =>
+      [...new Set(nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start'))))]), [1],
+    'Sizing output and warning must form exactly one reveal group')
+  }
   if (classes.includes('feature-request-slide')) {
     const machine = layout.locator('.recovery-machine')
     assert.equal(await machine.getAttribute('data-recovery-phase'),
