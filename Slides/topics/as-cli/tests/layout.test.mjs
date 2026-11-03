@@ -1,22 +1,13 @@
 import assert from 'assert/strict'
-import { fileURLToPath } from 'url'
-import { load } from '@slidev/parser/fs'
-import { chromium } from 'playwright-chromium'
+import { asCliSlides as slides, base, withDesktopPage } from './deck.mjs'
 
-const root = fileURLToPath(new URL('../../../', import.meta.url))
-const deck = await load({ roots: [root], userRoot: root, allowedRoots: [root] },
-  fileURLToPath(new URL('../../../slides.md', import.meta.url)))
-const slides = deck.slides.filter(slide => slide.source.filepath.endsWith('as-cli.md'))
 const usageIndex = slides.findIndex(slide => slide.title === 'Kde AS CLI použít a co tím neprokážeme')
 assert.ok(usageIndex >= 0)
 assert.equal(slides[usageIndex + 1]?.title, 'Příklad: ověřit reset počítadla')
 const comparison = slides.find(slide => slide.content.includes('class="cli-command-shift"'))
 assert.ok(comparison)
 
-const browser = await chromium.launch()
-try {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
-  const base = process.env.SLIDES_URL || 'http://localhost:3030'
+await withDesktopPage(async page => {
   const number = comparison.index + 1
   for (const click of [0, 1]) {
     await page.goto(`${base}/${number}?clicks=${click}`)
@@ -49,6 +40,4 @@ try {
     }
   }
   console.log('AS CLI order and 70px comparison offset checks passed')
-} finally {
-  await browser.close()
-}
+})
