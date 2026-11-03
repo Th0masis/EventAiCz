@@ -67,9 +67,16 @@ async function checkDesign(layout, label) {
       const slideBackground = getComputedStyle(element).backgroundColor
       for (const code of element.querySelectorAll('code')) {
         const style = getComputedStyle(code)
-        check(contrastRatio(style.color, style.backgroundColor) >= 4.5, `Code text lacks contrast: ${code.textContent.trim().slice(0, 35)}`)
-        check(style.backgroundColor !== slideBackground && style.borderColor !== style.backgroundColor,
-          `Code chip blends into its background: ${code.textContent.trim().slice(0, 35)}`)
+        const label = code.textContent.trim().slice(0, 35)
+        if (code.closest('h2')) {
+          check(style.backgroundColor === 'rgba(0, 0, 0, 0)' && style.borderWidth === '0px',
+            `Heading code has a background or border: ${label}`)
+          check(contrastRatio(style.color, slideBackground) >= 4.5, `Heading code lacks contrast: ${label}`)
+        } else {
+          check(contrastRatio(style.color, style.backgroundColor) >= 4.5, `Code text lacks contrast: ${label}`)
+          check(style.backgroundColor !== slideBackground && style.borderColor !== style.backgroundColor,
+            `Code chip blends into its background: ${label}`)
+        }
       }
     }
     const [leftMargin, topMargin, rightMargin, bottomMargin] = rules.contentMargins

@@ -393,6 +393,12 @@
   border: 1px solid #bdbdbd;
 }
 
+.topic-as-repository.repo-skills-slide h2 code {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+
 .topic-as-repository.repo-skills-slide .repo-note {
   --text-role: caption;
   --text-size: var(--type-caption);
