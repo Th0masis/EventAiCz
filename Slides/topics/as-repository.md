@@ -107,7 +107,7 @@ Přechod: Co když kromě pravidel potřebujeme opakovatelný odborný postup?
 
 ---
 layout: default
-class: ot-slide topic-as-repository
+class: ot-slide topic-as-repository repo-skills-slide
 ---
 
 <script setup>
@@ -116,21 +116,32 @@ import './as-repository/styles.css'
 
 # Skills:<br><span class="accent">odborný postup pro daný úkol</span>
 
-<div class="repo-columns">
+<div class="repo-columns" aria-label="Ilustrační výběr skillu structured-text a obsah jeho SKILL.md">
 	<section>
-		<h2>Skill obsahuje</h2>
+		<h2>Příklad: agent vybere skill</h2>
 		<div class="repo-lines">
-			<div><mdi-book-open-page-variant-outline /><span><code>SKILL.md</code>: účel, spouštěcí popis a postup</span></div>
-			<div><mdi-alert-circle-outline /><span>Pravidla technologie a typické chyby</span></div>
-			<div><mdi-folder-multiple-outline /><span>Podle potřeby reference, skripty a šablony</span></div>
+			<div><mdi-account-outline /><span>Zadání: „Oprav reset počítadla.“</span></div>
+			<div><mdi-file-code-outline /><span><code>Logical/Counter/Main.st</code> → <code>structured-text</code></span></div>
+			<div><mdi-book-open-page-variant-outline /><span>Načte jeho <code>SKILL.md</code>.</span></div>
+		</div>
+		<p class="repo-note">Ilustrační výběr; příkazy se zde nespouštějí.</p>
+		<div class="repo-skill-contents" v-click="1">
+			<h2>Co do skillu patří</h2>
+			<p><strong>SKILL.md:</strong> účel, kdy skill použít, postup a pravidla.</p>
+			<p><strong>Reference:</strong> dokumentace, příklady a typické chyby.</p>
+			<p><strong>Volitelně:</strong> skripty, šablony a další podklady.</p>
 		</div>
 	</section>
 	<section v-click="1">
-		<h2>Příklady podle zadání</h2>
+		<h2>Co skill <code>structured-text</code> definuje</h2>
 		<div class="repo-skill-matches">
-			<div><p>„Přidej stavový automat.“</p><code>structured-text</code></div>
-			<div><p>„Zobraz teplotu na HMI.“</p><code>mappview</code></div>
-			<div><p>„Zastav shuttle ve stanici.“</p><code>mapptrak</code></div>
+			<div class="repo-skill-details">
+				<p><strong>Routing:</strong> <code>.st</code>, <code>.var</code>, <code>.typ</code> v <code>Logical/</code> → <code>structured-text</code>. Symboly → <code>as-lsp</code>, je-li dostupný.</p>
+				<p><strong>Další skills:</strong> ANSI C → <code>ansi-c</code>; MotionST → <code>mapprobotics</code>.</p>
+			</div>
+			<div><p><strong>Required tools:</strong> nový task: <code>as logical add StProgram &lt;Name&gt; --parent &lt;Pkg&gt;</code>; build: <code>as build</code>.</p></div>
+			<div><p><strong>Dokumentace:</strong> <code>project-structure.md</code> pro soubory, balíčky a tasky; <code>example-task.md</code> pro jejich kostry. Načítá se podle potřeby.</p></div>
+			<div><p><strong>Další specifikace:</strong> hardwarově nezávislý <code>Logical/</code>, názvy, popisy, jednotky i životní cyklus; Physical konfiguraci řeší <code>as-physical-config</code>.</p></div>
 		</div>
 	</section>
 </div>
@@ -138,14 +149,15 @@ import './as-repository/styles.css'
 <p class="repo-takeaway" v-click="2">Načti relevantní postup a reference. <strong>Ne celý katalog.</strong></p>
 
 <!--
-*Záměr a čas: 3:00. Vysvětlit obsah skillu, jeho objevování a postupné načítání.*
-*Počáteční stav: nadpis a levý sloupec. Skupina 1 odhalí příklady úloh; skupina 2 takeaway. Konečný stav: celý obsah.*
+*Záměr a čas: 3:00. Ukázat výběr konkrétního skillu a to, jak jeho SKILL.md směruje práci.*
+*Počáteční stav: zadání, cesta k souboru a výběr structured-text. Skupina 1 odhalí obecný obsah skillu vlevo a routing, required tools, dokumentaci a další specifikace vpravo; skupina 2 takeaway. Konečný stav: celý obsah.*
 
-Skill je složka s povinným SKILL.md; další materiály mohou být v references, scripts nebo assets. Popis v hlavičce pomáhá kompatibilnímu prostředí rozpoznat, kdy se skill hodí. Model může načíst skill podle relevance, člověk ho může vyvolat přímo. Samotné zobrazení skillu v seznamu ale nezaručuje jeho použití.
+Začněte konkrétním zadáním: agent má upravit PLC program `Logical/Counter/Main.st`. Protože jde o `.st` soubor ve složce `Logical/`, vybere skill `structured-text` a načte jeho `SKILL.md`. Příklad je ilustrační; příkazy se nespouštějí.
 [CLICK]
-Příklady propojují záměr uživatele s konkrétním postupem. V B&R repozitáři jsou specializované skills oddělené podle technologií a vlastnictví souborů.
+Do skillu patří povinný SKILL.md s účelem, popisem, kdy jej použít, odborným postupem a pravidly. Podle potřeby ho doplňují reference s dokumentací, příklady a typickými chybami, případně skripty, šablony a další podklady. Ne každý skill potřebuje všechny tyto složky.
+Skill směruje `.st`, `.var` a `.typ` soubory v `Logical/`; práci se symboly deleguje na `as-lsp`, pokud je dostupný. ANSI C předává `ansi-c`, MotionST `mapprobotics`; fyzickou konfiguraci, plánování tasků a I/O řeší `as-physical-config`. Pro nový ST task uvádí příkaz `as logical add StProgram <Name> --parent <Pkg>`; `as build` ověřuje sestavení. Reference `project-structure.md` a `example-task.md` se načítají jen při odpovídajícím úkolu. Další pravidla pokrývají hardwarově nezávislý rozsah `Logical/`, názvy, popisné komentáře, jednotky a životní cyklus tasku.
 [CLICK]
-Detailní reference se načítají podle potřeby; skill nepřetrénuje model. Je to kontext pro aktuální práci. Chování i umístění skillů závisí na harnessu.
+Skill dodá odborný postup; není to nástroj. Nečte se celý katalog ani všechny reference — jen postup a podklady potřebné pro aktuální úlohu.
 -->
 
 ---

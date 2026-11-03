@@ -369,6 +369,55 @@
   margin-top: var(--space-sm);
 }
 
+.topic-as-repository .repo-skill-matches p {
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+}
+
+.topic-as-repository .repo-skill-matches p code {
+  display: inline;
+  margin-top: 0;
+}
+
+.topic-as-repository .repo-skill-details {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.topic-as-repository.repo-skills-slide code {
+  --text-role: command;
+  --text-size: 14px;
+  --text-leading: 1.35;
+  font-weight: 500;
+  background-color: var(--slidev-code-background);
+  border: 1px solid #bdbdbd;
+}
+
+.topic-as-repository.repo-skills-slide h2 code {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+
+.topic-as-repository.repo-skills-slide .repo-note {
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+}
+
+.topic-as-repository .repo-skill-contents {
+  margin-top: var(--space-xl);
+}
+
+.topic-as-repository.repo-skills-slide .repo-lines {
+  gap: var(--space-xl);
+}
+
+.topic-as-repository .repo-skill-contents p + p {
+  margin-top: var(--space-md);
+}
+
 .topic-as-repository .repo-skill-anatomy {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
