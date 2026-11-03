@@ -120,130 +120,6 @@ Project Architecture a Global Invariants. Platí jen pro podporované operace.
 
 ---
 layout: default
-class: ot-slide dark-slide as-cli-intro-slide topic-as-cli cli-story
-transition: fade
----
-
-<script setup>
-import './as-cli/styles.css'
-</script>
-
-# Co můžeme přes AS CLI dělat
-
-<div class="as-cli-consumer-row" aria-label="Tři uživatelé stejného rozhraní">
-  <article class="as-cli-consumer-card as-cli-consumer-devops" v-click="1">
-    <div class="as-cli-consumer-icon"><mdi-source-branch /></div>
-    <div class="as-cli-consumer-copy"><b>CI pipeline</b></div>
-    <mdi-arrow-down class="as-cli-consumer-arrow" />
-  </article>
-  <article class="as-cli-consumer-card as-cli-consumer-engineer" v-click="1">
-    <div class="as-cli-consumer-icon"><mdi-account-hard-hat-outline /></div>
-    <div class="as-cli-consumer-copy"><b>Inženýr</b></div>
-    <mdi-arrow-down class="as-cli-consumer-arrow" />
-  </article>
-  <article class="as-cli-consumer-card as-cli-consumer-agent" v-click="1">
-    <div class="as-cli-consumer-icon"><mdi-robot-outline /></div>
-    <div class="as-cli-consumer-copy"><b>AI agent</b></div>
-    <mdi-arrow-down class="as-cli-consumer-arrow" />
-  </article>
-</div>
-<div class="as-cli-core-row" aria-label="Společné programovatelné rozhraní">
-  <section class="as-cli-core">
-    <div class="as-cli-terminal-line"><span>&gt;_</span> <strong>as</strong></div>
-    <div class="as-cli-core-name">Programovatelné rozhraní k Automation Studiu</div>
-  </section>
-</div>
-<div class="as-cli-roadmap" v-click="2" aria-label="Pět oblastí operací">
-  <div class="as-cli-capability-grid">
-    <article class="as-cli-capability-card as-cli-capability-build">
-      <div class="as-cli-capability-head"><mdi-hammer-wrench /></div>
-      <b class="as-cli-capability-name">Build</b>
-      <div class="as-cli-capability-purpose">Sestavení a simulace</div>
-      <div class="as-cli-command-stack">
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build</span></div>
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build sim</span></div>
-      </div>
-    </article>
-    <article class="as-cli-capability-card as-cli-capability-test">
-      <div class="as-cli-capability-head"><mdi-test-tube /></div>
-      <b class="as-cli-capability-name">Testování</b>
-      <div class="as-cli-capability-purpose">Nastavit vstup, přečíst stav</div>
-      <div class="as-cli-command-stack">
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var write …</span></div>
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var read …</span></div>
-      </div>
-    </article>
-    <article class="as-cli-capability-card as-cli-capability-package">
-      <div class="as-cli-capability-head"><mdi-package-variant-closed /></div>
-      <b class="as-cli-capability-name">Balíček</b>
-      <div class="as-cli-capability-purpose">Instalační artefakt PIP</div>
-      <div class="as-cli-command-stack">
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build pip</span></div>
-      </div>
-    </article>
-    <article class="as-cli-capability-card as-cli-capability-transfer">
-      <div class="as-cli-capability-head"><mdi-upload-network-outline /></div>
-      <b class="as-cli-capability-name">Transfer</b>
-      <div class="as-cli-capability-purpose">Přenos na zvolený cíl</div>
-      <div class="as-cli-command-stack">
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> transfer online --ip …</span></div>
-      </div>
-    </article>
-    <article class="as-cli-capability-card as-cli-capability-diagnostics">
-      <div class="as-cli-capability-head"><mdi-file-search-outline /></div>
-      <b class="as-cli-capability-name">Diagnostika</b>
-      <div class="as-cli-capability-purpose">Logbook a chyby runtime</div>
-      <div class="as-cli-command-stack">
-        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> logbook read</span></div>
-      </div>
-    </article>
-  </div>
-</div>
-<div class="cli-project-strip" v-click="3">
-  <mdi-file-tree-outline />
-  <div><strong>Také struktura projektu a konfigurace</strong><code>as logical add StProgram Conveyor --parent Machine</code><code>as config schema read .axis</code></div>
-</div>
-
-<!--
-Čas: 2:30.
-Mapa odhalování: 0 = nadpis a centrální AS CLI; 1 = tři uživatelé a šipky;
-2 = všech pět oblastí současně; 3 = spodní pás struktury a konfigurace.
-Finále = celý diagram od uživatelů přes CLI k operacím a projektovým změnám.
-
-Centrální AS CLI je společné rozhraní, nikoli AI agent nebo CI služba.
-
-[CLICK]
-Stejné příkazy může používat člověk, skript pipeline i agent.
-Všichni tři používají centrální CLI, pod ním jsou oblasti podporovaných operací.
-
-[CLICK]
-Nečtěte všechny příkazy. Pět oblastí je jedna odhalovací skupina.
-as build sestaví projekt. as build sim sestaví a instaluje do ARsim;
-as build pip vytváří instalační artefakt, nikoli schválení k nasazení.
-Transfer na fyzické zařízení je samostatná zapisující operace
-`as transfer online --ip <IP>`; dnes ji nepoužijeme.
-
-Čtení hodnot a logbooku vrací pozorování. Zápis a force mění chování cíle;
-force není obyčejné čtení ani bezpečná výchozí volba pro demonstraci.
-Další skupiny podle školení: symbol, network, mappview. Rozsah a názvy
-se mohou lišit podle instalace; netvrdíme úplnou paritu s GUI.
-
-[CLICK]
-CLI umí pracovat i s projektovou strukturou a metadata získává z prostředí.
-Conveyor a rodič Machine jsou modelové názvy ze školicího příkladu, ne
-existence těchto objektů v otevřeném projektu. Úprava ST těla je práce agenta
-se souborem. Parametry ověřujeme v as --help konkrétní instalace.
-
-Zdroje: training s5/09-capabilities/page.js, s5/07-what-is-as-cli/lang.en.js;
-as-skills/README.md; lokální TerminalCli.vue/helpOutput.
-Důležitý rozpor: training s5/15 používá "as plc var" a "as plc logbook",
-starší přepis této prezentace má samostatné "as var" a "as logbook".
-Kvůli konzistenci s přepisem je zde druhá varianta. Bez skutečného as --help
-nepředstírat ověřenou kompatibilitu. Balíčky ani PLC zde nebyly vytvořeny/spuštěny.
--->
-
----
-layout: default
 class: ot-slide dark-slide topic-as-cli cli-story
 transition: fade
 ---
@@ -325,74 +201,6 @@ distribuce ani konkrétní číslo AS verze. Instalaci ověřit před živou uk�
 
 ---
 layout: default
-class: ot-slide dark-slide topic-as-cli cli-story
-transition: fade
----
-
-<script setup>
-import './as-cli/styles.css'
-</script>
-
-# Příklad: ověřit reset počítadla
-
-<p class="cli-lead">Modelové zadání nad demonstračním přepisem, pouze v lokální simulaci.</p>
-
-<div class="cli-test-context">
-  <mdi-robot-outline />
-  <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
-  <div class="cli-target"><mdi-desktop-classic /><strong>ARsim</strong><code>DevOpsDemo / Cyclic</code><small>127.0.0.1</small></div>
-</div>
-<div class="cli-reset-flow" v-click="1" aria-label="Přečíst hodnotu, zapsat reset a znovu přečíst">
-  <section class="cli-reset-step">
-    <mdi-eye-outline />
-    <h2>Přečíst před</h2>
-    <div class="cli-counter">17 <small>UDINT</small></div>
-    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
-    <p>Výchozí hodnota v přepisu</p>
-  </section>
-  <mdi-arrow-right class="cli-flow-arrow" />
-  <section class="cli-reset-step cli-reset-action">
-    <mdi-restart />
-    <h2>Zapsat reset</h2>
-    <div class="cli-counter">1</div>
-    <code class="cli-reset-command">as var write gCmdClear<br>--task Cyclic<br>--value 1</code>
-    <p>Potvrzený zápis ≠ ověřený reset</p>
-  </section>
-  <mdi-arrow-right class="cli-flow-arrow" />
-  <section class="cli-reset-step cli-reset-observe">
-    <mdi-magnify />
-    <h2>Přečíst po</h2>
-    <div class="cli-counter">?</div>
-    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
-    <p>V přepisu chybí měření</p>
-  </section>
-</div>
-
-<div class="cli-feedback" v-click="2"><mdi-check-decagram-outline /><span>Při zastaveném počítání očekáváme 0. Ověřit čtením a zkontrolovat logbook.</span></div>
-
-<!--
-Čas: 2:00.
-Mapa odhalování: 0 = zadání a cíl ARsim; 1 = trojice Přečíst před → Zapsat reset → Přečíst po;
-2 = podmínka očekávané nuly a kontrola logbooku. Otazník se nemění na naměřenou 0.
-
-Příklad je modelový, nikoli výsledek skutečného AS projektu. Před spuštěním
-ověřit syntaxi instalované verze a chování resetovací proměnné. Jeden zápis
-nemusí vytvořit resetovací impuls. Uživatel určil simulaci a zakázal fyzický
-transfer; 127.0.0.1 samo o sobě není bezpečnostní izolace.
-
-[CLICK]
-Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako jeden
-řádek. Třetí příkaz je požadované doplňující čtení, nikoli výsledek přepisu.
-
-[CLICK]
-Počítání je v podmínce testu zastavené, jinak by očekávání nuly bylo křehké.
-Výsledek resetu zůstává neověřený, dokud neproběhne druhé čtení.
-
-Zdroje: TerminalCli.vue a training s5/15-loop-test.
--->
-
----
-layout: default
 class: demo-slide dark-slide as-cli-slide topic-as-cli
 transition: fade
 clicks: 5
@@ -461,6 +269,7 @@ konkrétní instalace. AS CLI zde nebylo spuštěno.
 layout: default
 class: ot-slide dark-slide as-cli-demo-slide topic-as-cli cli-story
 transition: fade
+hide: true
 ---
 
 <script setup>
@@ -629,6 +438,198 @@ transition: fade
 import './as-cli/styles.css'
 </script>
 
+# Příklad: ověřit reset počítadla
+
+<p class="cli-lead">Modelové zadání nad demonstračním přepisem, pouze v lokální simulaci.</p>
+
+<div class="cli-test-context">
+  <mdi-robot-outline />
+  <blockquote class="cli-request">„V ARsim ověř reset počítadla. Zaznamenej hodnotu před a po resetu, zkontroluj logbook. Na fyzické PLC nic nepřenášej.“</blockquote>
+  <div class="cli-target"><mdi-desktop-classic /><strong>ARsim</strong><code>DevOpsDemo / Cyclic</code><small>127.0.0.1</small></div>
+</div>
+<div class="cli-reset-flow" v-click="1" aria-label="Přečíst hodnotu, zapsat reset a znovu přečíst">
+  <section class="cli-reset-step">
+    <mdi-eye-outline />
+    <h2>Přečíst před</h2>
+    <div class="cli-counter">17 <small>UDINT</small></div>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
+    <p>Výchozí hodnota v přepisu</p>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-action">
+    <mdi-restart />
+    <h2>Zapsat reset</h2>
+    <div class="cli-counter">1</div>
+    <code class="cli-reset-command">as var write gCmdClear<br>--task Cyclic<br>--value 1</code>
+    <p>Potvrzený zápis ≠ ověřený reset</p>
+  </section>
+  <mdi-arrow-right class="cli-flow-arrow" />
+  <section class="cli-reset-step cli-reset-observe">
+    <mdi-magnify />
+    <h2>Přečíst po</h2>
+    <div class="cli-counter">?</div>
+    <code class="cli-reset-command">as var read<br>gProductionCount<br>--task Cyclic</code>
+    <p>V přepisu chybí měření</p>
+  </section>
+</div>
+
+<div class="cli-feedback" v-click="2"><mdi-check-decagram-outline /><span>Při zastaveném počítání očekáváme 0. Ověřit čtením a zkontrolovat logbook.</span></div>
+
+<!--
+Čas: 2:00.
+Mapa odhalování: 0 = zadání a cíl ARsim; 1 = trojice Přečíst před → Zapsat reset → Přečíst po;
+2 = podmínka očekávané nuly a kontrola logbooku. Otazník se nemění na naměřenou 0.
+
+Příklad je modelový, nikoli výsledek skutečného AS projektu. Před spuštěním
+ověřit syntaxi instalované verze a chování resetovací proměnné. Jeden zápis
+nemusí vytvořit resetovací impuls. Uživatel určil simulaci a zakázal fyzický
+transfer; 127.0.0.1 samo o sobě není bezpečnostní izolace.
+
+[CLICK]
+Příkazy v kartách jsou zalomené kvůli čitelnosti; každý se spouští jako jeden
+řádek. Třetí příkaz je požadované doplňující čtení, nikoli výsledek přepisu.
+
+[CLICK]
+Počítání je v podmínce testu zastavené, jinak by očekávání nuly bylo křehké.
+Výsledek resetu zůstává neověřený, dokud neproběhne druhé čtení.
+
+Zdroje: TerminalCli.vue a training s5/15-loop-test.
+-->
+
+---
+layout: default
+class: ot-slide dark-slide as-cli-intro-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
+# Co můžeme přes AS CLI dělat
+
+<div class="as-cli-consumer-row" aria-label="Tři uživatelé stejného rozhraní">
+  <article class="as-cli-consumer-card as-cli-consumer-devops" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-source-branch /></div>
+    <div class="as-cli-consumer-copy"><b>CI pipeline</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+  <article class="as-cli-consumer-card as-cli-consumer-engineer" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-account-hard-hat-outline /></div>
+    <div class="as-cli-consumer-copy"><b>Inženýr</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+  <article class="as-cli-consumer-card as-cli-consumer-agent" v-click="1">
+    <div class="as-cli-consumer-icon"><mdi-robot-outline /></div>
+    <div class="as-cli-consumer-copy"><b>AI agent</b></div>
+    <mdi-arrow-down class="as-cli-consumer-arrow" />
+  </article>
+</div>
+<div class="as-cli-core-row" aria-label="Společné programovatelné rozhraní">
+  <section class="as-cli-core">
+    <div class="as-cli-terminal-line"><span>&gt;_</span> <strong>as</strong></div>
+    <div class="as-cli-core-name">Programovatelné rozhraní k Automation Studiu</div>
+  </section>
+</div>
+<div class="as-cli-roadmap" v-click="2" aria-label="Pět oblastí operací">
+  <div class="as-cli-capability-grid">
+    <article class="as-cli-capability-card as-cli-capability-build">
+      <div class="as-cli-capability-head"><mdi-hammer-wrench /></div>
+      <b class="as-cli-capability-name">Build</b>
+      <div class="as-cli-capability-purpose">Sestavení a simulace</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build</span></div>
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build sim</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-test">
+      <div class="as-cli-capability-head"><mdi-test-tube /></div>
+      <b class="as-cli-capability-name">Testování</b>
+      <div class="as-cli-capability-purpose">Nastavit vstup, přečíst stav</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var write …</span></div>
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> var read …</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-package">
+      <div class="as-cli-capability-head"><mdi-package-variant-closed /></div>
+      <b class="as-cli-capability-name">Balíček</b>
+      <div class="as-cli-capability-purpose">Instalační artefakt PIP</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> build pip</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-transfer">
+      <div class="as-cli-capability-head"><mdi-upload-network-outline /></div>
+      <b class="as-cli-capability-name">Transfer</b>
+      <div class="as-cli-capability-purpose">Přenos na zvolený cíl</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> transfer online --ip …</span></div>
+      </div>
+    </article>
+    <article class="as-cli-capability-card as-cli-capability-diagnostics">
+      <div class="as-cli-capability-head"><mdi-file-search-outline /></div>
+      <b class="as-cli-capability-name">Diagnostika</b>
+      <div class="as-cli-capability-purpose">Logbook a chyby runtime</div>
+      <div class="as-cli-command-stack">
+        <div class="as-cli-command"><span>&gt;</span><span><strong>as</strong> logbook read</span></div>
+      </div>
+    </article>
+  </div>
+</div>
+<div class="cli-project-strip" v-click="3">
+  <mdi-file-tree-outline />
+  <div><strong>Také struktura projektu a konfigurace</strong><code>as logical add StProgram Conveyor --parent Machine</code><code>as config schema read .axis</code></div>
+</div>
+
+<!--
+Čas: 2:30.
+Mapa odhalování: 0 = nadpis a centrální AS CLI; 1 = tři uživatelé a šipky;
+2 = všech pět oblastí současně; 3 = spodní pás struktury a konfigurace.
+Finále = celý diagram od uživatelů přes CLI k operacím a projektovým změnám.
+
+Centrální AS CLI je společné rozhraní, nikoli AI agent nebo CI služba.
+
+[CLICK]
+Stejné příkazy může používat člověk, skript pipeline i agent.
+Všichni tři používají centrální CLI, pod ním jsou oblasti podporovaných operací.
+
+[CLICK]
+Nečtěte všechny příkazy. Pět oblastí je jedna odhalovací skupina.
+as build sestaví projekt. as build sim sestaví a instaluje do ARsim;
+as build pip vytváří instalační artefakt, nikoli schválení k nasazení.
+Transfer na fyzické zařízení je samostatná zapisující operace
+`as transfer online --ip <IP>`; dnes ji nepoužijeme.
+
+Čtení hodnot a logbooku vrací pozorování. Zápis a force mění chování cíle;
+force není obyčejné čtení ani bezpečná výchozí volba pro demonstraci.
+Další skupiny podle školení: symbol, network, mappview. Rozsah a názvy
+se mohou lišit podle instalace; netvrdíme úplnou paritu s GUI.
+
+[CLICK]
+CLI umí pracovat i s projektovou strukturou a metadata získává z prostředí.
+Conveyor a rodič Machine jsou modelové názvy ze školicího příkladu, ne
+existence těchto objektů v otevřeném projektu. Úprava ST těla je práce agenta
+se souborem. Parametry ověřujeme v as --help konkrétní instalace.
+
+Zdroje: training s5/09-capabilities/page.js, s5/07-what-is-as-cli/lang.en.js;
+as-skills/README.md; lokální TerminalCli.vue/helpOutput.
+Důležitý rozpor: training s5/15 používá "as plc var" a "as plc logbook",
+starší přepis této prezentace má samostatné "as var" a "as logbook".
+Kvůli konzistenci s přepisem je zde druhá varianta. Bez skutečného as --help
+nepředstírat ověřenou kompatibilitu. Balíčky ani PLC zde nebyly vytvořeny/spuštěny.
+-->
+
+---
+layout: default
+class: ot-slide dark-slide topic-as-cli cli-story
+transition: fade
+---
+
+<script setup>
+import './as-cli/styles.css'
+</script>
+
 # Od omezeného přístupu k oficiálnímu AS CLI
 
 <p class="cli-command-shift-lead">Stejné téma, dva přístupy k práci s Automation Studiem.</p>
@@ -684,6 +685,10 @@ import './as-cli/styles.css'
 
 <!--
 Čas: 1:30. Začněte původním stavem a klikem přepněte na nový nástroj.
+Mapa odhalování: 0 = původní přístup a původní příkazy; 1 = oficiální
+AS CLI a nové příkazy v obou sloupcích. Nadpisy h2 i navazující obsah
+mají v obou stavech dodatečné horní odsazení 70 px; štítky zůstávají nahoře.
+Konečný stav = nový přístup. Bez dalších interaktivních komponent.
 
 Starší cesta nabízela jen část funkcí v GUI, bez formálního rozhraní pro další
 operace. Vpravo jsou příklady příkazů používaných pro přípravu prostředí,
@@ -694,4 +699,3 @@ AS CLI je oficiální produkt B&R s konzistentním rozhraním a srozumitelnými
 příkazy. Vpravo jsou ukázky: nápověda, build simulace, balíček a čtení schématu.
 Přesný rozsah a syntaxe závisí na instalované verzi.
 -->
-

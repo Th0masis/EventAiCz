@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
+import { useSlideContext } from '@slidev/client'
 
 type StepId = 'request' | 'design' | 'convert' | 'validate'
 
+const { $clicks } = useSlideContext()
 const id = useId()
 const workflow = ref<HTMLElement | null>(null)
 const active = ref<StepId | null>(null)
@@ -51,7 +53,15 @@ const steps: Array<{ id: StepId; label: string; summary: string; title: string; 
   },
 ]
 
-const activeStep = computed(() => steps.find(step => step.id === active.value) ?? null)
+const dismissed = ref(false)
+const clickedStep = computed(() => dismissed.value ? null : steps[$clicks.value - 1]?.id ?? null)
+const current = computed(() => active.value ?? clickedStep.value)
+const activeStep = computed(() => steps.find(step => step.id === current.value) ?? null)
+
+watch($clicks, () => {
+  close()
+  dismissed.value = false
+})
 
 function close() {
   active.value = null
@@ -59,10 +69,11 @@ function close() {
 }
 
 function dismiss() {
-  if (active.value) {
-    workflow.value?.querySelector<HTMLButtonElement>(`[data-detail="${active.value}"]`)?.focus()
+  if (current.value) {
+    workflow.value?.querySelector<HTMLButtonElement>(`[data-detail="${current.value}"]`)?.focus()
   }
   close()
+  dismissed.value = true
 }
 
 function preview(step: StepId) {
@@ -105,10 +116,10 @@ function leaveFocus(event: FocusEvent) {
         :id="`${id}-${step.id}`"
         type="button"
         class="repo-hmi-step"
-        :class="{ 'is-active': active === step.id }"
+        :class="{ 'is-active': current === step.id }"
         :data-detail="step.id"
-        :aria-expanded="active === step.id"
-        :aria-controls="active === step.id ? `${id}-detail` : undefined"
+        :aria-expanded="current === step.id"
+        :aria-controls="current === step.id ? `${id}-detail` : undefined"
         @mouseenter="preview(step.id)"
         @focus="preview(step.id)"
         @click="toggle(step.id)"
@@ -120,9 +131,8 @@ function leaveFocus(event: FocusEvent) {
     </div>
 
     <div class="repo-hmi-detail-slot">
-      <p v-if="!activeStep" class="repo-hmi-prompt">Najeďte na krok nebo ho zaměřte klávesnicí. Kliknutí detail připne.</p>
       <section
-        v-else
+        v-if="activeStep"
         :id="`${id}-detail`"
         class="repo-hmi-popup"
         role="region"

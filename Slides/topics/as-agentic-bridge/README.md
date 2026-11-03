@@ -21,7 +21,7 @@ Viditelný text má nejvýše 55 slov; technické detaily patří do poznámek.
 Průběh testu je schéma, nikoli měření. Test ani build nebyly provedeny proti
 Automation Studiu. Ukázka nedoplňuje chybějící čtení po resetu v přepisu AS CLI.
 
-## RAG — slide 10 v tématu (19 v decku)
+## RAG — slide 10 v tématu (skrytý záložní slide, `hide: true`)
 
 Sdělení: odpověď musí být dohledatelná ke konkrétní pasáži a její revizi.
 
@@ -31,12 +31,40 @@ Sdělení: odpověď musí být dohledatelná ke konkrétní pasáži a její re
 | 1 | Stoh dokumentů: modelová specifikace S1, revize 3. |
 | 2 | Dokument s lupou: Reset → 0, S1 § 2; první směrová šipka. |
 | 3 | Bublina odpovědi: očekávaná nula s citací [S1, § 2]; druhá šipka. |
-| 4 | Závěr: nejde o trénování ani záruku správné odpovědi; všechny nadpisy a ikony neutrální. |
+| 4 | Závěr: dohledaný zdroj nezaručuje správnou odpověď; všechny nadpisy a ikony neutrální. |
 
 Čtyři markery `[CLICK]` zůstávají. Finále obsahuje všechny artefakty i omezení.
 Kliky 1–3 zvýrazňují právě vysvětlovanou ikonu a nadpis oranžově.
 Bez dalších interakcí. S1 není citace B&R Help ani skutečný dohledaný dokument;
 nepřidáváme vymyšlenou URL. Reference je uvnitř modelového příkladu.
+
+## Výběr nástroje — skrytý záložní slide (`hide: true`)
+
+Sdělení: model navrhuje konkrétní dostupný nástroj podle požadavku, popisu,
+kontextu a povolení; host směruje volání na odpovídající server.
+
+| Klik | Nově viditelný obsah |
+|---|---|
+| 0 | Nadpis a požadavek uživatele. |
+| 1 | Ilustrační nabídka nástrojů Dokumentace a Prohlížeč. |
+| 2 | Vybraná Dokumentace, zdůvodnění shody a příprava argumentu `query`. |
+| 3 | Směrování aplikací a další vlivy na výběr. |
+
+Tři markery `[CLICK]` odpovídají skupinám 1–3. Nabídka je ilustrační, nikoli
+skutečný výpis Knowledge Hubu; slide nezobrazuje skryté uvažování modelu ani
+nezaručuje deterministický výběr.
+
+## Knowledge Hub — viditelný slide o připojení
+
+Hlavní část vlevo ukazuje přidání přes URL a JWL token do uživatelského
+`mcp.json`. Doplňková část vpravo vysvětluje, jak může Hub spolupracovat s
+`as-help` a `br-community`, doplnění zdrojů a ověření na typických dotazech.
+Měsíční kvóta je samostatný doplněk zarovnaný ke spodnímu okraji obsahu.
+
+## Shrnutí — skrytý záložní slide (`hide: true`)
+
+Slide „Co si odnést a co přijde dál“ zůstává připravený jako záloha, ale není
+součástí běžného průchodu.
 
 ## Regrese
 
