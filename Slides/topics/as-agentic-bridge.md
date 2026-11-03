@@ -565,7 +565,7 @@ import './as-agentic-bridge/styles.css'
 
 # Připojení Knowledge Hubu
 
-<p class="bridge-lead">Cloudový RAG MCP B&amp;R</p>
+<p class="bridge-lead">Přepracovaný ASCopilot z ASCode: cloudový RAG MCP B&amp;R R&amp;D, ne dánské řešení.</p>
 
 <div class="bridge-hub-setup-grid">
 	<section>
