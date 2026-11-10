@@ -927,7 +927,8 @@
 
 .topic-orchestrace-dansko .story-slicing {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .topic-orchestrace-dansko .story-slicing h2 {
@@ -939,7 +940,7 @@
   --text-size: var(--type-body);
   --text-leading: 1.35;
   --text-font: var(--br-font);
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: #c5cdd1;
 }
 
@@ -964,9 +965,9 @@
 
 .topic-orchestrace-dansko .story-slicing-result {
   display: grid;
-  gap: 6px;
-  margin-top: 10px;
-  padding-top: 8px;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 4px;
   border-top: 1px solid #68747b;
 }
 
@@ -991,7 +992,7 @@
   display: grid;
   grid-template-columns: 1fr 24px 1fr 24px 1fr;
   align-items: center;
-  gap: 18px;
+  gap: 8px;
 }
 
 .topic-orchestrace-dansko .story-matrix {
@@ -1046,13 +1047,13 @@
 .topic-orchestrace-dansko .story-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .topic-orchestrace-dansko .story-board section {
   min-width: 0;
-  padding-top: 8px;
+  padding-top: 4px;
   border-top: 1px solid #68747b;
 }
 
@@ -1062,7 +1063,7 @@
   --text-leading: 1.2;
   --text-font: 'IBM Plex Mono', monospace;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   color: #c5cdd1;
 }
 
@@ -2121,14 +2122,14 @@
   --text-size: var(--type-minor);
   --text-leading: 1.2;
   --text-font: 'IBM Plex Mono', monospace;
-  padding: 10px 12px;
+  padding: 4px 6px;
   background: #202326;
   color: #8a9299;
   text-align: center;
   font-weight: 400;
   border-bottom: 2px solid var(--lane-accent);
-  min-height: 44px;
-  max-height: 44px;
+  min-height: 32px;
+  max-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2148,18 +2149,16 @@
 
 .topic-orchestrace-dansko .story-board-row strong,
 .topic-orchestrace-dansko .story-board-cell {
-  padding: 10px 12px;
+  padding: 4px 6px;
   background: #1c1f21;
   color: #e4e9ec;
-  min-height: 44px;
-  max-height: 44px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-right: 1px solid #3c454a;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .topic-orchestrace-dansko .story-board-row strong {
@@ -2180,6 +2179,7 @@
   --text-font: 'IBM Plex Mono', monospace;
   color: #e4e9ec;
   text-align: center;
+  line-height: 1.2;
 }
 
 .topic-orchestrace-dansko .story-board-cell:last-child {
@@ -2198,9 +2198,9 @@
 .topic-orchestrace-dansko .story-board-footer {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-  padding-top: 12px;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px solid #68747b;
 }
 
@@ -2223,7 +2223,7 @@
   --text-role: minor;
   --text-size: var(--type-minor);
   --text-leading: 1.2;
-  --text-font: var(--br-font);
+  --text-font: 'IBM Plex Mono', monospace;
   display: block;
   color: #fff;
   font-weight: 600;
