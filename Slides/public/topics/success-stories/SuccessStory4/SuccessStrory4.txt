@@ -1,0 +1,9 @@
+Hi guys,
+Yes, this is just for a demo. The actual customer use case is based on a local model running with Ollama, but its performance is not very good on the hardware currently available. For the demo, we’d therefore like to use a frontiert cloud model instead.
+The goal is to demonstrate the MCP integration, the cloud model would only be used for the demo.
+
+We are planning to have a presentation of our architecture, and then a real use case coming from a value provider.
+We have selected two cases:
+The use of agentic AI for old code migration and understanding (so mainly development topics)
+The use of MCPs (both ours and customer's developed) on-field, to help maintenance technicians debugging the machine and improving the process. The machine on which we are testing it is a supercritical co2 extraction machine Supercritical CO2 extraction equipment - Separeco
+https://separeco.com/supercritical-co2-extraction/

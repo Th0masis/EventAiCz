@@ -1,0 +1,10 @@
+Small Success Story: Byte Aligning Communications Structure
+Hello everyone,
+
+I'd like to share a quick success story from some recent testing.
+
+We are testing a system that has 3 plc's in the loop.  It started out as just 2 which were both ARM based but we had to add a 3100 to the project.  They all communicate some data via UDP.  Some of the structures contained LREALs which were fine with just the ARM plc but once we introduced the x86 the data was not being sent or received correctly.
+
+We quickly determined that the issue was due to the byte alignment and I started to manually move data in the structure around and put in filler bytes to ensure consistency.  Then it hit me to ask CoPilot to do this with some very good results.  Instead of investing the time going through every structure and substructure I asked CoPilot to do this and went and got a coffee.  By the time I got back it had finished so I just had to reviewed the results and then transferred and had working communication.
+
+A relatively simple task but certainly time saved.
