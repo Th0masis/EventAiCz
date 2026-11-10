@@ -1,7 +1,7 @@
 # Náhled a kontroly prezentace
 
 Z kořene repozitáře přejděte do složky `Slides/`; další příkazy spouštějte
-z této složky. Projekt používá Node.js 22 a npm, stejně jako CI. Pro kontrolu
+z této složky. Projekt používá Node.js 24.22.1 a npm, stejně jako CI. Pro kontrolu
 vzhledu a exportu je potřeba mít lokálně nainstalované písmo ABBvoice podle
 organizační licence.
 
