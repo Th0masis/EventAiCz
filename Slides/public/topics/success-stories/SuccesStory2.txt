@@ -1,0 +1,69 @@
+Success story: Converting costumer project from AS4 to AS6
+Hello everyone,
+I would like to share my experience and workflow from a recent project where we converted a relatively large system from Automation Studio 4 (AS4) to AS6.
+
+Project Overview
+The project utilized the following components:
+mappView
+OPC UA CS
+AlarmX
+UserX
+B&R PLC receiving data from an external source and displaying it in mappView
+Initial Preparation
+Before starting the conversion, I used the AS6 Migration Tool to generate an HTML report, which provided a solid starting point.
+I then prepared the project structure with the following folders:
+project/ – Contains the AS6 project where all development work is performed
+.github/ – Stores agentic engineering configurations
+.git/ – Used for local version control commits
+exports/ – Organized storage for exchanged files and exports shared with the customer
+docs/ – Complete knowledge base of the project in Markdown format
+Documentation Strategy
+The docs folder proved to be one of the most valuable parts of the workflow.
+In addition to the main README.md in the root folder, which describes:
+Project structure
+Scope
+Knowledge summary
+Documentation standards
+Working patterns
+I created structured documentation that supports both development and AI-assisted workflows.
+
+Task Management and Knowledge Tracking
+At the beginning, I used the generated migration report to create a to-do list md file, including:
+Key milestones
+Validation checkpoints for AS6
+For example, one task was updating OPC UA subscription logic:
+Replacing UA_MonitoredItemAdd with UA_MonitoredItemAddList
+Knowledge Summary Files
+These files are updated after each completed task or resolved issue and include:
+High-level descriptions
+Key insights
+References to detailed documentation
+This ensures that any returning AI agent (or team member) understands:
+What has already been done
+What the plan is
+Known issues and how they were solved
+Assessment Files
+Assessment files serve as documentation for:
+Issues discovered during testing
+Customer support cases
+Both to-do lists and assessment files include Git commit IDs, allowing traceability and enabling AI tools to review specific changes.
+
+AI-Assisted Support Workflow
+When a customer contacts me with an issue, I use a prepared prompt (which I plan to convert into an initial instruction):
+You are a B&R expert. Your goal is to help a customer with issues after converting their project from AS4 to AS6.
+Before starting, review the README and documentation to understand the project context, past work, and known issues.
+Use available tools (MCP, community resources, and online information) for analysis.
+When a problem is described, provide an assessment only—do not fix it until explicitly asked.
+Keep documentation concise and accurate: update existing notes, remove incorrect ones, and maintain a single source of truth.
+After implementing changes, update documentation and create a commit.
+
+Results and LLM Usage
+At this stage, the AI agent is capable of automatically identifying and resolving most issues. My role is primarily to manage the selection of the appropriate LLM:
+Sonnet 4.6 – Best for complex problem-solving
+Haiku 4.5 / GPT-5 mini – Fast, cost-effective, and suitable for simpler tasks
+I currently avoid automatic model selection because it often defaults to Codex-like models, which can produce less reliable solutions. While Sonnet 4.6 requires more time to process, it consistently delivers accurate results.
+Key Takeaways
+Well-structured documentation significantly improves both human and AI efficiency
+Maintaining a clear knowledge base enables continuity and scalability
+Linking tasks and issues with Git commits ensures full traceability
+Carefully selecting the right LLM for each task improves overall quality, productivity and AI credits

@@ -1,0 +1,39 @@
+Success story: OPC UA + AS + AI = New customer
+Hello Colleagues
+
+I want to share a recent success story where we combined AI, Automation Studio and OPC UA to solve a real customer problem. Before going into the details, I want to be clear: the AI was not the only reason they chose B&R but it helped. We were already in a pre-sales situation where they were considering us but had not made a final decision yet. Being able to solve their problem quickly using AI helped tip the balance. They are now a B&R customer. But beyond the result, what I really want to share is the methodology we used to get there.
+
+The problem
+A customer had a Schneider PLC running CoDeSys acting as an OPC UA server. They wanted to use a B&R PLC as OPC UA client using the EasyUaClnt library. The Schneider PLC exported its node list as an XML file containing around 3,200 variables. Manually mapping all of them into Automation Studio was simply not feasible. Restructuring the Schneider side was not an option either. It was a stable, running production project and they didn't want to touch it. We had to adapt on our side.
+
+Extract of the XML file:
+
+Using AI to Generate the Code
+We chose EasyUaClnt as the communication method. We fed an AI model with the EasyUaClnt library examples and the customer's XML file, and asked it to generate all the necessary code. For reading, one subscription FB per 64 variables, resulting in around 50 FBs organized into tasks mirroring the XML structure. For writing, one WriteBulk FB per 64 variables following the same task structure.
+The AI handled it successfully. But then we thought this is a repetitive task, why not turn it into a reusable tool?
+
+Resulting tasks from an XML:
+
+Building an Offline Tool
+We asked the AI to generate a Windows application based on PowerShell scripts that automates the entire process. You simply provide the AS project path and the Schneider XML file, and the tool generates everything automatically.
+First, it creates the global data structures representing the full XML structure, with types and subtypes respecting the original variable names, ready to use for reading and writing.
+Second, it exposes that global variable in the B&R OPC UA server so it can be used directly in mapp View.
+Third, it generates all the necessary tasks with the corresponding subscription and WriteBulk FBs, using the XML as a reference.
+
+The OPC UA task generator tool:
+
+A Schneider OPC UA Server Simulator
+As an addition, we asked the AI to generate a Schneider OPC UA server simulator using Python. You pass it the Schneider XML directly and it sets up a full OPC UA server on a PC with all the variables, which is perfect for testing the B&R client without needing access to the real Schneider hardware.
+
+Server/Client tester:
+
+The Key Takeaway
+Beside the tool itself, I want to highlight the approach we followed. We did not use AI to generate a one-off project. We used AI to build tools.
+
+These tools can be used by anyone without needing a Copilot license or any AI subscription. They are deterministic, meaning the same input always produces the same output. They run faster than asking an AI to reason through the full task every single time. And they significantly reduce token consumption, since you spend tokens once to build the tool and then use it as many times as you need at no extra cost.
+
+This also reinforced our position as a technology partner in the eyes of the customer. They now know that we understand AI, that we know how to use it, and that we will use it whenever it can help them. This is very valuable. They see us as a partner they can talk to about almost anything technology related, knowing we will have an answer. That kind of trust goes well beyond a single project.
+
+Hope you like our success case!
+
+Regards
