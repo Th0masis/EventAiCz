@@ -37,7 +37,7 @@ nebo jiné změny zasahující více témat řešte samostatným koordinačním 
 
 ## Lokální náhled a kontrola
 
-Použijte Node.js 22 stejně jako CI a npm. Pro požadovaný vzhled musí být
+Použijte Node.js 24.22.1 stejně jako CI a npm. Pro požadovaný vzhled musí být
 nainstalované licencované písmo ABBvoice; není součástí repozitáře. Podrobnosti
 jsou v [grafických poznámkách](docs/graphic-notes.md#typography).
 Před `npm.cmd ci` zastavte běžící dev/preview servery tohoto projektu;

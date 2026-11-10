@@ -441,7 +441,7 @@ then update the topic branch to that base before opening its PR.
 
 ## Validation
 
-Run commands from [Slides](../Slides), using Node.js 22 as in CI. Install
+Run commands from [Slides](../Slides), using Node.js 24.22.1 as in CI. Install
 dependencies and Playwright Chromium first; see the setup and production-preview
 commands in the [root README](../README.md#lokální-náhled-a-kontrola).
 On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`.

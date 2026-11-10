@@ -52,16 +52,20 @@ for (const filename of topicFiles) {
   await access(resolve(root, 'public', 'topics', basename(filename, '.md')))
 }
 
-const programSlides = deck.entry.slides.slice(1, 3)
-assert.equal(programSlides.length, 2, 'Expected two program slides')
-assert.ok(programSlides[0].content.includes('14:30–15:00'), 'Missing first program segment')
-assert.ok(programSlides[1].content.includes('18:30'), 'Missing second program segment')
+assert.deepEqual(importedTopicFiles, [
+  'as-agentic-bridge.md',
+  'as-cli.md',
+  'as-repository.md',
+  'success-stories.md',
+  'orchestrace-dansko.md',
+  'zaver.md',
+], 'Topics must follow the approved presentation order')
 
-const coordinatorTitles = deck.entry.slides
+const standaloneTitles = deck.entry.slides
   .filter(slide => !slide.frontmatter.src)
-  .slice(3)
+  .slice(1)
   .map(slide => slide.title)
-assert.deepEqual(coordinatorTitles, ['Oběd', 'Přestávka', 'ARVK – případová studie zákazníka'])
+assert.deepEqual(standaloneTitles, ['Přestávka'], 'Unexpected standalone slides')
 
 const bridgeSlides = Object.values(topicMarkdownFiles)
   .flatMap(markdown => markdown.slides)

@@ -5,3 +5,13 @@ dist/
 *.pptx
 Slides/artifacts/
 Slides/preview.log
+
+# Local editor and agent configuration
+/.vscode/
+/.agents/
+/.claude/
+/.codex/
+/.impeccable/
+/.github/hooks/
+/.github/skills/slidev-review/
+/skills-lock.json
